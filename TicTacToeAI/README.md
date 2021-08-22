@@ -1,31 +1,22 @@
 # TicTacToeAI
 
+A Tic Tac Toe Game at the command line
+
 ## Table of Contents
 
-- [Requirements](#requirements)
-- [Features](#features)
-- [How it Works](#how-it-works)
 - [Usage](#usage)
-- [Classes](#classes)
+- [Features](#features)
 - [Ressources](#ressources)
 
-## [Requirements](#requirements)
+## [Usage](#usage)
 
-#### Step 1: Create virtual environment with venv (suggested)
-
-`` python3 -m venv tictactoeai-venv ``
-
-`` source tictactoeai-venv/bin/activate ``
-
-#### Step 2: Install Requirements
-
-`` pip install --upgrade -r requirements.txt ``
-
+`` python game.py``
 
 ## [Features](#features)
-## [How it Works](#how-it-works)
-## [Usage](#usage)
-## [Classes](#classes)
+
+- [X] Play against a dumb computer which choose actions at random
+- [ ] Play against a smart computer which choose actions following minimax algorithm
+
 ## [Ressources](#ressources)
 
 - [Kying18's Tic Tac Toe Project](https://github.com/kying18/tic-tac-toe)

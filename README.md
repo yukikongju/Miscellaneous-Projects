@@ -6,6 +6,9 @@ A collection of random projects
 
 ## [Projects](#projects)
 
-- [ ] AI Tic Tac Toe
+- [X] AI Tic Tac Toe
+- [X] Counter
+- [ ] Sun Three.js
+- [ ] EDA Application
 - [ ] Streamlit Goodreads
 - [ ] Streamlit Github commit
