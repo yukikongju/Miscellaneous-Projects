@@ -1,20 +1,29 @@
 # Sun Three JS
 
+Using three.js to generate dynamic 3D images
+
 ## Table of Contents
 
 - [Requirements](#requirements)
-- [Features](#features)
 - [How it Works](#how-it-works)
 - [Usage](#usage)
-- [Classes](#classes)
+- [Worlds](#worlds)
 - [Ressources](#ressources)
 
 ## [Requirements](#requirements)
 
-## [Features](#features)
-## [How it Works](#how-it-works)
 ## [Usage](#usage)
-## [Classes](#classes)
+
+In ``index.html``, choose the environment to visualize
+
+```html
+<script src="src/worlds/<world>.js"></script>
+```
+
+## [Worlds](#worlds)
+
+- [X] cube.js
+
 ## [Ressources](#ressources)
 
 - [Discover Three JS](https://discoverthreejs.com/)
