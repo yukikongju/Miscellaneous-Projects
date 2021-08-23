@@ -9,7 +9,7 @@ function init() {
 		75,
 		window.innerWidth / window.innerHeight,
 		0.1,
-		1000
+		1500
 	);
 
 	// set camera position
@@ -41,9 +41,11 @@ function animate() {
 }
 
 function onWindowResize() {
-	camera.aspect = window.innerWidth / window.innerHeight;
+	var width = window.innerWidth;
+	var height = window.innerHeight;
+	renderer.setSize(width, height);
+	camera.aspect = width / height;
 	camera.updateProjectionMatrix();
-	rendere.setSize(window.innerWidth, window.innerHeight);
 }
 
 window.addEventListener('resize', onWindowResize, false);
