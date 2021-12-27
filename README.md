@@ -8,7 +8,9 @@ A collection of random projects
 
 - [X] AI Tic Tac Toe
 - [X] Counter
-- [ ] Sun Three.js
+- [X] Sun Three.js
+- [ ] Markov Chain Simulation
+- [ ] Problème du Camelot
 - [ ] EDA Application
 - [ ] Streamlit Goodreads
 - [ ] Streamlit Github commit
