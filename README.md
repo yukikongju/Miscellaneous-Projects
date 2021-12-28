@@ -9,8 +9,9 @@ A collection of random projects
 - [X] AI Tic Tac Toe
 - [X] Counter
 - [X] Sun Three.js
+- [X] Problème du Camelot
+- [X] File d'attente
 - [ ] Markov Chain Simulation
-- [ ] Problème du Camelot
 - [ ] EDA Application
 - [ ] Streamlit Goodreads
 - [ ] Streamlit Github commit
