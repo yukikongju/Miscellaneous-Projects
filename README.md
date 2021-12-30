@@ -11,6 +11,7 @@ A collection of random projects
 - [X] Sun Three.js
 - [X] Problème du Camelot
 - [X] File d'attente
+- [o] Springer
 - [ ] Markov Chain Simulation
 - [ ] EDA Application
 - [ ] Streamlit Goodreads

@@ -1,0 +1,12 @@
+pandas
+numpy
+selenium
+BeautifulSoup4
+requests
+lxml
+html5lib
+
+# gecko driver
+# https://askubuntu.com/questions/870530/how-to-install-geckodriver-in-ubuntu
+
+
