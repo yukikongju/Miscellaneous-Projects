@@ -1,0 +1,7 @@
+sudo apt install pdftotext
+sudo apt-get install python3-tk
+
+pip install python-docx
+pip install docx2txt
+pip install pdf2docx
+

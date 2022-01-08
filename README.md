@@ -12,6 +12,15 @@ A collection of random projects
 - [X] Problème du Camelot
 - [X] File d'attente
 - [o] Springer
+- [o] Immersive Reader Preparation
+- [ ] RSA
+- [ ] Fast Fourier Transform
+- [ ] NBA Tweets
+- [ ] Youtube Profile Analysis
+- [ ] tf-idf and pdf searcher
+- [ ] nltk
+- [ ] gym and reinforcement learning
+- [ ] genetic algorithm
 - [ ] Markov Chain Simulation
 - [ ] EDA Application
 - [ ] Streamlit Goodreads
