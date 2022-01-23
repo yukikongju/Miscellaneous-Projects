@@ -1,0 +1,6 @@
+torch
+torchvision
+ipython
+numpy
+matplotlib
+pygame
