@@ -22,13 +22,12 @@ Flags:
 **Searches**
 
 - [X] Youtube Course Playlist
-- [X] Google search: pdfs, lecture notes, slides
-- [ ] Wikipedia: List of {subject} topics
+- [X] Google search: pdfs, lecture notes, slides, solutions
+- [X] Wikipedia: List of {subject} topics, summary, links
 - Textbooks: pdfdrive, zlib
 - Coursera, Edx
 - course website
-- Problems/solutions
-- Quora, Reddit, medium
+- Quora, Reddit, medium recommandations
 
 **Classes**
 
@@ -45,6 +44,7 @@ Flags:
 ## Ressources
 
 - [Youtubesearchpython doc](https://pypi.org/project/youtube-search-python/)
+- [Wikipedia Doc](https://wikipedia.readthedocs.io/en/latest/code.html)
 
 
 

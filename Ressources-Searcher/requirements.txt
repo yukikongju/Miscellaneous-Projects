@@ -2,3 +2,4 @@ requests
 beautifulsoup4
 google
 youtube-search-python
+wikipedia

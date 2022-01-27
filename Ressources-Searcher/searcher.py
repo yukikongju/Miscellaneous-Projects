@@ -1,8 +1,11 @@
+#!/usr/bin/env python
+
 import requests
+import wikipedia
 
 from googlesearch import search
 from youtubesearchpython import PlaylistsSearch
-#  from google import google
+
 
 class Searcher(object):
 
@@ -31,6 +34,17 @@ class Searcher(object):
             courses.append([channel, title, url])
         return courses 
 
+    def _get_wiki_search(self, query):
+        """ get wikipedia search on query
+            query: what to search
+        """
+        wikipedia.set_lang('en')
+        summary = wikipedia.summary(self.subject, sentences = 3)
+        subject_url = wikipedia.page(self.subject).url
+        topics_url = wikipedia.page(f'List of {self.subject} topics').url
+
+        return summary, subject_url, topics_url
+
         
     def create_document(self):
         """ create markdown file for youtube playlist, course, textbook, 
@@ -38,14 +52,22 @@ class Searcher(object):
 
         # 1. get ressources: youtube course, pdfs
 
+        print('Searching for Topics on wikipedia...')
+        wiki_summary, wiki_url, wiki_topics_url = self._get_wiki_search(f'{self.subject} Topics')
+        print('Found.')
+
         print('Searching for Youtube Courses...')
         youtube_playlists = self._get_youtube_playlist(f'{self.subject} course', 25)
         print('Found Youtube Courses.')
 
         print('Searching for pdfs and lecture notes ...')
-        #  pdfs = self._get_top_k_google_search(f'{self.subject} pdf', 20)
+        pdfs = self._get_top_k_google_search(f'{self.subject} pdf', 20)
         lecture_notes = self._get_top_k_google_search(f'{self.subject} lecture notes', 20)
         slides = self._get_top_k_google_search(f'{self.subject} slides', 20)
+        solutions = self._get_top_k_google_search(f'{self.subject} solutions', 20)
+        print('Found.')
+
+
 
 
         # 2. write file
