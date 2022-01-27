@@ -21,11 +21,12 @@ Flags:
 
 **Searches**
 
-- playlist on youtube
+- [X] Youtube Course Playlist
+- [X] Google search: pdfs, lecture notes, slides
+- [ ] Wikipedia: List of {subject} topics
+- Textbooks: pdfdrive, zlib
 - Coursera, Edx
-- PDFs
-- Textbooks
-- Lecture Notes, slides
+- course website
 - Problems/solutions
 - Quora, Reddit, medium
 

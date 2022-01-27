@@ -9,26 +9,21 @@ class Searcher(object):
     def __init__(self, subject:str):
         self.subject = subject
 
-        # create and save document
-        self.create_document()
+
+    def _get_top_k_google_search(self, query:str, n=20):
+        """ return list of top n links found from googling query 
+            query: what to search
+            n: num playlists
+        """
+        return [url for url in search(query, stop=n, pause=0.3)]    # add pause to avoid IP address being blocked
         
-
-    def _get_top_k_google_search(self, k:int, query:str):
-        """ return list of top k links found from googling query """
-        #  return [url for url in search(query, tld="co.in", num=10, stop=k, lang='en')]
-        pass
-        
-    def _get_pdf_urls(self, k:int, query:str):
-        # TODO: get pdfs url
-        #  pdfs = self._get_pdf_urls(10, f'{self.subject} pdf')
-
-        # TODO: trier selon best fit
-        pass
-
-    def _get_youtube_playlist(self):
-        """course = [channel, title, url]"""
+    def _get_youtube_playlist(self, query:str, n:int):
+        """ course = [channel, title, url]
+            query: what to search
+            n: num playlists
+        """
         courses = []
-        search = PlaylistsSearch(f'{self.subject} course', limit=25).result()
+        search = PlaylistsSearch(query, limit=n).result()
         for playlist in search['result']:
             channel = (playlist['channel'])['name']
             title = playlist['title']
@@ -41,9 +36,19 @@ class Searcher(object):
         """ create markdown file for youtube playlist, course, textbook, 
         problem set, solution, ... """
 
-        # get ressources: youtube course, pdfs
-        youtube_playlists = self._get_youtube_playlist()
-        #  pdfs = self._get_pdf_urls(10, f'{self.subject} pdf')
+        # 1. get ressources: youtube course, pdfs
+
+        print('Searching for Youtube Courses...')
+        youtube_playlists = self._get_youtube_playlist(f'{self.subject} course', 25)
+        print('Found Youtube Courses.')
+
+        print('Searching for pdfs and lecture notes ...')
+        #  pdfs = self._get_top_k_google_search(f'{self.subject} pdf', 20)
+        lecture_notes = self._get_top_k_google_search(f'{self.subject} lecture notes', 20)
+        slides = self._get_top_k_google_search(f'{self.subject} slides', 20)
+
+
+        # 2. write file
 
         
 
