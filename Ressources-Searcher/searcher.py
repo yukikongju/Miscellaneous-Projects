@@ -31,7 +31,8 @@ class Searcher(object):
             channel = (playlist['channel'])['name']
             title = playlist['title']
             url = playlist['link']
-            courses.append([channel, title, url])
+            #  courses.append([channel, title, url])
+            courses.append({"Channel": channel, "Title": title, "Link": url})
         return courses 
 
     def _get_wiki_search(self, query):
@@ -45,7 +46,11 @@ class Searcher(object):
 
         return summary, subject_url, topics_url
 
+
+    def _get_ressources(self):
+        pass
         
+
     def create_document(self):
         """ create markdown file for youtube playlist, course, textbook, 
         problem set, solution, ... """
@@ -68,10 +73,45 @@ class Searcher(object):
         print('Found.')
 
 
-
-
         # 2. write file
+        with open(f'{self.subject}.md', 'w') as f:
+            # write title
+            f.write(f'# {self.subject} Ressources\n\n')
 
+            # Summary
+            f.write('**Summary**\n\n')
+            f.write(f'{wiki_summary}\n\n')
+
+            # Wikipedia
+            f.write('**Wikipedia**\n\n')
+            f.write(f'- [{self.subject} Wiki]({wiki_url})\n')
+            f.write(f'- [{self.subject} Wiki Topics]({wiki_topics_url})\n')
+
+
+            # TODO: Youtube
+            f.write('\n**Youtube Courses**\n\n')
+            for youtube_playlist in youtube_playlists:
+                title = youtube_playlist['Title']
+                link = youtube_playlist['Link']
+                channel = youtube_playlist['Channel']
+                f.write(f'- [{title} - {channel}]({link})\n')
+
+            # TODO: Google Search
+            f.write('\n**PDFs**\n\n')
+            for pdf in pdfs:
+                f.write(f'- {pdf}\n')
+            
+            f.write('\n**Lecture Notes**\n\n')
+            for note in lecture_notes:
+                f.write(f'- {note}\n')
+
+            f.write('\n**Slides**\n\n')
+            for slide in slides:
+                f.write(f'- {note}\n')
+
+            f.write('\n**Solutions**\n\n')
+            for sol in solutions:
+                f.write(f'- {sol}\n')
         
 
 
