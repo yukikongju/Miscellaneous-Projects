@@ -24,11 +24,11 @@ Flags:
 - [X] Wikipedia: List of {subject} topics, summary, links
 - [X] Youtube Course Playlist
 - [X] Google search: pdfs, lecture notes, slides, solutions
-- Textbooks: pdfdrive, zlib
-- Coursera, Edx
+- [.] Quora, Reddit, medium recommandations
+- [.] Textbooks: pdfdrive, zlib
+- [ ] Coursera, Edx
 - Blinkquist
 - course website
-- Quora, Reddit, medium recommandations
 
 **Classes**
 

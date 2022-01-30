@@ -2,6 +2,7 @@
 
 import requests
 import wikipedia
+import os
 
 from googlesearch import search
 from youtubesearchpython import PlaylistsSearch
@@ -9,8 +10,12 @@ from youtubesearchpython import PlaylistsSearch
 
 class Searcher(object):
 
-    def __init__(self, subject:str):
+    def __init__(self, download_path:str, subject:str):
         self.subject = subject
+        self.download_path = download_path
+
+        # check if download_path is_valid, if it is not, create it
+        os.makedirs(f'{self.download_path}', exist_ok=True)
 
 
     def _get_top_k_google_search(self, query:str, n=20):
@@ -50,6 +55,28 @@ class Searcher(object):
     def _get_ressources(self):
         pass
         
+    def _get_textbooks(self, n:int):
+        """ get best textbook by checking links from quora and reddit suggestion """
+
+        # 1. get quora and reddit links for textbooks suggestions
+        search_results = self._get_top_k_google_search(f'{self.subject} best textbooks', n)
+
+        # 2. TODO: go inside each links and add all urls to textbooks
+        textbooks_urls = []
+        for url in search_results: 
+            textbooks_urls.append(url)
+
+        # 3. TODO: remove dupplicates
+
+        return textbooks_urls
+
+    def _get_urls_in_page(self, url): # TODO
+        """ Get all url inside page """
+        r = requests.get(url)
+        # get all links inside page
+        if r.status_code == 200: # success
+            pass
+
 
     def create_document(self):
         """ create markdown file for youtube playlist, course, textbook, 
@@ -62,19 +89,30 @@ class Searcher(object):
         print('Found.')
 
         print('Searching for Youtube Courses...')
-        youtube_playlists = self._get_youtube_playlist(f'{self.subject} course', 25)
+        youtube_playlists = self._get_youtube_playlist(f'{self.subject} course', 30)
         print('Found Youtube Courses.')
 
-        print('Searching for pdfs and lecture notes ...')
-        pdfs = self._get_top_k_google_search(f'{self.subject} pdf', 20)
-        lecture_notes = self._get_top_k_google_search(f'{self.subject} lecture notes', 20)
-        slides = self._get_top_k_google_search(f'{self.subject} slides', 20)
-        solutions = self._get_top_k_google_search(f'{self.subject} solutions', 20)
+        print('Searching for Online Courses...')
+        online_courses = self._get_top_k_google_search(f'{self.subject} courses', 25)
+        print('Found Youtube Courses.')
+
+
+        print('Searching for pdfs, lecture notes and problem set ...')
+        pdfs = self._get_top_k_google_search(f'{self.subject} pdf', 25)
+        lecture_notes = self._get_top_k_google_search(f'{self.subject} lecture notes', 25)
+        slides = self._get_top_k_google_search(f'{self.subject} slides', 25)
+        solutions = self._get_top_k_google_search(f'{self.subject} solutions', 25)
         print('Found.')
 
+        print('Searching for Textbooks')
+        textbooks = self._get_textbooks(25)
+        print('Found.')
 
         # 2. write file
-        with open(f'{self.subject}.md', 'w') as f:
+
+        print('Generating File...')
+
+        with open(f'{self.download_path}/{self.subject}.md', 'w') as f:
             # write title
             f.write(f'# {self.subject} Ressources\n\n')
 
@@ -88,7 +126,7 @@ class Searcher(object):
             f.write(f'- [{self.subject} Wiki Topics]({wiki_topics_url})\n')
 
 
-            # TODO: Youtube
+            # Youtube
             f.write('\n**Youtube Courses**\n\n')
             for youtube_playlist in youtube_playlists:
                 title = youtube_playlist['Title']
@@ -96,7 +134,11 @@ class Searcher(object):
                 channel = youtube_playlist['Channel']
                 f.write(f'- [{title} - {channel}]({link})\n')
 
-            # TODO: Google Search
+            # Google Search
+            f.write('\n**Online Courses**\n\n')
+            for course in online_courses:
+                f.write(f'- {course}\n')
+
             f.write('\n**PDFs**\n\n')
             for pdf in pdfs:
                 f.write(f'- {pdf}\n')
@@ -107,17 +149,23 @@ class Searcher(object):
 
             f.write('\n**Slides**\n\n')
             for slide in slides:
-                f.write(f'- {note}\n')
+                f.write(f'- {slide}\n')
 
             f.write('\n**Solutions**\n\n')
             for sol in solutions:
                 f.write(f'- {sol}\n')
         
+            f.write('\n**Textbooks Suggestions**\n\n')
+            for textbook in textbooks:
+                f.write(f'- {textbook}\n')
+
+            print('Completed!')
 
 
 def main():
-    searcher = Searcher('Complex Analysis')
+    searcher = Searcher('Ressources-Searcher','Embedded Systems')
     searcher.create_document()
+    #  textbooks = searcher._get_textbooks(20)
     
 
 if __name__ == "__main__":
