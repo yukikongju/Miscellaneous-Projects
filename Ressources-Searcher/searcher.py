@@ -8,6 +8,8 @@ from googlesearch import search
 from youtubesearchpython import PlaylistsSearch
 
 
+# TODO: verify is there is internet conection
+
 class Searcher(object):
 
     def __init__(self, download_path:str, subject:str):
@@ -85,7 +87,7 @@ class Searcher(object):
         # 1. get ressources: youtube course, pdfs
 
         print('Searching for Topics on wikipedia...')
-        wiki_summary, wiki_url, wiki_topics_url = self._get_wiki_search(f'{self.subject} Topics')
+        #  wiki_summary, wiki_url, wiki_topics_url = self._get_wiki_search(f'{self.subject} Topics')
         print('Found.')
 
         print('Searching for Youtube Courses...')
@@ -102,6 +104,9 @@ class Searcher(object):
         lecture_notes = self._get_top_k_google_search(f'{self.subject} lecture notes', 25)
         slides = self._get_top_k_google_search(f'{self.subject} slides', 25)
         solutions = self._get_top_k_google_search(f'{self.subject} solutions', 25)
+        projects = self._get_top_k_google_search(f'{self.subject} projects', 25)
+        homeworks = self._get_top_k_google_search(f'{self.subject} homeworks', 25)
+        exams = self._get_top_k_google_search(f'{self.subject} exams solutions', 25)
         print('Found.')
 
         print('Searching for Textbooks')
@@ -118,12 +123,12 @@ class Searcher(object):
 
             # Summary
             f.write('**Summary**\n\n')
-            f.write(f'{wiki_summary}\n\n')
+            #  f.write(f'{wiki_summary}\n\n')
 
             # Wikipedia
             f.write('**Wikipedia**\n\n')
-            f.write(f'- [{self.subject} Wiki]({wiki_url})\n')
-            f.write(f'- [{self.subject} Wiki Topics]({wiki_topics_url})\n')
+            #  f.write(f'- [{self.subject} Wiki]({wiki_url})\n')
+            #  f.write(f'- [{self.subject} Wiki Topics]({wiki_topics_url})\n')
 
 
             # Youtube
@@ -159,13 +164,26 @@ class Searcher(object):
             for textbook in textbooks:
                 f.write(f'- {textbook}\n')
 
+            f.write('\n**Projects**\n\n')
+            for project in projects:
+                f.write(f'- {project}\n')
+
+            f.write('\n**Homework**\n\n')
+            for homework in homeworks:
+                f.write(f'- {homework}\n')
+
+            f.write('\n**Exams**\n\n')
+            for exam in exams:
+                f.write(f'- {exam}\n')
+
             print('Completed!')
 
 
 def main():
-    searcher = Searcher('Ressources-Searcher','Embedded Systems')
+    subjects = ['Algorithms', 'Insurance', 'Time Series Forecasting', 
+            'Stochastic Processes']
+    searcher = Searcher('Ressources-Searcher/Searches/','Computer Vision')
     searcher.create_document()
-    #  textbooks = searcher._get_textbooks(20)
     
 
 if __name__ == "__main__":
