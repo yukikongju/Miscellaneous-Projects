@@ -11,15 +11,18 @@ A collection of random projects
 - [X] Sun Three.js
 - [X] Problème du Camelot
 - [X] File d'attente
-- [o] Springer
-- [o] Immersive Reader Preparation
+- [X] Springer
+- [X] Immersive Reader Preparation
+- [X] Ressources Searcher
+- [X] nltk and Chatbot
+- [ ] Generating Code with GPT
 - [ ] RSA
 - [ ] Fast Fourier Transform
 - [ ] NBA Tweets
 - [ ] Youtube Profile Analysis
 - [ ] tf-idf and pdf searcher
-- [ ] nltk
-- [ ] gym and reinforcement learning
+- [ ] Reinforcement Learning in Game Dev: SnakeAI
+- [ ] Creating a gym environment with CartPole
 - [ ] genetic algorithm
 - [ ] Markov Chain Simulation
 - [ ] EDA Application

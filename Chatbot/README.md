@@ -1,9 +1,23 @@
 # Chatbot
 
-Simple Chatbot 
+Simple Chatbot at the command line
+
+## Usage
+
+```bash
+python3 chatbot.py
+```
 
 
-# Ressources
+## Todos
+
+- [ ] Improve Intents prediction
+- [ ] Make google search based on books the user liked
+- [ ] Create GUI
+
+
+
+## Ressources
 
 
 - [Chatbot NLP - Python Engineer](https://www.youtube.com/playlist?list=PLqnslRFeH2UrFW4AUgn-eY37qOAWQpJyg)
