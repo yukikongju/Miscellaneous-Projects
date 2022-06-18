@@ -11,4 +11,3 @@ def get_stock_closing_prices(symbol, start, end):
         print("The Stock Symbol doesn't exist")
         
 
-
