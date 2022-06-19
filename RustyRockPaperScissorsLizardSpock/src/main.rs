@@ -3,7 +3,7 @@ extern crate rusty_rock_paper_scissors_lizard_spock;
 // use std::io::{stdin, stdout, Write};
 use std::cmp::{Ordering};
 use rusty_rock_paper_scissors_lizard_spock::game::{self, Result};
-use rusty_rock_paper_scissors_lizard_spock::player::{self, Player};
+use rusty_rock_paper_scissors_lizard_spock::player::{Player};
 use rusty_rock_paper_scissors_lizard_spock::utils::{read_line};
 
 fn main() {
@@ -39,6 +39,7 @@ fn main() {
         }
 
         // print current score
+        println!("");
         println!("Player: {} Computer: {} ", &player.score, &computer.score);
         
     }
