@@ -1,10 +1,10 @@
 extern crate rusty_rock_paper_scissors_lizard_spock;
 
 // use std::io::{stdin, stdout, Write};
-use std::cmp::{Ordering};
 use rusty_rock_paper_scissors_lizard_spock::game::{self, Result};
-use rusty_rock_paper_scissors_lizard_spock::player::{Player};
-use rusty_rock_paper_scissors_lizard_spock::utils::{read_line};
+use rusty_rock_paper_scissors_lizard_spock::player::Player;
+use rusty_rock_paper_scissors_lizard_spock::utils::read_line;
+use std::cmp::Ordering;
 
 fn main() {
     // initialize game variables
@@ -22,16 +22,19 @@ fn main() {
 
         // check result: win, lose, draw
         let result = game::get_player_result(&computer_play, &user_play);
-        println!("You played {}. Computer played {}", &user_play, &computer_play);
+        println!(
+            "You played {}. Computer played {}",
+            &user_play, &computer_play
+        );
         match result {
             Result::DRAW => {
                 println!("It's a draw!");
-                continue
-            }, 
+                continue;
+            }
             Result::WIN => {
                 println!("You won!");
                 player.increment_score();
-            }, 
+            }
             Result::LOSE => {
                 println!("You lost :(");
                 computer.increment_score();
@@ -41,16 +44,20 @@ fn main() {
         // print current score
         println!("");
         println!("Player: {} Computer: {} ", &player.score, &computer.score);
-        
     }
 
     // print outcomes
     match &player.score.cmp(&computer.score) {
-        Ordering::Less => { println!("You lost:(") }, 
-        Ordering::Greater => { println!("You won!") }, 
-        Ordering::Equal => { println!("It's a draw") }, 
+        Ordering::Less => {
+            println!("You lost:(")
+        }
+        Ordering::Greater => {
+            println!("You won!")
+        }
+        Ordering::Equal => {
+            println!("It's a draw")
+        }
     }
-
 }
 
 fn parse_play() -> game::Type {
@@ -65,4 +72,3 @@ fn parse_play() -> game::Type {
         }
     }
 }
-
