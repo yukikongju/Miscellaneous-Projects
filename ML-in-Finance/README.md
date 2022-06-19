@@ -8,13 +8,13 @@ Data Science Blueprints for Finance' by Hariom Tatsat.
 
 **Supervised Learning: Regression**
 
-- [ ] Stock Price Prediction
+- [o] Stock Price Prediction
 - [ ] Derivative Pricing
 - [ ] Investor Risk Tolerance
 
 **Supervised Learning: Classification**
 
-- [ ] Fraud Detection
+- [o] Fraud Detection
 - [ ] Loan Default Probability
 - [ ] Bitcoin Trading Strategy
 
