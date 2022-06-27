@@ -1,0 +1,498 @@
+Sigle,Titre,Credit,url,Prerequisites
+MAT 1000,Analyse 1,4.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-1000/,
+MAT 1400,Calcul 1,4.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-1400/,
+MAT 1500,Mathématiques discrètes,4.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-1500/,
+MAT 1600,Algèbre linéaire,4.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-1600/,
+MAT 1720,Probabilités,4.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-1720/,
+MAT 2717,Processus stochastiques,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2717/,Préalables : MAT1600 et (MAT1720 ou MAT1978)
+STT 1700,Introduction à la statistique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-1700/,
+ACT 1240,Mathématiques financières,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-1240/,
+ACT 2243,Investissements,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-2243/,ACT1240
+ACT 2250,Mathématiques de l'assurance-vie 1,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-2250/,ACT1240 ET MAT1720
+ACT 3201,Régimes de retraite,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-3201/,ACT2250
+ACT 3251,Théorie du risque,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-3251/,Préalable : MAT1720
+STT 2400,Régression linéaire,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-2400/,Préalable : MAT1600; Concomitant : STT2700
+STT 2700,Concepts et méthodes en statistique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-2700/,Préalables : (MAT1720 ou MAT1978) et STT1700
+IFT 1015,Programmation 1,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-1015/,
+IFT 1174,"Chiffrier, bases de données et programmation VBA",3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-1174/,
+STT 1682,Progiciels statistiques en actuariat,1.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-1682/,
+ACT 2241,Produits dérivés et gestion de risque,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-2241/,ACT1240
+ACT 2242,Finance corporative,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-2242/,ACT1240
+ACT 2251,Mathématiques de l'assurance-vie 2,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-2251/,Préalable : ACT2250
+ACT 2284,Mathématiques de l'assurance IARD,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-2284/,Préalables : ACT3251 et STT2700
+ACT 3230,Finance mathématique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-3230/,Préalables : ACT2241 et MAT2717
+ACT 3253,Gestion des risques,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-3253/,Préalables : ACT2250 et ACT3251.
+ACT 3261,Modélisation prédictive,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-3261/,Préalable : ACT3251.; Concomitant : STT3790.
+ACT 3281,Laboratoire d'actuariat,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-3281/,ACT2250 ET ACT3251
+ACT 3282,Laboratoire de mathématiques financières,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-3282/,
+ACT 4000,Mémoire de fin d’études,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-4000/,Préalable : 57 crédits complétés dans le baccalauréat en mathématiques 1-190-1-0 avec une moyenne cumulative supérieure à 3.3.
+MAT 2000,Stage 1,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2000/,
+MAT 3000,Stage 2,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-3000/,
+STT 2000,Échantillonnage,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-2000/,
+STT 2105,Statistique bayésienne,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-2105/,Préalable : STT2700 ; Concomitant : MAT2717
+STT 2305,Analyse multivariée appliquée,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-2305/,
+STT 3220,Méthodes de prévision,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-3220/,Préalables : STT2400 et STT2700
+STT 3260,Modèles de survie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-3260/,Préalables : STT2400 et STT2700
+STT 3410,Plans et analyses d'expériences,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-3410/,Préalables : STT2400 et STT2700
+STT 3510,Biostatistique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-3510/,STT2700
+STT 3781,Laboratoire de statistique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-3781/,STT3410
+STT 3790,Apprentissage statistique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-3790/,Préalables : STT2400 et STT2700
+STT 3795,Fondements théoriques en science des données,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-3795/,MAT1400/MAT1600/MAT1720 ou MAT1978
+MAT 1410,Calcul 2,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-1410/,MAT1400
+MAT 2050,Analyse 2,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2050/,MAT1000
+MAT 2100,Analyse 3,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2100/,Préalable : MAT1000
+MAT 2115,Équations différentielles,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2115/,MAT1400 ET MAT1600
+MAT 2130,Variable complexe,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2130/,Préalable : MAT1000
+MAT 2412,Analyse numérique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2412/,MAT1400 ET MAT1600
+MAT 2719,Marches et graphes aléatoires,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2719/,Préalables : MAT1000 et (MAT1720 ou MAT1978).
+MAT 2795,Introduction aux structures intrinsèques des données,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2795/,Préalables : MAT1400 et MAT1600.
+MAT 6117,Mesure et intégration,4.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-6117/,
+MAT 6701,Probabilités,4.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-6701/,
+DMO 1000,Introduction à la démographie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/dmo-1000/,
+ECN 1000,Principes d'économie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ecn-1000/,
+ECN 1040,Introduction à la microéconomie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ecn-1040/,ECN1000
+ECN 1050,Introduction à la macroéconomie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ecn-1050/,
+ECN 2165,Comptabilité 1,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ecn-2165/,
+IFT 1025,Programmation 2,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-1025/,IFT1015 ou IFT1016
+IFT 2015,Structures de données,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-2015/,IFT1025 et IFT1065
+IFT 3245,Simulation et modèles,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-3245/,IFT2015 ET (MAT1978 OU MAT1720 OU PHY2215); Équivalents: IFT3245/IFT3240
+IFT 3700,Introduction à la science des données,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-3700/,IFT2015 ET (MAT1978 OU MAT1720 OU STT1700)
+ACT 1240,Mathématiques financières,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-1240/,
+ACT 2243,Investissements,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-2243/,ACT1240
+ACT 2250,Mathématiques de l'assurance-vie 1,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-2250/,ACT1240 ET MAT1720
+ACT 3201,Régimes de retraite,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-3201/,ACT2250
+ACT 3251,Théorie du risque,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-3251/,Préalable : MAT1720
+STT 2400,Régression linéaire,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-2400/,Préalable : MAT1600; Concomitant : STT2700
+STT 2700,Concepts et méthodes en statistique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-2700/,Préalables : (MAT1720 ou MAT1978) et STT1700
+IFT 1015,Programmation 1,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-1015/,
+IFT 1174,"Chiffrier, bases de données et programmation VBA",3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-1174/,
+STT 1682,Progiciels statistiques en actuariat,1.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-1682/,
+ACT 2241,Produits dérivés et gestion de risque,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-2241/,ACT1240
+ACT 2242,Finance corporative,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-2242/,ACT1240
+ACT 2251,Mathématiques de l'assurance-vie 2,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-2251/,Préalable : ACT2250
+ACT 2284,Mathématiques de l'assurance IARD,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-2284/,Préalables : ACT3251 et STT2700
+ACT 3230,Finance mathématique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-3230/,Préalables : ACT2241 et MAT2717
+ACT 3253,Gestion des risques,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-3253/,Préalables : ACT2250 et ACT3251.
+ACT 3261,Modélisation prédictive,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-3261/,Préalable : ACT3251.; Concomitant : STT3790.
+ACT 3281,Laboratoire d'actuariat,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-3281/,ACT2250 ET ACT3251
+ACT 3282,Laboratoire de mathématiques financières,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-3282/,
+ACT 4000,Mémoire de fin d’études,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-4000/,Préalable : 57 crédits complétés dans le baccalauréat en mathématiques 1-190-1-0 avec une moyenne cumulative supérieure à 3.3.
+STT 2000,Échantillonnage,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-2000/,
+STT 2105,Statistique bayésienne,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-2105/,Préalable : STT2700 ; Concomitant : MAT2717
+STT 2305,Analyse multivariée appliquée,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-2305/,
+STT 3220,Méthodes de prévision,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-3220/,Préalables : STT2400 et STT2700
+STT 3260,Modèles de survie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-3260/,Préalables : STT2400 et STT2700
+STT 3410,Plans et analyses d'expériences,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-3410/,Préalables : STT2400 et STT2700
+STT 3510,Biostatistique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-3510/,STT2700
+STT 3781,Laboratoire de statistique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-3781/,STT3410
+STT 3790,Apprentissage statistique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-3790/,Préalables : STT2400 et STT2700
+STT 3795,Fondements théoriques en science des données,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-3795/,MAT1400/MAT1600/MAT1720 ou MAT1978
+MAT 1410,Calcul 2,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-1410/,MAT1400
+MAT 2050,Analyse 2,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2050/,MAT1000
+MAT 2100,Analyse 3,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2100/,Préalable : MAT1000
+MAT 2115,Équations différentielles,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2115/,MAT1400 ET MAT1600
+MAT 2130,Variable complexe,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2130/,Préalable : MAT1000
+MAT 2412,Analyse numérique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2412/,MAT1400 ET MAT1600
+MAT 2719,Marches et graphes aléatoires,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2719/,Préalables : MAT1000 et (MAT1720 ou MAT1978).
+MAT 2795,Introduction aux structures intrinsèques des données,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2795/,Préalables : MAT1400 et MAT1600.
+MAT 6117,Mesure et intégration,4.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-6117/,
+MAT 6701,Probabilités,4.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-6701/,
+MAT 2000,Stage 1,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2000/,
+MAT 3000,Stage 2,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-3000/,
+DMO 1000,Introduction à la démographie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/dmo-1000/,
+ECN 1000,Principes d'économie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ecn-1000/,
+ECN 1040,Introduction à la microéconomie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ecn-1040/,ECN1000
+ECN 1050,Introduction à la macroéconomie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ecn-1050/,
+ECN 2165,Comptabilité 1,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ecn-2165/,
+IFT 1025,Programmation 2,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-1025/,IFT1015 ou IFT1016
+IFT 2015,Structures de données,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-2015/,IFT1025 et IFT1065
+IFT 3245,Simulation et modèles,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-3245/,IFT2015 ET (MAT1978 OU MAT1720 OU PHY2215); Équivalents: IFT3245/IFT3240
+IFT 3700,Introduction à la science des données,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-3700/,IFT2015 ET (MAT1978 OU MAT1720 OU STT1700)
+MAT 1460,Modélisation,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-1460/,
+MAT 2050,Analyse 2,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2050/,MAT1000
+MAT 2100,Analyse 3,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2100/,Préalable : MAT1000
+MAT 2115,Équations différentielles,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2115/,MAT1400 ET MAT1600
+MAT 2130,Variable complexe,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2130/,Préalable : MAT1000
+MAT 2300,Géométrie différentielle,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2300/,Préalables : MAT1000 et MAT1400 et MAT1600
+MAT 2412,Analyse numérique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2412/,MAT1400 ET MAT1600
+MAT 2600,Algèbre 1,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2600/,MAT1600
+IFT 1015,Programmation 1,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-1015/,
+MAT 1681,Mathématiques assistées par ordinateur,1.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-1681/,
+MAT 1410,Calcul 2,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-1410/,MAT1400
+MAT 2450,Mathématiques et technologie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2450/,MAT1400 et MAT1600; Concomitants: MAT2450 et MAT1720 ou MAT1978
+MAT 2460,Dynamiques adaptatives,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2460/,
+MAT 2466,Analyse appliquée,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2466/,Préalables : MAT1000 et MAT1400 et MAT1600
+MAT 2531,Histoire des mathématiques,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2531/,
+MAT 2611,Algèbre 2,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2611/,MAT2600
+MAT 2719,Marches et graphes aléatoires,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2719/,Préalables : MAT1000 et (MAT1720 ou MAT1978).
+MAT 2795,Introduction aux structures intrinsèques des données,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2795/,Préalables : MAT1400 et MAT1600.
+MAT 3162,Équations aux dérivées partielles,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-3162/,MAT1000 et MAT2115
+MAT 3300,Introduction aux variétés différentiables,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-3300/,Préalable : MAT2100.
+MAT 3363,Topologie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-3363/,Préalable : MAT1000
+MAT 3450,Introduction à la modélisation mathématique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-3450/,MAT1400 ET MAT1600
+MAT 3460,Modélisation mathématique spécialisée et appli.,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-3460/,
+MAT 3632,Théorie des nombres,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-3632/,Préalables : MAT1500 ou MAT2600
+MAT 3634,Théorie analytique des nombres,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-3634/,Préalable : MAT3632.
+MAT 3661,Théorie de Galois,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-3661/,MAT2600
+MAT 2000,Stage 1,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2000/,
+MAT 3000,Stage 2,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-3000/,
+MAT 4000,Mémoire de fin d'études,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-4000/,
+MAT 6117,Mesure et intégration,4.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-6117/,
+MAT 6124,Analyse fonctionnelle,4.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-6124/,
+MAT 6701,Probabilités,4.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-6701/,
+ACT 1240,Mathématiques financières,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-1240/,
+ACT 2241,Produits dérivés et gestion de risque,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-2241/,ACT1240
+ACT 2242,Finance corporative,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-2242/,ACT1240
+ACT 2243,Investissements,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-2243/,ACT1240
+ACT 2250,Mathématiques de l'assurance-vie 1,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-2250/,ACT1240 ET MAT1720
+ACT 2251,Mathématiques de l'assurance-vie 2,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-2251/,Préalable : ACT2250
+ACT 2284,Mathématiques de l'assurance IARD,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-2284/,Préalables : ACT3251 et STT2700
+ACT 3230,Finance mathématique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-3230/,Préalables : ACT2241 et MAT2717
+ACT 3251,Théorie du risque,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-3251/,Préalable : MAT1720
+STT 2000,Échantillonnage,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-2000/,
+STT 2105,Statistique bayésienne,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-2105/,Préalable : STT2700 ; Concomitant : MAT2717
+STT 2305,Analyse multivariée appliquée,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-2305/,
+STT 2400,Régression linéaire,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-2400/,Préalable : MAT1600; Concomitant : STT2700
+STT 2700,Concepts et méthodes en statistique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-2700/,Préalables : (MAT1720 ou MAT1978) et STT1700
+STT 3220,Méthodes de prévision,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-3220/,Préalables : STT2400 et STT2700
+STT 3260,Modèles de survie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-3260/,Préalables : STT2400 et STT2700
+STT 3410,Plans et analyses d'expériences,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-3410/,Préalables : STT2400 et STT2700
+STT 3510,Biostatistique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-3510/,STT2700
+STT 3790,Apprentissage statistique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-3790/,Préalables : STT2400 et STT2700
+STT 3795,Fondements théoriques en science des données,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-3795/,MAT1400/MAT1600/MAT1720 ou MAT1978
+IFT 1025,Programmation 2,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-1025/,IFT1015 ou IFT1016
+IFT 1575,Modèles de recherche opérationnelle,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-1575/,
+IFT 2015,Structures de données,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-2015/,IFT1025 et IFT1065
+IFT 2105,Introduction à l'informatique théorique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-2105/,IFT1015 et IFT1065
+IFT 2125,Introduction à l'algorithmique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-2125/,
+IFT 2425,Introduction aux algorithmes numériques,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-2425/,"IFT1015, MAT1400 et MAT1600"
+IFT 2505,Optimisation linéaire,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-2505/,MAT1600
+IFT 3155,Informatique quantique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-3155/,"30 crédits IFT, MAT ou PHY."
+IFT 3205,Traitement du signal,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-3205/,MAT1400 ET MAT1600; Équivalents: IFT3205/IFT3200
+IFT 3245,Simulation et modèles,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-3245/,IFT2015 ET (MAT1978 OU MAT1720 OU PHY2215); Équivalents: IFT3245/IFT3240
+IFT 3355,Infographie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-3355/,IFT2015; Équivalents: IFT3355/IFT3350
+IFT 3395,Fondements de l'apprentissage machine,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-3395/,Préalables : IFT2125 et MAT1600 et (MAT1978 ou (MAT1720 et STT1700)); Équivalents: IFT3395/IFT3390
+IFT 3515,Optimisation non linéaire,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-3515/,MAT1600
+IFT 3545,Graphes et réseaux,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-3545/,
+IFT 3700,Introduction à la science des données,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-3700/,IFT2015 ET (MAT1978 OU MAT1720 OU STT1700)
+BIO 1203,Introduction à la génétique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/bio-1203/,
+BIO 1803,Écologie et environnement,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/bio-1803/,
+ECN 1000,Principes d'économie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ecn-1000/,
+ECN 1040,Introduction à la microéconomie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ecn-1040/,ECN1000
+ECN 1050,Introduction à la macroéconomie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ecn-1050/,
+ECN 2165,Comptabilité 1,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ecn-2165/,
+GEO 1312,Développement durable et environnement,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/geo-1312/,
+GEO 2122,Climatologie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/geo-2122/,18 crédits GEO ou (18 crédits de GEO et BIO et CHM et MAT et MCB et PHY)
+GEO 2152,Hydrologie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/geo-2152/,18 crédits GEO ou (18 crédits de GEO et BIO et CHM et MAT)
+HOR 1200,Horizon: Risques et défis du XXIe siècle,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/hor-1200/,
+PHI 1005,Logique 1,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/phi-1005/,
+PHI 1130,Philosophie des sciences,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/phi-1130/,
+PHI 1300,Philosophie de la connaissance,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/phi-1300/,
+PHI 2005,Logique 2,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/phi-2005/,
+PHY 1441,Électromagnétisme,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/phy-1441/,
+PHY 1620,Ondes et vibrations,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/phy-1620/,PHY1651 ET MAT1600
+PHY 1651,Mécanique classique 1,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/phy-1651/,
+PHY 1652,Relativité 1,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/phy-1652/,PHY1651
+PHY 1972,Comprendre l'Univers,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/phy-1972/,
+PHY 3131,Mécanique classique 2,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/phy-3131/,PHY1651
+PHY 3140,Hydrodynamique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/phy-3140/,MAT2466 OU PHY2345
+STT 2000,Échantillonnage,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-2000/,
+STT 2400,Régression linéaire,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-2400/,Préalable : MAT1600; Concomitant : STT2700
+STT 2700,Concepts et méthodes en statistique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-2700/,Préalables : (MAT1720 ou MAT1978) et STT1700
+STT 3410,Plans et analyses d'expériences,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-3410/,Préalables : STT2400 et STT2700
+STT 3781,Laboratoire de statistique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-3781/,STT3410
+STT 3790,Apprentissage statistique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-3790/,Préalables : STT2400 et STT2700
+MAT 1460,Modélisation,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-1460/,
+MAT 2050,Analyse 2,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2050/,MAT1000
+MAT 2100,Analyse 3,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2100/,Préalable : MAT1000
+MAT 2412,Analyse numérique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2412/,MAT1400 ET MAT1600
+IFT 1015,Programmation 1,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-1015/,
+STT 1682,Progiciels statistiques en actuariat,1.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-1682/,
+STT 2105,Statistique bayésienne,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-2105/,Préalable : STT2700 ; Concomitant : MAT2717
+STT 2305,Analyse multivariée appliquée,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-2305/,
+STT 3220,Méthodes de prévision,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-3220/,Préalables : STT2400 et STT2700
+STT 3260,Modèles de survie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-3260/,Préalables : STT2400 et STT2700
+STT 3510,Biostatistique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-3510/,STT2700
+STT 3795,Fondements théoriques en science des données,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-3795/,MAT1400/MAT1600/MAT1720 ou MAT1978
+STT 6230,Méthodes non paramétriques avancées,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-6230/,
+STT 6516,Données catégorielles,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-6516/,
+MAT 1410,Calcul 2,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-1410/,MAT1400
+MAT 2115,Équations différentielles,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2115/,MAT1400 ET MAT1600
+MAT 2130,Variable complexe,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2130/,Préalable : MAT1000
+MAT 2450,Mathématiques et technologie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2450/,MAT1400 et MAT1600; Concomitants: MAT2450 et MAT1720 ou MAT1978
+MAT 2460,Dynamiques adaptatives,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2460/,
+MAT 2466,Analyse appliquée,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2466/,Préalables : MAT1000 et MAT1400 et MAT1600
+MAT 2719,Marches et graphes aléatoires,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2719/,Préalables : MAT1000 et (MAT1720 ou MAT1978).
+MAT 2795,Introduction aux structures intrinsèques des données,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2795/,Préalables : MAT1400 et MAT1600.
+MAT 3450,Introduction à la modélisation mathématique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-3450/,MAT1400 ET MAT1600
+MAT 3460,Modélisation mathématique spécialisée et appli.,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-3460/,
+MAT 6117,Mesure et intégration,4.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-6117/,
+MAT 6701,Probabilités,4.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-6701/,
+MAT 2000,Stage 1,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2000/,
+MAT 3000,Stage 2,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-3000/,
+STT 4000,Mémoire de fin d'études,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-4000/,
+IFT 1025,Programmation 2,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-1025/,IFT1015 ou IFT1016
+IFT 1575,Modèles de recherche opérationnelle,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-1575/,
+IFT 2015,Structures de données,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-2015/,IFT1025 et IFT1065
+IFT 2125,Introduction à l'algorithmique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-2125/,
+IFT 2425,Introduction aux algorithmes numériques,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-2425/,"IFT1015, MAT1400 et MAT1600"
+IFT 2505,Optimisation linéaire,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-2505/,MAT1600
+IFT 3205,Traitement du signal,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-3205/,MAT1400 ET MAT1600; Équivalents: IFT3205/IFT3200
+IFT 3245,Simulation et modèles,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-3245/,IFT2015 ET (MAT1978 OU MAT1720 OU PHY2215); Équivalents: IFT3245/IFT3240
+IFT 3395,Fondements de l'apprentissage machine,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-3395/,Préalables : IFT2125 et MAT1600 et (MAT1978 ou (MAT1720 et STT1700)); Équivalents: IFT3395/IFT3390
+IFT 3515,Optimisation non linéaire,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-3515/,MAT1600
+IFT 3545,Graphes et réseaux,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-3545/,
+IFT 3700,Introduction à la science des données,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-3700/,IFT2015 ET (MAT1978 OU MAT1720 OU STT1700)
+ACT 1240,Mathématiques financières,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-1240/,
+ACT 2241,Produits dérivés et gestion de risque,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-2241/,ACT1240
+ACT 2242,Finance corporative,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-2242/,ACT1240
+ACT 2243,Investissements,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-2243/,ACT1240
+ACT 2250,Mathématiques de l'assurance-vie 1,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-2250/,ACT1240 ET MAT1720
+ACT 2251,Mathématiques de l'assurance-vie 2,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-2251/,Préalable : ACT2250
+ACT 2284,Mathématiques de l'assurance IARD,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-2284/,Préalables : ACT3251 et STT2700
+ACT 3201,Régimes de retraite,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-3201/,ACT2250
+ACT 3230,Finance mathématique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-3230/,Préalables : ACT2241 et MAT2717
+ACT 3251,Théorie du risque,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-3251/,Préalable : MAT1720
+BIO 1203,Introduction à la génétique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/bio-1203/,
+BIO 1803,Écologie et environnement,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/bio-1803/,
+BIO 2811,Dynamique des populations,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/bio-2811/,BIO1803
+BIO 3115,Principes de phylogénie et systématique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/bio-3115/,BIO1203; Équivalents:BIO3115/BIO2115
+DMO 1000,Introduction à la démographie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/dmo-1000/,
+DMO 2200,Sources de données,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/dmo-2200/,
+DMO 2311,Analyse longitudinale,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/dmo-2311/,
+DMO 2312,Analyse transversale,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/dmo-2312/,DMO2311
+DMO 3307,Pratique de la démographie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/dmo-3307/,DMO2311
+ECN 1000,Principes d'économie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ecn-1000/,
+ECN 1040,Introduction à la microéconomie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ecn-1040/,ECN1000
+ECN 1050,Introduction à la macroéconomie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ecn-1050/,
+ECN 2040,Théorie microéconomique 1,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ecn-2040/,ECN1040 ET (ECN1075 OU MAT1400)
+ECN 2045,Théorie microéconomique 2,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ecn-2045/,ECN2040
+ECN 2165,Comptabilité 1,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ecn-2165/,
+HOR 1200,Horizon: Risques et défis du XXIe siècle,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/hor-1200/,
+PHY 1441,Électromagnétisme,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/phy-1441/,
+PHY 1620,Ondes et vibrations,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/phy-1620/,PHY1651 ET MAT1600
+PHY 1651,Mécanique classique 1,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/phy-1651/,
+PHY 1652,Relativité 1,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/phy-1652/,PHY1651
+PHY 1972,Comprendre l'Univers,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/phy-1972/,
+PHY 2215,Physique thermique et statistique,4.0,https://admission.umontreal.ca/cours-et-horaires/cours/phy-2215/,MAT1400
+STT 2000,Échantillonnage,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-2000/,
+STT 2400,Régression linéaire,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-2400/,Préalable : MAT1600; Concomitant : STT2700
+STT 2700,Concepts et méthodes en statistique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-2700/,Préalables : (MAT1720 ou MAT1978) et STT1700
+STT 3410,Plans et analyses d'expériences,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-3410/,Préalables : STT2400 et STT2700
+STT 3781,Laboratoire de statistique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-3781/,STT3410
+STT 3790,Apprentissage statistique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-3790/,Préalables : STT2400 et STT2700
+MAT 1460,Modélisation,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-1460/,
+MAT 2050,Analyse 2,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2050/,MAT1000
+MAT 2100,Analyse 3,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2100/,Préalable : MAT1000
+MAT 2412,Analyse numérique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2412/,MAT1400 ET MAT1600
+IFT 1015,Programmation 1,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-1015/,
+STT 1682,Progiciels statistiques en actuariat,1.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-1682/,
+STT 2105,Statistique bayésienne,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-2105/,Préalable : STT2700 ; Concomitant : MAT2717
+STT 2305,Analyse multivariée appliquée,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-2305/,
+STT 3220,Méthodes de prévision,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-3220/,Préalables : STT2400 et STT2700
+STT 3260,Modèles de survie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-3260/,Préalables : STT2400 et STT2700
+STT 3510,Biostatistique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-3510/,STT2700
+STT 3795,Fondements théoriques en science des données,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-3795/,MAT1400/MAT1600/MAT1720 ou MAT1978
+STT 6230,Méthodes non paramétriques avancées,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-6230/,
+STT 6516,Données catégorielles,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-6516/,
+MAT 1410,Calcul 2,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-1410/,MAT1400
+MAT 2115,Équations différentielles,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2115/,MAT1400 ET MAT1600
+MAT 2130,Variable complexe,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2130/,Préalable : MAT1000
+MAT 2450,Mathématiques et technologie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2450/,MAT1400 et MAT1600; Concomitants: MAT2450 et MAT1720 ou MAT1978
+MAT 2460,Dynamiques adaptatives,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2460/,
+MAT 2466,Analyse appliquée,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2466/,Préalables : MAT1000 et MAT1400 et MAT1600
+MAT 2719,Marches et graphes aléatoires,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2719/,Préalables : MAT1000 et (MAT1720 ou MAT1978).
+MAT 2795,Introduction aux structures intrinsèques des données,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2795/,Préalables : MAT1400 et MAT1600.
+MAT 3450,Introduction à la modélisation mathématique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-3450/,MAT1400 ET MAT1600
+MAT 3460,Modélisation mathématique spécialisée et appli.,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-3460/,
+MAT 6117,Mesure et intégration,4.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-6117/,
+MAT 6701,Probabilités,4.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-6701/,
+MAT 2000,Stage 1,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2000/,
+MAT 3000,Stage 2,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-3000/,
+IFT 1025,Programmation 2,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-1025/,IFT1015 ou IFT1016
+IFT 1575,Modèles de recherche opérationnelle,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-1575/,
+IFT 2015,Structures de données,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-2015/,IFT1025 et IFT1065
+IFT 2125,Introduction à l'algorithmique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-2125/,
+IFT 2425,Introduction aux algorithmes numériques,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-2425/,"IFT1015, MAT1400 et MAT1600"
+IFT 2505,Optimisation linéaire,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-2505/,MAT1600
+IFT 3205,Traitement du signal,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-3205/,MAT1400 ET MAT1600; Équivalents: IFT3205/IFT3200
+IFT 3245,Simulation et modèles,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-3245/,IFT2015 ET (MAT1978 OU MAT1720 OU PHY2215); Équivalents: IFT3245/IFT3240
+IFT 3395,Fondements de l'apprentissage machine,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-3395/,Préalables : IFT2125 et MAT1600 et (MAT1978 ou (MAT1720 et STT1700)); Équivalents: IFT3395/IFT3390
+IFT 3515,Optimisation non linéaire,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-3515/,MAT1600
+IFT 3545,Graphes et réseaux,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-3545/,
+IFT 3700,Introduction à la science des données,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-3700/,IFT2015 ET (MAT1978 OU MAT1720 OU STT1700)
+ACT 1240,Mathématiques financières,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-1240/,
+ACT 2241,Produits dérivés et gestion de risque,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-2241/,ACT1240
+ACT 2242,Finance corporative,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-2242/,ACT1240
+ACT 2243,Investissements,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-2243/,ACT1240
+ACT 2250,Mathématiques de l'assurance-vie 1,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-2250/,ACT1240 ET MAT1720
+ACT 2251,Mathématiques de l'assurance-vie 2,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-2251/,Préalable : ACT2250
+ACT 2284,Mathématiques de l'assurance IARD,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-2284/,Préalables : ACT3251 et STT2700
+ACT 3201,Régimes de retraite,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-3201/,ACT2250
+ACT 3230,Finance mathématique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-3230/,Préalables : ACT2241 et MAT2717
+ACT 3251,Théorie du risque,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-3251/,Préalable : MAT1720
+BIO 1203,Introduction à la génétique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/bio-1203/,
+BIO 1803,Écologie et environnement,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/bio-1803/,
+BIO 2811,Dynamique des populations,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/bio-2811/,BIO1803
+BIO 3115,Principes de phylogénie et systématique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/bio-3115/,BIO1203; Équivalents:BIO3115/BIO2115
+DMO 1000,Introduction à la démographie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/dmo-1000/,
+DMO 2200,Sources de données,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/dmo-2200/,
+DMO 2311,Analyse longitudinale,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/dmo-2311/,
+DMO 2312,Analyse transversale,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/dmo-2312/,DMO2311
+DMO 3307,Pratique de la démographie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/dmo-3307/,DMO2311
+ECN 1000,Principes d'économie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ecn-1000/,
+ECN 1040,Introduction à la microéconomie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ecn-1040/,ECN1000
+ECN 1050,Introduction à la macroéconomie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ecn-1050/,
+ECN 2040,Théorie microéconomique 1,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ecn-2040/,ECN1040 ET (ECN1075 OU MAT1400)
+ECN 2045,Théorie microéconomique 2,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ecn-2045/,ECN2040
+ECN 2165,Comptabilité 1,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ecn-2165/,
+HOR 1200,Horizon: Risques et défis du XXIe siècle,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/hor-1200/,
+PHY 1441,Électromagnétisme,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/phy-1441/,
+PHY 1620,Ondes et vibrations,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/phy-1620/,PHY1651 ET MAT1600
+PHY 1651,Mécanique classique 1,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/phy-1651/,
+PHY 1652,Relativité 1,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/phy-1652/,PHY1651
+PHY 1972,Comprendre l'Univers,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/phy-1972/,
+PHY 2215,Physique thermique et statistique,4.0,https://admission.umontreal.ca/cours-et-horaires/cours/phy-2215/,MAT1400
+ACT 1240,Mathématiques financières,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-1240/,
+ACT 2241,Produits dérivés et gestion de risque,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-2241/,ACT1240
+ACT 2242,Finance corporative,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-2242/,ACT1240
+ACT 2243,Investissements,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-2243/,ACT1240
+ACT 3230,Finance mathématique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-3230/,Préalables : ACT2241 et MAT2717
+ACT 3282,Laboratoire de mathématiques financières,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-3282/,
+MAT 2050,Analyse 2,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2050/,MAT1000
+MAT 2115,Équations différentielles,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2115/,MAT1400 ET MAT1600
+MAT 2412,Analyse numérique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2412/,MAT1400 ET MAT1600
+STT 2400,Régression linéaire,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-2400/,Préalable : MAT1600; Concomitant : STT2700
+STT 2700,Concepts et méthodes en statistique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-2700/,Préalables : (MAT1720 ou MAT1978) et STT1700
+STT 3220,Méthodes de prévision,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-3220/,Préalables : STT2400 et STT2700
+IFT 1015,Programmation 1,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-1015/,
+STT 1682,Progiciels statistiques en actuariat,1.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-1682/,
+MAT 1410,Calcul 2,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-1410/,MAT1400
+MAT 2100,Analyse 3,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2100/,Préalable : MAT1000
+MAT 2466,Analyse appliquée,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2466/,Préalables : MAT1000 et MAT1400 et MAT1600
+MAT 2719,Marches et graphes aléatoires,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2719/,Préalables : MAT1000 et (MAT1720 ou MAT1978).
+MAT 2795,Introduction aux structures intrinsèques des données,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2795/,Préalables : MAT1400 et MAT1600.
+MAT 3162,Équations aux dérivées partielles,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-3162/,MAT1000 et MAT2115
+MAT 6117,Mesure et intégration,4.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-6117/,
+MAT 6701,Probabilités,4.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-6701/,
+ACT 2250,Mathématiques de l'assurance-vie 1,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-2250/,ACT1240 ET MAT1720
+ACT 2251,Mathématiques de l'assurance-vie 2,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-2251/,Préalable : ACT2250
+ACT 2284,Mathématiques de l'assurance IARD,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-2284/,Préalables : ACT3251 et STT2700
+ACT 3251,Théorie du risque,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-3251/,Préalable : MAT1720
+STT 2000,Échantillonnage,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-2000/,
+STT 2105,Statistique bayésienne,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-2105/,Préalable : STT2700 ; Concomitant : MAT2717
+STT 2305,Analyse multivariée appliquée,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-2305/,
+STT 3260,Modèles de survie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-3260/,Préalables : STT2400 et STT2700
+STT 3410,Plans et analyses d'expériences,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-3410/,Préalables : STT2400 et STT2700
+STT 3790,Apprentissage statistique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-3790/,Préalables : STT2400 et STT2700
+STT 3795,Fondements théoriques en science des données,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-3795/,MAT1400/MAT1600/MAT1720 ou MAT1978
+ACT 4000,Mémoire de fin d’études,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-4000/,Préalable : 57 crédits complétés dans le baccalauréat en mathématiques 1-190-1-0 avec une moyenne cumulative supérieure à 3.3.
+MAT 2000,Stage 1,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2000/,
+MAT 3000,Stage 2,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-3000/,
+IFT 1025,Programmation 2,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-1025/,IFT1015 ou IFT1016
+IFT 1174,"Chiffrier, bases de données et programmation VBA",3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-1174/,
+IFT 2015,Structures de données,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-2015/,IFT1025 et IFT1065
+IFT 2505,Optimisation linéaire,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-2505/,MAT1600
+IFT 3245,Simulation et modèles,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-3245/,IFT2015 ET (MAT1978 OU MAT1720 OU PHY2215); Équivalents: IFT3245/IFT3240
+IFT 3395,Fondements de l'apprentissage machine,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-3395/,Préalables : IFT2125 et MAT1600 et (MAT1978 ou (MAT1720 et STT1700)); Équivalents: IFT3395/IFT3390
+IFT 3515,Optimisation non linéaire,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-3515/,MAT1600
+IFT 3700,Introduction à la science des données,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-3700/,IFT2015 ET (MAT1978 OU MAT1720 OU STT1700)
+ECN 1000,Principes d'économie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ecn-1000/,
+ECN 1040,Introduction à la microéconomie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ecn-1040/,ECN1000
+ECN 1050,Introduction à la macroéconomie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ecn-1050/,
+ECN 2040,Théorie microéconomique 1,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ecn-2040/,ECN1040 ET (ECN1075 OU MAT1400)
+ECN 2050,Théorie macroéconomique 1,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ecn-2050/,ECN1050 ET (ECN1075 OU MAT1400)
+ECN 2165,Comptabilité 1,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ecn-2165/,
+ECN 3801,Économie financière,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ecn-3801/,(ECN1260 OU MAT1978 OU STT1700) ET ECN2040
+MAT 1410,Calcul 2,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-1410/,MAT1400
+MAT 2050,Analyse 2,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2050/,MAT1000
+MAT 2115,Équations différentielles,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2115/,MAT1400 ET MAT1600
+IFT 1015,Programmation 1,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-1015/,
+MAT 1681,Mathématiques assistées par ordinateur,1.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-1681/,
+STT 1682,Progiciels statistiques en actuariat,1.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-1682/,
+ACT 1240,Mathématiques financières,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-1240/,
+ACT 2241,Produits dérivés et gestion de risque,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-2241/,ACT1240
+ACT 2243,Investissements,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-2243/,ACT1240
+ACT 3230,Finance mathématique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/act-3230/,Préalables : ACT2241 et MAT2717
+MAT 1101,Mathématiques fondamentales,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-1101/,
+MAT 1301,Mathématiques élémentaires,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-1301/,
+MAT 1332,Géométrie euclidienne,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-1332/,
+MAT 1460,Modélisation,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-1460/,
+MAT 2000,Stage 1,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2000/,
+MAT 2100,Analyse 3,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2100/,Préalable : MAT1000
+MAT 2130,Variable complexe,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2130/,Préalable : MAT1000
+MAT 2300,Géométrie différentielle,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2300/,Préalables : MAT1000 et MAT1400 et MAT1600
+MAT 2412,Analyse numérique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2412/,MAT1400 ET MAT1600
+MAT 2450,Mathématiques et technologie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2450/,MAT1400 et MAT1600; Concomitants: MAT2450 et MAT1720 ou MAT1978
+MAT 2460,Dynamiques adaptatives,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2460/,
+MAT 2466,Analyse appliquée,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2466/,Préalables : MAT1000 et MAT1400 et MAT1600
+MAT 2531,Histoire des mathématiques,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2531/,
+MAT 2600,Algèbre 1,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2600/,MAT1600
+MAT 2611,Algèbre 2,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2611/,MAT2600
+MAT 2719,Marches et graphes aléatoires,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2719/,Préalables : MAT1000 et (MAT1720 ou MAT1978).
+MAT 2795,Introduction aux structures intrinsèques des données,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2795/,Préalables : MAT1400 et MAT1600.
+MAT 3000,Stage 2,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-3000/,
+MAT 3162,Équations aux dérivées partielles,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-3162/,MAT1000 et MAT2115
+MAT 3300,Introduction aux variétés différentiables,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-3300/,Préalable : MAT2100.
+MAT 3363,Topologie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-3363/,Préalable : MAT1000
+MAT 3450,Introduction à la modélisation mathématique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-3450/,MAT1400 ET MAT1600
+MAT 3460,Modélisation mathématique spécialisée et appli.,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-3460/,
+MAT 3632,Théorie des nombres,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-3632/,Préalables : MAT1500 ou MAT2600
+MAT 3634,Théorie analytique des nombres,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-3634/,Préalable : MAT3632.
+MAT 3661,Théorie de Galois,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-3661/,MAT2600
+STT 2000,Échantillonnage,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-2000/,
+STT 2105,Statistique bayésienne,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-2105/,Préalable : STT2700 ; Concomitant : MAT2717
+STT 2305,Analyse multivariée appliquée,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-2305/,
+STT 2400,Régression linéaire,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-2400/,Préalable : MAT1600; Concomitant : STT2700
+STT 2700,Concepts et méthodes en statistique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-2700/,Préalables : (MAT1720 ou MAT1978) et STT1700
+STT 3220,Méthodes de prévision,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-3220/,Préalables : STT2400 et STT2700
+STT 3260,Modèles de survie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-3260/,Préalables : STT2400 et STT2700
+STT 3410,Plans et analyses d'expériences,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-3410/,Préalables : STT2400 et STT2700
+STT 3510,Biostatistique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-3510/,STT2700
+STT 3790,Apprentissage statistique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-3790/,Préalables : STT2400 et STT2700
+STT 3795,Fondements théoriques en science des données,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-3795/,MAT1400/MAT1600/MAT1720 ou MAT1978
+IFT 1025,Programmation 2,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-1025/,IFT1015 ou IFT1016
+IFT 1174,"Chiffrier, bases de données et programmation VBA",3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-1174/,
+IFT 1575,Modèles de recherche opérationnelle,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-1575/,
+IFT 2015,Structures de données,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-2015/,IFT1025 et IFT1065
+IFT 2105,Introduction à l'informatique théorique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-2105/,IFT1015 et IFT1065
+IFT 2125,Introduction à l'algorithmique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-2125/,
+IFT 2425,Introduction aux algorithmes numériques,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-2425/,"IFT1015, MAT1400 et MAT1600"
+IFT 2505,Optimisation linéaire,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-2505/,MAT1600
+IFT 3155,Informatique quantique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-3155/,"30 crédits IFT, MAT ou PHY."
+IFT 3205,Traitement du signal,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-3205/,MAT1400 ET MAT1600; Équivalents: IFT3205/IFT3200
+IFT 3245,Simulation et modèles,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-3245/,IFT2015 ET (MAT1978 OU MAT1720 OU PHY2215); Équivalents: IFT3245/IFT3240
+IFT 3355,Infographie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-3355/,IFT2015; Équivalents: IFT3355/IFT3350
+IFT 3395,Fondements de l'apprentissage machine,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-3395/,Préalables : IFT2125 et MAT1600 et (MAT1978 ou (MAT1720 et STT1700)); Équivalents: IFT3395/IFT3390
+IFT 3515,Optimisation non linéaire,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-3515/,MAT1600
+IFT 3545,Graphes et réseaux,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-3545/,
+IFT 3700,Introduction à la science des données,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-3700/,IFT2015 ET (MAT1978 OU MAT1720 OU STT1700)
+BIO 1203,Introduction à la génétique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/bio-1203/,
+BIO 1803,Écologie et environnement,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/bio-1803/,
+BIO 2811,Dynamique des populations,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/bio-2811/,BIO1803
+BIO 3115,Principes de phylogénie et systématique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/bio-3115/,BIO1203; Équivalents:BIO3115/BIO2115
+DMO 1000,Introduction à la démographie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/dmo-1000/,
+DMO 2200,Sources de données,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/dmo-2200/,
+DMO 2311,Analyse longitudinale,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/dmo-2311/,
+DMO 2312,Analyse transversale,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/dmo-2312/,DMO2311
+DMO 3307,Pratique de la démographie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/dmo-3307/,DMO2311
+ECN 1000,Principes d'économie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ecn-1000/,
+ECN 1040,Introduction à la microéconomie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ecn-1040/,ECN1000
+ECN 1050,Introduction à la macroéconomie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ecn-1050/,
+ECN 2040,Théorie microéconomique 1,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ecn-2040/,ECN1040 ET (ECN1075 OU MAT1400)
+ECN 2165,Comptabilité 1,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ecn-2165/,
+GEO 1312,Développement durable et environnement,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/geo-1312/,
+GEO 2122,Climatologie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/geo-2122/,18 crédits GEO ou (18 crédits de GEO et BIO et CHM et MAT et MCB et PHY)
+GEO 2152,Hydrologie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/geo-2152/,18 crédits GEO ou (18 crédits de GEO et BIO et CHM et MAT)
+HOR 1200,Horizon: Risques et défis du XXIe siècle,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/hor-1200/,
+PHI 1005,Logique 1,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/phi-1005/,
+PHI 1130,Philosophie des sciences,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/phi-1130/,
+PHI 1300,Philosophie de la connaissance,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/phi-1300/,
+PHI 2005,Logique 2,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/phi-2005/,
+PHY 1441,Électromagnétisme,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/phy-1441/,
+PHY 1620,Ondes et vibrations,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/phy-1620/,PHY1651 ET MAT1600
+PHY 1651,Mécanique classique 1,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/phy-1651/,
+PHY 1652,Relativité 1,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/phy-1652/,PHY1651
+PHY 1972,Comprendre l'Univers,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/phy-1972/,
+PHY 3131,Mécanique classique 2,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/phy-3131/,PHY1651
+PHY 3140,Hydrodynamique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/phy-3140/,MAT2466 OU PHY2345

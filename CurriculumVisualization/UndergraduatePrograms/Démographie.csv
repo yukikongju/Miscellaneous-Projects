@@ -1,0 +1,58 @@
+Sigle,Titre,Credit,url,Prerequisites
+DMO 1000,Introduction à la démographie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/dmo-1000/,
+DMO 2311,Analyse longitudinale,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/dmo-2311/,
+DMO 2312,Analyse transversale,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/dmo-2312/,DMO2311
+DMO 3307,Pratique de la démographie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/dmo-3307/,DMO2311
+STD 3500,Laboratoire de démographie statistique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/std-3500/,DMO2311 ET STT2400
+STT 1700,Introduction à la statistique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-1700/,
+STT 2000,Échantillonnage,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-2000/,
+STT 2400,Régression linéaire,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-2400/,Préalable : MAT1600; Concomitant : STT2700
+STT 2700,Concepts et méthodes en statistique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-2700/,Préalables : (MAT1720 ou MAT1978) et STT1700
+DMO 2200,Sources de données,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/dmo-2200/,
+SOL 3017,Méthodes de sondage,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/sol-3017/,SOL1020 OU PSY1004 OU STT1700 OU CRI1600 ou tout autre cours de premier cycle en méthodes quantitatives.
+IFT 1969,Programmation scientifique en langage C,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-1969/,Collège 201-203-77 et 201-105-77
+MAT 1400,Calcul 1,4.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-1400/,
+MAT 1600,Algèbre linéaire,4.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-1600/,
+MAT 1720,Probabilités,4.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-1720/,
+DMO 1100,Introduction à la démographie autochtone,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/dmo-1100/,
+DMO 2100,Population canadienne contemporaine,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/dmo-2100/,
+DMO 2170,Population et environnement,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/dmo-2170/,
+DMO 2500,Enjeux en études de population,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/dmo-2500/,"Préalables : DMO 1000, DMO 2311 ; Concomitant : DMO 2312"
+DMO 2700,Histoire des populations,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/dmo-2700/,
+DMO 3100,Démographie des pays du Sud,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/dmo-3100/,
+DMO 3150,Vieillissement des populations,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/dmo-3150/,Préalable : DMO 1000
+DMO 3250,Démographie de la famille,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/dmo-3250/,"Préalables : DMO 1000, DMO 2200"
+DMO 3400,Sociologie et population,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/dmo-3400/,
+DMO 3420,Immigration et intégration,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/dmo-3420/,
+DMO 3450,Économie et population,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/dmo-3450/,
+DMO 3900,Informatique pour la démographie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/dmo-3900/,"Préalables : DMO 1000, DMO 2200; Concomitants : DMO 2311, DMO 2312, SOL 1020"
+STT 2105,Statistique bayésienne,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-2105/,Préalable : STT2700 ; Concomitant : MAT2717
+STT 2305,Analyse multivariée appliquée,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-2305/,
+STT 3220,Méthodes de prévision,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-3220/,Préalables : STT2400 et STT2700
+STT 3260,Modèles de survie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-3260/,Préalables : STT2400 et STT2700
+STT 3410,Plans et analyses d'expériences,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-3410/,Préalables : STT2400 et STT2700
+STT 3510,Biostatistique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-3510/,STT2700
+STT 3781,Laboratoire de statistique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-3781/,STT3410
+STT 3790,Apprentissage statistique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-3790/,Préalables : STT2400 et STT2700
+STT 3795,Fondements théoriques en science des données,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-3795/,MAT1400/MAT1600/MAT1720 ou MAT1978
+MAT 1000,Analyse 1,4.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-1000/,
+MAT 1410,Calcul 2,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-1410/,MAT1400
+MAT 2050,Analyse 2,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2050/,MAT1000
+MAT 2412,Analyse numérique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2412/,MAT1400 ET MAT1600
+MAT 2717,Processus stochastiques,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2717/,Préalables : MAT1600 et (MAT1720 ou MAT1978)
+ANG 1924,Rédaction académique et professionnelle,2.0,https://admission.umontreal.ca/cours-et-horaires/cours/ang-1924/,Préalables : ANG1904 ou ANG1905 ou ANG1906 ou ANG1907 ou compétences équivalentes (Test de classement – site du Centre de langues)
+ANG 1925,Anglais écrit pour lettres et sciences sociales,1.0,https://admission.umontreal.ca/cours-et-horaires/cours/ang-1925/,Préalable : ANG1924 ou compétences équivalentes (Test de classement – site du Centre de langues)
+ANG 1933,Expression orale académique et professionnelle,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ang-1933/,Préalable : ANG1904 ou compétences équivalentes (Test de classement – site du Centre de langues)
+ECN 1000,Principes d'économie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ecn-1000/,
+ECN 1040,Introduction à la microéconomie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ecn-1040/,ECN1000
+ECN 1050,Introduction à la macroéconomie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ecn-1050/,
+ECN 2311,Problèmes économiques contemporains,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ecn-2311/,ECN1000 ET ECN1050
+GEO 1212,"Espaces globaux, territoires locaux 1",3.0,https://admission.umontreal.ca/cours-et-horaires/cours/geo-1212/,
+GEO 1222,"Espaces globaux, territoires locaux 2",3.0,https://admission.umontreal.ca/cours-et-horaires/cours/geo-1222/,GEO1212
+GEO 1532,SIG1 - Cartographie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/geo-1532/,
+GEO 2512,SIG2 - Analyse spatiale,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/geo-2512/,GEO1532
+HST 1042,L'Europe contemporaine,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/hst-1042/,
+HST 2446,Histoire des femmes au Canada,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/hst-2446/,
+SOL 1013,Sociologie générale,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/sol-1013/,
+SOL 1967,Sociologie du vieillissement,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/sol-1967/,
+SOL 3201,Développement international,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/sol-3201/,

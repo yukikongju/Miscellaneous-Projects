@@ -1,0 +1,102 @@
+Sigle,Titre,Credit,url,Prerequisites
+BCM 2003,Application d'outils bio-informatiques,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/bcm-2003/,BCM2502 ou BIO1101
+BIN 1002,Intégration biosciences et informatique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/bin-1002/,
+BIN 3002,Intégration biosciences et informatique 2,4.0,https://admission.umontreal.ca/cours-et-horaires/cours/bin-3002/,BCM2502 ET IFT2015 et (BIO2041 ou MAT1978 ou STT1700)
+BIN 3005,Stage en laboratoire de recherche,6.0,https://admission.umontreal.ca/cours-et-horaires/cours/bin-3005/,BCM2003 ET IFT2015 et (BIO2041 ou MAT1978 ou STT1700)
+IFT 1015,Programmation 1,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-1015/,
+IFT 1025,Programmation 2,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-1025/,IFT1015 ou IFT1016
+IFT 1065,Structures discrètes en informatique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-1065/,Collège 201-103-77 et 201-105-77.
+IFT 2015,Structures de données,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-2015/,IFT1025 et IFT1065
+BCM 1501,Origine biochimique de la vie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/bcm-1501/,
+BCM 1503,Acides nucléiques et génétique 1,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/bcm-1503/,BCM1501
+BCM 2002,T.P. de biologie moléculaire,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/bcm-2002/,BCM1503 et BCM1521
+BCM 2004,Évolution moléculaire,2.0,https://admission.umontreal.ca/cours-et-horaires/cours/bcm-2004/,BCM1501 ET BCM1503
+BCM 2502,Acides nucléiques et génétique 2,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/bcm-2502/,BCM1503 OU BIO1204
+MAT 1400,Calcul 1,4.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-1400/,
+MAT 1600,Algèbre linéaire,4.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-1600/,
+BIO 2043,Statistique pratique pour sciences de la vie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/bio-2043/,
+MAT 1978,Probabilités et statistique,4.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-1978/,(IFT1063 OU IFT1065) ET MAT1400
+STT 1700,Introduction à la statistique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-1700/,
+IFT 1005,Design et développement Web,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-1005/,
+IFT 1215,Introduction aux systèmes informatiques,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-1215/,
+IFT 1575,Modèles de recherche opérationnelle,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-1575/,
+IFT 2035,Concepts des langages de programmation,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-2035/,IFT1025
+IFT 2105,Introduction à l'informatique théorique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-2105/,IFT1015 et IFT1065
+IFT 2125,Introduction à l'algorithmique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-2125/,
+IFT 2255,Génie logiciel,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-2255/,IFT1025
+IFT 2425,Introduction aux algorithmes numériques,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-2425/,"IFT1015, MAT1400 et MAT1600"
+IFT 2905,Interfaces personne-machine,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-2905/,IFT1025; Équivalents: IFT2905/IFT3904
+IFT 2935,Bases de données,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-2935/,IFT2015; Équivalents: IFT2935/IFT3030
+IFT 3295,Bio-informatique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-3295/,IFT2015; Équivalents: IFT3295/IFT3290
+IFT 3355,Infographie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-3355/,IFT2015; Équivalents: IFT3355/IFT3350
+BCM 1502,Fondements du métabolisme,4.0,https://admission.umontreal.ca/cours-et-horaires/cours/bcm-1502/,BCM1501
+BCM 1521,Travaux pratiques de biochimie 1,2.0,https://admission.umontreal.ca/cours-et-horaires/cours/bcm-1521/,
+BCM 2501,Macromolécules biologiques,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/bcm-2501/,BCM2502 OU BIO1101
+BCM 2550,Programmation appliquée à la génomique,2.0,https://admission.umontreal.ca/cours-et-horaires/cours/bcm-2550/,
+BCM 3515,Éthique en biochimie,2.0,https://admission.umontreal.ca/cours-et-horaires/cours/bcm-3515/,
+BCM 3526,Génétique et génomique humaine,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/bcm-3526/,BCM2502
+BIO 1153,Biologie cellulaire,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/bio-1153/,
+CHM 1301,Chimie organique 1,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/chm-1301/,
+MCB 1979,Microbiologie générale,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mcb-1979/,
+ANG 1903,Anglais 3 (niveau B1.1),3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ang-1903/,ANG1902 ou compétence équivalente.; Équivalents:ANG1903/ANG1967/ANG1850
+ANG 1913,Lire en anglais 2 (niveau B2 sciences),3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ang-1913/,ANG1911 ou ANG1904; Équivalents:ANG1974/ANG1913
+ANG 1921,Écrire en anglais 1 (niveau B1),3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ang-1921/,ANG1902 ou compétence équivalente.
+ANT 1511,Évolution et comportement humain,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ant-1511/,
+BIO 1284,Évolution,2.0,https://admission.umontreal.ca/cours-et-horaires/cours/bio-1284/,
+BIO 1335,Biodiversité 1,2.0,https://admission.umontreal.ca/cours-et-horaires/cours/bio-1335/,
+BIO 1534,Physiologie végétale,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/bio-1534/,
+BIO 1634,Principes de physiologie animale,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/bio-1634/,
+BIO 1803,Écologie et environnement,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/bio-1803/,
+BIO 2306,Floristique du Québec,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/bio-2306/,
+BIO 2405,Microbiologie de l'environnement,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/bio-2405/,MCB1979 ou MCB1980
+BIO 3283,Principes d'évolution,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/bio-3283/,
+CHM 1302,Chimie organique 2,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/chm-1302/,CHM1301
+CHM 1990,Physicochimie générale 1,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/chm-1990/,
+CHM 3450,Éléments de cristallographie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/chm-3450/,
+DMO 1000,Introduction à la démographie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/dmo-1000/,
+GEO 1532,SIG1 - Cartographie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/geo-1532/,
+GEO 2512,SIG2 - Analyse spatiale,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/geo-2512/,GEO1532
+MAT 2531,Histoire des mathématiques,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2531/,
+PHI 1130,Philosophie des sciences,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/phi-1130/,
+PHI 1300,Philosophie de la connaissance,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/phi-1300/,
+PHI 1365,"Évolution, pensée et valeurs",3.0,https://admission.umontreal.ca/cours-et-horaires/cours/phi-1365/,
+PHI 2418,Éthique et politique de l'environnement,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/phi-2418/,
+PHY 1234,Introduction à la physique numérique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/phy-1234/,
+PHY 1973,Astrobiologie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/phy-1973/,
+POL 3235,Politiques scientifiques,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/pol-3235/,
+PSL 1982,Les bases du système nerveux,2.0,https://admission.umontreal.ca/cours-et-horaires/cours/psl-1982/,
+PSL 3062,Base neuronale des fonctions cérébrales,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/psl-3062/,
+PSY 1035,Psychologie physiologique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/psy-1035/,
+REI 1030,Gestion et fonctions de l'organisation,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/rei-1030/,
+SOL 3410,"Technosciences, culture et société",3.0,https://admission.umontreal.ca/cours-et-horaires/cours/sol-3410/,
+BCM 3525,Génétique des organismes modèles,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/bcm-3525/,BCM2502
+BIO 3203,Génétique évolutive,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/bio-3203/,BIO1203 OU BCM2502
+BIO 3204,Génétique des populations,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/bio-3204/,ANT1513 OU BCM1503 OU BIO1203
+PHL 3600,Pharmacogénétique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/phl-3600/,
+BCM 2503,Métabolisme moléculaire,2.0,https://admission.umontreal.ca/cours-et-horaires/cours/bcm-2503/,BCM1502
+BCM 2505,Enzymologie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/bcm-2505/,"BCM1501 OU BCM1531; Pour les étudiants du programme de bio-informatique, il est suggéré de suivre aussi préalablement le cours BCM 1502.; Équivalents: BCM2505/BCM2504"
+BCM 2532,Pratique de la communication en sciences,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/bcm-2532/,BCM2502
+BCM 2562,Biochimie clinique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/bcm-2562/,
+BCM 3512,Biochimie de la cellule,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/bcm-3512/,(BCM1501 et BCM2502) ou ((BCM1531 ou BCM1531A) et (BIO1203 ou BIO1204))
+BCM 3514,Régulation de l'expression génique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/bcm-3514/,BCM3512; Équivalents: BCM3514/BCM3571
+PBC 3060,Bases moléculaires des maladies humaines,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/pbc-3060/,
+PHL 2100,Principes de pharmacologie,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/phl-2100/,
+IFT 3065,Langages de programmation et compilation,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-3065/,IFT2035; Équivalents: IFT3065/IFT3060
+IFT 3225,Technologie de l'Internet,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-3225/,IFT1005 et IFT2015; Équivalents: IFT3225/IFT3220
+IFT 3911,Analyse et conception des logiciels,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-3911/,IFT2255; Équivalents: IFT3911/IFT3901
+IFT 3913,Qualité du logiciel et métriques,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-3913/,IFT2255; Équivalents: IFT3913/IFT3903
+IFT 2505,Optimisation linéaire,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-2505/,MAT1600
+IFT 3375,Informatique théorique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-3375/,IFT2105 et 27 crédits de sigle IFT; Équivalents: IFT3375/IFT3370
+IFT 3515,Optimisation non linéaire,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-3515/,MAT1600
+IFT 3545,Graphes et réseaux,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-3545/,
+IFT 3205,Traitement du signal,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-3205/,MAT1400 ET MAT1600; Équivalents: IFT3205/IFT3200
+IFT 3245,Simulation et modèles,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-3245/,IFT2015 ET (MAT1978 OU MAT1720 OU PHY2215); Équivalents: IFT3245/IFT3240
+IFT 3335,Intelligence artificielle : introduction,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-3335/,30 crédits de sigle IFT; Équivalents: IFT3335/IFT3330
+IFT 3395,Fondements de l'apprentissage machine,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-3395/,Préalables : IFT2125 et MAT1600 et (MAT1978 ou (MAT1720 et STT1700)); Équivalents: IFT3395/IFT3390
+IFT 3655,Modèles stochastiques,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-3655/,IFT2015 ET (MAT1978 OU MAT1720); Équivalents: IFT3655/IFT3651
+IFT 3700,Introduction à la science des données,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/ift-3700/,IFT2015 ET (MAT1978 OU MAT1720 OU STT1700)
+MAT 1720,Probabilités,4.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-1720/,
+MAT 2717,Processus stochastiques,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/mat-2717/,Préalables : MAT1600 et (MAT1720 ou MAT1978)
+STT 2000,Échantillonnage,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-2000/,
+STT 2700,Concepts et méthodes en statistique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-2700/,Préalables : (MAT1720 ou MAT1978) et STT1700
+STT 3510,Biostatistique,3.0,https://admission.umontreal.ca/cours-et-horaires/cours/stt-3510/,STT2700
