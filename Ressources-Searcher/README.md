@@ -1,7 +1,7 @@
 # Ressources Searcher
 
 Search for course lectures, lecture notes, youtube videos, pdf and 
-textbook of a subject you would like to learn
+textbook of a subject you would like to learn on youtube and google
 
 ## Usage
 
@@ -23,12 +23,12 @@ Flags:
 
 - [X] Wikipedia: List of {subject} topics, summary, links
 - [X] Youtube Course Playlist
-- [X] Google search: pdfs, lecture notes, slides, solutions
-- [.] Quora, Reddit, medium recommandations
+- [X] Google search: pdfs, lecture notes, slides, solutions, project
+- [X] Quora, Reddit, medium recommandations
+- [X] course website
 - [.] Textbooks: pdfdrive, zlib
 - [ ] Coursera, Edx
-- Blinkquist
-- course website
+- [ ] Blinkquist
 
 **Classes**
 

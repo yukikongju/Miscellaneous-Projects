@@ -15,8 +15,17 @@ A collection of random projects
 - [X] Immersive Reader Preparation
 - [X] Ressources Searcher
 - [X] nltk and Chatbot
+- [X] Rock Paper Scissors Lizard Spock in Rust
+- [X] Mouse Wiggler
 - [ ] Generating Code with GPT
+- [ ] Text Generation: https://www.tensorflow.org/text/tutorials/text_generation
+- [ ] Quantum COmputing with Qiskit
+- [ ] Starcraft AI from sentdex
+- [ ] Tron Legacy Reinforcement Learning
 - [ ] RSA
+- [ ] Weather API
+- [ ] Morse Code
+- [ ] QR Code Generator
 - [ ] Fast Fourier Transform
 - [ ] NBA Tweets
 - [ ] Youtube Profile Analysis
