@@ -17,6 +17,7 @@ A collection of random projects
 - [X] nltk and Chatbot
 - [X] Rock Paper Scissors Lizard Spock in Rust
 - [X] Mouse Wiggler
+- [X] UdeM Curriculum Visualizer
 - [ ] Generating Code with GPT
 - [ ] Text Generation: https://www.tensorflow.org/text/tutorials/text_generation
 - [ ] Quantum COmputing with Qiskit

@@ -1,0 +1,13 @@
+teamID,teamName,gamesPlayed,wins,losses,scoresFor,scoresAgainst,opponentCompletions,opponentTurnovers,opponentBlocks
+rush,Rush,18,1.00,0.00,27.61,17.61,174.89,29.50,10.33
+union,Union,17,0.82,0.18,23.06,17.71,185.65,21.24,10.88
+radicals,Radicals,19,0.79,0.21,22.16,19.11,228.26,18.16,11.00
+empire,Empire,18,0.67,0.33,20.39,17.78,218.78,27.94,12.44
+alleycats,AlleyCats,17,0.53,0.47,23.29,21.76,231.12,20.41,11.53
+phoenix,Phoenix,17,0.53,0.47,20.47,20.53,190.12,28.88,16.94
+dragons,Dragons,16,0.38,0.63,19.13,22.19,233.56,29.00,17.00
+breeze,Breeze,16,0.25,0.75,18.31,23.63,188.88,22.56,14.69
+mechanix,Mechanix,16,0.25,0.75,18.25,23.31,254.13,20.50,15.50
+revolution,Revolution,16,0.25,0.75,18.25,23.00,209.00,18.75,12.94
+windchill,Wind Chill,16,0.25,0.75,20.94,22.19,208.56,23.44,16.44
+hammerheads,Hammerheads,16,0.13,0.88,17.25,22.88,198.13,28.25,16.81
