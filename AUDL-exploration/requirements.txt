@@ -1,0 +1,7 @@
+pandas
+pandas_profiling
+seaborn
+sklearn
+audl
+yaml
+

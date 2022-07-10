@@ -33,5 +33,23 @@ pip install -r requirements.txt
 - [ ] 
 
 
+## TODOs
+
+- [ ] Create config files
+- [ ] create templates directories
+
+Scripts:
+- [X] Schedule: Fetch all schedule
+- [ ] Team Game Stats
+- [ ] Player Game Stats
+
+
+Workflows:
+- [ ] Game Finder: Update Schedule every season
+- [ ] Team Game Stats: Update game stats every game in season
+- [ ] Player Game Stats: Update every game in season
+- [ ] Player Season and Playoffs Stats
+- [ ] 
+
 
 ## Ressources
