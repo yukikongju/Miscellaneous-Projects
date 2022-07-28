@@ -31,7 +31,14 @@ Todos:
 - [X] [python-edgar API](https://pypi.org/project/python-edgar/) [NO]
 
 **Yahoo Finance API**
+- [X] https://pypi.org/project/yfinance/
 
+**Getting Financial Data**
 
-
+- [ ] [Fundamental Analysis API](https://pypi.org/project/fundamentalanalysis/)
+- [ ] [Quandl API](https://github.com/quandl/quandl-python)
+- [ ] [Quantel API](https://github.com/RatherBland/Quantel)
+- [ ] [Fundamentals Quantifier Herodoku](https://fundamentals-quantifier.herokuapp.com/)
+- [X] [Stock Analysis](https://stockanalysis.com/stocks/wing/financials/)
+    - [X] Get 403 forbidden when get requests
 
