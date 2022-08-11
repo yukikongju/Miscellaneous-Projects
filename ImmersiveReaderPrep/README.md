@@ -20,3 +20,9 @@ that Word can render the book faster
 - pdf miner: https://github.com/euske/pdfminer
 - PyPDF2: https://github.com/mstamy2/PyPDF2/blob/master/Sample_Code/basic_features.py
 - sample: https://stackoverflow.com/questions/26358281/convert-pdf-to-doc-python-bash
+
+## Ressources
+
+- [Automate the Boring Stuffs](https://automatetheboringstuff.com/chapter13/)
+- [Group Docs Python SDK](https://www.talkhelper.com/how-to-convert-pdf-to-word-with-python/)
+

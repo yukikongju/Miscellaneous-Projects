@@ -2,6 +2,7 @@
 
 import os
 import glob
+#  import aspose.words as aw
 
 from docx import Document
 from pdf2docx import Converter, parse
@@ -59,9 +60,15 @@ class Reader(object):
         
     def _convertPdfToWord(self, pdf_file, doc_file):
         converter = Converter(pdf_file)
-        converter.convert(doc_file, start=0, end=None)
+        #  converter.convert(doc_file, start=0, end=None)
+        converter.convert(doc_file)
         converter.close()
         #  parse(pdf_file, doc_file, start=0, end=None)
+
+
+#  def test_aspose(pdffile):
+#      doc = aw.Document(pdffile)
+#      doc.save(pdffile.replace('.pdf', '.docx'))
 
 
 if __name__ == "__main__":
@@ -71,4 +78,10 @@ if __name__ == "__main__":
     #  splitter.splitPDF()
     reader = Reader(filepath, dirpath)
     reader.convertAllPdfToWord()
+
+    # test aspose
+
+    #  test_aspose(filepath)
+
+
         

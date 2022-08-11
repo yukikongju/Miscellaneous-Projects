@@ -4,4 +4,6 @@ sudo apt-get install python3-tk
 pip install python-docx
 pip install docx2txt
 pip install pdf2docx
+pip install aspose-words
+pip install aspose-cells
 
