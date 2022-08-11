@@ -18,6 +18,8 @@ A collection of random projects
 - [X] Rock Paper Scissors Lizard Spock in Rust
 - [X] Mouse Wiggler
 - [X] UdeM Curriculum Visualizer
+- [ ] Text Counter in Rust
+- [ ] Morse Code
 - [ ] Generating Code with GPT
 - [ ] Text Generation: https://www.tensorflow.org/text/tutorials/text_generation
 - [ ] Quantum COmputing with Qiskit
@@ -25,7 +27,6 @@ A collection of random projects
 - [ ] Tron Legacy Reinforcement Learning
 - [ ] RSA
 - [ ] Weather API
-- [ ] Morse Code
 - [ ] QR Code Generator
 - [ ] Fast Fourier Transform
 - [ ] NBA Tweets

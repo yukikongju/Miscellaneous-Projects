@@ -37,6 +37,7 @@ Todos:
 
 - [ ] [Fundamental Analysis API](https://pypi.org/project/fundamentalanalysis/)
 - [ ] [Quandl API](https://github.com/quandl/quandl-python)
+- [ ] [Morningstar API]
 - [ ] [Quantel API](https://github.com/RatherBland/Quantel)
 - [ ] [Fundamentals Quantifier Herodoku](https://fundamentals-quantifier.herokuapp.com/)
 - [X] [Stock Analysis](https://stockanalysis.com/stocks/wing/financials/)

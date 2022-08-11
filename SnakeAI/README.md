@@ -29,10 +29,6 @@ Play against a snake AI
 - input: states (x11)
 - output: action (x3)
 
-
-
-
-
 # Ressources
 
 - [Teach AI to play Snake - Python Engineer](https://www.youtube.com/playlist?list=PLqnslRFeH2UrDh7vUmJ60YrmWd64mTTKV)
