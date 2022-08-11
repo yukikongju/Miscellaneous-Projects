@@ -2,6 +2,8 @@
 
 EDA for AUDL stats
 
+
+
 # Requirements
 
 ```bash
@@ -35,13 +37,16 @@ pip install -r requirements.txt
 
 ## TODOs
 
-- [ ] Create config files
+- [X] Create config files
 - [ ] create templates directories
 
 Scripts:
 - [X] Schedule: Fetch all schedule
-- [ ] Team Game Stats
-- [ ] Player Game Stats
+- [X] Team Game Stats
+- [ ] Player Stats: get player regular and playoffs career
+- [ ] Team Stats (by season, career) (need to code agg team + opponent first)
+- [ ] Player Game Stats: get_roster_stats() for all games or get_game_stats() for 
+      each player (how to update efficiently)
 
 
 Workflows:
@@ -50,6 +55,15 @@ Workflows:
 - [ ] Player Game Stats: Update every game in season
 - [ ] Player Season and Playoffs Stats
 - [ ] 
+
+# How to
+
+**Read from Sqlite3**
+
+```bash
+sqlite3 audl.db 'select * from schedule' >> tmp.csv
+```
+
 
 
 ## Ressources

@@ -22,7 +22,7 @@ db_file = configs['database']['path']
 # Step 1: Create SQL Connection
 connection = create_connection(db_file)
 
-# Step 2: Fetch Data
+# Step 2: Fetch Data => fetching game stats
 team_game_stats = AllTeamGameStats().get_game_stats()
 
 # Step 3: save table to db
