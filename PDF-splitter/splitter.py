@@ -32,6 +32,9 @@ def create_subpdf(data):
     output_dir = data['output_dir']
     chapters = data['chapters']
 
+    # initialize page scaler
+    #  scaler = Transformation().scale(sx=0.6, sy=0.7)
+
     # create output_dir
     if not os.path.exists(output_dir):
         os.mkdir(output_dir)
@@ -39,7 +42,7 @@ def create_subpdf(data):
     # read pdf 
     with open(pdf_file, 'rb') as pdf_file:
         # initialize pdf reader and writer
-        reader = PdfFileReader(pdf_file)
+        reader = PdfFileReader(pdf_file, strict = False)
 
         #  split pdf into sub pdfs
         for chapter in chapters:
@@ -49,6 +52,7 @@ def create_subpdf(data):
             writer = PdfFileWriter()
             for i in range(start_page, end_page):
                 page = reader.getPage(i)
+                #  page.addTransformation(scaler)
                 writer.addPage(page)
             subpdf_name = f"{output_dir}/{chapter_name}.pdf"
             with open(subpdf_name, 'wb') as stream:
@@ -58,7 +62,10 @@ def create_subpdf(data):
 
 def main():
     # read json file
-    json_file = "PDF-splitter/configs/interpreters.json"
+    #  json_file = "PDF-splitter/configs/crafting_interpreters.json"
+    #  json_file = "PDF-splitter/configs/grokking_deep_learning.json"
+    #  json_file = "PDF-splitter/configs/pevzner_bioinformaticsI.json"
+    json_file = "PDF-splitter/configs/pevzner_bioinformaticsII.json"
     data = read_json(json_file)
 
     # create subpdfs

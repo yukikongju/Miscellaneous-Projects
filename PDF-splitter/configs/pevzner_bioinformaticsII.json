@@ -1,0 +1,12 @@
+{
+    "pdf_file": "PDF-splitter/books/pevzner_bioinformaticsII.pdf", 
+    "output_dir": "PDF-splitter/splits/pevzner_bioinformatics",
+    "chapters": [
+	{"name": "Coding Challenges II", "start_page": 17, "end_page": 19}, 
+	{"name": "Chap 7 - Where in the genome does DNA replication begin", "start_page": 24, "end_page": 90}, 
+	{"name": "Chap 8 - How did yeast become a winemaker", "start_page": 90, "end_page": 142}, 
+	{"name": "Chap 9 - How do we locate disease-causing mutations", "start_page": 142, "end_page": 199}, 
+	{"name": "Chap 10 - Why have biologists still not developed and HIV vaccine", "start_page": 200, "end_page": 255}, 
+	{"name": "Chap 11 - Was T-rex just a big chicken", "start_page": 256, "end_page": 307}
+    ]
+}

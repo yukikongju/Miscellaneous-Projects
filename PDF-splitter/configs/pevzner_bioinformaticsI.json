@@ -1,0 +1,13 @@
+{
+    "pdf_file": "PDF-splitter/books/pevzner_bioinformaticsI.pdf", 
+    "output_dir": "PDF-splitter/splits/pevzner_bioinformatics",
+    "chapters": [
+	{"name": "Coding Challenges I", "start_page": 18, "end_page": 21}, 
+	{"name": "Chap 1 - Where in the genome does DNA replication begin", "start_page": 26, "end_page": 90}, 
+	{"name": "Chap 2 - Which DNA patterns play the role of molecular clocks", "start_page": 90, "end_page": 140}, 
+	{"name": "Chap 3 - How do we assemble genome", "start_page": 140, "end_page": 206}, 
+	{"name": "Chap 4 - How do we sequence antibiotics", "start_page": 206, "end_page": 246}, 
+	{"name": "Chap 5 - How do wwe compare DNA sequences", "start_page": 246, "end_page": 316}, 
+	{"name": "Chap 6 - Are there fragile regions in the human genome", "start_page": 316, "end_page": 373}
+    ]
+}

@@ -1,0 +1,19 @@
+{
+    "pdf_file": "PDF-splitter/books/grokking_deep_learning.pdf", 
+    "output_dir": "PDF-splitter/splits/grokking_deep_learning",
+    "chapters": [
+	{"name": "Chap 1 - Intro to DL", "start_page": 24, "end_page": 54}, 
+	{"name": "Chap 2 - Mathematical Foundations of RL", "start_page": 54, "end_page": 88}, 
+	{"name": "Chap 3 - Balancing Immediate and Long-Term Goals", "start_page": 88, "end_page": 120}, 
+	{"name": "Chap 4 - Balancing the Gathering and use of information", "start_page": 120, "end_page": 154}, 
+	{"name": "Chap 5 - Evaluating Agents Behaviors", "start_page": 154, "end_page": 190}, 
+	{"name": "Chap 6 - Improving Agents Behaviors", "start_page": 190, "end_page": 226}, 
+	{"name": "Chap 7 - Achieving goals more effectively and efficiently", "start_page": 226, "end_page": 262}, 
+	{"name": "Chap 8 - Intro to value-based deep RL", "start_page": 262, "end_page": 298}, 
+	{"name": "Chap 9 - More Stable value-based methods", "start_page": 298, "end_page": 332}, 
+	{"name": "Chap 10 - Sample-efficient value-based methods", "start_page": 332, "end_page": 362}, 
+	{"name": "Chap 11 - Policy-Grdient and actor-critic methods", "start_page": 362, "end_page": 398}, 
+	{"name": "Chap 12 - Advanced actor-critic methods", "start_page": 398, "end_page": 434}, 
+	{"name": "Chap 13 - Toward Artificial General Intelligence", "start_page": 434, "end_page": 460}
+    ]
+}
