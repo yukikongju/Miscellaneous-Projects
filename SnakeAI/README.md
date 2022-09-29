@@ -3,6 +3,15 @@
 Play against a snake AI
 
 
+## Agent to Implement
+
+- [ ] Path Finding Algorithms:
+    - [ ] A*
+    - [ ] Dijkstra
+- [ ] Reinforcement Learning Agent:
+    - [ ] Random Agent
+    - [ ] DQN
+
 
 # The Agent
 

@@ -1,7 +1,10 @@
 import pygame
 import random
+import numpy as np
 from enum import Enum
 from collections import namedtuple
+
+from agent import NaiveAgent
 
 pygame.init()
 font = pygame.font.Font('SnakeAI/arial.ttf', 25)
@@ -35,6 +38,9 @@ class SnakeGame:
         self.clock = pygame.time.Clock()
         
         # init game state
+        self.reset_game()
+
+    def reset_game(self):
         self.direction = Direction.RIGHT
         
         self.head = Coordinate(self.width/2, self.height/2)
@@ -45,7 +51,8 @@ class SnakeGame:
         self.score = 0
         self.food = None
         self._place_food()
-        
+        self.iteration = 0
+
     def _place_food(self):
         x = random.randint(0, (self.width-BLOCK_SIZE )//BLOCK_SIZE )*BLOCK_SIZE 
         y = random.randint(0, (self.height-BLOCK_SIZE )//BLOCK_SIZE )*BLOCK_SIZE
@@ -53,33 +60,40 @@ class SnakeGame:
         if self.food in self.snake:
             self._place_food()
         
-    def play_step(self):
-        # 1. collect user input
+    def play_step(self, action):
+        self.iteration += 1
+        reward = 0
+
+        # 1. check if user ends game
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LEFT:
-                    self.direction = Direction.LEFT
-                elif event.key == pygame.K_RIGHT:
-                    self.direction = Direction.RIGHT
-                elif event.key == pygame.K_UP:
-                    self.direction = Direction.UP
-                elif event.key == pygame.K_DOWN:
-                    self.direction = Direction.DOWN
         
-        # 2. move
-        self._move(self.direction) # update the head
+        # get agent move
+        if action == 'LEFT':
+            self.direction = Direction.LEFT
+        elif action == 'RIGHT':
+            self.direction = Direction.RIGHT
+        elif action == 'UP':
+            self.direction = Direction.UP
+        elif action == 'DOWN':
+            self.direction = Direction.DOWN
+
+
+        # 2. agent choose move
+        self._move(self.direction) 
         self.snake.insert(0, self.head)
         
         # 3. check if game over
-        if self._is_dead():
-            return True, self.score
+        ITERATION_LIMIT = 100*len(self.snake)
+        if self._is_dead() or self.iteration > ITERATION_LIMIT:
+            return -10, True, self.score # return score, isgameover, score
             
         # 4. place new food or just move
         if self.head == self.food:
             self.score += 1
+            reward -= 10 
             self._place_food()
         else:
             self.snake.pop()
@@ -87,8 +101,9 @@ class SnakeGame:
         # 5. update ui and clock
         self._update_ui()
         self.clock.tick(SPEED)
+
         # 6. return game over and score
-        return False, self.score
+        return 0, False, self.score
     
     def _is_dead(self):
         # hits walls 
@@ -114,6 +129,22 @@ class SnakeGame:
         pygame.display.flip()
         
     def _move(self, direction):
+        # [stragith, right, left]
+
+        #  directions = [Direction.RIGHT, Direction.DOWN, Direction.LEFT, Direction.UP]
+        #  idx = directions.index(self.direction)
+
+        #  if np.array_equal(action, [1,0,0]): # go straight
+        #      new_dir = directions[idx]
+        #  elif np.array_equal(action, [0,1,0]): # right turn
+        #      new_idx = (idx +1)%4
+        #      new_dir = directions[new_idx]
+        #  else: # [0,0,1] left turn
+        #      new_idx = (idx -1)%4
+        #      new_dir = directions[new_idx]
+
+        #  self.direction = new_dir
+
         x = self.head.x
         y = self.head.y
         if direction == Direction.RIGHT:
@@ -128,12 +159,28 @@ class SnakeGame:
         self.head = Coordinate(x, y)
             
 
-if __name__ == '__main__':
+
+
+def get_random_action(last_action):
+    if last_action:
+        choices = ACTION_MAPPING.get(last_action)
+    else: 
+        choices = ACTION_SPACE.copy()
+
+    action = random.sample(choices, k=1)[0]
+    return action
+    
+
+def play():
     game = SnakeGame()
+    agent = NaiveAgent()
     
     # game loop
     while True:
-        game_over, score = game.play_step()
+        action = agent.get_action()
+        last_action = action
+
+        reward, game_over, score = game.play_step(action)
         
         if game_over == True:
             break
@@ -142,3 +189,10 @@ if __name__ == '__main__':
         
         
     pygame.quit()
+    
+
+
+if __name__ == '__main__':
+    play()
+    #  print(get_random_action(None))
+    #  print(get_random_action('LEFT'))
