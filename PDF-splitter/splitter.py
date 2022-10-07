@@ -62,7 +62,8 @@ def create_subpdf(data):
 
 def main():
     # read json file
-    json_file = "PDF-splitter/configs/crafting_interpreters.json"
+    json_file = "PDF-splitter/configs/computer_vision_stanford.json"
+    #  json_file = "PDF-splitter/configs/crafting_interpreters.json"
     #  json_file = "PDF-splitter/configs/grokking_deep_learning.json"
     #  json_file = "PDF-splitter/configs/pevzner_bioinformaticsI.json"
     #  json_file = "PDF-splitter/configs/pevzner_bioinformaticsII.json"

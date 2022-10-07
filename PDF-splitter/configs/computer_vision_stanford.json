@@ -1,0 +1,25 @@
+{
+    "pdf_file": "PDF-splitter/books/computer_vision_stanford.pdf", 
+    "output_dir": "PDF-splitter/splits/computer_vision_stanford",
+    "chapters": [
+	{"name": "Chap 1 - Introduction to Computer Vision", "start_page": 16, "end_page": 24}, 
+	{"name": "Chap 2 - Color", "start_page": 24, "end_page": 30}, 
+	{"name": "Chap 3 - Linear Algebra", "start_page": 30, "end_page": 44}, 
+	{"name": "Chap 4 - Pixels and Filters", "start_page": 44, "end_page": 54}, 
+	{"name": "Chap 5 - Edge Detection", "start_page": 54, "end_page": 70}, 
+	{"name": "Chap 6 - Features and Fitting", "start_page": 70, "end_page": 80}, 
+	{"name": "Chap 7 - Feature Descriptors", "start_page": 80, "end_page": 88}, 
+	{"name": "Chap 8 - Image Resizing", "start_page": 88, "end_page": 100}, 
+	{"name": "Chap 9 - Semantic Segmentation", "start_page": 100, "end_page": 106}, 
+	{"name": "Chap 10 - Clustering", "start_page": 106, "end_page": 120}, 
+	{"name": "Chap 11 - Object Recognition", "start_page": 120, "end_page": 132}, 
+	{"name": "Chap 12 - Dimension Reduction", "start_page": 132, "end_page": 138}, 
+	{"name": "Chap 13 - Face Identification", "start_page": 138, "end_page": 150}, 
+	{"name": "Chap 14 - Visual Bag of Words", "start_page": 150, "end_page": 160}, 
+	{"name": "Chap 15 - Object Detection from Deformable Parts", "start_page": 160, "end_page": 180}, 
+	{"name": "Chap 16 - Semantic Hierarchies and Fine Grained Recognition", "start_page": 180, "end_page": 188}, 
+	{"name": "Chap 17 - Motion", "start_page": 188, "end_page": 200}, 
+	{"name": "Chap 18 - Tracking", "start_page": 200, "end_page": 208}
+    ]
+}
+
