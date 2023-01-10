@@ -5,6 +5,8 @@ Autoclicker for differents arcade games
 ## Bot
 
 - [X] Piano Tiles
+- [X] AimBooster
+- [ ] Dinosaur Bot
 
 ## Usage
 
@@ -16,6 +18,14 @@ The bot is quite slow using `pyautogui`. I will use `win32gui` on windows
 
 Run `python3 pianotiles_bot.py` whilst opening the game on the left half of 
 your 1920x1080 monitor screen
+
+**How to use AimBooster Bot**
+
+[game](http://www.aimbooster.com/)
+
+
+Run `python3 aimbooster.py`
+
 
 
 ## Ressources
