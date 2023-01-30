@@ -17,8 +17,18 @@ class ChatBot(object):
 
 #  courses_list = ['Computer Graphics', 'Quantum Computing', 'Blockchain', 'Cryptography']
 #  courses_list = ['Computer Vision', 'Deep Learning', 'Deep Reinforcement Learning', 'Natural Language Processing']
-courses_list = ['Robotics', 'Machine Learning', 'Bioinformatics', 'Data Mining', 
-    'Data Science']
+#  courses_list = ['Robotics', 'Machine Learning', 'Bioinformatics', 'Data Mining', 'Data Science']
+courses_list = ['Number Theory', 'Differential Equations', 'Signal Processing', 
+        'Complex Analysis']
+courses_list = ['Probability Theory', 'Descriptive Statistics',
+    'Inferential Statistics', 'Linear Regression', 'Time Series Analysis', 
+    'Bayesian Statistics', 'Data Visualization']
+courses_list = ['Investments', 'Stochastic Processes', 'Corporate Finance', 
+    'Microeconomics', 'Macroeconomics', 'Life Contingencies', 'Casualty Contingencies']
+courses_list = ['Financial Market', 'Fixed Income Securities', 'Portfolio Theory', 
+    'Equities and Options', 'Risk Management', 'Econometrics', 'Fiancial Products', 
+    'Credit Risk Models', 'Foreign Exchange Models', 'Commodity Markets']
+
 
 def main():
     # init session token

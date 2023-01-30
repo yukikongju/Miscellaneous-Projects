@@ -1,5 +1,7 @@
 # Generating Prompts with ChatGPT
 
+Script to generate curriculum prompts on ChatGPT and save as markdown for vimwiki
+
 **Usage**
 
 1. Copy current-session cookie inside `session_token.txt`

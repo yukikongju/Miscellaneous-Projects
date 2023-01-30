@@ -9,7 +9,7 @@ class ChatBot(object):
 
     def init_bot(self):
         self.bot = ChatGPT(self.session_token)
-    
+
     def get_request(self, message):
         response = self.bot.send_message(message)
         return response['message']
@@ -17,8 +17,9 @@ class ChatBot(object):
 
 #  degrees_list = ['Pure Maths', 'Statistics']
 #  degrees_list = ['Actuarial Science', 'Quantitative Finance', 'Bioinformatics']
-degrees_list = ['Physics', 'Chemistry', 'Economy', 'History', 'Psychology', 
-                'Philosophy', 'Law', 'Medicine', 'Pharmacy']
+#  degrees_list = ['Chemistry', 'Economy', 'History', 'Psychology', 
+#                  'Philosophy', 'Law', 'Medicine', 'Pharmacy']
+#  degrees_list = ['Neurosciences', 'Physics']
 
 def main():
     # init session token
@@ -37,7 +38,8 @@ def main():
     # make request from ChatGPT
     for degree in degrees_list:
         # get request
-        message = f'generate complete curriculum for {degree}. Include all courses chapter, topics and description'
+        #  message = f"generate complete curriculum for {degree}. Include all courses chapter, topics, description, explanation and formula. For each chapter, please provide a short explanation of the most important concept and a formula to accompany it. If you can, list all the possible subfields. Be as precise as possible and provide more information. Find corresponding courses website from CMU, MIT, Stanford, Berkley and other Ivy league universities. Suggest ressources to use to learn and solutions.  Example: - Course: Real Analysis - Curriculum: - Video Lecture: - Website: https://www.stat.cmu.edu/~hseltman/309/Book/"
+        message = f"generate complete curriculum for {degree} and subfields"
         response = bot.get_request(message)
 
         # save response to markdown file
@@ -47,7 +49,7 @@ def main():
             f.write(title)
             f.write('\n')
             f.write(response)
-    
+
 
 if __name__ == "__main__":
     main()
