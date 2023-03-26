@@ -22,7 +22,7 @@ percentagedict_t init_dict_from_json() {
 	{"A_positive", 0.30}, 
 	{"A_negative", 0.08}, 
 	{"B_positive", 0.08}, 
-	{"B_negative", 0.0}, 
+	{"B_negative", 0.02}, 
 	{"AB_positive", 0.02}, 
 	{"AB_negative", 0.01}, 
     };
@@ -62,15 +62,10 @@ int main() {
     // create population
     Population population(percentage_dict, 100);
     population.runSimulation();
-    printCountDict(population.getTypeCount());
-    printSexDict(population.getSexCount());
 
     // get sexCount and typeCount
-
-
-
-
-
+    printCountDict(population.getTypeCount());
+    printSexDict(population.getSexCount());
 
 
     return 0;

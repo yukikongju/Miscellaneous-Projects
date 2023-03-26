@@ -22,7 +22,7 @@ A collection of random projects
 - [ ] Morse Code
 - [ ] Generating Code with GPT
 - [ ] Text Generation: https://www.tensorflow.org/text/tutorials/text_generation
-- [ ] Quantum COmputing with Qiskit
+- [ ] Quantum Computing with Qiskit
 - [ ] Starcraft AI from sentdex
 - [ ] Tron Legacy Reinforcement Learning
 - [ ] RSA
@@ -31,6 +31,7 @@ A collection of random projects
 - [ ] Fast Fourier Transform
 - [ ] NBA Tweets
 - [ ] Youtube Profile Analysis
+- [ ] Simulation: ELO rating, blood type
 - [ ] tf-idf and pdf searcher
 - [ ] Reinforcement Learning in Game Dev: SnakeAI
 - [ ] Creating a gym environment with CartPole
@@ -39,3 +40,5 @@ A collection of random projects
 - [ ] EDA Application
 - [ ] Streamlit Goodreads
 - [ ] Streamlit Github commit
+- [ ] Remove PDF Pages + reorder PDF
+- [ ] Social Network Analysis for Insta, Fb, ..

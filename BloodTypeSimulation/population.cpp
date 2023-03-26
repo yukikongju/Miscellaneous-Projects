@@ -1,6 +1,9 @@
 #include <iostream>
 #include <string>
 #include <unordered_map>
+#include <ctime>
+#include <cstdlib>
+#include <random>
 
 #include "individual.h"
 #include "population.h"
@@ -8,6 +11,7 @@
 typedef std::unordered_map<std::string, double> percentagedict_t;
 typedef std::unordered_map<std::string, int> countdict_t;
 typedef std::unordered_map<char, int> sexdict_t;
+
 
 // Constructor
 Population::Population(percentagedict_t percentageDict, int maxPopulation) {
@@ -43,19 +47,24 @@ void Population::runSimulation() {
 
 }
 
+// Generate blood type for individual following initial distribution
 std::string Population::getInitType() {
     // Generate a random number between 0 and 1 (inclusive)
-    double randNum = static_cast<double>(std::rand()) / RAND_MAX;
+    std::mt19937 gen(std::random_device{}());
+    std::uniform_real_distribution<double> dis(0.0, 1.0);
+    std::string lastKey = "";
+    double randNum = dis(gen);
 
     // Iterate over the key-value pairs in the hashmap
     double runningTotal = 0.0;
     for (auto const pair: percentageDict) {
-        runningTotal += pair.second;
-        if (runningTotal >= randNum) {
+	runningTotal += pair.second;
+	if (runningTotal >= randNum) {
 	    return pair.first;
-        }
+	}
+	lastKey = pair.first;
     }
-    return "Error";
+    return lastKey;
 }
 
 

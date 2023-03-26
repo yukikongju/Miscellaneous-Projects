@@ -20,12 +20,10 @@ each having their own assumptions:
 - each individual may or not procreate. Once the individual procreates, the odds that they have another child diminishes by an exponential rate
 
 
-## Classes
+## TODOs
 
-- [ ] Individual
-- [ ] Population
-    - Blood type distribution
-    - number of males, females individuals
+- [ ] generate individual based on parent 
+- [ ] create hashmap class with `template` for generic types
 
 
 ## Ressources
