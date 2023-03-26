@@ -17,13 +17,14 @@ typedef std::unordered_map<char, int> sexdict_t;
 Population::Population(percentagedict_t percentageDict, int maxPopulation) {
     this->percentageDict = percentageDict;
     this->maxPopulation = maxPopulation;
+    initSimulation();
 }
 
 // Destructor
 Population::~Population() {}
 
 
-void Population::runSimulation() {
+void Population::initSimulation() {
     // init sexCount and typeCount hashmap dict
     sexCount['F'] = 0;
     sexCount['M'] = 0;
@@ -42,6 +43,8 @@ void Population::runSimulation() {
 	// increment sexCount and typeCount
 	sexCount[bb.getSex()] += 1; 
 	typeCount[bb.getType()] += 1;
+
+	// TODO: add individuals to female and male list
 
     }
 

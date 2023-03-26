@@ -5,6 +5,8 @@
 #include <string>
 #include <unordered_map>
 
+#include "individual.h"
+
 typedef std::unordered_map<std::string, double> percentagedict_t;
 typedef std::unordered_map<std::string, int> countdict_t;
 typedef std::unordered_map<char, int> sexdict_t;
@@ -25,7 +27,7 @@ public:
 	Population(std::unordered_map<std::string, double> percentageDict, 
 		int maxPopulation);
 	~Population();
-	void runSimulation();
+	void initSimulation();
 	sexdict_t getSexCount();
 	countdict_t getTypeCount();
 

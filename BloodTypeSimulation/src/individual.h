@@ -14,6 +14,8 @@ private:
 	double wantsToProcreate; // between 0 and 1
 	int timeSinceLastChild;
 	char initSex();
+	Individual* parentF; // pointer to female parent
+	Individual* parentM; // pointer to male parent
 
 public:
 

@@ -60,8 +60,8 @@ int main() {
     std::unordered_map<std::string, double> percentage_dict = init_dict_from_json();
 
     // create population
-    Population population(percentage_dict, 100);
-    population.runSimulation();
+    Population population(percentage_dict, 500);
+    // population.initSimulation();
 
     // get sexCount and typeCount
     printCountDict(population.getTypeCount());

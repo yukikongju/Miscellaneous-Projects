@@ -1,8 +1,24 @@
-compile: 
-	g++ -c main.cpp -o main.o
-	g++ -c individual.cpp -o individual.o
-	g++ -c population.cpp -o population.o
-	g++ main.o individual.o population.o -o mainprogram
+CXX := g++
+CXXFLAGS := -Wall -Wextra -std=c++17
+SRCDIR := src
+OBJDIR := obj
+TARGET := project
+
+SRCS := $(wildcard $(SRCDIR)/*.cpp)
+OBJS := $(SRCS:$(SRCDIR)/%.cpp=$(OBJDIR)/%.o)
+
+.PHONY: all clean
+
+all: $(TARGET)
+
+$(TARGET): $(OBJS)
+	$(CXX) $(CXXFLAGS) -o $@ $^
+
+$(OBJDIR)/%.o: $(SRCDIR)/%.cpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+clean:
+	rm -f $(OBJS) $(TARGET)
 
 run: 
-	./mainprogram
+	./$(TARGET)

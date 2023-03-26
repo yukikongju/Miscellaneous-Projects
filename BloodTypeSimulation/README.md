@@ -19,11 +19,21 @@ each having their own assumptions:
 - each individual dies after a randomly generated time that follows a poisson distribution. we assume that individual from different type have the same expected longevity 
 - each individual may or not procreate. Once the individual procreates, the odds that they have another child diminishes by an exponential rate
 
+## How to run
+
+1. `make clean`
+2. `make`
+3. `./project`
 
 ## TODOs
 
-- [ ] generate individual based on parent 
-- [ ] create hashmap class with `template` for generic types
+- [X] init simulation with individuals
+- [ ] run simulation for n steps: generate individual based on parent 
+	- every time steps: there are k newborns (k is randomly generated)
+	- assumption: nobody dies, individual can start to mate as soon as they are born
+	- assumption: when parent mates, we put them at the end of the list
+
+- [ ] create hashmap class with `template` for generic types: CountDict; PercDict
 
 
 ## Ressources
