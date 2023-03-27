@@ -12,10 +12,11 @@
 
 
 // Constructor
-Population::Population(HashMap<std::string, double> percentageDict, int maxPopulation) {
-// Population::Population(std::unordered_map<std::string, double> percentageDict, int maxPopulation) {
+Population::Population(HashMap<std::string, double> percentageDict, int maxPopulationCount,
+	int initialPopulationCount) {
     this->percentageDict = percentageDict;
-    this->maxPopulation = maxPopulation;
+    this->maxPopulationCount = maxPopulationCount;
+    this->initialPopulationCount = initialPopulationCount;
     initSimulation();
 }
 
@@ -23,34 +24,64 @@ Population::Population(HashMap<std::string, double> percentageDict, int maxPopul
 Population::~Population() {}
 
 
+// initialize population
 void Population::initSimulation() {
-    // init sexCount and typeCount hashmap dict
-    sexCount.put('F', 0);
-    sexCount.put('M', 0);
-    // sexCount['F'] = 0;
-    // sexCount['M'] = 0;
-    for (const auto& pair: percentageDict) {
-	// typeCount[pair.first] = 0;
-	percentageDict.put(pair.first, pair.second);
-    }
-
-    // generate population
-    for (int i = 0; i < maxPopulation; i++) {
+    for (int i = 0; i < initialPopulationCount; i++) {
 	// generate individual type
 	std::string type = getInitType();
 
 	// generate new individual
 	Individual bb(type);
 
-	// increment sexCount and typeCount
-	sexCount.add(bb.getSex());
-	typeCount.add(bb.getType());
-
-	// TODO: add individuals to female and male list
+	// add individuals to female and male list
+	if (bb.getSex() == 'F') {
+	    females.push_back(bb);
+	} else { // 'M'
+	    males.push_back(bb);
+	}
 
     }
 
 }
+
+// show sexCount and typeCount statistics
+void Population::showStatistics() { 
+    Count<std::string> typeCount;
+    Count<char> sexCount; 
+
+    // add males and females
+    for (auto ind = females.begin(); ind != females.end(); ++ind) {
+	typeCount.add(ind->getType());
+	sexCount.add(ind->getSex());
+    }
+    for (auto ind = males.begin(); ind != males.end(); ++ind) {
+	typeCount.add(ind->getType());
+	sexCount.add(ind->getSex());
+    }
+
+    // sex count and perc
+    std::cout << "Sex Count and Percentage\n";
+    sexCount.print();
+    sexCount.computePercentages().print();
+
+    // type count and perc
+    std::cout << "\nType Count and Percentage\n";
+    typeCount.print();
+    typeCount.computePercentages().print();
+
+}
+
+void Population::runSimulation() { // TODO:
+    Individual* mom = new Individual("O_positive", 'F');
+    Individual* dad=new Individual("B_negative", 'M');
+    for (int i = 0; i < maxPopulationCount; i++) {
+	Individual bb(mom, dad);
+    }
+
+}
+
+
+
 
 // Generate blood type for individual following initial distribution
 std::string Population::getInitType() {
@@ -77,10 +108,3 @@ std::string Population::getInitType() {
 *                         Getter and Setters                         *
 **********************************************************************/
 
-Count<char> Population::getSexCount() {
-    return sexCount;
-}
-
-Count<std::string> Population::getTypeCount() {
-    return typeCount;
-}

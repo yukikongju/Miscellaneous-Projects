@@ -8,29 +8,30 @@
 #include "individual.h"
 #include "HashMap.h"
 #include "Count.h"
+#include <list>
+
 
 
 class Population {
 
 private:
-    int maxPopulation;
+    int initialPopulationCount;
+    int maxPopulationCount;
     int populationCount;
 	
     HashMap<std::string, double> percentageDict;
-    Count<std::string> typeCount;
-    Count<char> sexCount; // {'F': 50, 'M':52}
-
+    std::list<Individual> females;
+    std::list<Individual> males;
 
     std::string getInitType();
-	
+    void initSimulation();
 
 public:
-	Population(HashMap<std::string, double> percentageDict, int maxPopulation);
+	Population(HashMap<std::string, double> percentageDict, int initialPopulationCount, int maxPopulationCount);
 	~Population();
-	void initSimulation();
+	void runSimulation();
+	void showStatistics();
 	
-	Count<std::string> getTypeCount();
-	Count<char> getSexCount();
 
 };
 

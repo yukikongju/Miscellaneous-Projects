@@ -28,12 +28,13 @@ each having their own assumptions:
 ## TODOs
 
 - [X] init simulation with individuals
+- [X] create hashmap class with `template` for generic types: CountDict; PercDict
 - [ ] run simulation for n steps: generate individual based on parent 
 	- every time steps: there are k newborns (k is randomly generated)
 	- assumption: nobody dies, individual can start to mate as soon as they are born
 	- assumption: when parent mates, we put them at the end of the list
-
-- [ ] create hashmap class with `template` for generic types: CountDict; PercDict
+	- [ ] In `individual`: `initType` based on parents
+	- [ ] In `population`: `runSimulation`: find mom and dad from list of males and females
 
 
 ## Ressources

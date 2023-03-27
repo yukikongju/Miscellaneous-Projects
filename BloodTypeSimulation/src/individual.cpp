@@ -5,11 +5,35 @@
 
 // Constructor
 Individual::Individual(std::string type) {
-	this->type = type;
-	this->sex = Individual::initSex();
-	this->age = 1;
-	this->timeSinceLastChild = -1;
+    this->type = type;
+    this->sex = Individual::initSex();
+    this->age = 1;
+    this->timeSinceLastChild = -1;
+    this->parentF= nullptr;
+    this->parentM= nullptr;
+
 }
+
+Individual::Individual(std::string type, char sex) {
+    this->type = type;
+    this->sex = sex;
+    this->age = 1;
+    this->timeSinceLastChild = -1;
+    this->parentF= nullptr;
+    this->parentM= nullptr;
+}
+
+Individual::Individual(Individual* mom, Individual* dad) {
+    this->sex = Individual::initSex();
+    this->age = 1;
+    this->timeSinceLastChild = -1;
+
+    this->parentF=mom;
+    this->parentM=dad;
+
+    this->type = initType();
+}
+
 
 // Destructor
 Individual::~Individual() {}
@@ -21,6 +45,10 @@ char Individual::initSex(){
 	return 'F';
     }
     return 'M';
+}
+
+std::string Individual::initType() { // TODO:
+    return "O_positive";
 }
 
 /**********************************************************************

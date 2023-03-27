@@ -14,7 +14,7 @@
 using json = nlohmann::json;
 
 
-HashMap<std::string, double> init_dict_from_json() {
+HashMap<std::string, double> initDictFromJSON() {
     json j = {
         {"O_positive", 0.3}, 
 	{"O_negative", 0.13}, 
@@ -35,22 +35,34 @@ HashMap<std::string, double> init_dict_from_json() {
     return percentageDict;
 }
 
+void testCount() {
+    Count<std::string> myCount;
+
+    myCount.add("apple");
+    myCount.add("banana");
+    myCount.add("apple");
+    myCount.add("cherry");
+    myCount.add("banana");
+    myCount.add("banana");
+
+    myCount.print();
+}
+
 
 int main() {
+    // testCount();
+
     // init percentage dict from json
-    HashMap<std::string, double> percentageDict = init_dict_from_json();
+    HashMap<std::string, double> percentageDict = initDictFromJSON();
 
     // create population
-    Population population(percentageDict, 500);
-    population.initSimulation();
+    Population population(percentageDict, 100, 500);
 
-    std::cout << "Sex Count and Percentage\n";
-    population.getSexCount().print();
-    population.getSexCount().computePercentages().print();
+    // run simulation
+    population.runSimulation();
 
-    std::cout << "\n Type Count and Percentage\n";
-    population.getTypeCount().print();
-    population.getTypeCount().computePercentages().print();
+    // show simulation statistics
+    population.showStatistics();
 
     return 0;
 }
