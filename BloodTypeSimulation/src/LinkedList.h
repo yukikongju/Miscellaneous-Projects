@@ -17,7 +17,11 @@ class LinkedList {
 	Node<Type>* head;
 
     public: 
+	// Constructor
 	LinkedList() : head(nullptr) {}
+
+	// Destructor
+	virtual ~LinkedList() {}
 
 	void push(Type type);
 	Type pop();

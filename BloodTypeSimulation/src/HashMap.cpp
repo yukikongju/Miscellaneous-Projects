@@ -7,6 +7,9 @@
 template <typename Key, typename Value>
 HashMap<Key, Value>::HashMap() {}
 
+// Destructor
+template <typename Key, typename Value>
+HashMap<Key, Value>::~HashMap() {}
 
 // put a key-value pair to the hashmap
 template <typename Key, typename Value>

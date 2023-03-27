@@ -8,6 +8,9 @@
 template <typename Key>
 Count<Key>::Count() {}
 
+// Destructor
+template <typename Key>
+Count<Key>::~Count() {}
 
 // Add a key-value pair to the hashmap
 template <typename Key>

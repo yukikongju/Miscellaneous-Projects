@@ -14,7 +14,7 @@ class Count : public HashMap<Key, int>{
 	Count();
 
 	// Destructor
-	// virtual ~Count();
+	virtual ~Count();
 
 	void increment(const Key& key);
 	HashMap<Key, double> computePercentages() const;

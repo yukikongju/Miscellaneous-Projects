@@ -24,7 +24,7 @@ public:
 	Individual(std::string type);
 	Individual(std::string type, char sex);
 	Individual(Individual* parentF, Individual* parentM);
-	~Individual();
+	virtual ~Individual();
 
 	bool hasRH() const;
 	std::string getBloodType() const;

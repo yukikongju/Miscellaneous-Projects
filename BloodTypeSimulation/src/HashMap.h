@@ -11,7 +11,7 @@ class HashMap {
 	HashMap();
 
 	// Destructor
-	// virtual ~HashMap();
+	virtual ~HashMap();
 
 	void put(const Key& key, const Value& value);
 	bool containsKey(const Key& key) const;

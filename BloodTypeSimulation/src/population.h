@@ -33,7 +33,7 @@ private:
 
 public:
 	Population(HashMap<std::string, double> percentageDict, int initialPopulationCount, int maxPopulationCount);
-	~Population();
+	virtual ~Population();
 	void runSimulation();
 	void showStatistics();
 
