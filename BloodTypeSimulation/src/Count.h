@@ -13,6 +13,7 @@ class Count : public HashMap<Key, int>{
 	Count();
 	void add(const Key& key);
 	HashMap<Key, double> computePercentages() const;
+	void print() const;
 
 };
 

@@ -33,6 +33,22 @@ HashMap<Key, double> Count<Key>::computePercentages() const {
     return percentageMap;
 }
 
+template <typename Key> 
+void Count<Key>::print() const {
+    // get max count
+    int totalCount = 0;
+    for (const auto& pair: this->map) {
+	totalCount += pair.second;
+    }
+
+    std::cout.precision(2);
+    for (const auto& [key, value]: this->map) {
+	double percentage = value / (double) totalCount;
+	std::cout << key << ": " << value << " (" << percentage << "%)\n";
+    }
+
+}
+
 
 // Explicit instantiation for string keys and int values
 template class Count<std::string>;
