@@ -1,0 +1,8 @@
+opencv-python
+pyautogui
+simpleai
+PIL
+win32gui
+win32ui
+win32con
+win32api
