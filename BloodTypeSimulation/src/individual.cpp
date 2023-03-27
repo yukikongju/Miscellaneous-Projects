@@ -47,9 +47,56 @@ char Individual::initSex(){
     return 'M';
 }
 
-std::string Individual::initType() { // TODO:
-    return "O_positive";
+std::string Individual::initType() { 
+
+    // get individual has rh
+    std::string rh_string = ((parentF->hasRH() || parentM->hasRH())) ? "positive" : "negative";
+
+
+    // get individual blood type
+    bool hasBloodTypeA = ((parentF->getBloodType() == "A") || parentM->getBloodType() == "A") ? true: false;
+    bool hasBloodTypeB = ((parentF->getBloodType() == "B") || parentM->getBloodType() == "B") ? true: false;
+    bool hasBloodTypeAB = ((parentF->getBloodType() == "AB") || parentM->getBloodType() == "AB") ? true: false;
+
+
+    std::string bloodtype_string = "";
+    if ((hasBloodTypeAB) || (hasBloodTypeA & hasBloodTypeB)) {
+	bloodtype_string = "AB";
+    } else if (hasBloodTypeA) {
+	bloodtype_string = "A";
+    } else if (hasBloodTypeB) {
+	bloodtype_string = "B";
+    } else {
+	bloodtype_string = "O";
+    }
+
+    // get blood type string
+    std::string blood_string = bloodtype_string + "_" + rh_string;
+
+    return blood_string;
 }
+
+bool Individual::hasRH() const {
+    // find substring after "_"
+    std::string delimiter = "_";
+    size_t pos = type.find(delimiter);
+    std::string rh = type.substr(pos + delimiter.length());
+
+    // std::cout << type << " " << rh << "\n";
+    if (rh == "positive") {
+	return true;
+    }
+    return false;
+}
+
+std::string Individual::getBloodType() const {
+    std::string delimiter = "_";
+    size_t pos = type.find(delimiter);
+    std::string bloodType = type.substr(0, pos);
+
+    return bloodType;
+}
+
 
 /**********************************************************************
 *                         Getter and Setters                         *
