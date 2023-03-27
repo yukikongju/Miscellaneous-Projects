@@ -5,6 +5,7 @@
 #include <string>
 #include <unordered_map>
 
+#include "LinkedList.h"
 #include "individual.h"
 #include "HashMap.h"
 #include "Count.h"
@@ -20,8 +21,11 @@ private:
     int populationCount;
 	
     HashMap<std::string, double> percentageDict;
-    std::list<Individual> females;
-    std::list<Individual> males;
+    // std::list<Individual> females;
+    // std::list<Individual> males;
+
+    LinkedList<Individual> females;
+    LinkedList<Individual> males;
 
     std::string getInitType();
     void initSimulation();

@@ -35,9 +35,9 @@ void Population::initSimulation() {
 
 	// add individuals to female and male list
 	if (bb.getSex() == 'F') {
-	    females.push_back(bb);
+	    females.push(bb);
 	} else { // 'M'
-	    males.push_back(bb);
+	    males.push(bb);
 	}
 
     }
@@ -50,37 +50,52 @@ void Population::showStatistics() {
     Count<char> sexCount; 
 
     // add males and females
-    for (auto ind = females.begin(); ind != females.end(); ++ind) {
-	typeCount.add(ind->getType());
-	sexCount.add(ind->getSex());
+    Node<Individual>* curr_females = females.getHead();
+    while (curr_females != nullptr) {
+	typeCount.add(curr_females->data.getType());
+	sexCount.add(curr_females->data.getSex());
+	curr_females = curr_females->next;
     }
-    for (auto ind = males.begin(); ind != males.end(); ++ind) {
-	typeCount.add(ind->getType());
-	sexCount.add(ind->getSex());
+    Node<Individual>* curr_males = males.getHead();
+    while (curr_males != nullptr) {
+	typeCount.add(curr_males->data.getType());
+	sexCount.add(curr_males->data.getSex());
+	curr_males = curr_males->next;
     }
 
     // sex count and perc
     std::cout << "Sex Count and Percentage\n";
     sexCount.print();
-    sexCount.computePercentages().print();
 
     // type count and perc
     std::cout << "\nType Count and Percentage\n";
     typeCount.print();
-    typeCount.computePercentages().print();
 
 }
 
 void Population::runSimulation() { // TODO:
-    Individual* mom = new Individual("O_positive", 'F');
-    Individual* dad=new Individual("B_negative", 'M');
-    for (int i = 0; i < maxPopulationCount; i++) {
-	Individual bb(mom, dad);
+    for (int i = 0; i < maxPopulationCount; i++) { 
+	Individual mother = females.pop();
+	Individual father = males.pop();
+	Individual* mother_ptr = &mother;
+	Individual* father_ptr = &father;
+
+	// Individual bb(mom, dad);
+	Individual bb(mother_ptr, father_ptr);
+
+	// add individuals to female and male list
+	if (bb.getSex() == 'F') {
+	    females.push(bb);
+	} else { // 'M'
+	    males.push(bb);
+	}
+
+	// put mother and father back in the list
+	females.push(mother);
+	males.push(father);
     }
 
 }
-
-
 
 
 // Generate blood type for individual following initial distribution

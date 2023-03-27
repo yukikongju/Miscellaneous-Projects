@@ -52,7 +52,6 @@ std::string Individual::initType() {
     // get individual has rh
     std::string rh_string = ((parentF->hasRH() || parentM->hasRH())) ? "positive" : "negative";
 
-
     // get individual blood type
     bool hasBloodTypeA = ((parentF->getBloodType() == "A") || parentM->getBloodType() == "A") ? true: false;
     bool hasBloodTypeB = ((parentF->getBloodType() == "B") || parentM->getBloodType() == "B") ? true: false;
