@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <unordered_map>
+#include <vector>
 
 // Constructor
 template <typename Key, typename Value>
@@ -17,6 +18,21 @@ void HashMap<Key, Value>::put(const Key& key, const Value& value) {
     map[key] = value;
 }
 
+// add to a key-value pair to the hashmap
+template <typename Key, typename Value>
+void HashMap<Key, Value>::add(const Key& key, const Value& value) {
+    map[key] += value;
+}
+
+template <typename Key, typename Value>
+std::vector<Key> HashMap<Key, Value>::getKeys() const {
+    std::vector<Key> keys;
+    for (const auto& pair: map) {
+	keys.push_back(pair.first);
+    }
+
+    return keys;
+}
 
 // get
 template <typename Key, typename Value>

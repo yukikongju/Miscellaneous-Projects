@@ -38,7 +38,7 @@ each having their own assumptions:
 	- [X] In `individual`: `initType` based on parents
 	- [X] In `population`: `runSimulation`: find mom and dad from list of males and females
 - [X] generate several simulation in `main`
-- [ ] compute mean and variance of all simulations in `main`
+- [X] compute mean and variance of all simulations in `main`
 
 
 ## Ressources

@@ -3,6 +3,7 @@
 
 #include <unordered_map>
 #include <iostream>
+#include <vector>
 
 template <typename Key, typename Value>
 class HashMap {
@@ -14,6 +15,8 @@ class HashMap {
 	virtual ~HashMap();
 
 	void put(const Key& key, const Value& value);
+	void add(const Key& key, const Value& value);
+	std::vector<Key> getKeys() const;
 	bool containsKey(const Key& key) const;
 	const Value& get(const Key& key) const;
 	void print() const;

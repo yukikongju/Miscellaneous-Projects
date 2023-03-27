@@ -1,6 +1,9 @@
 #include <array>
+#include <cmath>
 #include <iostream>
+#include <iomanip>
 #include <fstream>
+#include <math.h>
 #include <string>
 #include <tuple>
 #include <unordered_map>
@@ -36,21 +39,47 @@ HashMap<std::string, double> initDictFromJSON() {
     return percentageDict;
 }
 
-// compute mean and variance given by hashmap TODO
-// template <typename Type>
-// std::tuple<Count<Type>, Count<Type>> getMeanVariance(Count<Type> countDicts[]) {
-//     Count<Type> meanDict, varDict;
-//     // int numSimulation = sizeof(*countDicts);
+// template <typename Key, typename Value> 
+template <typename Key>
+std::tuple<HashMap<Key, double>, HashMap<Key, double>> computeMeanVariance(Count<Key> countDicts[], int numSimulation) {
+    HashMap<Key, double> meanDict, varDict;
 
-//     // compute mean
-    
+    // compute mean: $\bar{x} = \frac{1}{n} \sum{x_i}$
+    for (int i = 0; i < numSimulation; i++) {
+	for (const auto&[key, value] : countDicts[i].computePercentages()) {
+	    meanDict.add(key, value);
+	}
+    }
+    for (const auto& [key, value] : meanDict) {
+	double mean = value / (double) numSimulation;
+	meanDict.put(key, mean);
+    }
    
-//     // compute std
+    // compute variance: $var(x) = \frac{1}{n-1} \sum{(x_i - \bar{x})^2}$
+    for (int i = 0; i < numSimulation; i++) {
+    	for (const auto& [key, value] : countDicts[i].computePercentages()) {
+	    varDict.add(key, pow(value - meanDict.get(key), 2));
+    	}
+    }
+    for (const auto& [key, value] : varDict) {
+	double var = value / (double) (numSimulation - 1);
+	varDict.put(key, var);
+    }
 
+    return std::make_tuple(meanDict, varDict);
+}
 
+template <typename Key, typename Value>
+void printSimulationResults(HashMap<Key, Value> meanDict, HashMap<Key, Value> varDict) {
 
-//     return std::make_tuple(meanDict, varDict);
-// }
+    auto keys = meanDict.getKeys();
+    for (auto key: keys) {
+	double mean = meanDict.get(key);
+	double var = varDict.get(key);
+	std::cout << std::setprecision(3) << key << " => " << " [ Mean : " << mean << " ] ;" << " [ Variance: " << var << " ]\n";
+    }
+
+}
 
 int main() {
     // init variables
@@ -66,17 +95,19 @@ int main() {
     for (int i = 0; i < numSimulation; i++) {
 	Population population(percentageDict, initialPopulationCount, maxPopulationCount);
 	population.runSimulation();
-	population.showStatistics();
+	// population.showStatistics();
 	typeResults[i] = population.getTypeCountMap();
 	sexResults[i] = population.getSexCountMap();
     }
 
     // compute mean and variance for all simulations and show
-    // Count<std::string> meanType, varType;
-    // Count<char> meanSex, varSex;
-    // std::tie(meanType, varType) = getMeanVariance(typeResults);
-    // std::tie(meanSex, varSex) = getMeanVariance(sexResults);
+    auto [meanType, varType] = computeMeanVariance(typeResults, numSimulation);
+    auto [meanSex, varSex] = computeMeanVariance(sexResults, numSimulation);
 
+    std::cout << "\nBlood Type Simulation Results\n";
+    printSimulationResults(meanType, varType);
+    std::cout << "\nSex Simulation Results\n";
+    printSimulationResults(meanSex, varSex);
 
     return 0;
 }
