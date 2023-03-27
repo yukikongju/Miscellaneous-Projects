@@ -20,6 +20,7 @@ class ChatBot(object):
 #  degrees_list = ['Chemistry', 'Economy', 'History', 'Psychology', 
 #                  'Philosophy', 'Law', 'Medicine', 'Pharmacy']
 #  degrees_list = ['Neurosciences', 'Physics']
+degrees_list = ['Cybersecurity']
 
 def main():
     # init session token

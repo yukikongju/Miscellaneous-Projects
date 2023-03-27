@@ -18,7 +18,10 @@ A collection of random projects
 - [X] Rock Paper Scissors Lizard Spock in Rust
 - [X] Mouse Wiggler
 - [X] UdeM Curriculum Visualizer
-- [ ] Text Counter in Rust
+- [X] Simulation: ELO rating, blood type
+- [X] Mini-Games Bots: Dinosaur Bot, autocliker
+- [ ] Text Counter in Rust, text analysis
+- [ ] NDS ROM Hacks: [ex1](https://gbatemp.net/threads/the-ultimate-nintendo-ds-rom-hacking-guide.291274/) [nesasm](http://www.patater.com/gbaguy/nesasm.htm) [CS4803](https://faculty.cc.gatech.edu/~hyesoon/spr10/schedule.html) [nds](https://faculty.cc.gatech.edu/~hyesoon/spr10/fromTA/CS4803DGC/Getting_Started....html) [nds roms](https://www.youtube.com/watch?v=lakp5ZRN7rE&list=PLKTW2ZuQjbEEVYHhxRZF9N8v_9AUneJq1)
 - [ ] Morse Code
 - [ ] Generating Code with GPT
 - [ ] Text Generation: https://www.tensorflow.org/text/tutorials/text_generation
@@ -31,14 +34,13 @@ A collection of random projects
 - [ ] Fast Fourier Transform
 - [ ] NBA Tweets
 - [ ] Youtube Profile Analysis
-- [ ] Simulation: ELO rating, blood type
 - [ ] tf-idf and pdf searcher
 - [ ] Reinforcement Learning in Game Dev: SnakeAI
 - [ ] Creating a gym environment with CartPole
 - [ ] genetic algorithm
 - [ ] Markov Chain Simulation
 - [ ] EDA Application
-- [ ] Streamlit Goodreads
-- [ ] Streamlit Github commit
+- [ ] Streamlit Goodreads, Github Commit
 - [ ] Remove PDF Pages + reorder PDF
 - [ ] Social Network Analysis for Insta, Fb, ..
+
