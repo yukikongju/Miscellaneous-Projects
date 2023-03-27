@@ -14,6 +14,14 @@ class HashMap {
 	const Value& get(const Key& key) const;
 	void print() const;
 
+	typename std::unordered_map<Key, Value>::iterator begin() {
+	    return map.begin();
+	}
+
+	typename std::unordered_map<Key, Value>::iterator end() {
+	    return map.end();
+	}
+
 
     protected:
 	std::unordered_map<Key, Value> map;
