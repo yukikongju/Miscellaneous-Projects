@@ -7,14 +7,13 @@
 
 #include "individual.h"
 #include "population.h"
-
-typedef std::unordered_map<std::string, double> percentagedict_t;
-typedef std::unordered_map<std::string, int> countdict_t;
-typedef std::unordered_map<char, int> sexdict_t;
+#include "HashMap.h"
+#include "Count.h"
 
 
 // Constructor
-Population::Population(percentagedict_t percentageDict, int maxPopulation) {
+Population::Population(HashMap<std::string, double> percentageDict, int maxPopulation) {
+// Population::Population(std::unordered_map<std::string, double> percentageDict, int maxPopulation) {
     this->percentageDict = percentageDict;
     this->maxPopulation = maxPopulation;
     initSimulation();
@@ -26,10 +25,13 @@ Population::~Population() {}
 
 void Population::initSimulation() {
     // init sexCount and typeCount hashmap dict
-    sexCount['F'] = 0;
-    sexCount['M'] = 0;
-    for (auto const pair: percentageDict) {
-	typeCount[pair.first] = 0;
+    sexCount.put('F', 0);
+    sexCount.put('M', 0);
+    // sexCount['F'] = 0;
+    // sexCount['M'] = 0;
+    for (const auto& pair: percentageDict) {
+	// typeCount[pair.first] = 0;
+	percentageDict.put(pair.first, pair.second);
     }
 
     // generate population
@@ -41,8 +43,8 @@ void Population::initSimulation() {
 	Individual bb(type);
 
 	// increment sexCount and typeCount
-	sexCount[bb.getSex()] += 1; 
-	typeCount[bb.getType()] += 1;
+	sexCount.add(bb.getSex());
+	typeCount.add(bb.getType());
 
 	// TODO: add individuals to female and male list
 
@@ -75,10 +77,10 @@ std::string Population::getInitType() {
 *                         Getter and Setters                         *
 **********************************************************************/
 
-sexdict_t Population::getSexCount() {
+Count<char> Population::getSexCount() {
     return sexCount;
 }
 
-countdict_t Population::getTypeCount() {
+Count<std::string> Population::getTypeCount() {
     return typeCount;
 }

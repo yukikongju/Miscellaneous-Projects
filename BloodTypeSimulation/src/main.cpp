@@ -5,17 +5,16 @@
 
 #include "individual.h"
 #include "population.h"
+#include "HashMap.h"
+#include "Count.h"
+
 
 #include "json.hpp"
-
-
-typedef std::unordered_map<std::string, double> percentagedict_t;
-typedef std::unordered_map<std::string, int> countdict_t;
 
 using json = nlohmann::json;
 
 
-percentagedict_t init_dict_from_json() {
+HashMap<std::string, double> init_dict_from_json() {
     json j = {
         {"O_positive", 0.3}, 
 	{"O_negative", 0.13}, 
@@ -27,46 +26,31 @@ percentagedict_t init_dict_from_json() {
 	{"AB_negative", 0.01}, 
     };
 
-
     // init hashmap from json
-    percentagedict_t percentage_dict;
-    for (auto& element: j.items()) {
-	percentage_dict[element.key()] = (double) element.value();
+    HashMap<std::string, double> percentageDict;
+    for (const auto& element: j.items()) {
+	percentageDict.put(element.key(), element.value());
     }
 
-    return percentage_dict;
+    return percentageDict;
 }
 
-void printPercentageDict(percentagedict_t percentage_dict) {
-    for (auto const& pair: percentage_dict) {
-	std::cout << pair.first << ": " << pair.second << "\n";
-    }
-}
-
-void printCountDict(countdict_t countDict) {
-    for (auto const& pair: countDict) {
-	std::cout << pair.first << ": " << pair.second << "\n";
-    }
-}
-
-void printSexDict(sexdict_t countDict) {
-    for (auto const& pair: countDict) {
-	std::cout << pair.first << ": " << pair.second << "\n";
-    }
-}
 
 int main() {
     // init percentage dict from json
-    std::unordered_map<std::string, double> percentage_dict = init_dict_from_json();
+    HashMap<std::string, double> percentageDict = init_dict_from_json();
 
     // create population
-    Population population(percentage_dict, 500);
-    // population.initSimulation();
+    Population population(percentageDict, 500);
+    population.initSimulation();
 
-    // get sexCount and typeCount
-    printCountDict(population.getTypeCount());
-    printSexDict(population.getSexCount());
+    std::cout << "Sex Count and Percentage\n";
+    population.getSexCount().print();
+    population.getSexCount().computePercentages().print();
 
+    std::cout << "\n Type Count and Percentage\n";
+    population.getTypeCount().print();
+    population.getTypeCount().computePercentages().print();
 
     return 0;
 }
