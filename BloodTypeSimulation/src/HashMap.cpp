@@ -8,7 +8,7 @@ template <typename Key, typename Value>
 HashMap<Key, Value>::HashMap() {}
 
 
-// Add a key-value pair to the hashmap
+// put a key-value pair to the hashmap
 template <typename Key, typename Value>
 void HashMap<Key, Value>::put(const Key& key, const Value& value) {
     map[key] = value;

@@ -32,44 +32,37 @@ void Population::initSimulation() {
 
 	// generate new individual
 	Individual bb(type);
+	Individual* bb_ptr = &bb;
 
-	// add individuals to female and male list
-	if (bb.getSex() == 'F') {
-	    females.push(bb);
-	} else { // 'M'
-	    males.push(bb);
-	}
+	// add newborn to population
+	addNewborn(bb_ptr);
 
     }
 
 }
 
+void Population::addNewborn(Individual* newborn_ptr) {
+    // add to sex and type count map
+    typeCountMap.increment(newborn_ptr->getType());
+    sexCountMap.increment(newborn_ptr->getSex());
+
+    // add individuals to female and male list
+    if (newborn_ptr->getSex() == 'F') {
+	females.push(*newborn_ptr);
+    } else { // 'M'
+	males.push(*newborn_ptr);
+    }
+}
+
 // show sexCount and typeCount statistics
 void Population::showStatistics() { 
-    Count<std::string> typeCount;
-    Count<char> sexCount; 
-
-    // add males and females
-    Node<Individual>* curr_females = females.getHead();
-    while (curr_females != nullptr) {
-	typeCount.add(curr_females->data.getType());
-	sexCount.add(curr_females->data.getSex());
-	curr_females = curr_females->next;
-    }
-    Node<Individual>* curr_males = males.getHead();
-    while (curr_males != nullptr) {
-	typeCount.add(curr_males->data.getType());
-	sexCount.add(curr_males->data.getSex());
-	curr_males = curr_males->next;
-    }
-
-    // sex count and perc
+    std::cout << "\n---------------------------\n";
     std::cout << "Sex Count and Percentage\n";
-    sexCount.print();
+    sexCountMap.print();
 
-    // type count and perc
+    std::cout << "\n";
     std::cout << "\nType Count and Percentage\n";
-    typeCount.print();
+    typeCountMap.print();
 
 }
 
@@ -82,13 +75,10 @@ void Population::runSimulation() { // TODO:
 
 	// Individual bb(mom, dad);
 	Individual bb(mother_ptr, father_ptr);
+	Individual* bb_ptr = &bb;
 
-	// add individuals to female and male list
-	if (bb.getSex() == 'F') {
-	    females.push(bb);
-	} else { // 'M'
-	    males.push(bb);
-	}
+	// add newborn to population
+	addNewborn(bb_ptr);
 
 	// put mother and father back in the list
 	females.push(mother);
@@ -123,3 +113,10 @@ std::string Population::getInitType() {
 *                         Getter and Setters                         *
 **********************************************************************/
 
+Count<std::string> Population::getTypeCountMap() const {
+    return typeCountMap;
+}
+
+Count<char> Population::getSexCountMap() const {
+    return sexCountMap;
+}

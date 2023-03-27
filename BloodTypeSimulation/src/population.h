@@ -19,23 +19,27 @@ private:
     int initialPopulationCount;
     int maxPopulationCount;
     int populationCount;
+    Count<std::string> typeCountMap;
+    Count<char> sexCountMap;
 	
     HashMap<std::string, double> percentageDict;
-    // std::list<Individual> females;
-    // std::list<Individual> males;
 
     LinkedList<Individual> females;
     LinkedList<Individual> males;
 
     std::string getInitType();
     void initSimulation();
+    void addNewborn(Individual* newborn_ptr);
 
 public:
 	Population(HashMap<std::string, double> percentageDict, int initialPopulationCount, int maxPopulationCount);
 	~Population();
 	void runSimulation();
 	void showStatistics();
-	
+
+	// Getter and Setters
+	Count<std::string> getTypeCountMap() const;
+	Count<char> getSexCountMap() const;
 
 };
 

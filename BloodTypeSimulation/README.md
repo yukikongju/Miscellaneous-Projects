@@ -31,15 +31,17 @@ each having their own assumptions:
 - [X] create hashmap class with `template` for generic types: CountDict; PercDict
 - [X] make `LinkedList` for females and males
 - [X] In `Count`: reformat `print` so that it show count and (perc )
-- [.] run simulation for n steps: generate individual based on parent 
+- [X] run simulation for n steps: generate individual based on parent 
 	- every time steps: there are k newborns (k is randomly generated)
 	- assumption: nobody dies, individual can start to mate as soon as they are born
 	- assumption: when parent mates, we put them at the end of the list
 	- [X] In `individual`: `initType` based on parents
-	- [ ] In `population`: `runSimulation`: find mom and dad from list of males and females
-- [ ] generate several simulation in `main`
+	- [X] In `population`: `runSimulation`: find mom and dad from list of males and females
+- [X] generate several simulation in `main`
+- [ ] compute mean and variance of all simulations in `main`
 
 
 ## Ressources
 
 - [Blood Type Percentage Chart](https://www.blood.co.uk/why-give-blood/blood-types/)
+- [Rules when determining child blood type](https://fairfaxcryobank.com/blog/which-parent-determines-babys-blood-type)

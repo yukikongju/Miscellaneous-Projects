@@ -10,8 +10,13 @@
 template <typename Key>
 class Count : public HashMap<Key, int>{
     public:
+	// Constructor
 	Count();
-	void add(const Key& key);
+
+	// Destructor
+	// virtual ~Count();
+
+	void increment(const Key& key);
 	HashMap<Key, double> computePercentages() const;
 	void print() const;
 

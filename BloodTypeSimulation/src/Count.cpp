@@ -11,7 +11,7 @@ Count<Key>::Count() {}
 
 // Add a key-value pair to the hashmap
 template <typename Key>
-void Count<Key>::add(const Key& key) {
+void Count<Key>::increment(const Key& key) {
     this->map[key]++;
 }
 

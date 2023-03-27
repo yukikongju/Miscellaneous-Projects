@@ -9,6 +9,10 @@ class HashMap {
     public:
 	// Constructor
 	HashMap();
+
+	// Destructor
+	// virtual ~HashMap();
+
 	void put(const Key& key, const Value& value);
 	bool containsKey(const Key& key) const;
 	const Value& get(const Key& key) const;
