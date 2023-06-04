@@ -8,7 +8,6 @@
 #include <tuple>
 #include <unordered_map>
 
-#include "individual.h"
 #include "population.h"
 #include "HashMap.h"
 #include "Count.h"
