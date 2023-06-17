@@ -15,8 +15,6 @@ answer this question by running a simulation.
 **The simulations**
 
 
-
-
 - Simulation 1:
     - Closed System with N number of people in it
     - Each person has M friends, where M is a random variable following a normal 
