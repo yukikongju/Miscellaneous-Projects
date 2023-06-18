@@ -3,21 +3,36 @@ import numpy as np
 
 from player import SimplePlayer
 from sklearn.cluster import KMeans
+from abc import ABC
+
+class Team(ABC):
 
 
-class Team:
+    def __init__(self, csv_path):
+        self.csv_path = csv_path
 
+        self.players = []
+        self.df = pd.read_csv(csv_path)
+
+
+    def _set_players(self):
+        pass
+
+    def _set_lineup(self):
+        pass
+
+
+class TeamAdjancy(Team):
+
+    """Determining lineup using adjancy graph"""
 
     def __init__(self, csv_path, player_method, graph_method, lineup_method, cluster_method):
-        self.csv_path = csv_path
+        super(TeamAdjancy, self).__init__(csv_path)
         self.player_method = player_method
         self.graph_method = graph_method
         self.lineup_method = lineup_method
         self.cluster_method = cluster_method
 
-        self.players = []
-
-        self.df = pd.read_csv(csv_path)
         self._set_players()
         self._set_max_num_prefered_teammates()
 
