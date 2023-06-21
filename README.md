@@ -18,6 +18,7 @@ A collection of random projects
 - [X] UdeM Curriculum Visualizer
 - [X] Simulation: ELO rating, blood type
 - [X] Mini-Games Bots: Dinosaur Bot, autocliker
+- [ ] SleepAdminDeltaCalculations
 - [ ] Lineup Optimization with Maximum Weighted Bipartite Matching Algorithms
 - [ ] AUDL RL: Learning Best strategy through RL
 - [ ] Text Counter in Rust, text analysis
