@@ -1,8 +1,8 @@
 import statsmodels.stats.proportion as smp
 
-from statsmodels.stats.power import tt_ind_solve_power
+from statsmodels.stats.power import tt_ind_solve_power, zt_ind_solve_power
 
-def compute_deltas(sample_size: int, conversion_rate: float, power=0.8, alpha=0.5):
+def compute_deltas(sample_size: int, conversion_rate: float, power=0.8, alpha=0.5, alternative='smaller'):
     """
     Compute absolute and relative deltas given sample size and conversion_rate 
     (baseline)
@@ -10,12 +10,12 @@ def compute_deltas(sample_size: int, conversion_rate: float, power=0.8, alpha=0.
     doc: https://www.statsmodels.org/stable/generated/statsmodels.stats.power.tt_ind_solve_power.html
 
     """
-    # --- TODO: verify if ratio and effect_size are okay
+    # --- TODO: verify if and effect_size are okay
 
     # --- absolute delta calculation: using 'larger' instead of 'two-sided'
-    absolute_delta = tt_ind_solve_power(effect_size=None, nobs1=sample_size,
+    absolute_delta = zt_ind_solve_power(effect_size=None, nobs1=sample_size,
                                         alpha=alpha, power=power, ratio=1.0, 
-                                        alternative='larger')
+                                        alternative=alternative)
 
     absolute_delta *= conversion_rate
 
@@ -25,13 +25,17 @@ def compute_deltas(sample_size: int, conversion_rate: float, power=0.8, alpha=0.
     return absolute_delta, relative_delta
 
 
-def compute_weekly_reach(monthly_reach: int, num_variants: int):
+def compute_weekly_reach_per_variant(monthly_reach: int):
     """
     Calculate the weekly reach that goes in each variant bucket
 
-    Note: if experiment has control and variant a, num_variants = 2
+    Note: we compute the initial weekly reach with only the control and 
+    the variant, even if there is more than 2 variants (ex: control, variant a, 
+    variant b)
+
+    Weekly Reach = (Monthly Reach / 2 variants) / 4 weeks
     """
-    return (monthly_reach / num_variants) / 4
+    return (monthly_reach / 2) / 4
     
 
 def compute_sample_needed(conversion_rate: float, absolute_delta: float, power=0.8, alpha=0.5):

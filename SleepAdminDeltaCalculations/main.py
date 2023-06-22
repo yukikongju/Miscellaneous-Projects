@@ -1,74 +1,128 @@
 import pandas as pd
-import numpy as np
 
-from utils import compute_weekly_reach, compute_deltas
-from utils import compute_absolute_delta_from_relative_delta, compute_sample_needed
-
-def compute_timeline_deltas(monthly_reach: float, conversion_rate: float, power = 0.8, alpha = 0.5, num_weeks = 15, num_variants=2):
-    """
-    Compute absolute and relative deltas for week 1 to <num_weeks>
-
-    Parameters
-    ----------
-    conversion_rate: float
-        percentage between 0 and 1
-
-    """
-    weekly_reach = compute_weekly_reach(monthly_reach, num_variants)
-
-    # --- compute absolute and relative deltas for every week
-    timeline_results = []
-    for week in range(1, num_weeks+1):
-        sample_size_needed = week * weekly_reach
-        absolute_delta, relative_delta = compute_deltas(sample_size=sample_size_needed, conversion_rate=conversion_rate)
-        timeline_results.append([week, sample_size_needed, absolute_delta, relative_delta])
-
-    # --- into dataframe
-    col_names = ['Week', 'Sample Size', 'Absolute Delta', 'Relative Delta']
-    df = pd.DataFrame(timeline_results, columns=col_names)
-
-    return df
-
-    
-def compute_deltas_timelines(monthly_reach: float, conversion_rate: float, until_relative_delta: float,  power = 0.8, alpha = 0.5, num_variants=2):
-    """ 
-    Compute timeline to reach relative deltas
-
-    Parameters
-    ----------
-    until_relative_delta: float
-        compute time for each delta until this relative delta
-
-    """
-    weekly_reach = compute_weekly_reach(monthly_reach, num_variants)
-    #  relative_deltas = [ float(i) for i in range(until_relative_delta) ]
-    relative_deltas = np.arange(0.05, until_relative_delta+0.05, 0.05).tolist()
-    print(relative_deltas)
-
-    # --- compute num of weeks needed for each relative delta
-    timeline_results = []
-    for relative_delta in relative_deltas:
-        absolute_delta = compute_absolute_delta_from_relative_delta(relative_delta, conversion_rate)
-        sample_size_needed = compute_sample_needed(conversion_rate, absolute_delta)
-        num_week_needed = float(sample_size_needed / weekly_reach)
-        num_months_needed = float(num_week_needed / 4)
-        timeline_results.append([relative_delta, absolute_delta, sample_size_needed, num_week_needed, num_months_needed])
+from statsmodels.stats.power import zt_ind_solve_power
 
 
-    # --- into dataframe
-    col_names = ['Relative Delta', 'Absolute Delta', 'Sample Size Needed', 'Num of Weeks', 'Num of Months']
-    df = pd.DataFrame(timeline_results, columns=col_names)
+class BriefInformation:
 
-    return df
+
+    def __init__(self, monthly_reach: int, baseline: float, experiment_sizing_timeline: int, num_variants: int, POWER = 0.8, ALPHA = 0.05, RELATIVE_DELTA_THRESHOLD = 0.12):
+        """
+        Arguments
+        ---------
+        monthly_reach: int
+            number of user reached. This information is found in MixPanel
+        baseline: float
+            conversion rate between 0 and 1. This information is found in MixPanel
+        experiment_sizing_timeline: int
+            week neededed to complete this experiment in weeks. This information
+            can be found in the 'Experiment Sizing Tradeoff' Spreadsheet
+        num_variants: int
+            num of variants in the experiment. If control and variant a, then 
+            num_variants = 2
+        """
+        self.monthly_reach = monthly_reach
+        self.baseline = baseline
+        self.experiment_sizing_timeline = experiment_sizing_timeline
+        self.num_variants = num_variants
+        self.POWER = POWER
+        self.ALPHA = ALPHA
+        self.RELATIVE_DELTA_THRESHOLD = RELATIVE_DELTA_THRESHOLD
+        self.ALTERNATIVE = 'larger'
+
+
+    def _compute_absolute_delta(self, sample_size: int): # FIXME
+        """ 
+        Given power and sample size, compute absolute delta to reach power
+        """
+        absolute_delta = zt_ind_solve_power(effect_size=None, nobs1=sample_size,
+                                            alpha=self.ALPHA, power=self.POWER,
+                                            ratio=1.0, alternative=self.ALTERNATIVE)
+        return absolute_delta
+
+
+    def _get_additional_deltas_timelines(self, absolute_delta: float) -> pd.DataFrame: # TODO
+        # --- init variables
+        OTHER_RELATIVE_DELTAS_LIST = [0.5, 0.8, 0.10, 0.12, 0.14, 0.15, 0.16, 0.18, 0.20, 0.22, 0.24, 0.26, 0.28, 0.30]
+
+        other_timelines = []
+        pass
+
+
+    def compute_brief_information(self, ):
+        """ 
+        Compute all the steps needed to fill in A/B test brief
+
+
+        Information found in brief table
+        --------------------------------
+        - reach and baseline
+        - suggested delta to detect
+        - sample size needed
+        - timeline
+
+
+        Explanation
+        -----------
+
+        [ Main Steps ]
+            1. Compute initial sample needed: regardless of number
+                initial_sample_size = (monthly_reach / 2 variants) / 4 weeks * experiment_sizing_timeline
+            2. Compute absolute delta -> get_delta(baseline, power, num_obs)
+            3. If relative delta >= 10%, perform additional steps to get a more suitable relative delta (additional steps)
+            4. Compute Final Timeline
+                final_timeline (months) = (sample_size_per_bucket * num_variants) / 
+                    monthly_reach
+
+        [ Additional Steps if relative delta >= 10% ]
+            1. 
+
+
+        """
+
+
+        # --- Computing deltas, bucket_size if initial timeline is respected
+        initial_sample_size_per_bucket = ((self.monthly_reach) / 2) / 4 * self.experiment_sizing_timeline
+        initial_absolute_delta = self._compute_absolute_delta(sample_size=initial_sample_size_per_bucket)
+        initial_relative_delta = float(initial_absolute_delta / self.baseline)
+        final_timeline_in_months = float(initial_sample_size_per_bucket * self.num_variants / self.monthly_reach)
+        final_timeline_in_weeks = float(final_timeline_in_months * 4)
+
+        print("")
+        print("-------------------------------------------------------------")
+        print(f"BASELINE: {self.baseline} ; REACH: {self.monthly_reach}")
+        print(f"Initial Sample Size: {initial_sample_size_per_bucket}")
+        print(f"Deltas => absolute: {initial_absolute_delta} ; relative: {initial_relative_delta}")
+        print(f"Timeline => Months: {final_timeline_in_months} ; Weeks: {final_timeline_in_weeks}")
+        print("-------------------------------------------------------------")
+        print("")
+
+        # --- Verdict
+        need_to_compute_other_timelines = False
+        if initial_relative_delta < self.RELATIVE_DELTA_THRESHOLD:
+            print(f"Verdict: We don't need to change the timeline since relative delta smaller than {self.RELATIVE_DELTA_THRESHOLD}")
+        else:
+            need_to_compute_other_timelines = True
+
+        # --- Computing additional timeline if needed
+        if need_to_compute_other_timelines:
+
+            df_deltas = self._get_additional_deltas_timelines(absolute_delta=initial_absolute_delta)
+            print(f"Here is the alternative timelines")
+            print(df_deltas)
+
 
 
 def main():
-    METRIC_NAME = ''
-    MONTHLY_REACH, CONVERSION_RATE = 6883, 0.0486
+    MONTHLY_REACH, BASELINE, EXPERIMENT_SIZING_TIMELINE = 6683, 0.0486, 3
+    NUM_VARIANTS = 2
+    POWER = 0.8
+    ALPHA = 0.5
 
-    print(compute_timeline_deltas(monthly_reach=MONTHLY_REACH, conversion_rate=CONVERSION_RATE))
-    print(compute_deltas_timelines(monthly_reach=MONTHLY_REACH, conversion_rate=CONVERSION_RATE, until_relative_delta=0.30))
-
+    brief = BriefInformation(monthly_reach=MONTHLY_REACH, baseline=BASELINE,
+                             experiment_sizing_timeline=EXPERIMENT_SIZING_TIMELINE,
+                             num_variants=2)
+    brief.compute_brief_information()
     
 
 if __name__ == "__main__":
