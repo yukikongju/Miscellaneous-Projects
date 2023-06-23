@@ -1,4 +1,4 @@
-player_id,prefered_teammates,offensive_score,defensive_score,offensive_willigness,defensive_willigness
+player_id,prefered_teammates,offensive_score,defensive_score,offensive_willingness,defensive_willingness
 1,"[4,6,8]",8,7,8,8
 2,"[3,1,5]",5,5,7,8
 3,"[15,12,14,19]",7,4,8,5
