@@ -6,12 +6,10 @@ conversion rate, we would like to estimate:
 - The absolute and relative delta needed to call the experiment a win.
 
 
-This project has two sections:
+The function used in does the following: [ see calculateMetricParameters ]
 1. Given [power, alpha, reach and conversion], generate absolute and relative 
    deltas for different timeline (week 1 to week 15)
 2. Given [power, alpha, reach and conversion], find timeline needed for [5%-20%] 
    relative lift
-
-
 
 
