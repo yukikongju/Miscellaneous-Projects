@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 
 from team import TeamAdjancy, TeamILP
-    
+
 
 def print_player_lineups(csv_path, lineups):
     df = pd.read_csv(csv_path)
@@ -25,25 +25,29 @@ def main():
     csv_path = 'LineupOptimization/data/dummy_situation1.csv'
     ilp_csv_path = 'LineupOptimization/data/dummy_ilp1.csv'
     valk1_path = 'LineupOptimization/data/valk1.csv'
+    valk2_path = 'LineupOptimization/data/valk2.csv'
 
+    # --- spectral clustering with kmeans method
     #  team_kmeans = TeamAdjancy(valk1_path, player_method='teammates', graph_method='adjancy', lineup_method='spectral_clustering', cluster_method='kmeans')
-    #  print(f"Lineup with KMeans Spectral Clustering Method: {team_kmeans.lineup}")
+    #  print('------------------------------------------------')
+    #  print(f"Lineup with KMeans Spectral Clustering Method:")
+    #  print(print_player_lineups(valk1_path, team_kmeans.lineup))
+    #  print('------------------------------------------------')
+    #  print('')
 
     # --- spectral clustering with fielder method
-    team_fiedler = TeamAdjancy(csv_path, player_method='teammates', graph_method='adjancy', lineup_method='spectral_clustering', cluster_method='fiedler')
-    print('------------------------------------------------')
-    print(f"Lineup with Fielder Spectral Clustering Method:")
-    print_player_lineups(valk1_path, team_fiedler.lineup)
-    print('------------------------------------------------')
+    #  team_fiedler = TeamAdjancy(valk1_path, player_method='teammates', graph_method='adjancy', lineup_method='spectral_clustering', cluster_method='fiedler')
+    #  print('------------------------------------------------')
+    #  print(f"Lineup with Fielder Spectral Clustering Method:")
+    #  print_player_lineups(valk1_path, team_fiedler.lineup)
+    #  print('------------------------------------------------')
 
-
-
-    #  team_ilp = TeamILP(ilp_csv_path,  'teammates+willingness+score', 1.0, 2.5)
-    #  for p in team_ilp.players:
-    #      print(p)
+    # --- Integer Linear Programming
+    ILP = TeamILP(valk2_path, 'complete_player', 1.0, 1.2)
 
 
 
 if __name__ == "__main__":
     main()
+    #  test_ilp()
 

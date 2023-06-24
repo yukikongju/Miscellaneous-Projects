@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 
-from player import SimplePlayer, PlayerPreferencesWillingnessScore
+from player import SimplePlayer, PlayerPreferencesWillingnessScore, CompletePlayer
 from sklearn.cluster import KMeans
 from abc import ABC
 
@@ -20,15 +20,40 @@ class Team(ABC):
         if self.player_method == 'teammates':
             for _, row in self.df.iterrows():
                 prefered_teammates = list(map(int, eval(row['prefered_teammates'])))
-                player = SimplePlayer(row['player_id'], prefered_teammates)
+                player = SimplePlayer(row['player_id'], row['player_name'], prefered_teammates)
                 self.players.append(player)
         elif self.player_method == 'teammates+willingness+score':
             for _, row in self.df.iterrows():
                 prefered_teammates = list(map(int, eval(row['prefered_teammates'])))
-                player = PlayerPreferencesWillingnessScore(row['player_id'], prefered_teammates, row['offensive_willingness'], row['defensive_willingness'], row['offensive_score'], row['defensive_score'])
+                player = PlayerPreferencesWillingnessScore(row['player_id'], row['player_name'], prefered_teammates, row['offensive_willingness'], row['defensive_willingness'], row['offensive_score'], row['defensive_score'])
                 self.players.append(player)
+        elif self.player_method == 'complete_player':
+            self._set_complete_players()
         else:
             raise ValueError(f"{self.player_method} not supported. Select between [teammates, ]")
+
+    def _set_complete_players(self):
+        """ if player_method == 'complete_player' """
+        for _, row in self.df.iterrows():
+            cutting_score = np.mean(eval(row['cutting_score'])) if 'cutting_score' in self.df.columns else None
+            handling_score = np.mean(eval(row['handling_score'])) if 'handling_score' in self.df.columns else None
+            defensive_score = np.mean(eval(row['defensive_score'])) if 'defensive_score' in self.df.columns else None
+            offensive_score = np.mean(eval(row['offensive_score'])) if 'offensive_score' in self.df.columns else None
+            preferred_teammates = eval(row['preferred_teammates']) if 'preferred_teammates' in self.df.columns else None
+            offensive_willingness = row['offensive_willingness'] if 'offensive_willingness' in self.df.columns else None
+            defensive_willingness = row['defensive_willingness'] if 'defensive_willingness' in self.df.columns else None
+
+            player = CompletePlayer(player_id=row['player_id'],
+                                    player_name=row['player_name'],
+                                    teammate_preferences=preferred_teammates,
+                                    offensive_willingness=offensive_willingness,
+                                    defensive_willingness=defensive_willingness,
+                                    offensive_score=offensive_score, 
+                                    defensive_score=defensive_score,
+                                    handling_score=handling_score,
+                                    cutting_score=cutting_score)
+
+            self.players.append(player)
 
 
     def _set_lineup(self):
@@ -148,9 +173,14 @@ class TeamILP(Team):
         self._set_players()
         self._set_lineup()
 
+    def _define_variables(self):
+        pass
+
+    def _define_constraints(self):
+        pass
+        
 
     def _set_lineup(self):
-         #  Define binary variables so that player are either offense or defense
         pass
 
 
