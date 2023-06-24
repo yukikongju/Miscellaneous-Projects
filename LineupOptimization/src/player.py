@@ -66,4 +66,4 @@ class CompletePlayer(Player):
         self.cutting_score = cutting_score
 
     def __str__(self):
-        return f"Player: {self.player_id} => Prefered Teammates: {self.prefered_teammates}; Off/Def Willigness: {self.offensive_willingness}/{self.defensive_willingness}; Off/Def Score: {self.offensive_score}/{self.defensive_score}; Handling/Cutting Score: {self.handling_score}/{self.cutting_score}"
+        return f"Player: {self.player_id} => Teammates Preference: {self.teammate_preferences}; Off/Def Willigness: {self.offensive_willingness}/{self.defensive_willingness}; Off/Def Score: {self.offensive_score}/{self.defensive_score}; Handling/Cutting Score: {self.handling_score}/{self.cutting_score}"

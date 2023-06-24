@@ -43,11 +43,10 @@ def main():
     #  print('------------------------------------------------')
 
     # --- Integer Linear Programming
-    ILP = TeamILP(valk2_path, 'complete_player', 1.0, 1.2)
+    ILP = TeamILP(valk2_path, 'complete_player', 1.0, 1.2, 'offensive-defensive-lines')
 
 
 
 if __name__ == "__main__":
     main()
-    #  test_ilp()
 

@@ -1,9 +1,12 @@
 import pandas as pd
 import numpy as np
+import networkx as nx
 
 from player import SimplePlayer, PlayerPreferencesWillingnessScore, CompletePlayer
 from sklearn.cluster import KMeans
 from abc import ABC
+
+from pulp import *
 
 class Team(ABC):
 
@@ -82,7 +85,7 @@ class TeamAdjancy(Team):
         for player in self.players:
             n = len(player.prefered_teamates)
             self.max_num_prefered_teammates = max(self.max_num_prefered_teammates, n)
-        
+
 
     def _build_graph(self):
         if self.graph_method == 'adjancy':
@@ -106,7 +109,7 @@ class TeamAdjancy(Team):
                 A[i][teammate_idx] = self.max_num_prefered_teammates - j # weight
 
         return A
-        
+
     def set_lineups(self):
         if self.lineup_method == 'spectral_clustering':
             self.lineup = self._get_spectral_clustering_lineup()
@@ -163,24 +166,106 @@ class TeamAdjancy(Team):
 
 class TeamILP(Team):
 
-    """Determining Lineups with Integer Linear Programming"""
+    """
+    Determining Lineups with Integer Linear Programming
 
-    def __init__(self, players_csv_path: str, player_method: str, willingness_weight: float, score_weight: float):
+    ILP Method Supported:
+        1) Two Lines: using preferred teammates, handling score and cutting scores. equivalent strength [two-lines]
+        2) Offensive/Defensive Lines: using preferred teammates, offense score and defense score [offensive-defensive-lines]
+        3) Optimized Offensive/Defensive Lines: using preferred teammates, off/def scores, handling/cutting score [optimized-offensive-defensive-lines]
+
+    """
+
+    def __init__(self, players_csv_path: str, player_method: str, willingness_weight: float, score_weight: float, ilp_method: str):
+        """ 
+        Attributes
+        ----------
+        """
         super(TeamILP, self).__init__(players_csv_path, player_method)
         self.willingness_weight = willingness_weight
         self.score_weight = score_weight
+        self.ilp_method = ilp_method
 
         self._set_players()
+        self._set_digraph()
+        self.indegree_centrality = nx.in_degree_centrality(self.G)
+
         self._set_lineup()
 
-    def _define_variables(self):
-        pass
 
-    def _define_constraints(self):
-        pass
-        
+    def _set_digraph(self):
+        self.G = nx.DiGraph()
+
+        # add nodes to graph
+        for player in self.players:
+            self.G.add_node(player.player_name)
+
+        # add edges -- TODO: weighted edges?
+        for player in self.players:
+            self.G.add_edges_from([ (player.player_name, teammate) for teammate in player.teammate_preferences])
 
     def _set_lineup(self):
-        pass
+        # -- set problem variables and constraints
+        if self.ilp_method == 'two-lines':
+            pass
+        elif self.ilp_method == 'offensive-defensive-lines':
+            prob = self.__get_ilp_problem_offense_defense_lines()
+        elif self.ilp_method == 'optimized-offensive-defensive-lines':
+            pass
+        else:
+            raise ValueError(f"{self.ilp_method} is not a valid method. please select between []")
+
+
+    def __get_ilp_problem_offense_defense_lines(self):
+        """
+        set ILP problem if ilp_method == 'offense-defense-lines'.
+
+        Problem Definition:
+            - Ojective:
+              + Maximize total sum given by offensive line and defensive line
+            - Variables:
+              + Binary variables for each player: either first line or second line
+            - Constraints:
+              + Number of players per lines set equally
+              + Each player can only be in one line
+        """
+        # --- set variables
+        offensive_line = LpVariable.dicts("offensive_line", [ player.player_name for player in self.players ], cat='Binary')
+        defensive_line = LpVariable.dicts("defensive_line", [ player.player_name for player in self.players ], cat='Binary')
+
+        # --- set problem objective
+        prob = LpProblem('PlayerAssignment', LpMaximize)
+        prob += lpSum(
+                [ player.offensive_score * offensive_line[player.player_name] 
+                 + player.defensive_score * defensive_line[player.player_name]
+                 for player in self.players ]
+                )
+
+        # --- set constraints
+
+        # constraint: lines have the same amount of players
+        num_players = len(self.players)
+        max_line_size = round(num_players / 2, 0)
+        prob += lpSum(offensive_line[player.player_name] for player in self.players) <= max_line_size
+        prob += lpSum(defensive_line[player.player_name] for player in self.players) <= max_line_size
+
+         # constraint: each player can only be assigned to either offensive or defensive line
+        for player in self.players:
+            prob += offensive_line[player.player_name] + defensive_line[player.player_name] == 1
+
+        # constraint: consider degree centrality given by teammate preference
+        prob += offensive_line[player.player_name] + defensive_line[player.player_name] >= self.indegree_centrality[player.player_name]
+
+        # --- solve problem 
+        prob.solve()
+
+        # --- check if solution has been found
+        if prob.status == LpStatusOptimal:
+            offensive_line_assignments = [ player.player_name for player in self.players if value(offensive_line[player.player_name]) == 1 ]
+            defensive_line_assignments = [ player.player_name for player in self.players if value(defensive_line[player.player_name]) == 1 ]
+
+        # -- set the lines
+        print(f"Offensive: {offensive_line_assignments}")
+        print(f"Defense: {defensive_line_assignments}")
 
 
