@@ -1,0 +1,72 @@
+prompt,function_type,score
+Prendre des repas reguliers,kinesthésique/physique,3
+Favoriser une alinmentation saine,kinesthésique/physique,3
+Faire de l’exercice régulièrement,kinesthésique/physique,3
+Faire des étirements,kinesthésique/physique,1
+Écouter mon corps,kinesthésique/physique,3
+Prendre congé lorsque je suis malade,kinesthésique/physique,3
+Faire une activité physique plaisante,kinesthésique/physique,3
+Prendre le temps d’être sexuelle,kinesthésique/physique,1
+Avoir une bonne hygiène de sommeil,kinesthésique/physique,1
+Danser,kinesthésique/physique,1
+Être en action,kinesthésique/physique,3
+Voir avec l’oeil d’une autre personne,perceptif/relationnel,2
+Faire des activités régulièrement,perceptif/relationnel,3
+Organiser mon espace,perceptif/relationnel,1
+"Appeler, contacter, voir ma parenté",perceptif/relationnel,1
+Passer du temps entre bonne compagnie,perceptif/relationnel,2
+S’adonner à des routines relaxantes,perceptif/relationnel,2
+Créer un foyer confortable et apaisant,perceptif/relationnel,1
+Laisser les autres me dorloter,perceptif/relationnel,3
+Fixer des limites aux autres (boundaries),perceptif/relationnel,3
+Demander de l’aide au besoin,perceptif/relationnel,2
+Entreprendre une activité en art,perceptif/relationnel,0
+Méditer pour réduire le stress,perceptif/relationnel,0
+Porter des vêtements confortables,sensoriel,1
+Emplyer un arôme apaisant,sensoriel,2
+Profiter de repas relaxants,sensoriel,3
+Apprécier la beauté naturelle,sensoriel,2
+Recevoir un massage,sensoriel,0
+Offrir ou demander un câlin,sensoriel,3
+"Manger des aliments frais, locaux et savoureux",sensoriel,3
+Employer de la couleur pour apaiser l’esprit,sensoriel,0
+Apprécier la musique,sensoriel,3
+Savourer le son du silence,sensoriel,3
+Créer ou apprécier l’art,sensoriel,1
+S’exprimer par l’art: adoucir l’émotion,émotionnel,0
+Dire affirmations: se rendre hommage,émotionnel,1
+Partager ses émotions avec quelqu’un,émotionnel,3
+Redécouvrir les libres ou films favoris,émotionnel,3
+Identifier des activités réconfortanates,émotionnel,3
+Rechercher des gens réconfortants,émotionnel,3
+Autoriser les larmes,émotionnel,3
+Trouver ce qui me fait rire,émotionnel,3
+Exprimer mes émotions en société,émotionnel,2
+Partager une crainte ou un secret avec une personne de confiance,émotionnel,3
+Se laisser sauter de joie,émotionnel,3
+Reformuler une croyance dépassée,cognitif,3
+Prendre du temps loin de l’électronique,cognitif,3
+Penser positif,cognitif,3
+Entreprendre une thérapie personnelle,cognitif,3
+Écrire mon journal,cognitif,2
+Avoir des lectures non liées au travail,cognitif,1
+Aborder un domaine ou je ne suis pas expert,cognitif,3
+Développer une nouvelle habileté artistique,cognitif,0
+Changer mes idées sur le stress dans ma vie,cognitif,2
+Investir sur mon intelligence dans un nouveau domaine,cognitif,3
+Être curieux ,cognitif,3
+Dire non à des responsabilités supplémentaires,cognitif,1
+Prendre du temps pour faire une autoréflexion,symbolique,3
+Favoriser une connexion spirituelle,symbolique,2
+Apprécier l’art dans un musée,symbolique,0
+S’ouvrir à l’inspiration,symbolique,3
+M’occuper de mes rêves,symbolique,3
+Apprécier les aspects non matériels de la vie,symbolique,3
+Lire ou écrire de la poésie,symbolique,0
+Identifier ce qui a de l’importance pour moi,symbolique,3
+Méditer,symbolique,1
+Prier,symbolique,0
+Chanter,symbolique,3
+Éprouver de l’émerveillement,symbolique,3
+Lire ou écrire des récits mythiques,symbolique,0
+Lire ou écouter de la littérature inspirante,symbolique,0
