@@ -51,6 +51,11 @@ that will be solved with either CPLEX or Gurobi solver
 
 [TODO]
 
+**Situation 4: rating players off/def handling/cutting**
+
+
+
+
 ## Ressources
 
 - [Spectral Clustering](https://towardsdatascience.com/spectral-clustering-aba2640c0d5b)

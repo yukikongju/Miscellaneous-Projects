@@ -1,22 +1,35 @@
 import pandas as pd
 import numpy as np
 
-from player import SimplePlayer
+from player import SimplePlayer, PlayerPreferencesWillingnessScore
 from sklearn.cluster import KMeans
 from abc import ABC
 
 class Team(ABC):
 
 
-    def __init__(self, csv_path):
+    def __init__(self, csv_path, player_method):
         self.csv_path = csv_path
+        self.player_method = player_method
 
         self.players = []
         self.df = pd.read_csv(csv_path)
 
 
     def _set_players(self):
-        pass
+        if self.player_method == 'teammates':
+            for _, row in self.df.iterrows():
+                prefered_teammates = list(map(int, eval(row['prefered_teammates'])))
+                player = SimplePlayer(row['player_id'], prefered_teammates)
+                self.players.append(player)
+        elif self.player_method == 'teammates+willingness+score':
+            for _, row in self.df.iterrows():
+                prefered_teammates = list(map(int, eval(row['prefered_teammates'])))
+                player = PlayerPreferencesWillingnessScore(row['player_id'], prefered_teammates, row['offensive_willingness'], row['defensive_willingness'], row['offensive_score'], row['defensive_score'])
+                self.players.append(player)
+        else:
+            raise ValueError(f"{self.player_method} not supported. Select between [teammates, ]")
+
 
     def _set_lineup(self):
         pass
@@ -27,8 +40,7 @@ class TeamAdjancy(Team):
     """Determining lineup using adjancy graph"""
 
     def __init__(self, csv_path, player_method, graph_method, lineup_method, cluster_method):
-        super(TeamAdjancy, self).__init__(csv_path)
-        self.player_method = player_method
+        super(TeamAdjancy, self).__init__(csv_path, player_method)
         self.graph_method = graph_method
         self.lineup_method = lineup_method
         self.cluster_method = cluster_method
@@ -70,18 +82,6 @@ class TeamAdjancy(Team):
 
         return A
         
-
-    def _set_players(self):
-        if self.player_method == 'teamates':
-            for _, row in self.df.iterrows():
-                prefered_teamates = list(map(int, eval(row['prefered_teamates'])))
-                player = SimplePlayer(row['player_id'], prefered_teamates)
-                self.players.append(player)
-        else:
-            raise ValueError(f"{self.player_method} not supported. Select between [teamates, ]")
-
-        
-
     def set_lineups(self):
         if self.lineup_method == 'spectral_clustering':
             self.lineup = self._get_spectral_clustering_lineup()
@@ -135,4 +135,22 @@ class TeamAdjancy(Team):
         lineups = [lineups_dict[i] for i in range(NUM_LINES) ]
         return lineups
 
-        
+
+class TeamILP(Team):
+
+    """Determining Lineups with Integer Linear Programming"""
+
+    def __init__(self, players_csv_path: str, player_method: str, willingness_weight: float, score_weight: float):
+        super(TeamILP, self).__init__(players_csv_path, player_method)
+        self.willingness_weight = willingness_weight
+        self.score_weight = score_weight
+
+        self._set_players()
+        self._set_lineup()
+
+
+    def _set_lineup(self):
+         #  Define binary variables so that player are either offense or defense
+        pass
+
+
