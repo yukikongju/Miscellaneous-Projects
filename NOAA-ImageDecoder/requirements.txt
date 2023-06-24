@@ -1,0 +1,4 @@
+wxnimbus
+numpy
+
+sudo apt install portaudio19-dev
