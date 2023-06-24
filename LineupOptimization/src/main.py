@@ -28,23 +28,33 @@ def main():
     valk2_path = 'LineupOptimization/data/valk2.csv'
 
     # --- spectral clustering with kmeans method
-    #  team_kmeans = TeamAdjancy(valk1_path, player_method='teammates', graph_method='adjancy', lineup_method='spectral_clustering', cluster_method='kmeans')
-    #  print('------------------------------------------------')
-    #  print(f"Lineup with KMeans Spectral Clustering Method:")
-    #  print(print_player_lineups(valk1_path, team_kmeans.lineup))
-    #  print('------------------------------------------------')
-    #  print('')
+    team_kmeans = TeamAdjancy(valk1_path, player_method='teammates', graph_method='adjancy', lineup_method='spectral_clustering', cluster_method='kmeans')
+    print('------------------------------------------------')
+    print(f"***Lineup with KMeans Spectral Clustering Method***")
+    print(print_player_lineups(valk1_path, team_kmeans.lineup))
+    print('------------------------------------------------')
+    print('')
 
     # --- spectral clustering with fielder method
-    #  team_fiedler = TeamAdjancy(valk1_path, player_method='teammates', graph_method='adjancy', lineup_method='spectral_clustering', cluster_method='fiedler')
-    #  print('------------------------------------------------')
-    #  print(f"Lineup with Fielder Spectral Clustering Method:")
-    #  print_player_lineups(valk1_path, team_fiedler.lineup)
-    #  print('------------------------------------------------')
+    team_fiedler = TeamAdjancy(valk1_path, player_method='teammates', graph_method='adjancy', lineup_method='spectral_clustering', cluster_method='fiedler')
+    print('------------------------------------------------')
+    print(f"***Lineup with Fielder Spectral Clustering Method***")
+    print_player_lineups(valk1_path, team_fiedler.lineup)
+    print('------------------------------------------------')
+    print('')
 
     # --- Integer Linear Programming
+    print('------------------------------------------------')
+    print(f"***Lineup with Integer Linear Programming - Offensive & Defensive Lines***")
     ILP = TeamILP(valk2_path, 'complete_player', 1.0, 1.2, 'offensive-defensive-lines')
+    print('------------------------------------------------')
+    print('')
 
+    print('------------------------------------------------')
+    print(f"***Lineup with Integer Linear Programming - Cutter & Handler Lines***")
+    ILP = TeamILP(valk2_path, 'complete_player', 1.0, 1.2, 'handler-cutter-lines')
+    print('------------------------------------------------')
+    print('')
 
 
 if __name__ == "__main__":

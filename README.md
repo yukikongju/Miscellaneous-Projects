@@ -19,7 +19,8 @@ A collection of random projects
 - [X] Simulation: ELO rating, blood type
 - [X] Mini-Games Bots: Dinosaur Bot, autocliker
 - [X] SleepAdminDeltaCalculations
-- [.] Lineup Optimization with Maximum Weighted Bipartite Matching Algorithms
+- [X] NOAA
+- [X] Lineup Optimization with Maximum Weighted Bipartite Matching Algorithms
 - [ ] AUDL RL: Learning Best strategy through RL
 - [ ] Text Counter in Rust, text analysis
 - [ ] NDS ROM Hacks: [ex1](https://gbatemp.net/threads/the-ultimate-nintendo-ds-rom-hacking-guide.291274/) [nesasm](http://www.patater.com/gbaguy/nesasm.htm) [CS4803](https://faculty.cc.gatech.edu/~hyesoon/spr10/schedule.html) [nds](https://faculty.cc.gatech.edu/~hyesoon/spr10/fromTA/CS4803DGC/Getting_Started....html) [nds roms](https://www.youtube.com/watch?v=lakp5ZRN7rE&list=PLKTW2ZuQjbEEVYHhxRZF9N8v_9AUneJq1)

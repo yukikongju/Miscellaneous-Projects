@@ -206,8 +206,8 @@ class TeamILP(Team):
 
     def _set_lineup(self):
         # -- set problem variables and constraints
-        if self.ilp_method == 'two-lines':
-            pass
+        if self.ilp_method == 'handler-cutter-lines':
+            self.__get_ilp_problem_handler_cutter_lines()
         elif self.ilp_method == 'offensive-defensive-lines':
             prob = self.__get_ilp_problem_offense_defense_lines()
         elif self.ilp_method == 'optimized-offensive-defensive-lines':
@@ -215,19 +215,101 @@ class TeamILP(Team):
         else:
             raise ValueError(f"{self.ilp_method} is not a valid method. please select between []")
 
-
-    def __get_ilp_problem_offense_defense_lines(self):
+    def __get_ilp_problem_handler_cutter_lines(self): # TODO: verify why we get low score
         """
-        set ILP problem if ilp_method == 'offense-defense-lines'.
+        Set ILP problem if ilp_method == 'offense-defense-lines'.
 
         Problem Definition:
             - Ojective:
               + Maximize total sum given by offensive line and defensive line
             - Variables:
-              + Binary variables for each player: either first line or second line
+              + Binary variables for each player: either first or second line
+              + Each player can either be handler or cutter
             - Constraints:
               + Number of players per lines set equally
               + Each player can only be in one line
+              + 3 handlers per line miminum
+              + Degree Centrality based on teammate preferences
+        """
+        # --- set variables
+        first_line = LpVariable.dicts("first_line", [ player.player_name for player in self.players ], cat='Binary')
+        second_line = LpVariable.dicts("second_line", [ player.player_name for player in self.players ], cat='Binary')
+
+        handler_line = LpVariable.dicts('handler_line', [ player.player_name for player in self.players ], cat='Binary')
+        #  cutter_line = LpVariable.dicts('cutter_line', [ player.player_name for player in self.players ], cat='Binary')
+
+        # --- HERE: set problem objective
+        prob = LpProblem('PlayerAssignment', LpMaximize)
+        prob += lpSum(
+                [ player.handling_score * handler_line[player.player_name] 
+                 + player.cutting_score * (1 - handler_line[player.player_name])
+                 for player in self.players ]
+                )
+
+
+        # --- set constraints
+
+        # constraint: lines have the same amount of players
+        num_players = len(self.players)
+        max_line_size = round(num_players / 2, 0)
+        prob += lpSum(first_line[player.player_name] for player in self.players) <= max_line_size
+        prob += lpSum(second_line[player.player_name] for player in self.players) <= max_line_size
+
+        # constraint: number of cutter and handler per lines
+        NUM_HANDLERS_MIN_PER_LINE = 3
+        prob += lpSum(handler_line[player_name] for player_name in first_line.keys()) >= NUM_HANDLERS_MIN_PER_LINE
+        prob += lpSum(handler_line[player_name] for player_name in second_line.keys()) >= NUM_HANDLERS_MIN_PER_LINE
+
+
+         # constraint: each player can only be assigned to either offensive or defensive line
+        for player in self.players:
+            prob += first_line[player.player_name] + second_line[player.player_name] == 1
+
+        # constraint: each player can either be cutter or handler
+        #  for player in self.players:
+        #      prob += handler_line[player.player_name] + cutter_line[player.player_name] == 1
+
+
+        # constraint: consider degree centrality given by teammate preference
+        for player in self.players:
+            prob += first_line[player.player_name] + second_line[player.player_name] >= self.indegree_centrality[player.player_name]
+
+        # --- solve problem without verbose
+        prob.solve(PULP_CBC_CMD(msg=0))
+        #  prob.solve()
+
+
+        # --- check if solution has been found
+        if prob.status == LpStatusOptimal:
+            first_line_assignments = [ player.player_name for player in self.players if value(first_line[player.player_name]) == 1 ]
+            second_line_assignments = [ player.player_name for player in self.players if value(second_line[player.player_name]) == 1 ]
+
+            # -- set the lines
+            print(f"First Line: {first_line_assignments}")
+            print(f"Second Line: {second_line_assignments}")
+        elif prob.status == LpStatusUnbounded:
+            print('The problem is unbounded')
+        elif prob.status == LpStatusInfeasible:
+            print('The problem is infeasible')
+
+
+        return prob
+        
+
+
+    def __get_ilp_problem_offense_defense_lines(self):
+        """
+        Set ILP problem if ilp_method == 'offense-defense-lines'.
+
+        Problem Definition:
+            - Ojective:
+              + Maximize total sum given by offensive line and defensive line
+            - Variables:
+              + Binary variables for each player: either offensive or defensive line
+            - Constraints:
+              + Number of players per lines set equally
+              + Each player can only be in one line
+              + Degree Centrality based on teammate preferences
         """
         # --- set variables
         offensive_line = LpVariable.dicts("offensive_line", [ player.player_name for player in self.players ], cat='Binary')
@@ -254,10 +336,14 @@ class TeamILP(Team):
             prob += offensive_line[player.player_name] + defensive_line[player.player_name] == 1
 
         # constraint: consider degree centrality given by teammate preference
-        prob += offensive_line[player.player_name] + defensive_line[player.player_name] >= self.indegree_centrality[player.player_name]
+        for player in self.players:
+            prob += offensive_line[player.player_name] + defensive_line[player.player_name] >= self.indegree_centrality[player.player_name]
 
-        # --- solve problem 
-        prob.solve()
+        # --- solve problem without verbose
+        prob.solve(PULP_CBC_CMD(msg=0))
+        #  prob.solve()
+        #  print(prob)
+
 
         # --- check if solution has been found
         if prob.status == LpStatusOptimal:
@@ -265,7 +351,9 @@ class TeamILP(Team):
             defensive_line_assignments = [ player.player_name for player in self.players if value(defensive_line[player.player_name]) == 1 ]
 
         # -- set the lines
-        print(f"Offensive: {offensive_line_assignments}")
-        print(f"Defense: {defensive_line_assignments}")
+        print(f"Offensive Line: {offensive_line_assignments}")
+        print(f"Defense Line: {defensive_line_assignments}")
+
+        return prob
 
 
