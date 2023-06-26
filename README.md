@@ -19,7 +19,7 @@ A collection of random projects
 - [X] Simulation: ELO rating, blood type
 - [X] Mini-Games Bots: Dinosaur Bot, autocliker
 - [X] SleepAdminDeltaCalculations
-- [X] NOAA
+- [X] NOAA: Decoding Satellite Signal to Image
 - [X] Lineup Optimization with Maximum Weighted Bipartite Matching Algorithms
 - [ ] AUDL RL: Learning Best strategy through RL
 - [ ] Text Counter in Rust, text analysis
@@ -32,7 +32,6 @@ A collection of random projects
 - [ ] Quantum Computing with Qiskit
 - [ ] Starcraft AI from sentdex
 - [ ] Tron Legacy Reinforcement Learning
-- [ ] Decoding Satellite Signal to Image
 - [ ] RSA
 - [ ] Weather API
 - [ ] QR Code Generator
