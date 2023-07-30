@@ -1,0 +1,17 @@
+mbti,name,personality_type,stack_type,dominant,auxiliary,tertiary,inferior
+estp,entrepreneur,explorer,sensing,Se,Ti,Fe,Ni
+esfp,entertainer,explorer,sensing,Se,Fi,Te,Ni
+istj,logistician,sentinel,sensing,Si,Te,Fi,Ne
+isfj,defender,sentinel,sensing,Si,Fe,Ti,Ne
+entp,debater,analyst,intuitive,Ne,Ti,Fe,Si
+enfp,campaigner,diplomat,intuitive,Ne,Fi,Te,Si
+intj,architect,analyst,intuitive,Ni,Te,Fi,Se
+infj,advocate,diplomat,intuitive,Ni,Fe,Ti,Se
+estj,executive,sentinel,thinking,Te,Si,Ne,Fi
+entj,commander,analyst,thinking,Te,Ni,Se,Fi
+istp,virtuoso,explorer,thinking,Ti,Se,Ni,Fe
+intp,logician,analyst,thinking,Ti,Ne,Si,Fe
+esfj,consul,sentinel,feeling,Fe,Si,Ne,Ti
+enfj,protagonist,diplomat,feeling,Fe,Ni,Se,Ti
+isfp,adventurer,explorer,feeling,Fi,Se,Ni,Te
+infp,mediator,diplomat,feeling,Fi,Ne,Si,Te
