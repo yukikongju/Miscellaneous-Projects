@@ -1,0 +1,114 @@
+% Copyright 2020 by Junwei Wang <i.junwei.wang@gmail.com>
+%
+% This file may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either version 1.3c
+% of this license or (at your option) any later version.
+% The latest version of this license is in
+%   http://www.latex-project.org/lppl.txt
+
+\ProvidesPackage{beamerthemeNord}[2020/08/24 v0.2.0 A beamer theme using Nord color scheme]
+
+\mode<presentation>
+
+\DeclareOptionBeamer{style}{
+  \PassOptionsToPackage{style=#1}{beamercolorthemeNord}
+}
+\newif\ifnord@footlineauthor
+\nord@footlineauthorfalse
+\DeclareOptionBeamer{footlineauthor}{\nord@footlineauthortrue}
+\newif\ifnord@footlinevenue
+\nord@footlinevenuefalse
+\DeclareOptionBeamer{footlinevenue}{\nord@footlinevenuetrue}
+\ProcessOptionsBeamer
+
+\RequirePackage{ifthen}
+
+\usecolortheme{Nord}
+\usefonttheme{Nord}
+
+\setbeamertemplate{navigation symbols}{}
+
+\setbeamersize{text margin left=8mm,text margin right=8mm}
+
+% venue
+\newcommand{\venue}{\@dblarg\nord@venue}
+\long\def\nord@venue[#1]#2{%
+  \def\insertvenue{#2}%
+  \def\nord@shortvenue{#1}%
+}
+\venue{}
+\newcommand\insertshortvenue[1][]{%
+  \let\thanks=\@gobble%
+  \beamer@setupshort{#1}%
+  \beamer@insertshort{\nord@shortvenue}}
+
+\setbeamertemplate{caption}{\insertcaption}
+
+\setbeamertemplate{itemize item}{$\ast$}
+\setbeamertemplate{itemize subitem}{$\ast$}
+\setbeamertemplate{itemize subsubitem}{$\ast$}
+\setbeamertemplate{frametitle}{
+  {\usebeamercolor[fg]{normal text} \mdseries >> }~\boldmath\insertframetitle%
+  \hfill\ifx\insertframesubtitle\@empty\else{\usebeamerfont{framesubtitle}\usebeamercolor[fg]{framesubtitle}\insertframesubtitle}\fi
+}
+\setbeamertemplate{frametitle continuation}[from second][\insertcontinuationtext]
+\setbeamertemplate{headline}
+{%
+\begin{beamercolorbox}{section in head/foot}
+\vskip2pt\insertnavigation{\paperwidth}\vskip5pt
+\end{beamercolorbox}%
+}
+\setbeamertemplate{footline}{
+  \newbox\nord@tmpbox
+  \setbox\nord@tmpbox\hbox{%
+    \ifnord@footlineauthor\insertshortauthor\qquad\fi%
+    \ifx\nord@shortvenue\@empty\else%
+      \ifnord@footlinevenue%
+        \insertshortvenue%
+        \qquad%
+      \fi%
+    \fi%
+    [\insertframenumber/\inserttotalframenumber]%
+  }
+  \vspace{5.2mm}
+  \hspace{2mm}\noindent\hfill\box\nord@tmpbox\hspace{2mm}
+  \vspace{1.3mm}
+}
+\setbeamertemplate{title page}{
+  \renewcommand\thefootnote{\fnsymbol{footnote}}
+  \setcounter{footnote}{1} % \dagger
+  {\usebeamerfont{title}\usebeamercolor[fg]{title}\bfseries\boldmath\inserttitle\par}
+  \ifx\insertsubtitle\@empty\else\vspace{1em}{\usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}\insertsubtitle\par}\fi\vspace{3em}
+  \ifx\insertvenue\@empty\else{\usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}\insertvenue\par}\vspace{1.5em}\fi
+  {\usebeamerfont{author}\usebeamercolor{author}\insertauthor\par}
+  \ifx\insertinstitute\@empty\else\vspace{.5em}{\usebeamerfont{institute}\usebeamercolor{institute}\insertinstitute\par}\fi
+  \vspace{1.5em}
+  {\usebeamerfont{date}\usebeamercolor{date}\insertdate\par}
+  \renewcommand\thefootnote{\arabic{footnote}}
+  \setcounter{footnote}{0}
+}
+
+% table of contents
+\setbeamertemplate{section in toc}{
+  \inserttocsection\\\smallskip
+}
+\setbeamertemplate{subsection in toc}{~$\ast$~~\inserttocsubsection\\\smallskip}
+\setbeamertemplate{subsection in toc shaded}[default][100]
+
+% block
+\setbeamertemplate{blocks}[rounded][shadow=false]
+\addtobeamertemplate{block begin}{%
+  \setlength{\textwidth}{0.85\textwidth}%
+}{}
+\addtobeamertemplate{block alerted begin}{%
+  \setlength{\textwidth}{0.85\textwidth}%
+}{}
+\addtobeamertemplate{block example begin}{%
+  \setlength{\textwidth}{0.85\textwidth}%
+}{}
+
+
+\mode
+<all>
+
+\endinput

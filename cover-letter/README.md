@@ -20,4 +20,6 @@
 ## Ressources
 
 
-[Tex CV Builder](https://github.com/antkr10/tex-cvbuilder/tree/main)
+- [Tex CV Builder](https://github.com/antkr10/tex-cvbuilder/tree/main)
+- [Yannis Galanakis Templates](https://www.yannisgalanakis.com/other/templates/)
+
