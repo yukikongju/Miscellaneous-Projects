@@ -26,7 +26,7 @@ A collection of random projects
 - [ ] CRON Job to sync music downloader and ebooks to tablet
 - [ ] AUDL RL: Learning Best strategy through RL
 - [ ] OpenCV
-- [ ] Image Denoising: Edge Detection, Thresholding operations and Morphological operations using opencv
+- [ ] Image Denoising: Edge Detection, Thresholding operations and Morphological operations using opencv => r/PhotoshopRequests
 - [ ] Text Counter in Rust, text analysis
 - [ ] EDO Solver
 - [ ] NDS ROM Hacks: [ex1](https://gbatemp.net/threads/the-ultimate-nintendo-ds-rom-hacking-guide.291274/) [nesasm](http://www.patater.com/gbaguy/nesasm.htm) [CS4803](https://faculty.cc.gatech.edu/~hyesoon/spr10/schedule.html) [nds](https://faculty.cc.gatech.edu/~hyesoon/spr10/fromTA/CS4803DGC/Getting_Started....html) [nds roms](https://www.youtube.com/watch?v=lakp5ZRN7rE&list=PLKTW2ZuQjbEEVYHhxRZF9N8v_9AUneJq1)
