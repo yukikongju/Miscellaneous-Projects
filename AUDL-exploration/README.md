@@ -2,6 +2,7 @@
 
 EDA for AUDL stats
 
+[AUDL Analytics Pipeline](https://docs.google.com/drawings/d/1IdWRcp2mRWDZX7EwqnIUUZ3jFeHZ4ynZm599IL8uahc/edit)
 
 
 # Requirements
