@@ -57,6 +57,25 @@ Workflows:
 - [ ] Player Season and Playoffs Stats
 - [ ] 
 
+## Technologies to be used
+
+- [ ] Data Orchestration: `Dagster` and `Github Actions`
+- [ ] Database: 
+	* Document-Based for JSON file: `MongoDB`
+	* Graph Database: `GraphQL` or `Neo4j` or `graphene`
+	* Caching: `Redis` ; `SnowFlake`
+	* `Databricks`
+- [ ] CI/CD: `Github Actions` or `Terraform`
+- [ ] Retraining ML Models: `SageMaker`
+- [ ] Containerization: `Docker`
+- [ ] MLOps: `MLFlow` or `Airflow`
+
+**Optional**
+
+- [ ] Drift Detection
+- [ ] Hyperparameters Tuning
+
+
 # How to
 
 **Read from Sqlite3**
