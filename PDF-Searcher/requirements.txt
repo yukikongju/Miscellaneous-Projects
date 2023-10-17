@@ -1,0 +1,4 @@
+textract
+tika
+PyPDF2
+nltk
