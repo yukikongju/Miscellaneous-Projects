@@ -7,7 +7,7 @@
 
 using namespace std;
 
-#include "NaiveSimulation.h"
+#include <NaiveSimulation.h>
 
 int main() {
     // set initial parameters

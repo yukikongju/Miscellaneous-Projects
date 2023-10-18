@@ -1,5 +1,5 @@
-#include "NaiveSimulation.h"
-#include "PersonBernouilli.h"
+#include <NaiveSimulation.h>
+#include <PersonBernouilli.h>
 
 NaiveSimulation::NaiveSimulation(int N, int initialPeopleWithInfo, double meanFriends, double stdFriends, double meanProbability, double stdProbability) :
     Simulation(N, initialPeopleWithInfo, meanFriends, stdFriends), 
@@ -40,7 +40,6 @@ void NaiveSimulation::simulate() {
 	// TODO: set probability and friends
 
     }
-
 
     // 3. run simulation until everyone has information
 
