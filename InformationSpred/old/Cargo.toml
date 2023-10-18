@@ -1,0 +1,4 @@
+edition = "2021"
+
+[dependecies]
+rand = "0.8"

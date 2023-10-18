@@ -56,3 +56,11 @@ More simulation:
 - sharing information between groups
 
 
+**The people**
+
+- Person 1: probability of sharing information follows a Bernoulli
+- Person 2: probability of sharing information is exponential 
+    * if more people knows, more likely to share the information
+- Person 3: probability of sharing + trustworthiness level
+
+
