@@ -23,6 +23,7 @@ answer this question by running a simulation.
       information to be shared and cannot be shared partially
     - Each person is being assigned a parameter p which represent the probability 
       of sharing an information
+    - Relationship are not symmetrical: if A considers B as a friends, the inverse is not necessarily true
 
 
 - Simulation 2:
