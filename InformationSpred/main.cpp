@@ -33,12 +33,12 @@ class Simulation {
 	int N; // number of people in the simulation
 	int initialPeopleWithInfo;
 	double meanFriends, stdFriends; // mean and standard deviation of friends
-	vector<Person> population;
+	vector<Person*> population;
 
     public:
 	Simulation(int N, int initialPeopleWithInfo, double meanFriends, double stdFriends): N(N), initialPeopleWithInfo(initialPeopleWithInfo), meanFriends(meanFriends), stdFriends(stdFriends), population(N) {}
 
-	virtual void simulate();
+	virtual void simulate() {}
 };
 
 class NaiveSimulation: public Simulation {
@@ -69,7 +69,7 @@ class NaiveSimulation: public Simulation {
 
 		// add person to population
 		PersonBernouilli person(i, probability);
-		population.push_back(person);
+		population.push_back(&person);
 	    }
 
 	    // 2. initialize friends and people with information
@@ -77,6 +77,9 @@ class NaiveSimulation: public Simulation {
 		// compute number of friends (cannot be friends with yourself lolz)
 		int numFriends = max(static_cast<int>(distributionFriends(generator)), N-1);
 		vector<int> friendsIndices(numFriends);
+		// friendsIndices.push_back(i); // initialize 
+
+
 		while(friendsIndices.size() < numFriends) {
 		    int randomInt = uniform_int_distribution<int>(0, N-1)(gen);
 
@@ -84,7 +87,6 @@ class NaiveSimulation: public Simulation {
 			friendsIndices.push_back(randomInt);
 		    }
 		}
-
 
 		// TODO: set probability and friends
 
@@ -111,6 +113,9 @@ int main() {
     NaiveSimulation simulation(N, initialPeopleWithInfo, meanFriends, 
 	    stdFriends, meanProbability, stdProbability);
     simulation.simulate();
+
+    //
+
 
     return 0;
 }
