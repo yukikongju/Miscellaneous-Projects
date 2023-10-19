@@ -64,4 +64,20 @@ More simulation:
     * if more people knows, more likely to share the information
 - Person 3: probability of sharing + trustworthiness level
 
+## Vim and C++
+
+**Using bear and ccls to make vim recognize include files**
+
+```
+> sudo apt install bear
+> bear make // this will create a compile_commands.json
+> vi .ccls
+> ctags -R .
+```
+
+
+## Ressources
+
+- [C++ Reference](https://cplusplus.com/reference/)
+- [Vim and C++](https://blog.octoco.ltd/vim-coc-and-c-dbe99405f7bd)
 

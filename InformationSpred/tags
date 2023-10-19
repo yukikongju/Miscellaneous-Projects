@@ -1,0 +1,39 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+CXX	makefile	/^CXX = g++$/;"	m
+N	include/Simulation.h	/^	int N; \/\/ number of people in the simulation$/;"	m	class:Simulation
+NAIVE_SIMULATION_H	include/NaiveSimulation.h	2;"	d
+NaiveSimulation	include/NaiveSimulation.h	/^class NaiveSimulation: public Simulation {$/;"	c
+NaiveSimulation	src/NaiveSimulation.cpp	/^NaiveSimulation::NaiveSimulation(int N, int initialPeopleWithInfo, double meanFriends, double stdFriends, double meanProbability, double stdProbability) :$/;"	f	class:NaiveSimulation
+PERSON_BERNOUILLI_H	include/PersonBernouilli.h	2;"	d
+PERSON_H	include/Person.h	2;"	d
+Person	include/Person.h	/^class Person {$/;"	c
+Person	src/Person.cpp	/^Person::Person(int id): id(id), hasInformation(false) {}$/;"	f	class:Person
+PersonBernouilli	include/PersonBernouilli.h	/^class PersonBernouilli : public Person {$/;"	c
+PersonBernouilli	src/PersonBernouilli.cpp	/^PersonBernouilli::PersonBernouilli(int id, double probability): Person(id), p(probability) {}$/;"	f	class:PersonBernouilli
+SIMULATION_H	include/Simulation.h	2;"	d
+Simulation	include/Simulation.h	/^class Simulation {$/;"	c
+Simulation	src/Simulation.cpp	/^Simulation::Simulation(int N, int initialPeopleWithInfo, double meanFriends, double stdFriends): N(N), initialPeopleWithInfo(initialPeopleWithInfo), meanFriends(meanFriends), stdFriends(stdFriends), population(N) {}$/;"	f	class:Simulation
+distributionFriends	include/NaiveSimulation.h	/^	normal_distribution<double> distributionFriends;$/;"	m	class:NaiveSimulation
+distributionProbability	include/NaiveSimulation.h	/^	normal_distribution<double> distributionProbability;$/;"	m	class:NaiveSimulation
+friends	include/Person.h	/^	vector<Person*> friends;$/;"	m	class:Person
+generator	include/NaiveSimulation.h	/^	default_random_engine generator;$/;"	m	class:NaiveSimulation
+hasInformation	include/Person.h	/^	bool hasInformation;$/;"	m	class:Person
+id	include/Person.h	/^	int id;$/;"	m	class:Person
+initialPeopleWithInfo	include/Simulation.h	/^	int initialPeopleWithInfo;$/;"	m	class:Simulation
+main	src/main.cpp	/^int main() {$/;"	f
+meanFriends	include/Simulation.h	/^	double meanFriends, stdFriends; \/\/ mean and standard deviation of friends$/;"	m	class:Simulation
+meanProbability	include/NaiveSimulation.h	/^	double meanProbability, stdProbability;$/;"	m	class:NaiveSimulation
+output_bin	makefile	/^output_bin = a.out$/;"	m
+override	include/NaiveSimulation.h	/^	void simulate() override;$/;"	m	class:NaiveSimulation
+p	include/PersonBernouilli.h	/^	double p; \/\/ probability of sharing the information$/;"	m	class:PersonBernouilli
+population	include/Simulation.h	/^	vector<Person*> population;$/;"	m	class:Simulation
+printInfos	src/Person.cpp	/^void Person::printInfos() {$/;"	f	class:Person
+simulate	src/NaiveSimulation.cpp	/^void NaiveSimulation::simulate() {$/;"	f	class:NaiveSimulation
+simulate	src/Simulation.cpp	/^void Simulation::simulate() {}$/;"	f	class:Simulation
+stdFriends	include/Simulation.h	/^	double meanFriends, stdFriends; \/\/ mean and standard deviation of friends$/;"	m	class:Simulation
+stdProbability	include/NaiveSimulation.h	/^	double meanProbability, stdProbability;$/;"	m	class:NaiveSimulation

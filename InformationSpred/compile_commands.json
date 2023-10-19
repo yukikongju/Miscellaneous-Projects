@@ -1,0 +1,67 @@
+[
+    {
+        "arguments": [
+            "g++",
+            "-c",
+            "-I./include",
+            "-std=c++11",
+            "-o",
+            "a.out",
+            "src/Person.cpp"
+        ],
+        "directory": "/home/yukikongju/Projects/Miscellaneous-Projects/InformationSpred",
+        "file": "src/Person.cpp"
+    },
+    {
+        "arguments": [
+            "g++",
+            "-c",
+            "-I./include",
+            "-std=c++11",
+            "-o",
+            "a.out",
+            "src/PersonBernouilli.cpp"
+        ],
+        "directory": "/home/yukikongju/Projects/Miscellaneous-Projects/InformationSpred",
+        "file": "src/PersonBernouilli.cpp"
+    },
+    {
+        "arguments": [
+            "g++",
+            "-c",
+            "-I./include",
+            "-std=c++11",
+            "-o",
+            "a.out",
+            "src/Simulation.cpp"
+        ],
+        "directory": "/home/yukikongju/Projects/Miscellaneous-Projects/InformationSpred",
+        "file": "src/Simulation.cpp"
+    },
+    {
+        "arguments": [
+            "g++",
+            "-c",
+            "-I./include",
+            "-std=c++11",
+            "-o",
+            "a.out",
+            "src/main.cpp"
+        ],
+        "directory": "/home/yukikongju/Projects/Miscellaneous-Projects/InformationSpred",
+        "file": "src/main.cpp"
+    },
+    {
+        "arguments": [
+            "g++",
+            "-c",
+            "-I./include",
+            "-std=c++11",
+            "-o",
+            "a.out",
+            "src/NaiveSimulation.cpp"
+        ],
+        "directory": "/home/yukikongju/Projects/Miscellaneous-Projects/InformationSpred",
+        "file": "src/NaiveSimulation.cpp"
+    }
+]
