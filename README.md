@@ -23,7 +23,8 @@ A collection of random projects
 - [X] Lineup Optimization with Maximum Weighted Bipartite Matching Algorithms
 - [X] MBTI Cognitive Functions Stack
 - [X] Mardown to Latex Cover Letter
-- [ ] CRON Job to sync music downloader and ebooks to tablet
+- [X] CRON Job to sync music downloader and ebooks to tablet (see MusicDownloader)
+- [ ] Option Pricing Models
 - [ ] AUDL RL: Learning Best strategy through RL
 - [ ] OpenCV
 - [ ] Image Denoising: Edge Detection, Thresholding operations and Morphological operations using opencv => r/PhotoshopRequests
