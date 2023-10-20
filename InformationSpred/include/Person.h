@@ -7,14 +7,16 @@ using namespace std;
 
 class Person {
     protected:
-	int id;
-	vector<Person*> friends;
-	bool hasInformation;
 
     public:
+	int id;
+	vector<Person> friends;
+	bool hasInformation;
 	Person(int id);
 
 	void printInfos();
+
+	void addFriend(const Person &friendPerson);
 };
 
 #endif

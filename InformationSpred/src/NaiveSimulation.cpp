@@ -1,3 +1,4 @@
+#include "Person.h"
 #include <NaiveSimulation.h>
 #include <PersonBernouilli.h>
 
@@ -18,7 +19,7 @@ void NaiveSimulation::simulate() {
 
 	// add person to population
 	PersonBernouilli person(i, probability);
-	population.push_back(&person);
+	population.push_back(person);
     }
 
     // 2. initialize friends and people with information
@@ -28,17 +29,29 @@ void NaiveSimulation::simulate() {
 	vector<int> friendsIndices(numFriends);
 	// friendsIndices.push_back(i); // initialize 
 
+	Person &person = population[i];
 
 	while(friendsIndices.size() < numFriends) {
 	    int randomInt = uniform_int_distribution<int>(0, N-1)(gen);
 
 	    if (find(friendsIndices.begin(), friendsIndices.end(), randomInt) == friendsIndices.end()) {
 		friendsIndices.push_back(randomInt);
+		Person &f = population[randomInt];
+		person.addFriend(f);
 	    }
+
 	}
 
-	// TODO: set probability and friends
+	// TODO: set friends
 
+    }
+
+    // tmp print
+    // for (const Person &person: population) {
+    //     cout << person.hasInformation;
+    // }
+    for (auto p: population) {
+	p.printInfos();
     }
 
     // 3. run simulation until everyone has information
