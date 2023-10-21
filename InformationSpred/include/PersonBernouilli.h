@@ -5,10 +5,12 @@
 
 class PersonBernouilli : public Person {
     protected: 
-	double p; // probability of sharing the information
 
     public:
+	double p; // probability of sharing the information
 	PersonBernouilli(int id, double probability);
+
+	void printInfos() override;
 
 };
 

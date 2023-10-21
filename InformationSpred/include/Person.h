@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <iostream>
+
 using namespace std;
 
 class Person {
@@ -11,10 +12,11 @@ class Person {
     public:
 	int id;
 	vector<Person> friends;
+	// vector<Person> &friends;
 	bool hasInformation;
 	Person(int id);
 
-	void printInfos();
+	virtual void printInfos();
 
 	void addFriend(const Person &friendPerson);
 };
