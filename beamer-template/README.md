@@ -10,8 +10,11 @@
 `xelatex beamerthemeNord.tex`
 
 
+## Other Reports template
 
-
+- [journal](https://www.overleaf.com/latex/templates/length-check-latex-template-for-preparing-an-article-for-submission-to-optica-publishing-group-journals-ao-jocn-josa-a-josa-b-ol-optica/xjznbfqymcxm)
+- [Elsevier Nuclear Physics Template](https://www.overleaf.com/latex/templates/elsevier-nuclear-physics-a-journal-template/jkwtrpnnzsxq)
+- [Digital Humanities Template](https://www.overleaf.com/latex/templates/digital-humanities-in-the-nordic-and-baltic-countries-publications-template/nwkhrwkqbqbd)
 
 ## Ressources
 

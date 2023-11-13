@@ -75,9 +75,28 @@ More simulation:
 > ctags -R .
 ```
 
+**deprecated .ccls**
+
+```
+clang++
+%h %cpp -std=c++17
+
+```
+
+**To add to compile_commands.json to hide verbose refs**
+
+```
+{
+  "completion": {
+    "showAdvancedMembers": false
+  }
+}
+```
+
 
 ## Ressources
 
 - [C++ Reference](https://cplusplus.com/reference/)
 - [Vim and C++](https://blog.octoco.ltd/vim-coc-and-c-dbe99405f7bd)
+- [Learn CPP](https://www.learncpp.com/)
 
