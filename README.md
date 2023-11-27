@@ -29,7 +29,7 @@ A collection of random projects
 - [ ] OpenCV
 - [ ] Image Denoising: Edge Detection, Thresholding operations and Morphological operations using opencv => r/PhotoshopRequests
 - [ ] Text Counter in Rust, text analysis
-- [ ] EDO Solver
+- [ ] ODE Solver
 - [ ] NDS ROM Hacks: [ex1](https://gbatemp.net/threads/the-ultimate-nintendo-ds-rom-hacking-guide.291274/) [nesasm](http://www.patater.com/gbaguy/nesasm.htm) [CS4803](https://faculty.cc.gatech.edu/~hyesoon/spr10/schedule.html) [nds](https://faculty.cc.gatech.edu/~hyesoon/spr10/fromTA/CS4803DGC/Getting_Started....html) [nds roms](https://www.youtube.com/watch?v=lakp5ZRN7rE&list=PLKTW2ZuQjbEEVYHhxRZF9N8v_9AUneJq1)
 - [ ] Interpreter: Maths, AEDIROUM [playlist](https://www.youtube.com/playlist?list=PLZQftyCk7_SdoVexSmwy_tBgs7P0b97yD)
 - [ ] MathMemes (1) given soundwave, find function using lagrange multipliers that generates that function (2) given image, generate data where residuals are the image
