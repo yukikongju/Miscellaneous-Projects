@@ -59,17 +59,9 @@ class ModelCATImproved:
         plt.ylabel('Population')
         plt.show()
 
-def get_ode_solution(medicament: str, proportion: str, y0: [float], to_plot: bool = True): 
+def load_model(medicament: str, proportion: str):
     """
-    Parameters
-    ----------
-    medicament: str
-        > "Docetaxel", "Bortezomib", "Afatinib"
-    proportion: str
-        > "10_90", "50_50", "90_10"
-    y0: 
-        > valeurs initiales du systeme ex: [1,1,1,1] => len(y0) == 4
-
+    Given medicament and proportion, init model from parameters in csv file
     """
     # read data from csv
     filtered_rows = df[(df['medicament'] == medicament) & (df['proportion'] == proportion)]
@@ -95,6 +87,25 @@ def get_ode_solution(medicament: str, proportion: str, y0: [float], to_plot: boo
                                       a_wt_sens=a_wt_sens, a_wt_tol=a_wt_tol,
                                       a_M_sens=a_m_sens, a_M_tol=a_m_tol,
                                       Kwt=Kwt, Km=Km, v_sens=v_sens, vtol=v_tol)
+    return model_instance
+
+
+def get_ode_solution(medicament: str, proportion: str, y0: [float], to_plot: bool = True): 
+    """
+    Parameters
+    ----------
+    medicament: str
+        > "Docetaxel", "Bortezomib", "Afatinib"
+    proportion: str
+        > "10_90", "50_50", "90_10"
+    y0: 
+        > valeurs initiales du systeme ex: [1,1,1,1] => len(y0) == 4
+    to_plot: bool
+        > True if we want to plot
+
+    """
+    # init model
+    model_instance = load_model(medicament=medicament, proportion=proportion)
 
     # compute solution and plot
     t_start, t_end, num_points = 0, 10, 100
@@ -104,8 +115,43 @@ def get_ode_solution(medicament: str, proportion: str, y0: [float], to_plot: boo
     return solution
     
 
+def plot_cancer_cells(medicament: str, proportion: str, y0s, to_plot: bool = True):
+    """
+
+    """
+    # init model
+    model_instance = load_model(medicament=medicament, proportion=proportion)
+
+    # compute solutions for all IVP
+    t_start, t_end, num_points = 0, 10, 100
+    cancer_solutions = []
+    for i, y0 in enumerate(y0s):
+        t, solution = model_instance.solve(y0, t_start, t_end, num_points)
+        cancer = solution[:, 2] + solution[:, 3]
+
+        # plot cancer cells against days for all IVP
+        if to_plot:
+            plt.plot(t, cancer, label=f"IVP: {y0}")
+
+    if to_plot:
+        plt.legend()
+        plt.xlabel('Time')
+        plt.ylabel('Population')
+        plt.show()
+    
+
 if __name__ == "__main__":
     df = pd.read_csv("MedicamentResistanceODE/data.csv")
-    get_ode_solution(medicament="Docetaxel", proportion="50_50", y0=[1,1,1,1], to_plot=True)
+
+    #  [ PART 1 - Plot ODE Solution ]
+    solutions = get_ode_solution(medicament="Docetaxel", proportion="50_50", y0=[1,1,1,1], to_plot=False)
+
+    #  [ PART 2 - Plot Cancer cells against days for different initial conditions]
+    y0s = [
+            [1,1,1,1], 
+            [2,2,2,2], 
+            [5,5,5,5], 
+        ]
+    plot_cancer_cells(medicament="Docetaxel", proportion="50_50", y0s=y0s)
     
 
