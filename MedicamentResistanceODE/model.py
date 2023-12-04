@@ -4,21 +4,32 @@ from scipy.integrate import odeint
 import matplotlib.pyplot as plt
 
 class ModelCATImproved:
-    def __init__(self, l_wt_sens, l_wt_tol, l_M_sens, l_M_tol,
-                 a_wt_sens, a_wt_tol, a_M_sens, a_M_tol,
-                 Kwt, Km, v_sens, vtol):
-        self.l_wt_sens = l_wt_sens
-        self.l_wt_tol = l_wt_tol
-        self.l_M_sens = l_M_sens
-        self.l_M_tol = l_M_tol
-        self.a_wt_sens = a_wt_sens
-        self.a_wt_tol = a_wt_tol
-        self.a_M_sens = a_M_sens
-        self.a_M_tol = a_M_tol
-        self.Kwt = Kwt
-        self.Km = Km
-        self.v_sens = v_sens
-        self.vtol = vtol
+    def __init__(self, medicament: str, proportion: str):
+        self.medicament = medicament
+        self.proportion = proportion
+        self._load_model()
+
+    def _load_model(self):
+        """
+        Given medicament and proportion, init model from parameters in csv file
+        """
+        # read data from csv
+        filtered_rows = df[(df['medicament'] == self.medicament) & (df['proportion'] == self.proportion)]
+        if not filtered_rows.empty:
+            # Access the parameter values
+            self.Kwt = filtered_rows['Kwt'].values[0]
+            self.Km = filtered_rows['Km'].values[0]
+            self.l_wt_sens = filtered_rows['l_wt_sens'].values[0]
+            self.l_wt_tol = filtered_rows['l_wt_tol'].values[0]
+            self.l_M_sens = filtered_rows['l_m_sens'].values[0]
+            self.l_M_tol = filtered_rows['l_m_tol'].values[0]
+            self.a_wt_sens = filtered_rows['a_wt_sens'].values[0]
+            self.a_wt_tol = filtered_rows['a_wt_tol'].values[0]
+            self.a_M_sens = filtered_rows['a_m_sens'].values[0]
+            self.a_M_tol = filtered_rows['a_m_tol'].values[0]
+            self.v_sens = filtered_rows['v_sens'].values[0]
+            self.v_tol = filtered_rows['v_tol'].values[0]
+
 
     def model(self, y, t):
         xwt_sens, xwt_tol, xM_sens, xM_tol = y
@@ -28,13 +39,13 @@ class ModelCATImproved:
             * (1 - (xwt_sens + xwt_tol) / self.Kwt) - self.v_sens * xwt_sens,
 
             (self.l_wt_tol * xwt_tol + self.a_wt_tol * xwt_tol * (xM_sens + xM_tol))
-            * (1 - (xwt_sens + xwt_tol) / self.Kwt) + self.vtol * xwt_sens,
+            * (1 - (xwt_sens + xwt_tol) / self.Kwt) + self.v_tol * xwt_sens,
 
             (self.l_M_sens * xM_sens + self.a_M_sens * xM_sens * (xwt_sens + xwt_tol))
             * (1 - (xM_sens + xM_tol) / self.Km) - self.v_sens * xM_sens,
 
             (self.l_M_tol * xM_tol + self.a_M_tol * xM_tol * (xwt_sens + xwt_tol))
-            * (1 - (xM_sens + xM_tol) / self.Km) + self.vtol * xM_sens
+            * (1 - (xM_sens + xM_tol) / self.Km) + self.v_tol * xM_sens
         ]
 
         return dydt
@@ -55,39 +66,12 @@ class ModelCATImproved:
         plt.plot(t, xM_sens_solution, label='xM_sens')
         plt.plot(t, xM_tol_solution, label='xM_tol')
         plt.legend()
-        plt.xlabel('Time')
+        plt.xlabel('Jours')
         plt.ylabel('Population')
+        #  plt.title(r'Croissance des cellules $x_{wt}^{tol}$, $x_{wt}^{sens}$, $x_{M}^{tol}$, $x_{M}^{sens}$ baigné dans le {self.medicament} avec une proportion initiale de {self.proportion}')
+        plt.title(f'Croissance cellulaire dans le {self.medicament} avec une proportion initiale de {self.proportion}')
         plt.show()
 
-def load_model(medicament: str, proportion: str):
-    """
-    Given medicament and proportion, init model from parameters in csv file
-    """
-    # read data from csv
-    filtered_rows = df[(df['medicament'] == medicament) & (df['proportion'] == proportion)]
-    if not filtered_rows.empty:
-        # Access the parameter values
-        Kwt = filtered_rows['Kwt'].values[0]
-        Km = filtered_rows['Km'].values[0]
-        l_wt_sens = filtered_rows['l_wt_sens'].values[0]
-        l_wt_tol = filtered_rows['l_wt_tol'].values[0]
-        l_m_sens = filtered_rows['l_m_sens'].values[0]
-        l_m_tol = filtered_rows['l_m_tol'].values[0]
-        a_wt_sens = filtered_rows['a_wt_sens'].values[0]
-        a_wt_tol = filtered_rows['a_wt_tol'].values[0]
-        a_m_sens = filtered_rows['a_m_sens'].values[0]
-        a_m_tol = filtered_rows['a_m_tol'].values[0]
-        v_sens = filtered_rows['v_sens'].values[0]
-        v_tol = filtered_rows['v_tol'].values[0]
-
-
-    # initialize model
-    model_instance = ModelCATImproved(l_wt_sens=l_wt_sens, l_wt_tol=l_wt_tol,
-                                      l_M_sens=l_m_sens, l_M_tol=l_m_tol,
-                                      a_wt_sens=a_wt_sens, a_wt_tol=a_wt_tol,
-                                      a_M_sens=a_m_sens, a_M_tol=a_m_tol,
-                                      Kwt=Kwt, Km=Km, v_sens=v_sens, vtol=v_tol)
-    return model_instance
 
 
 def get_ode_solution(medicament: str, proportion: str, y0: [float], to_plot: bool = True): 
@@ -105,7 +89,7 @@ def get_ode_solution(medicament: str, proportion: str, y0: [float], to_plot: boo
 
     """
     # init model
-    model_instance = load_model(medicament=medicament, proportion=proportion)
+    model_instance = ModelCATImproved(medicament=medicament, proportion=proportion)
 
     # compute solution and plot
     t_start, t_end, num_points = 0, 10, 100
@@ -115,12 +99,12 @@ def get_ode_solution(medicament: str, proportion: str, y0: [float], to_plot: boo
     return solution
     
 
-def plot_cancer_cells(medicament: str, proportion: str, y0s, to_plot: bool = True):
+def get_daily_cancer_cells(medicament: str, proportion: str, y0s, to_plot: bool = True):
     """
 
     """
     # init model
-    model_instance = load_model(medicament=medicament, proportion=proportion)
+    model_instance = ModelCATImproved(medicament=medicament, proportion=proportion)
 
     # compute solutions for all IVP
     t_start, t_end, num_points = 0, 10, 100
@@ -135,9 +119,53 @@ def plot_cancer_cells(medicament: str, proportion: str, y0s, to_plot: bool = Tru
 
     if to_plot:
         plt.legend()
-        plt.xlabel('Time')
+        plt.title('Nombre de cellules cancérigènes $x_M$ après n jours')
+        plt.xlabel('Jours')
         plt.ylabel('Population')
         plt.show()
+
+    return cancer_solutions
+
+def get_correlation_cellulaire_ivp(medicament: str, proportion: str, y0s, t1: int, is_exponential = True, to_plot: bool = True): # FIXME
+    """
+    Parameters
+    ----------
+    t1: int
+        > Correlation au jour t1
+
+    """
+    # load model
+    model = ModelCATImproved(medicament=medicament, proportion=proportion)
+
+    # compute solutions for all IVP
+    t_start, t_end, num_points = 0, 10, 100
+    wild_types = []
+    mutants = []
+    for i, y0 in enumerate(y0s):
+        t, solution = model.solve(y0, t_start, t_end, num_points)
+        wild_types.append(solution[t1, 0] + solution[t1, 1])
+        mutants.append(solution[t1, 2] + solution[t1, 3])
+
+    # make data linear if exponential
+    if is_exponential:
+        mutants = np.log(mutants)
+
+    # compute correlation
+    corr_matrix = np.corrcoef(wild_types, mutants)
+    corr_coeff = corr_matrix[0][1]
+
+    if to_plot:
+        plt.scatter(wild_types, mutants)
+        plt.title('Correlation Cellulaire IVP')
+        plt.xlabel('Wild Types')
+        plt.ylabel('Mutants')
+        #  plt.text(2, 6, f'Correlation Coefficient: {corr_coeff}', bbox=dict(facecolor='white', alpha=0.5))
+        #  plt.text(2, 6, f'Correlation Coefficient: {corr_coeff}')
+        plt.show()
+
+
+    return corr_coeff
+    
     
 
 if __name__ == "__main__":
@@ -150,8 +178,16 @@ if __name__ == "__main__":
     y0s = [
             [1,1,1,1], 
             [2,2,2,2], 
+            [3,3,3,3], 
             [5,5,5,5], 
+            [8,8,8,8], 
         ]
-    plot_cancer_cells(medicament="Docetaxel", proportion="50_50", y0s=y0s)
+    get_daily_cancer_cells(medicament="Docetaxel", proportion="50_50", y0s=y0s, to_plot=False)
+
+    #  [ PART 3 - Correlation entre nombre de cellules en sante vs cancerigenes par jour (IVP)]
+    get_correlation_cellulaire_ivp(medicament="Docetaxel", proportion="50_50",
+                                   y0s=y0s, t1=3, is_exponential=True, to_plot=True)
+
     
+    #  [ PART 4 - Correlation entre nombre de cellules en sante vs cancerigenes par jour (proportion)]
 
