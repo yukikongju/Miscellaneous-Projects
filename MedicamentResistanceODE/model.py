@@ -1,4 +1,5 @@
 import numpy as np
+import os
 import pandas as pd
 from scipy.integrate import odeint
 import matplotlib.pyplot as plt
@@ -55,7 +56,10 @@ class ModelCATImproved:
         solution = odeint(self.model, y0, t)
         return t, solution
 
-    def plot_solution(self, t, solution):
+    def plot_solution(self, t, solution, to_save: bool = False):
+        f = plt.figure(figsize=FIGSIZE)
+        axarr = f.add_subplot(1,1,1)
+
         xwt_sens_solution = solution[:, 0]
         xwt_tol_solution = solution[:, 1]
         xM_sens_solution = solution[:, 2]
@@ -69,12 +73,18 @@ class ModelCATImproved:
         plt.xlabel('Jours')
         plt.ylabel('Population')
         #  plt.title(r'Croissance des cellules $x_{wt}^{tol}$, $x_{wt}^{sens}$, $x_{M}^{tol}$, $x_{M}^{sens}$ baigné dans le {self.medicament} avec une proportion initiale de {self.proportion}')
-        plt.title(f'Croissance cellulaire dans le {self.medicament} avec une proportion initiale de {self.proportion}')
+        #  plt.title(f'Croissance cellulaire dans le {self.medicament} avec une proportion initiale de {self.proportion}')
+
+        if to_save:
+            filename = f"ode_{self.medicament}_{self.proportion}"
+            plt.savefig(os.path.join(GRAPHICS_DIR, filename))
+
         plt.show()
 
+        return f
 
 
-def get_ode_solution(medicament: str, proportion: str, y0: [float], to_plot: bool = True): 
+def get_ode_solution(medicament: str, proportion: str, y0: [float], to_plot: bool = True, to_save: bool = False): 
     """
     Parameters
     ----------
@@ -95,16 +105,22 @@ def get_ode_solution(medicament: str, proportion: str, y0: [float], to_plot: boo
     t_start, t_end, num_points = 0, 10, 100
     t, solution = model_instance.solve(y0, t_start, t_end, num_points)
     if to_plot:
-        model_instance.plot_solution(t, solution)
+        plot = model_instance.plot_solution(t, solution, to_save=to_save)
+
     return solution
     
 
-def get_daily_cancer_cells(medicament: str, proportion: str, y0s, to_plot: bool = True):
+def get_daily_cancer_cells(medicament: str, proportion: str, y0s, to_plot: bool = True, to_save: bool = False):
     """
 
     """
     # init model
     model_instance = ModelCATImproved(medicament=medicament, proportion=proportion)
+
+
+    # create figure
+    plt.figure(figsize=FIGSIZE)
+
 
     # compute solutions for all IVP
     t_start, t_end, num_points = 0, 10, 100
@@ -119,9 +135,14 @@ def get_daily_cancer_cells(medicament: str, proportion: str, y0s, to_plot: bool 
 
     if to_plot:
         plt.legend()
-        plt.title('Nombre de cellules cancérigènes $x_M$ après n jours')
+        #  plt.title(f'Nombre de cellules cancérigènes $x_M$ après n jours pour {medicament} {proportion}')
         plt.xlabel('Jours')
         plt.ylabel('Population')
+
+        if to_save:
+            filename = f"cancer_{medicament}_{proportion}.png"
+            plt.savefig(os.path.join(GRAPHICS_DIR, filename))
+
         plt.show()
 
     return cancer_solutions
@@ -166,13 +187,25 @@ def get_correlation_cellulaire_ivp(medicament: str, proportion: str, y0s, t1: in
 
     return corr_coeff
     
-    
+#  ---------------- PARTICULAR CASES -----------------------------------
 
-if __name__ == "__main__":
-    df = pd.read_csv("MedicamentResistanceODE/data.csv")
+
+def test_docetaxel():
+    medicament, proportion = "Docetaxel", "50_50"
+    ode_graph_title, cancer_graph_title = "ode_docetaxel_50_50", "cancer_docetaxel_50_50"
+    to_save = True
+
+    medicament, proportion = "Docetaxel", "90_10"
+    ode_graph_title, cancer_graph_title = "ode_docetaxel_90_10", "cancer_docetaxel_90_10"
+    to_save = True
+
+    medicament, proportion = "Docetaxel", "10_90"
+    ode_graph_title, cancer_graph_title = "ode_docetaxel_10_90", "cancer_docetaxel_10_90"
+    to_save = True
+
 
     #  [ PART 1 - Plot ODE Solution ]
-    solutions = get_ode_solution(medicament="Docetaxel", proportion="50_50", y0=[1,1,1,1], to_plot=False)
+    solutions = get_ode_solution(medicament=medicament, proportion=proportion, y0=[1,1,1,1], to_plot=True, to_save=to_save)
 
     #  [ PART 2 - Plot Cancer cells against days for different initial conditions]
     y0s = [
@@ -182,12 +215,52 @@ if __name__ == "__main__":
             [5,5,5,5], 
             [8,8,8,8], 
         ]
-    get_daily_cancer_cells(medicament="Docetaxel", proportion="50_50", y0s=y0s, to_plot=False)
+    get_daily_cancer_cells(medicament=medicament, proportion=proportion, y0s=y0s, to_plot=True, to_save=to_save)
+
 
     #  [ PART 3 - Correlation entre nombre de cellules en sante vs cancerigenes par jour (IVP)]
-    get_correlation_cellulaire_ivp(medicament="Docetaxel", proportion="50_50",
-                                   y0s=y0s, t1=3, is_exponential=True, to_plot=True)
+    #  get_correlation_cellulaire_ivp(medicament=medicament, proportion=proportion,
+    #                                 y0s=y0s, t1=3, is_exponential=True, to_plot=True)
 
     
     #  [ PART 4 - Correlation entre nombre de cellules en sante vs cancerigenes par jour (proportion)]
+    
+def test_aftinib():
+    medicament, proportion = "Afatinib", "50_50"
+    ode_graph_title, cancer_graph_title = "ode_afitinib_50_50", "cancer_afitinib_50_50"
+    to_save = True
+
+    # ERROR
+    #  medicament, proportion = "Afatinib", "90_10"
+    #  ode_graph_title, cancer_graph_title = "ode_afitinib_90_10", "cancer_afitinib_90_10"
+    #  to_save = True
+
+    medicament, proportion = "Afatinib", "10_90"
+    ode_graph_title, cancer_graph_title = "ode_afitinib_10_90", "cancer_afitinib_10_90"
+    to_save = True
+
+    #  [ PART 1 - Plot ODE Solution ]
+    solutions = get_ode_solution(medicament=medicament, proportion=proportion, y0=[1,1,1,1], to_plot=True, to_save=to_save)
+
+    #  [ PART 2 - Plot Cancer cells against days for different initial conditions]
+    y0s = [
+            [1,1,1,1], 
+            [2,2,2,2], 
+            [3,3,3,3], 
+            [5,5,5,5], 
+            [8,8,8,8], 
+        ]
+    get_daily_cancer_cells(medicament=medicament, proportion=proportion, y0s=y0s, to_plot=True, to_save=to_save)
+    pass
+
+    
+
+if __name__ == "__main__":
+    df = pd.read_csv("MedicamentResistanceODE/data.csv")
+    GRAPHICS_DIR = 'MedicamentResistanceODE/graphics/'
+    FIGSIZE = (3,3)
+    test_docetaxel()
+    #  test_aftinib()
+
+
 
