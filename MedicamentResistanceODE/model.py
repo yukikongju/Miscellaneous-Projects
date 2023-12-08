@@ -147,6 +147,43 @@ def get_daily_cancer_cells(medicament: str, proportion: str, y0s, to_plot: bool 
 
     return cancer_solutions
 
+
+def get_daily_cancer_cells2(medicament: str, proportion: str, y0, to_plot: bool = True, to_save: bool = False):
+    """
+
+    """
+    # init model
+    model_instance = ModelCATImproved(medicament=medicament, proportion=proportion)
+
+
+    # create figure
+    plt.figure(figsize=FIGSIZE)
+
+
+    # compute solutions for all IVP
+    t_start, t_end, num_points = 0, 10, 100
+    t, solution = model_instance.solve(y0, t_start, t_end, num_points)
+    healthy = solution[:, 0] + solution[:, 1]
+    cancer = solution[:, 2] + solution[:, 3]
+        
+    # plot cancer cells against days for all IVP
+    if to_plot:
+        plt.plot(t, cancer, label="Mutant $x_{M}$")
+        plt.plot(t, healthy, label='Wild $x_{WT}$')
+
+    if to_plot:
+        plt.legend()
+        #  plt.title(f'Nombre de cellules cancérigènes $x_M$ après n jours pour {medicament} {proportion}')
+        plt.xlabel('Jours')
+        plt.ylabel('Population')
+
+        if to_save:
+            filename = f"cancer_{medicament}_{proportion}_both.png"
+            plt.savefig(os.path.join(GRAPHICS_DIR, filename))
+
+        plt.show()
+
+
 def get_correlation_cellulaire_ivp(medicament: str, proportion: str, y0s, t1: int, is_exponential = True, to_plot: bool = True): # FIXME
     """
     Parameters
@@ -190,32 +227,24 @@ def get_correlation_cellulaire_ivp(medicament: str, proportion: str, y0s, t1: in
 #  ---------------- PARTICULAR CASES -----------------------------------
 
 
-def test_docetaxel():
-    medicament, proportion = "Docetaxel", "50_50"
-    ode_graph_title, cancer_graph_title = "ode_docetaxel_50_50", "cancer_docetaxel_50_50"
-    to_save = True
-
-    medicament, proportion = "Docetaxel", "90_10"
-    ode_graph_title, cancer_graph_title = "ode_docetaxel_90_10", "cancer_docetaxel_90_10"
-    to_save = True
-
-    medicament, proportion = "Docetaxel", "10_90"
-    ode_graph_title, cancer_graph_title = "ode_docetaxel_10_90", "cancer_docetaxel_10_90"
-    to_save = True
-
+def test_cases(medicament: str, proportion: str, ode_graph_title: str, cancer_graph_title: str, y0, to_save: bool = True):
 
     #  [ PART 1 - Plot ODE Solution ]
-    solutions = get_ode_solution(medicament=medicament, proportion=proportion, y0=[1,1,1,1], to_plot=True, to_save=to_save)
+    solutions = get_ode_solution(medicament=medicament, proportion=proportion, y0=y0, to_plot=True, to_save=to_save)
 
     #  [ PART 2 - Plot Cancer cells against days for different initial conditions]
-    y0s = [
-            [1,1,1,1], 
-            [2,2,2,2], 
-            [3,3,3,3], 
-            [5,5,5,5], 
-            [8,8,8,8], 
-        ]
-    get_daily_cancer_cells(medicament=medicament, proportion=proportion, y0s=y0s, to_plot=True, to_save=to_save)
+    #  y0s = [
+    #          [1,1,1,1], 
+    #          [2,2,2,2], 
+    #          [3,3,3,3], 
+    #          [5,5,5,5], 
+    #          [8,8,8,8], 
+    #      ]
+    #  get_daily_cancer_cells(medicament=medicament, proportion=proportion, y0s=y0s, to_plot=True, to_save=to_save)
+
+
+    y0 = [1,1,1,1]
+    get_daily_cancer_cells2(medicament=medicament, proportion=proportion, y0=y0, to_plot=True, to_save=to_save)
 
 
     #  [ PART 3 - Correlation entre nombre de cellules en sante vs cancerigenes par jour (IVP)]
@@ -225,42 +254,32 @@ def test_docetaxel():
     
     #  [ PART 4 - Correlation entre nombre de cellules en sante vs cancerigenes par jour (proportion)]
     
-def test_aftinib():
-    medicament, proportion = "Afatinib", "50_50"
-    ode_graph_title, cancer_graph_title = "ode_afitinib_50_50", "cancer_afitinib_50_50"
-    to_save = True
-
-    # ERROR
-    #  medicament, proportion = "Afatinib", "90_10"
-    #  ode_graph_title, cancer_graph_title = "ode_afitinib_90_10", "cancer_afitinib_90_10"
-    #  to_save = True
-
-    medicament, proportion = "Afatinib", "10_90"
-    ode_graph_title, cancer_graph_title = "ode_afitinib_10_90", "cancer_afitinib_10_90"
-    to_save = True
-
-    #  [ PART 1 - Plot ODE Solution ]
-    solutions = get_ode_solution(medicament=medicament, proportion=proportion, y0=[1,1,1,1], to_plot=True, to_save=to_save)
-
-    #  [ PART 2 - Plot Cancer cells against days for different initial conditions]
-    y0s = [
-            [1,1,1,1], 
-            [2,2,2,2], 
-            [3,3,3,3], 
-            [5,5,5,5], 
-            [8,8,8,8], 
-        ]
-    get_daily_cancer_cells(medicament=medicament, proportion=proportion, y0s=y0s, to_plot=True, to_save=to_save)
-    pass
-
-    
 
 if __name__ == "__main__":
-    df = pd.read_csv("MedicamentResistanceODE/data.csv")
+    #  df = pd.read_csv("MedicamentResistanceODE/data.csv")
+    df = pd.read_csv("MedicamentResistanceODE/data2.csv")
     GRAPHICS_DIR = 'MedicamentResistanceODE/graphics/'
     FIGSIZE = (3,3)
-    test_docetaxel()
-    #  test_aftinib()
 
+    test_cases(medicament= "Docetaxel", proportion= "50_50", ode_graph_title= "ode_docetaxel_50_50", cancer_graph_title= "cancer_docetaxel_50_50", to_save=True, 
+               y0=[1,1,1,1])
+
+    test_cases(medicament= "Docetaxel", proportion= "90_10", ode_graph_title= "ode_docetaxel_90_10", cancer_graph_title= "cancer_docetaxel_90_10", to_save=True, 
+               y0=[2.70, 2.70, 1.5, 1.5])
+
+    test_cases(medicament= "Docetaxel", proportion= "10_90", ode_graph_title= "ode_docetaxel_10_90", cancer_graph_title= "cancer_docetaxel_10_90", to_save=True, 
+               y0=[1,1,1,1])
+
+    test_cases(medicament= "Afatinib", proportion= "50_50", ode_graph_title= "ode_afitinib_50_50", cancer_graph_title= "cancer_afitinib_50_50", to_save=True, 
+               y0=[1,1,1,1])
+
+    test_cases(medicament= "Afatinib", proportion= "90_10", ode_graph_title= "ode_afitinib_90_10", cancer_graph_title= "cancer_afitinib_90_10", to_save=True, 
+               y0=[2.2117, 2.2117, 1.4259, 1.4259])
+
+    test_cases(medicament= "Afatinib", proportion= "10_90", ode_graph_title= "ode_afitinib_10_90", cancer_graph_title= "cancer_afitinib_10_90", to_save=True, 
+               y0=[1,1,1,1])
+
+    test_cases(medicament= "Bortezomib", proportion= "50_50", ode_graph_title= "ode_bortezomib_50_50", cancer_graph_title= "cancer_bortezomib_50_50", to_save=True, 
+               y0=[1,1,1,1])
 
 

@@ -35,7 +35,10 @@ def display_images_in_grid(images, titles, rows, cols, figsize=(6, 6), to_save=F
 GRAPHICS_DIR = "MedicamentResistanceODE/graphics/"
 
 # Specify the image file names
-medicament = "Docetaxel"
+#  medicament = "Docetaxel"
+medicament = "Afatinib"
+
+
 ode_images = [f"ode_{medicament}_10_90.png", f"ode_{medicament}_50_50.png", f"ode_{medicament}_90_10.png"]
 cancer_images = [f"cancer_{medicament}_10_90.png", f"cancer_{medicament}_50_50.png", f"cancer_{medicament}_90_10.png"]
 proportions = ["10:90", "50:50", "90:10"]
@@ -47,6 +50,6 @@ ode_titles = ["ODE 10_90", "ODE 50_50", "ODE 90_10"]
 cancer_titles = ["Cancer 10_90", "Cancer 50_50", "Cancer 90_10"]
 
 # Display and save the combined figure
-save_filename=os.path.join(GRAPHICS_DIR, "{medicament}_combined_figure.png")
+save_filename=os.path.join(GRAPHICS_DIR, f"combined_{medicament}.png")
 display_images_in_grid(ode_images + cancer_images, ode_titles + cancer_titles, 2, 3, to_save=True, save_filename=save_filename)
 

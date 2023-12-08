@@ -21,7 +21,7 @@ LR = 0.001
 
 class CustomAgent:
 
-    def __init__(self, n_games=50, epsilon=0.9, gamma=0.9):
+    def __init__(self, n_games=50, epsilon=0.6, gamma=0.9):
         self.n_games = n_games
         self.epsilon = epsilon
         self.gamma = gamma
@@ -29,7 +29,7 @@ class CustomAgent:
         self.model = Linear_QNet(11, 256, 4)
         self.trainer = QTrainer(self.model, lr=LR, gamma=self.gamma)
 
-    def get_state(self, game): # TODO
+    def get_state(self, game): 
         """ 
         Function that return state of the snake
 
@@ -120,8 +120,6 @@ class CustomAgent:
 
         return action
 
-        
-    
 
 class Agent:
 
@@ -189,13 +187,16 @@ def train():
         state_new = agent.get_state(game)
 
         agent.train_short_memory(state_old, final_action_idx, reward, state_new, done)
+
+        agent.remember(state_old, final_action_idx, reward, state_new, done)
+
         last_action = final_action
 
         if done:
             game.reset_game()
             last_action = None
             agent.n_games += 1
-            #  agent.train_long_memory()
+            agent.train_long_memory()
 
             if score > record: 
                 record = score

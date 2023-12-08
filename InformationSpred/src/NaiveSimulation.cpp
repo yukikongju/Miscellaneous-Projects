@@ -18,8 +18,8 @@ void NaiveSimulation::simulate() {
 	double probability = max(static_cast<double>(distributionProbability(generator)), 1.0);
 
 	// add person to population
-	PersonBernouilli person(i, probability);
-	population.push_back(person);
+	PersonBernouilli *person = new PersonBernouilli(i, probability);
+	population.push_back(unique_ptr<Person>(person));
     }
 
     // 2. initialize friends and people with information
@@ -29,7 +29,7 @@ void NaiveSimulation::simulate() {
 	vector<int> friendsIndices(numFriends);
 	// friendsIndices.push_back(i); // initialize 
 	
-	Person person = population[i];
+	// Person person = population[i];
 
 	// person.printInfos();
 
@@ -40,8 +40,8 @@ void NaiveSimulation::simulate() {
 	    if (find(friendsIndices.begin(), friendsIndices.end(), randomInt) == friendsIndices.end()) {
 		friendsIndices.push_back(randomInt);
 		// Person &f = population[randomInt];
-		Person f = population[randomInt];
-		person.addFriend(f);
+		// Person f = population[randomInt];
+		// person.addFriend(f);
 	    }
 
 	}
@@ -51,13 +51,16 @@ void NaiveSimulation::simulate() {
     }
 
     // tmp print
-    cout << endl;
+    for (int i=0; i<N; ++i) {
+	population[i]->printInfos();
+    }
+    // cout << endl;
     // for (const Person &person: population) {
 	// cout << person.hasInformation;
     // }
-    for (auto p: population) {
-	p.printInfos();
-    }
+    // for (auto p: population) {
+    //     p.printInfos();
+    // }
 
     // 3. run simulation until everyone has information
 

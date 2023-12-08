@@ -6,6 +6,6 @@ Simulation::Simulation(int N, int initialPeopleWithInfo, double meanFriends, dou
 void Simulation::simulate() {}
 
 
-void Simulation::addToPopulation(const Person &friendPerson) {
-    population.push_back(friendPerson);
+void Simulation::addToPopulation(Person *friendPerson) {
+    population.push_back(unique_ptr<Person>(friendPerson));
 }
