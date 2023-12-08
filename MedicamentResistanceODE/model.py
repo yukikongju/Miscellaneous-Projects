@@ -28,8 +28,8 @@ class ModelCATImproved:
             self.a_wt_tol = filtered_rows['a_wt_tol'].values[0]
             self.a_M_sens = filtered_rows['a_m_sens'].values[0]
             self.a_M_tol = filtered_rows['a_m_tol'].values[0]
-            self.v_sens = filtered_rows['v_sens'].values[0]
-            self.v_tol = filtered_rows['v_tol'].values[0]
+            self.v_wt = filtered_rows['v_wt'].values[0]
+            self.v_m = filtered_rows['v_m'].values[0]
 
 
     def model(self, y, t):
@@ -37,17 +37,32 @@ class ModelCATImproved:
 
         dydt = [
             (self.l_wt_sens * xwt_sens + self.a_wt_sens * xwt_sens * (xM_sens + xM_tol))
-            * (1 - (xwt_sens + xwt_tol) / self.Kwt) - self.v_sens * xwt_sens,
+            * (1 - (xwt_sens + xwt_tol) / self.Kwt) - self.v_wt * xwt_sens,
 
             (self.l_wt_tol * xwt_tol + self.a_wt_tol * xwt_tol * (xM_sens + xM_tol))
-            * (1 - (xwt_sens + xwt_tol) / self.Kwt) + self.v_tol * xwt_sens,
+            * (1 - (xwt_sens + xwt_tol) / self.Kwt) + self.v_m * xwt_sens,
 
             (self.l_M_sens * xM_sens + self.a_M_sens * xM_sens * (xwt_sens + xwt_tol))
-            * (1 - (xM_sens + xM_tol) / self.Km) - self.v_sens * xM_sens,
+            * (1 - (xM_sens + xM_tol) / self.Km) - self.v_wt * xM_sens,
 
             (self.l_M_tol * xM_tol + self.a_M_tol * xM_tol * (xwt_sens + xwt_tol))
-            * (1 - (xM_sens + xM_tol) / self.Km) + self.v_tol * xM_sens
+            * (1 - (xM_sens + xM_tol) / self.Km) + self.v_m * xM_sens
         ]
+
+        #  dydt = [
+        #      (self.l_wt_sens * xwt_sens + self.a_wt_sens * xwt_sens * (xM_sens + xM_tol))
+        #      * (1 - (xwt_sens + xwt_tol) / self.Kwt) - self.v_wt * xwt_sens,
+
+        #      (self.l_wt_tol * xwt_tol + self.a_wt_tol * xwt_tol * (xM_sens + xM_tol))
+        #      * (1 - (xwt_sens + xwt_tol) / self.Kwt) + self.v_wt * xwt_sens,
+
+        #      (self.l_M_sens * xM_sens + self.a_M_sens * xM_sens * (xwt_sens + xwt_tol))
+        #      * (1 - (xM_sens + xM_tol) / self.Km) - self.v_m * xM_sens,
+
+        #      (self.l_M_tol * xM_tol + self.a_M_tol * xM_tol * (xwt_sens + xwt_tol))
+        #      * (1 - (xM_sens + xM_tol) / self.Km) + self.v_m * xM_sens
+        #  ]
+
 
         return dydt
 
@@ -159,7 +174,6 @@ def get_daily_cancer_cells2(medicament: str, proportion: str, y0, to_plot: bool 
     # create figure
     plt.figure(figsize=FIGSIZE)
 
-
     # compute solutions for all IVP
     t_start, t_end, num_points = 0, 10, 100
     t, solution = model_instance.solve(y0, t_start, t_end, num_points)
@@ -170,6 +184,7 @@ def get_daily_cancer_cells2(medicament: str, proportion: str, y0, to_plot: bool 
     if to_plot:
         plt.plot(t, cancer, label="Mutant $x_{M}$")
         plt.plot(t, healthy, label='Wild $x_{WT}$')
+
 
     if to_plot:
         plt.legend()
@@ -261,25 +276,34 @@ if __name__ == "__main__":
     GRAPHICS_DIR = 'MedicamentResistanceODE/graphics/'
     FIGSIZE = (3,3)
 
-    test_cases(medicament= "Docetaxel", proportion= "50_50", ode_graph_title= "ode_docetaxel_50_50", cancer_graph_title= "cancer_docetaxel_50_50", to_save=True, 
-               y0=[1,1,1,1])
+    #  test_cases(medicament= "Docetaxel", proportion= "50_50", ode_graph_title= "ode_docetaxel_50_50", cancer_graph_title= "cancer_docetaxel_50_50", to_save=True, 
+    #             y0=[1,1,1,1])
 
-    test_cases(medicament= "Docetaxel", proportion= "90_10", ode_graph_title= "ode_docetaxel_90_10", cancer_graph_title= "cancer_docetaxel_90_10", to_save=True, 
-               y0=[2.70, 2.70, 1.5, 1.5])
+    #  test_cases(medicament= "Docetaxel", proportion= "90_10", ode_graph_title= "ode_docetaxel_90_10", cancer_graph_title= "cancer_docetaxel_90_10", to_save=True, 
+    #             y0=[2.70, 2.70, 1.5, 1.5])
 
-    test_cases(medicament= "Docetaxel", proportion= "10_90", ode_graph_title= "ode_docetaxel_10_90", cancer_graph_title= "cancer_docetaxel_10_90", to_save=True, 
-               y0=[1,1,1,1])
+    #  test_cases(medicament= "Docetaxel", proportion= "10_90", ode_graph_title= "ode_docetaxel_10_90", cancer_graph_title= "cancer_docetaxel_10_90", to_save=True, 
+    #             y0=[1,1,1,1])
 
-    test_cases(medicament= "Afatinib", proportion= "50_50", ode_graph_title= "ode_afitinib_50_50", cancer_graph_title= "cancer_afitinib_50_50", to_save=True, 
-               y0=[1,1,1,1])
+    #  test_cases(medicament= "Afatinib", proportion= "50_50", ode_graph_title= "ode_afitinib_50_50", cancer_graph_title= "cancer_afitinib_50_50", to_save=True, 
+    #             y0=[1,1,1,1])
 
-    test_cases(medicament= "Afatinib", proportion= "90_10", ode_graph_title= "ode_afitinib_90_10", cancer_graph_title= "cancer_afitinib_90_10", to_save=True, 
-               y0=[2.2117, 2.2117, 1.4259, 1.4259])
+    #  test_cases(medicament= "Afatinib", proportion= "90_10", ode_graph_title= "ode_afitinib_90_10", cancer_graph_title= "cancer_afitinib_90_10", to_save=True, 
+    #             y0=[2.2117, 2.2117, 1.4259, 1.4259])
 
-    test_cases(medicament= "Afatinib", proportion= "10_90", ode_graph_title= "ode_afitinib_10_90", cancer_graph_title= "cancer_afitinib_10_90", to_save=True, 
-               y0=[1,1,1,1])
+    #  test_cases(medicament= "Afatinib", proportion= "10_90", ode_graph_title= "ode_afitinib_10_90", cancer_graph_title= "cancer_afitinib_10_90", to_save=True, 
+    #             y0=[1,1,1,1])
 
-    test_cases(medicament= "Bortezomib", proportion= "50_50", ode_graph_title= "ode_bortezomib_50_50", cancer_graph_title= "cancer_bortezomib_50_50", to_save=True, 
-               y0=[1,1,1,1])
+    #  test_cases(medicament= "Bortezomib", proportion= "50_50", ode_graph_title= "ode_bortezomib_50_50", cancer_graph_title= "cancer_bortezomib_50_50", to_save=True, 
+    #             y0=[1,1,1,1])
+
+    #  test_cases(medicament= "Bortezomib", proportion= "10_90", ode_graph_title= "ode_bortezomib_10_90", cancer_graph_title= "cancer_bortezomib_10_90", to_save=True, 
+    #             y0=[1,1,1,1])
+
+    #  test_cases(medicament= "Bortezomib", proportion= "90_10", ode_graph_title= "ode_bortezomib_90_10", cancer_graph_title= "cancer_bortezomib_90_10", to_save=True, 
+    #             y0=[1,1,1,1])
+
+    test_cases(medicament= "No Drug", proportion= "50_50", ode_graph_title= "tmp", cancer_graph_title= "tmp", to_save=True, 
+               y0=[1,0,1,0])
 
 
