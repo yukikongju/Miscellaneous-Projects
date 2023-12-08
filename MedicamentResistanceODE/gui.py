@@ -27,20 +27,20 @@ class ModelCATImproved:
             self.v_m = st.sidebar.slider("v_m", min_value=0.1, max_value=10.0, value=filtered_rows['v_m'].values[0])
 
     def model(self, y, t):
-        xwt_sens, xwt_tol, xM_sens, xM_tol = y
+        ws, wt, ms, mt = y
 
         dydt = [
-            (self.l_wt_sens * xwt_sens + self.a_wt_sens * xwt_sens * (xM_sens + xM_tol))
-            * (1 - (xwt_sens + xwt_tol) / self.Kwt) - self.v_wt * xwt_sens,
+            (self.l_wt_sens * ws + self.a_wt_sens * ws * (ms + mt))
+            * (1 - (ws + wt) / self.Kwt) - self.v_wt * ws,
 
-            (self.l_wt_tol * xwt_tol + self.a_wt_tol * xwt_tol * (xM_sens + xM_tol))
-            * (1 - (xwt_sens + xwt_tol) / self.Kwt) + self.v_m * xwt_sens,
+            (self.l_wt_tol * wt + self.a_wt_tol * wt * (ms + mt))
+            * (1 - (ws + wt) / self.Kwt) + self.v_wt * ws,
 
-            (self.l_M_sens * xM_sens + self.a_M_sens * xM_sens * (xwt_sens + xwt_tol))
-            * (1 - (xM_sens + xM_tol) / self.Km) - self.v_wt * xM_sens,
+            (self.l_M_sens * ms + self.a_M_sens * ms * (ws + wt))
+            * (1 - (ms + mt) / self.Km) - self.v_m * ms,
 
-            (self.l_M_tol * xM_tol + self.a_M_tol * xM_tol * (xwt_sens + xwt_tol))
-            * (1 - (xM_sens + xM_tol) / self.Km) + self.v_m * xM_sens
+            (self.l_M_tol * mt + self.a_M_tol * mt * (ws + wt))
+            * (1 - (ms + mt) / self.Km) + self.v_m * ms
         ]
         return dydt
 

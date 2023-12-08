@@ -33,20 +33,20 @@ class ModelCATImproved:
 
 
     def model(self, y, t):
-        ws, wt, ms, mt = y
+        xwt_sens, xwt_tol, xM_sens, xM_tol = y
 
         dydt = [
-            (self.l_wt_sens * ws + self.a_wt_sens * ws * (ms + mt))
-            * (1 - (ws + wt) / self.Kwt) - self.v_wt * ws,
+            (self.l_wt_sens * xwt_sens + self.a_wt_sens * xwt_sens * (xM_sens + xM_tol))
+            * (1 - (xwt_sens + xwt_tol) / self.Kwt) - self.v_wt * xwt_sens,
 
-            (self.l_wt_tol * wt + self.a_wt_tol * wt * (ms + mt))
-            * (1 - (ws + wt) / self.Kwt) + self.v_wt * ws,
+            (self.l_wt_tol * xwt_tol + self.a_wt_tol * xwt_tol * (xM_sens + xM_tol))
+            * (1 - (xwt_sens + xwt_tol) / self.Kwt) + self.v_m * xwt_sens,
 
-            (self.l_M_sens * ms + self.a_M_sens * ms * (ws + wt))
-            * (1 - (ms + mt) / self.Km) - self.v_m * ms,
+            (self.l_M_sens * xM_sens + self.a_M_sens * xM_sens * (xwt_sens + xwt_tol))
+            * (1 - (xM_sens + xM_tol) / self.Km) - self.v_wt * xM_sens,
 
-            (self.l_M_tol * mt + self.a_M_tol * mt * (ws + wt))
-            * (1 - (ms + mt) / self.Km) + self.v_m * ms
+            (self.l_M_tol * xM_tol + self.a_M_tol * xM_tol * (xwt_sens + xwt_tol))
+            * (1 - (xM_sens + xM_tol) / self.Km) + self.v_m * xM_sens
         ]
 
         #  dydt = [
@@ -125,44 +125,6 @@ def get_ode_solution(medicament: str, proportion: str, y0: [float], to_plot: boo
     return solution
     
 
-def get_daily_cancer_cells(medicament: str, proportion: str, y0s, to_plot: bool = True, to_save: bool = False):
-    """
-
-    """
-    # init model
-    model_instance = ModelCATImproved(medicament=medicament, proportion=proportion)
-
-
-    # create figure
-    plt.figure(figsize=FIGSIZE)
-
-
-    # compute solutions for all IVP
-    t_start, t_end, num_points = 0, 10, 100
-    cancer_solutions = []
-    for i, y0 in enumerate(y0s):
-        t, solution = model_instance.solve(y0, t_start, t_end, num_points)
-        cancer = solution[:, 2] + solution[:, 3]
-
-        # plot cancer cells against days for all IVP
-        if to_plot:
-            plt.plot(t, cancer, label=f"IVP: {y0}")
-
-    if to_plot:
-        plt.legend()
-        #  plt.title(f'Nombre de cellules cancérigènes $x_M$ après n jours pour {medicament} {proportion}')
-        plt.xlabel('Jours')
-        plt.ylabel('Population')
-
-        if to_save:
-            filename = f"cancer_{medicament}_{proportion}.png"
-            plt.savefig(os.path.join(GRAPHICS_DIR, filename))
-
-        plt.show()
-
-    return cancer_solutions
-
-
 def get_daily_cancer_cells2(medicament: str, proportion: str, y0, to_plot: bool = True, to_save: bool = False):
     """
 
@@ -173,6 +135,7 @@ def get_daily_cancer_cells2(medicament: str, proportion: str, y0, to_plot: bool 
 
     # create figure
     plt.figure(figsize=FIGSIZE)
+
 
     # compute solutions for all IVP
     t_start, t_end, num_points = 0, 10, 100
@@ -185,6 +148,11 @@ def get_daily_cancer_cells2(medicament: str, proportion: str, y0, to_plot: bool 
         plt.plot(t, cancer, label="Mutant $x_{M}$")
         plt.plot(t, healthy, label='Wild $x_{WT}$')
 
+    # add additional points
+    Xw = [1.0000000, 3.7194570, 13.1990950, 15.6244344]
+    Xm = [1.0000000, 1.9004525, 4.2533937, 9.2307692]
+    for x, y in zip(Xm, Xw):
+        plt.scatter(x, y, color='red', marker='x')
 
     if to_plot:
         plt.legend()
@@ -199,46 +167,6 @@ def get_daily_cancer_cells2(medicament: str, proportion: str, y0, to_plot: bool 
         plt.show()
 
 
-def get_correlation_cellulaire_ivp(medicament: str, proportion: str, y0s, t1: int, is_exponential = True, to_plot: bool = True): # FIXME
-    """
-    Parameters
-    ----------
-    t1: int
-        > Correlation au jour t1
-
-    """
-    # load model
-    model = ModelCATImproved(medicament=medicament, proportion=proportion)
-
-    # compute solutions for all IVP
-    t_start, t_end, num_points = 0, 10, 100
-    wild_types = []
-    mutants = []
-    for i, y0 in enumerate(y0s):
-        t, solution = model.solve(y0, t_start, t_end, num_points)
-        wild_types.append(solution[t1, 0] + solution[t1, 1])
-        mutants.append(solution[t1, 2] + solution[t1, 3])
-
-    # make data linear if exponential
-    if is_exponential:
-        mutants = np.log(mutants)
-
-    # compute correlation
-    corr_matrix = np.corrcoef(wild_types, mutants)
-    corr_coeff = corr_matrix[0][1]
-
-    if to_plot:
-        plt.scatter(wild_types, mutants)
-        plt.title('Correlation Cellulaire IVP')
-        plt.xlabel('Wild Types')
-        plt.ylabel('Mutants')
-        #  plt.text(2, 6, f'Correlation Coefficient: {corr_coeff}', bbox=dict(facecolor='white', alpha=0.5))
-        #  plt.text(2, 6, f'Correlation Coefficient: {corr_coeff}')
-        plt.show()
-
-
-    return corr_coeff
-    
 #  ---------------- PARTICULAR CASES -----------------------------------
 
 
