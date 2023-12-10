@@ -10,18 +10,23 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     31852,        881]
-NotebookOptionsPosition[     30638,        853]
-NotebookOutlinePosition[     31026,        869]
-CellTagsIndexPosition[     30983,        866]
+NotebookDataLength[     53831,       1463]
+NotebookOptionsPosition[     52713,       1436]
+NotebookOutlinePosition[     53101,       1452]
+CellTagsIndexPosition[     53058,       1449]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
 Notebook[{
+Cell["For non-trivial point where \\Delta < 0", "Text",
+ CellChangeTimes->{{3.911213049972376*^9, 
+  3.911213074009818*^9}},ExpressionUUID->"9eede459-e7e3-4723-80db-\
+04f42212b8a7"],
 
 Cell[CellGroupData[{
+
 Cell[BoxData[
- RowBox[{
+ RowBox[{"\[IndentingNewLine]", 
   RowBox[{"(*", 
    RowBox[{"D\[EAcute]finir", " ", "les", " ", "variables"}], "*)"}], 
   "\[IndentingNewLine]", 
@@ -35,10 +40,10 @@ Cell[BoxData[
      RowBox[{"{", 
       RowBox[{
       "aWT", ",", "aM", ",", "KM", ",", "KWT", ",", "lM", ",", "lWT"}], 
-      "}"}]}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+      "}"}]}], ";"}], "\n", "\[IndentingNewLine]", 
    RowBox[{"(*", 
     RowBox[{"D\[EAcute]finir", " ", 
-     RowBox[{"l", "'"}], "expression"}], "*)"}], "\n", 
+     RowBox[{"l", "'"}], "expression"}], "*)"}], "\[IndentingNewLine]", 
    RowBox[{
     RowBox[{"expression", "=", 
      RowBox[{
@@ -52,7 +57,7 @@ Cell[BoxData[
        RowBox[{
         RowBox[{"-", "1"}], "+", 
         RowBox[{"2", " ", "aM", " ", "aWT", " ", "KM", " ", "KWT"}]}], ")"}], 
-      " ", "lM", " ", "lWT"}]}], ";"}], "\n", "\[IndentingNewLine]", 
+      " ", "lM", " ", "lWT"}]}], ";"}], "\[IndentingNewLine]", "\n", 
    RowBox[{"(*", 
     RowBox[{"R\[EAcute]soudre", " ", 
      RowBox[{"l", "'"}], "in\[EAcute]quation"}], "*)"}], 
@@ -69,7 +74,7 @@ Cell[BoxData[
           RowBox[{"KWT", " ", ">", " ", "0"}], "}"}], ",", " ", 
          RowBox[{"{", 
           RowBox[{"KM", " ", ">", " ", "0"}], "}"}]}], " ", "]"}], ",", 
-       "variables", ",", "Reals"}], "]"}]}], ";"}], "\n", 
+       "variables", ",", "Reals"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
    RowBox[{"(*", 
     RowBox[{
      RowBox[{"conditions", "=", 
@@ -84,8 +89,8 @@ Cell[BoxData[
             RowBox[{"KWT", " ", ">", " ", "0"}], "}"}], ",", " ", 
            RowBox[{"{", 
             RowBox[{"KM", " ", ">", " ", "0"}], "}"}]}], " ", "]"}], "]"}], 
-        ",", "variables", ",", "Reals"}], "]"}]}], ";"}], "*)"}], 
-   "\[IndentingNewLine]", "\[IndentingNewLine]", "\n", 
+        ",", "variables", ",", "Reals"}], "]"}]}], ";"}], "*)"}], "\n", 
+   "\[IndentingNewLine]", "\n", 
    RowBox[{"(*", 
     RowBox[{"Afficher", " ", "les", " ", "conditions"}], "*)"}], 
    "\[IndentingNewLine]", 
@@ -99,8 +104,8 @@ Cell[BoxData[
    RowBox[{
     RowBox[{"values", "=", 
      RowBox[{"Select", "[", 
-      RowBox[{"conditionList", ",", "NumericQ"}], "]"}]}], ";"}], "\n", 
-   "\[IndentingNewLine]", 
+      RowBox[{"conditionList", ",", "NumericQ"}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\n", 
    RowBox[{"(*", 
     RowBox[{"Create", " ", "a", " ", "table"}], "*)"}], "\[IndentingNewLine]", 
    RowBox[{"(*", 
@@ -116,89 +121,19 @@ Cell[BoxData[
           RowBox[{"None", ",", 
            RowBox[{"{", 
             RowBox[{"\"\<Condition\>\"", ",", "\"\<Value\>\""}], "}"}]}], 
-          "}"}]}]}], "]"}]}], ";"}], "*)"}], "\n", "\[IndentingNewLine]", 
+          "}"}]}]}], "]"}]}], ";"}], "*)"}], "\[IndentingNewLine]", "\n", 
    RowBox[{"(*", 
     RowBox[{"conditionList", ";"}], "*)"}], 
    "\[IndentingNewLine]"}]}]], "Input",
  CellChangeTimes->{{3.9112099128119507`*^9, 3.911209918118388*^9}, {
-  3.911209956160996*^9, 3.9112099669528437`*^9}, {3.911210045848783*^9, 
-  3.911210057214403*^9}, {3.911210491952333*^9, 3.911210542101845*^9}, {
-  3.911210730551778*^9, 3.91121073205652*^9}, {3.91121083903027*^9, 
-  3.9112108436639423`*^9}, {3.911210887961546*^9, 3.911210888603773*^9}, {
-  3.911210972691122*^9, 3.9112110760540037`*^9}, {3.9112112750351562`*^9, 
-  3.911211284777158*^9}},ExpressionUUID->"200b7fd9-49ff-4608-adc0-\
+   3.911209956160996*^9, 3.9112099669528437`*^9}, {3.911210045848783*^9, 
+   3.911210057214403*^9}, {3.911210491952333*^9, 3.911210542101845*^9}, {
+   3.911210730551778*^9, 3.91121073205652*^9}, {3.91121083903027*^9, 
+   3.9112108436639423`*^9}, {3.911210887961546*^9, 3.911210888603773*^9}, {
+   3.911210972691122*^9, 3.9112110760540037`*^9}, {3.9112112750351562`*^9, 
+   3.911211284777158*^9}, 
+   3.911213044640826*^9},ExpressionUUID->"200b7fd9-49ff-4608-adc0-\
 8b980fd52fef"],
-
-Cell[BoxData[
- TemplateBox[{
-  "Transpose", "nmtx", 
-   "\"The first two levels of \\!\\(\\*RowBox[{\\\"{\\\", \
-RowBox[{RowBox[{\\\"{\\\", RowBox[{\\\"\\\\\\\"aWT\\\\\\\"\\\", \\\",\\\", \\\
-\"\\\\\\\"aM\\\\\\\"\\\", \\\",\\\", \\\"\\\\\\\"KM\\\\\\\"\\\", \\\",\\\", \
-\\\"\\\\\\\"KWT\\\\\\\"\\\", \\\",\\\", \\\"\\\\\\\"lM\\\\\\\"\\\", \
-\\\",\\\", \\\"\\\\\\\"lWT\\\\\\\"\\\"}], \\\"}\\\"}], \\\",\\\", \
-RowBox[{\\\"{\\\", RowBox[{\\\"aWT\\\", \\\",\\\", \
-\\\"\\\\\\\"aWT\\\\\\\"\\\"}], \\\"}\\\"}]}], \\\"}\\\"}]\\) cannot be \
-transposed.\"", 2, 894, 132, 18045861914291329118, "Local"},
-  "MessageTemplate"]], "Message", "MSG",
- CellChangeTimes->{3.911211278374587*^9},
- CellLabel->
-  "During evaluation of \
-In[885]:=",ExpressionUUID->"d584ea89-763b-4b56-970b-e3cb4b0477c8"],
-
-Cell[BoxData[
- TemplateBox[{
-  "Transpose", "nmtx", 
-   "\"The first two levels of \\!\\(\\*RowBox[{\\\"{\\\", \
-RowBox[{RowBox[{\\\"{\\\", RowBox[{\\\"\\\\\\\"aWT\\\\\\\"\\\", \\\",\\\", \\\
-\"\\\\\\\"aM\\\\\\\"\\\", \\\",\\\", \\\"\\\\\\\"KM\\\\\\\"\\\", \\\",\\\", \
-\\\"\\\\\\\"KWT\\\\\\\"\\\", \\\",\\\", \\\"\\\\\\\"lM\\\\\\\"\\\", \
-\\\",\\\", \\\"\\\\\\\"lWT\\\\\\\"\\\"}], \\\"}\\\"}], \\\",\\\", \
-RowBox[{\\\"{\\\", RowBox[{\\\"aM\\\", \\\",\\\", \
-\\\"\\\\\\\"aM\\\\\\\"\\\"}], \\\"}\\\"}]}], \\\"}\\\"}]\\) cannot be \
-transposed.\"", 2, 894, 133, 18045861914291329118, "Local"},
-  "MessageTemplate"]], "Message", "MSG",
- CellChangeTimes->{3.911211278382452*^9},
- CellLabel->
-  "During evaluation of \
-In[885]:=",ExpressionUUID->"e5cf5849-7b72-40ae-b43c-8c810922c647"],
-
-Cell[BoxData[
- TemplateBox[{
-  "Transpose", "nmtx", 
-   "\"The first two levels of \\!\\(\\*RowBox[{\\\"{\\\", \
-RowBox[{RowBox[{\\\"{\\\", RowBox[{\\\"\\\\\\\"aWT\\\\\\\"\\\", \\\",\\\", \\\
-\"\\\\\\\"aM\\\\\\\"\\\", \\\",\\\", \\\"\\\\\\\"KM\\\\\\\"\\\", \\\",\\\", \
-\\\"\\\\\\\"KWT\\\\\\\"\\\", \\\",\\\", \\\"\\\\\\\"lM\\\\\\\"\\\", \
-\\\",\\\", \\\"\\\\\\\"lWT\\\\\\\"\\\"}], \\\"}\\\"}], \\\",\\\", \
-RowBox[{\\\"{\\\", RowBox[{\\\"KM\\\", \\\",\\\", \
-\\\"\\\\\\\"KM\\\\\\\"\\\"}], \\\"}\\\"}]}], \\\"}\\\"}]\\) cannot be \
-transposed.\"", 2, 894, 134, 18045861914291329118, "Local"},
-  "MessageTemplate"]], "Message", "MSG",
- CellChangeTimes->{3.911211278390555*^9},
- CellLabel->
-  "During evaluation of \
-In[885]:=",ExpressionUUID->"11250779-72ef-4f00-b390-af599a110537"],
-
-Cell[BoxData[
- TemplateBox[{
-  "General", "stop", 
-   "\"Further output of \\!\\(\\*StyleBox[RowBox[{\\\"Transpose\\\", \\\"::\\\
-\", \\\"nmtx\\\"}], \\\"MessageName\\\"]\\) will be suppressed during this \
-calculation.\"", 2, 894, 135, 18045861914291329118, "Local"},
-  "MessageTemplate"]], "Message", "MSG",
- CellChangeTimes->{3.911211278398533*^9},
- CellLabel->
-  "During evaluation of \
-In[885]:=",ExpressionUUID->"20c7f938-fdb9-4b68-abe2-466b57428989"]
-}, Open  ]],
-
-Cell[CellGroupData[{
-
-Cell[BoxData[""], "Input",
- CellChangeTimes->{{3.911210861314633*^9, 
-  3.911210875877368*^9}},ExpressionUUID->"ebc871cd-f576-4450-be8b-\
-4ee018362143"],
 
 Cell[BoxData[
  RowBox[{"{", 
@@ -849,6 +784,654 @@ Cell[BoxData[
  CellLabel->
   "Out[794]//TableForm=",ExpressionUUID->"7b1b653a-2f4b-4ca1-94a3-\
 9af415b64b9a"]
+}, Open  ]],
+
+Cell["For non-trivial point with tr(J*) < 0:", "Text",
+ CellChangeTimes->{{3.911212985053473*^9, 
+  3.911213010236226*^9}},ExpressionUUID->"7bcb3ccc-9103-400a-8c3a-\
+4bd6bed7045f"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"ClearAll", "[", 
+   RowBox[{"aWT", ",", "aM", ",", "KM", ",", "KWT", ",", "lM", ",", "lWT"}], 
+   "]"}], ";"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"variables", "=", 
+    RowBox[{"{", 
+     RowBox[{"aWT", ",", "aM", ",", "KM", ",", "KWT", ",", "lM", ",", "lWT"}],
+      "}"}]}], ";"}], "\[IndentingNewLine]", "\n", 
+  RowBox[{"(*", 
+   RowBox[{"Define", " ", "the", " ", "expression", " ", "for", " ", "tr", 
+    RowBox[{"(", "J", ")"}]}], "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"expression", "=", 
+    RowBox[{
+     RowBox[{"(", 
+      RowBox[{"lM", "+", 
+       RowBox[{"aM", " ", "KWT", " ", "lM"}], "+", "lWT", "+", 
+       RowBox[{"aWT", " ", "KM", " ", "lWT"}]}], ")"}], "/", 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"-", "1"}], "+", 
+       RowBox[{"aM", " ", "aWT", " ", "KM", " ", "KWT"}]}], ")"}]}]}], ";"}], 
+  "\[IndentingNewLine]", "\n", 
+  RowBox[{"(*", 
+   RowBox[{
+   "Solve", " ", "the", " ", "inequality", " ", "with", " ", "the", " ", 
+    "given", " ", "conditions"}], "*)"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"conditions", "=", 
+    RowBox[{"Reduce", "[", 
+     RowBox[{
+      RowBox[{"Join", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"expression", "<", "0"}], "}"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"K", ">", "0"}], "}"}]}], "]"}], ",", "variables", ",", 
+      "Reals"}], "]"}]}], ";"}], "\[IndentingNewLine]", "\n", 
+  RowBox[{"(*", 
+   RowBox[{"Display", " ", "the", " ", "conditions"}], 
+   "*)"}]}], "\[IndentingNewLine]", "conditions", "\n"}], "Input",
+ CellChangeTimes->{{3.911213012943481*^9, 3.911213012944078*^9}},
+ CellLabel->
+  "In[895]:=",ExpressionUUID->"0c97e674-7f65-4fc9-b833-af9274fc8960"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"K", ">", "0"}], "&&", 
+  RowBox[{"(", 
+   RowBox[{
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"aWT", "<", "0"}], "&&", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"aM", "<", "0"}], "&&", 
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"KM", "<", "0"}], "&&", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"(", 
+                 RowBox[{
+                  RowBox[{"KWT", "<", 
+                   FractionBox["1", 
+                    RowBox[{"aM", " ", "aWT", " ", "KM"}]]}], "&&", 
+                  RowBox[{"lWT", "<", 
+                   FractionBox[
+                    RowBox[{
+                    RowBox[{"-", "lM"}], "-", 
+                    RowBox[{"aM", " ", "KWT", " ", "lM"}]}], 
+                    RowBox[{"1", "+", 
+                    RowBox[{"aWT", " ", "KM"}]}]]}]}], ")"}], "||", 
+                RowBox[{"(", 
+                 RowBox[{
+                  RowBox[{"KWT", ">", 
+                   FractionBox["1", 
+                    RowBox[{"aM", " ", "aWT", " ", "KM"}]]}], "&&", 
+                  RowBox[{"lWT", ">", 
+                   FractionBox[
+                    RowBox[{
+                    RowBox[{"-", "lM"}], "-", 
+                    RowBox[{"aM", " ", "KWT", " ", "lM"}]}], 
+                    RowBox[{"1", "+", 
+                    RowBox[{"aWT", " ", "KM"}]}]]}]}], ")"}]}], ")"}]}], 
+             ")"}], "||", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"KM", "\[Equal]", "0"}], "&&", 
+              RowBox[{"lWT", ">", 
+               RowBox[{
+                RowBox[{"-", "lM"}], "-", 
+                RowBox[{"aM", " ", "KWT", " ", "lM"}]}]}]}], ")"}], "||", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"0", "<", "KM", "<", 
+               RowBox[{"-", 
+                FractionBox["1", "aWT"]}]}], "&&", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"(", 
+                 RowBox[{
+                  RowBox[{"KWT", "<", 
+                   FractionBox["1", 
+                    RowBox[{"aM", " ", "aWT", " ", "KM"}]]}], "&&", 
+                  RowBox[{"lWT", ">", 
+                   FractionBox[
+                    RowBox[{
+                    RowBox[{"-", "lM"}], "-", 
+                    RowBox[{"aM", " ", "KWT", " ", "lM"}]}], 
+                    RowBox[{"1", "+", 
+                    RowBox[{"aWT", " ", "KM"}]}]]}]}], ")"}], "||", 
+                RowBox[{"(", 
+                 RowBox[{
+                  RowBox[{"KWT", ">", 
+                   FractionBox["1", 
+                    RowBox[{"aM", " ", "aWT", " ", "KM"}]]}], "&&", 
+                  RowBox[{"lWT", "<", 
+                   FractionBox[
+                    RowBox[{
+                    RowBox[{"-", "lM"}], "-", 
+                    RowBox[{"aM", " ", "KWT", " ", "lM"}]}], 
+                    RowBox[{"1", "+", 
+                    RowBox[{"aWT", " ", "KM"}]}]]}]}], ")"}]}], ")"}]}], 
+             ")"}], "||", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"KM", "\[Equal]", 
+               RowBox[{"-", 
+                FractionBox["1", "aWT"]}]}], "&&", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"(", 
+                 RowBox[{
+                  RowBox[{"KWT", "<", 
+                   FractionBox["1", 
+                    RowBox[{"aM", " ", "aWT", " ", "KM"}]]}], "&&", 
+                  RowBox[{"lM", ">", "0"}]}], ")"}], "||", 
+                RowBox[{"(", 
+                 RowBox[{
+                  RowBox[{"KWT", ">", 
+                   FractionBox["1", 
+                    RowBox[{"aM", " ", "aWT", " ", "KM"}]]}], "&&", 
+                  RowBox[{"lM", ">", "0"}]}], ")"}]}], ")"}]}], ")"}], "||", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"KM", ">", 
+               RowBox[{"-", 
+                FractionBox["1", "aWT"]}]}], "&&", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"(", 
+                 RowBox[{
+                  RowBox[{"KWT", "<", 
+                   FractionBox["1", 
+                    RowBox[{"aM", " ", "aWT", " ", "KM"}]]}], "&&", 
+                  RowBox[{"lWT", "<", 
+                   FractionBox[
+                    RowBox[{
+                    RowBox[{"-", "lM"}], "-", 
+                    RowBox[{"aM", " ", "KWT", " ", "lM"}]}], 
+                    RowBox[{"1", "+", 
+                    RowBox[{"aWT", " ", "KM"}]}]]}]}], ")"}], "||", 
+                RowBox[{"(", 
+                 RowBox[{
+                  RowBox[{"KWT", ">", 
+                   FractionBox["1", 
+                    RowBox[{"aM", " ", "aWT", " ", "KM"}]]}], "&&", 
+                  RowBox[{"lWT", ">", 
+                   FractionBox[
+                    RowBox[{
+                    RowBox[{"-", "lM"}], "-", 
+                    RowBox[{"aM", " ", "KWT", " ", "lM"}]}], 
+                    RowBox[{"1", "+", 
+                    RowBox[{"aWT", " ", "KM"}]}]]}]}], ")"}]}], ")"}]}], 
+             ")"}]}], ")"}]}], ")"}], "||", 
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"aM", "\[Equal]", "0"}], "&&", 
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"KM", "<", 
+               RowBox[{"-", 
+                FractionBox["1", "aWT"]}]}], "&&", 
+              RowBox[{"lWT", ">", 
+               RowBox[{"-", 
+                FractionBox["lM", 
+                 RowBox[{"1", "+", 
+                  RowBox[{"aWT", " ", "KM"}]}]]}]}]}], ")"}], "||", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"KM", "\[Equal]", 
+               RowBox[{"-", 
+                FractionBox["1", "aWT"]}]}], "&&", 
+              RowBox[{"lM", ">", "0"}]}], ")"}], "||", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"KM", ">", 
+               RowBox[{"-", 
+                FractionBox["1", "aWT"]}]}], "&&", 
+              RowBox[{"lWT", "<", 
+               RowBox[{"-", 
+                FractionBox["lM", 
+                 RowBox[{"1", "+", 
+                  RowBox[{"aWT", " ", "KM"}]}]]}]}]}], ")"}]}], ")"}]}], 
+         ")"}], "||", 
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"aM", ">", "0"}], "&&", 
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"KM", "<", "0"}], "&&", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"(", 
+                 RowBox[{
+                  RowBox[{"KWT", "<", 
+                   FractionBox["1", 
+                    RowBox[{"aM", " ", "aWT", " ", "KM"}]]}], "&&", 
+                  RowBox[{"lWT", ">", 
+                   FractionBox[
+                    RowBox[{
+                    RowBox[{"-", "lM"}], "-", 
+                    RowBox[{"aM", " ", "KWT", " ", "lM"}]}], 
+                    RowBox[{"1", "+", 
+                    RowBox[{"aWT", " ", "KM"}]}]]}]}], ")"}], "||", 
+                RowBox[{"(", 
+                 RowBox[{
+                  RowBox[{"KWT", ">", 
+                   FractionBox["1", 
+                    RowBox[{"aM", " ", "aWT", " ", "KM"}]]}], "&&", 
+                  RowBox[{"lWT", "<", 
+                   FractionBox[
+                    RowBox[{
+                    RowBox[{"-", "lM"}], "-", 
+                    RowBox[{"aM", " ", "KWT", " ", "lM"}]}], 
+                    RowBox[{"1", "+", 
+                    RowBox[{"aWT", " ", "KM"}]}]]}]}], ")"}]}], ")"}]}], 
+             ")"}], "||", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"KM", "\[Equal]", "0"}], "&&", 
+              RowBox[{"lWT", ">", 
+               RowBox[{
+                RowBox[{"-", "lM"}], "-", 
+                RowBox[{"aM", " ", "KWT", " ", "lM"}]}]}]}], ")"}], "||", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"0", "<", "KM", "<", 
+               RowBox[{"-", 
+                FractionBox["1", "aWT"]}]}], "&&", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"(", 
+                 RowBox[{
+                  RowBox[{"KWT", "<", 
+                   FractionBox["1", 
+                    RowBox[{"aM", " ", "aWT", " ", "KM"}]]}], "&&", 
+                  RowBox[{"lWT", "<", 
+                   FractionBox[
+                    RowBox[{
+                    RowBox[{"-", "lM"}], "-", 
+                    RowBox[{"aM", " ", "KWT", " ", "lM"}]}], 
+                    RowBox[{"1", "+", 
+                    RowBox[{"aWT", " ", "KM"}]}]]}]}], ")"}], "||", 
+                RowBox[{"(", 
+                 RowBox[{
+                  RowBox[{"KWT", ">", 
+                   FractionBox["1", 
+                    RowBox[{"aM", " ", "aWT", " ", "KM"}]]}], "&&", 
+                  RowBox[{"lWT", ">", 
+                   FractionBox[
+                    RowBox[{
+                    RowBox[{"-", "lM"}], "-", 
+                    RowBox[{"aM", " ", "KWT", " ", "lM"}]}], 
+                    RowBox[{"1", "+", 
+                    RowBox[{"aWT", " ", "KM"}]}]]}]}], ")"}]}], ")"}]}], 
+             ")"}], "||", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"KM", "\[Equal]", 
+               RowBox[{"-", 
+                FractionBox["1", "aWT"]}]}], "&&", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"(", 
+                 RowBox[{
+                  RowBox[{"KWT", "<", 
+                   FractionBox["1", 
+                    RowBox[{"aM", " ", "aWT", " ", "KM"}]]}], "&&", 
+                  RowBox[{"lM", ">", "0"}]}], ")"}], "||", 
+                RowBox[{"(", 
+                 RowBox[{
+                  RowBox[{"KWT", ">", 
+                   FractionBox["1", 
+                    RowBox[{"aM", " ", "aWT", " ", "KM"}]]}], "&&", 
+                  RowBox[{"lM", ">", "0"}]}], ")"}]}], ")"}]}], ")"}], "||", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"KM", ">", 
+               RowBox[{"-", 
+                FractionBox["1", "aWT"]}]}], "&&", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"(", 
+                 RowBox[{
+                  RowBox[{"KWT", "<", 
+                   FractionBox["1", 
+                    RowBox[{"aM", " ", "aWT", " ", "KM"}]]}], "&&", 
+                  RowBox[{"lWT", ">", 
+                   FractionBox[
+                    RowBox[{
+                    RowBox[{"-", "lM"}], "-", 
+                    RowBox[{"aM", " ", "KWT", " ", "lM"}]}], 
+                    RowBox[{"1", "+", 
+                    RowBox[{"aWT", " ", "KM"}]}]]}]}], ")"}], "||", 
+                RowBox[{"(", 
+                 RowBox[{
+                  RowBox[{"KWT", ">", 
+                   FractionBox["1", 
+                    RowBox[{"aM", " ", "aWT", " ", "KM"}]]}], "&&", 
+                  RowBox[{"lWT", "<", 
+                   FractionBox[
+                    RowBox[{
+                    RowBox[{"-", "lM"}], "-", 
+                    RowBox[{"aM", " ", "KWT", " ", "lM"}]}], 
+                    RowBox[{"1", "+", 
+                    RowBox[{"aWT", " ", "KM"}]}]]}]}], ")"}]}], ")"}]}], 
+             ")"}]}], ")"}]}], ")"}]}], ")"}]}], ")"}], "||", 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"aWT", "\[Equal]", "0"}], "&&", 
+      RowBox[{"lWT", ">", 
+       RowBox[{
+        RowBox[{"-", "lM"}], "-", 
+        RowBox[{"aM", " ", "KWT", " ", "lM"}]}]}]}], ")"}], "||", 
+    RowBox[{"(", 
+     RowBox[{
+      RowBox[{"aWT", ">", "0"}], "&&", 
+      RowBox[{"(", 
+       RowBox[{
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"aM", "<", "0"}], "&&", 
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"KM", "<", 
+               RowBox[{"-", 
+                FractionBox["1", "aWT"]}]}], "&&", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"(", 
+                 RowBox[{
+                  RowBox[{"KWT", "<", 
+                   FractionBox["1", 
+                    RowBox[{"aM", " ", "aWT", " ", "KM"}]]}], "&&", 
+                  RowBox[{"lWT", "<", 
+                   FractionBox[
+                    RowBox[{
+                    RowBox[{"-", "lM"}], "-", 
+                    RowBox[{"aM", " ", "KWT", " ", "lM"}]}], 
+                    RowBox[{"1", "+", 
+                    RowBox[{"aWT", " ", "KM"}]}]]}]}], ")"}], "||", 
+                RowBox[{"(", 
+                 RowBox[{
+                  RowBox[{"KWT", ">", 
+                   FractionBox["1", 
+                    RowBox[{"aM", " ", "aWT", " ", "KM"}]]}], "&&", 
+                  RowBox[{"lWT", ">", 
+                   FractionBox[
+                    RowBox[{
+                    RowBox[{"-", "lM"}], "-", 
+                    RowBox[{"aM", " ", "KWT", " ", "lM"}]}], 
+                    RowBox[{"1", "+", 
+                    RowBox[{"aWT", " ", "KM"}]}]]}]}], ")"}]}], ")"}]}], 
+             ")"}], "||", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"KM", "\[Equal]", 
+               RowBox[{"-", 
+                FractionBox["1", "aWT"]}]}], "&&", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"(", 
+                 RowBox[{
+                  RowBox[{"KWT", "<", 
+                   FractionBox["1", 
+                    RowBox[{"aM", " ", "aWT", " ", "KM"}]]}], "&&", 
+                  RowBox[{"lM", ">", "0"}]}], ")"}], "||", 
+                RowBox[{"(", 
+                 RowBox[{
+                  RowBox[{"KWT", ">", 
+                   FractionBox["1", 
+                    RowBox[{"aM", " ", "aWT", " ", "KM"}]]}], "&&", 
+                  RowBox[{"lM", ">", "0"}]}], ")"}]}], ")"}]}], ")"}], "||", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"-", 
+                FractionBox["1", "aWT"]}], "<", "KM", "<", "0"}], "&&", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"(", 
+                 RowBox[{
+                  RowBox[{"KWT", "<", 
+                   FractionBox["1", 
+                    RowBox[{"aM", " ", "aWT", " ", "KM"}]]}], "&&", 
+                  RowBox[{"lWT", ">", 
+                   FractionBox[
+                    RowBox[{
+                    RowBox[{"-", "lM"}], "-", 
+                    RowBox[{"aM", " ", "KWT", " ", "lM"}]}], 
+                    RowBox[{"1", "+", 
+                    RowBox[{"aWT", " ", "KM"}]}]]}]}], ")"}], "||", 
+                RowBox[{"(", 
+                 RowBox[{
+                  RowBox[{"KWT", ">", 
+                   FractionBox["1", 
+                    RowBox[{"aM", " ", "aWT", " ", "KM"}]]}], "&&", 
+                  RowBox[{"lWT", "<", 
+                   FractionBox[
+                    RowBox[{
+                    RowBox[{"-", "lM"}], "-", 
+                    RowBox[{"aM", " ", "KWT", " ", "lM"}]}], 
+                    RowBox[{"1", "+", 
+                    RowBox[{"aWT", " ", "KM"}]}]]}]}], ")"}]}], ")"}]}], 
+             ")"}], "||", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"KM", "\[Equal]", "0"}], "&&", 
+              RowBox[{"lWT", ">", 
+               RowBox[{
+                RowBox[{"-", "lM"}], "-", 
+                RowBox[{"aM", " ", "KWT", " ", "lM"}]}]}]}], ")"}], "||", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"KM", ">", "0"}], "&&", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"(", 
+                 RowBox[{
+                  RowBox[{"KWT", "<", 
+                   FractionBox["1", 
+                    RowBox[{"aM", " ", "aWT", " ", "KM"}]]}], "&&", 
+                  RowBox[{"lWT", "<", 
+                   FractionBox[
+                    RowBox[{
+                    RowBox[{"-", "lM"}], "-", 
+                    RowBox[{"aM", " ", "KWT", " ", "lM"}]}], 
+                    RowBox[{"1", "+", 
+                    RowBox[{"aWT", " ", "KM"}]}]]}]}], ")"}], "||", 
+                RowBox[{"(", 
+                 RowBox[{
+                  RowBox[{"KWT", ">", 
+                   FractionBox["1", 
+                    RowBox[{"aM", " ", "aWT", " ", "KM"}]]}], "&&", 
+                  RowBox[{"lWT", ">", 
+                   FractionBox[
+                    RowBox[{
+                    RowBox[{"-", "lM"}], "-", 
+                    RowBox[{"aM", " ", "KWT", " ", "lM"}]}], 
+                    RowBox[{"1", "+", 
+                    RowBox[{"aWT", " ", "KM"}]}]]}]}], ")"}]}], ")"}]}], 
+             ")"}]}], ")"}]}], ")"}], "||", 
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"aM", "\[Equal]", "0"}], "&&", 
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"KM", "<", 
+               RowBox[{"-", 
+                FractionBox["1", "aWT"]}]}], "&&", 
+              RowBox[{"lWT", "<", 
+               RowBox[{"-", 
+                FractionBox["lM", 
+                 RowBox[{"1", "+", 
+                  RowBox[{"aWT", " ", "KM"}]}]]}]}]}], ")"}], "||", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"KM", "\[Equal]", 
+               RowBox[{"-", 
+                FractionBox["1", "aWT"]}]}], "&&", 
+              RowBox[{"lM", ">", "0"}]}], ")"}], "||", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"KM", ">", 
+               RowBox[{"-", 
+                FractionBox["1", "aWT"]}]}], "&&", 
+              RowBox[{"lWT", ">", 
+               RowBox[{"-", 
+                FractionBox["lM", 
+                 RowBox[{"1", "+", 
+                  RowBox[{"aWT", " ", "KM"}]}]]}]}]}], ")"}]}], ")"}]}], 
+         ")"}], "||", 
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{"aM", ">", "0"}], "&&", 
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"KM", "<", 
+               RowBox[{"-", 
+                FractionBox["1", "aWT"]}]}], "&&", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"(", 
+                 RowBox[{
+                  RowBox[{"KWT", "<", 
+                   FractionBox["1", 
+                    RowBox[{"aM", " ", "aWT", " ", "KM"}]]}], "&&", 
+                  RowBox[{"lWT", ">", 
+                   FractionBox[
+                    RowBox[{
+                    RowBox[{"-", "lM"}], "-", 
+                    RowBox[{"aM", " ", "KWT", " ", "lM"}]}], 
+                    RowBox[{"1", "+", 
+                    RowBox[{"aWT", " ", "KM"}]}]]}]}], ")"}], "||", 
+                RowBox[{"(", 
+                 RowBox[{
+                  RowBox[{"KWT", ">", 
+                   FractionBox["1", 
+                    RowBox[{"aM", " ", "aWT", " ", "KM"}]]}], "&&", 
+                  RowBox[{"lWT", "<", 
+                   FractionBox[
+                    RowBox[{
+                    RowBox[{"-", "lM"}], "-", 
+                    RowBox[{"aM", " ", "KWT", " ", "lM"}]}], 
+                    RowBox[{"1", "+", 
+                    RowBox[{"aWT", " ", "KM"}]}]]}]}], ")"}]}], ")"}]}], 
+             ")"}], "||", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"KM", "\[Equal]", 
+               RowBox[{"-", 
+                FractionBox["1", "aWT"]}]}], "&&", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"(", 
+                 RowBox[{
+                  RowBox[{"KWT", "<", 
+                   FractionBox["1", 
+                    RowBox[{"aM", " ", "aWT", " ", "KM"}]]}], "&&", 
+                  RowBox[{"lM", ">", "0"}]}], ")"}], "||", 
+                RowBox[{"(", 
+                 RowBox[{
+                  RowBox[{"KWT", ">", 
+                   FractionBox["1", 
+                    RowBox[{"aM", " ", "aWT", " ", "KM"}]]}], "&&", 
+                  RowBox[{"lM", ">", "0"}]}], ")"}]}], ")"}]}], ")"}], "||", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"-", 
+                FractionBox["1", "aWT"]}], "<", "KM", "<", "0"}], "&&", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"(", 
+                 RowBox[{
+                  RowBox[{"KWT", "<", 
+                   FractionBox["1", 
+                    RowBox[{"aM", " ", "aWT", " ", "KM"}]]}], "&&", 
+                  RowBox[{"lWT", "<", 
+                   FractionBox[
+                    RowBox[{
+                    RowBox[{"-", "lM"}], "-", 
+                    RowBox[{"aM", " ", "KWT", " ", "lM"}]}], 
+                    RowBox[{"1", "+", 
+                    RowBox[{"aWT", " ", "KM"}]}]]}]}], ")"}], "||", 
+                RowBox[{"(", 
+                 RowBox[{
+                  RowBox[{"KWT", ">", 
+                   FractionBox["1", 
+                    RowBox[{"aM", " ", "aWT", " ", "KM"}]]}], "&&", 
+                  RowBox[{"lWT", ">", 
+                   FractionBox[
+                    RowBox[{
+                    RowBox[{"-", "lM"}], "-", 
+                    RowBox[{"aM", " ", "KWT", " ", "lM"}]}], 
+                    RowBox[{"1", "+", 
+                    RowBox[{"aWT", " ", "KM"}]}]]}]}], ")"}]}], ")"}]}], 
+             ")"}], "||", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"KM", "\[Equal]", "0"}], "&&", 
+              RowBox[{"lWT", ">", 
+               RowBox[{
+                RowBox[{"-", "lM"}], "-", 
+                RowBox[{"aM", " ", "KWT", " ", "lM"}]}]}]}], ")"}], "||", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{"KM", ">", "0"}], "&&", 
+              RowBox[{"(", 
+               RowBox[{
+                RowBox[{"(", 
+                 RowBox[{
+                  RowBox[{"KWT", "<", 
+                   FractionBox["1", 
+                    RowBox[{"aM", " ", "aWT", " ", "KM"}]]}], "&&", 
+                  RowBox[{"lWT", ">", 
+                   FractionBox[
+                    RowBox[{
+                    RowBox[{"-", "lM"}], "-", 
+                    RowBox[{"aM", " ", "KWT", " ", "lM"}]}], 
+                    RowBox[{"1", "+", 
+                    RowBox[{"aWT", " ", "KM"}]}]]}]}], ")"}], "||", 
+                RowBox[{"(", 
+                 RowBox[{
+                  RowBox[{"KWT", ">", 
+                   FractionBox["1", 
+                    RowBox[{"aM", " ", "aWT", " ", "KM"}]]}], "&&", 
+                  RowBox[{"lWT", "<", 
+                   FractionBox[
+                    RowBox[{
+                    RowBox[{"-", "lM"}], "-", 
+                    RowBox[{"aM", " ", "KWT", " ", "lM"}]}], 
+                    RowBox[{"1", "+", 
+                    RowBox[{"aWT", " ", "KM"}]}]]}]}], ")"}]}], ")"}]}], 
+             ")"}]}], ")"}]}], ")"}]}], ")"}]}], ")"}]}], ")"}]}]], "Output",
+ CellChangeTimes->{3.9112130204191923`*^9},
+ CellLabel->
+  "Out[899]=",ExpressionUUID->"bb05c757-f46e-4fad-9227-eb0719efa19d"]
 }, Open  ]]
 },
 WindowSize->{693, 762},
@@ -868,20 +1451,19 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
+Cell[558, 20, 181, 3, 35, "Text",ExpressionUUID->"9eede459-e7e3-4723-80db-04f42212b8a7"],
 Cell[CellGroupData[{
-Cell[580, 22, 4105, 107, 580, "Input",ExpressionUUID->"200b7fd9-49ff-4608-adc0-8b980fd52fef"],
-Cell[4688, 131, 783, 15, 28, "Message",ExpressionUUID->"d584ea89-763b-4b56-970b-e3cb4b0477c8"],
-Cell[5474, 148, 781, 15, 28, "Message",ExpressionUUID->"e5cf5849-7b72-40ae-b43c-8c810922c647"],
-Cell[6258, 165, 781, 15, 28, "Message",ExpressionUUID->"11250779-72ef-4f00-b390-af599a110537"],
-Cell[7042, 182, 457, 10, 28, "Message",ExpressionUUID->"20c7f938-fdb9-4b68-abe2-466b57428989"]
+Cell[764, 27, 4160, 108, 600, "Input",ExpressionUUID->"200b7fd9-49ff-4608-adc0-8b980fd52fef"],
+Cell[4927, 137, 15115, 412, 1307, "Output",ExpressionUUID->"8e002a14-bf1e-4c4b-874c-7f30940cab42"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[7536, 197, 152, 3, 29, "Input",ExpressionUUID->"ebc871cd-f576-4450-be8b-4ee018362143"],
-Cell[7691, 202, 15115, 412, 1371, "Output",ExpressionUUID->"8e002a14-bf1e-4c4b-874c-7f30940cab42"]
+Cell[20079, 554, 3248, 90, 535, "Input",ExpressionUUID->"8d8bc299-72c6-4ab8-83b2-7c897560370b"],
+Cell[23330, 646, 4528, 139, 258, "Output",ExpressionUUID->"7b1b653a-2f4b-4ca1-94a3-9af415b64b9a"]
 }, Open  ]],
+Cell[27873, 788, 180, 3, 35, "Text",ExpressionUUID->"7bcb3ccc-9103-400a-8c3a-4bd6bed7045f"],
 Cell[CellGroupData[{
-Cell[22843, 619, 3248, 90, 535, "Input",ExpressionUUID->"8d8bc299-72c6-4ab8-83b2-7c897560370b"],
-Cell[26094, 711, 4528, 139, 258, "Output",ExpressionUUID->"7b1b653a-2f4b-4ca1-94a3-9af415b64b9a"]
+Cell[28078, 795, 1761, 48, 261, "Input",ExpressionUUID->"0c97e674-7f65-4fc9-b833-af9274fc8960"],
+Cell[29842, 845, 22855, 588, 1988, "Output",ExpressionUUID->"bb05c757-f46e-4fad-9227-eb0719efa19d"]
 }, Open  ]]
 }
 ]
