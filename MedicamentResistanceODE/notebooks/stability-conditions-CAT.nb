@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     53831,       1463]
+NotebookDataLength[     53842,       1463]
 NotebookOptionsPosition[     52713,       1436]
-NotebookOutlinePosition[     53101,       1452]
-CellTagsIndexPosition[     53058,       1449]
+NotebookOutlinePosition[     53112,       1452]
+CellTagsIndexPosition[     53069,       1449]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -40,10 +40,10 @@ Cell[BoxData[
      RowBox[{"{", 
       RowBox[{
       "aWT", ",", "aM", ",", "KM", ",", "KWT", ",", "lM", ",", "lWT"}], 
-      "}"}]}], ";"}], "\n", "\[IndentingNewLine]", 
+      "}"}]}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
    RowBox[{"(*", 
     RowBox[{"D\[EAcute]finir", " ", 
-     RowBox[{"l", "'"}], "expression"}], "*)"}], "\[IndentingNewLine]", 
+     RowBox[{"l", "'"}], "expression"}], "*)"}], "\n", 
    RowBox[{
     RowBox[{"expression", "=", 
      RowBox[{
@@ -57,7 +57,7 @@ Cell[BoxData[
        RowBox[{
         RowBox[{"-", "1"}], "+", 
         RowBox[{"2", " ", "aM", " ", "aWT", " ", "KM", " ", "KWT"}]}], ")"}], 
-      " ", "lM", " ", "lWT"}]}], ";"}], "\[IndentingNewLine]", "\n", 
+      " ", "lM", " ", "lWT"}]}], ";"}], "\n", "\[IndentingNewLine]", 
    RowBox[{"(*", 
     RowBox[{"R\[EAcute]soudre", " ", 
      RowBox[{"l", "'"}], "in\[EAcute]quation"}], "*)"}], 
@@ -74,7 +74,7 @@ Cell[BoxData[
           RowBox[{"KWT", " ", ">", " ", "0"}], "}"}], ",", " ", 
          RowBox[{"{", 
           RowBox[{"KM", " ", ">", " ", "0"}], "}"}]}], " ", "]"}], ",", 
-       "variables", ",", "Reals"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+       "variables", ",", "Reals"}], "]"}]}], ";"}], "\n", 
    RowBox[{"(*", 
     RowBox[{
      RowBox[{"conditions", "=", 
@@ -89,8 +89,8 @@ Cell[BoxData[
             RowBox[{"KWT", " ", ">", " ", "0"}], "}"}], ",", " ", 
            RowBox[{"{", 
             RowBox[{"KM", " ", ">", " ", "0"}], "}"}]}], " ", "]"}], "]"}], 
-        ",", "variables", ",", "Reals"}], "]"}]}], ";"}], "*)"}], "\n", 
-   "\[IndentingNewLine]", "\n", 
+        ",", "variables", ",", "Reals"}], "]"}]}], ";"}], "*)"}], 
+   "\[IndentingNewLine]", "\n", "\[IndentingNewLine]", 
    RowBox[{"(*", 
     RowBox[{"Afficher", " ", "les", " ", "conditions"}], "*)"}], 
    "\[IndentingNewLine]", 
@@ -104,8 +104,8 @@ Cell[BoxData[
    RowBox[{
     RowBox[{"values", "=", 
      RowBox[{"Select", "[", 
-      RowBox[{"conditionList", ",", "NumericQ"}], "]"}]}], ";"}], 
-   "\[IndentingNewLine]", "\n", 
+      RowBox[{"conditionList", ",", "NumericQ"}], "]"}]}], ";"}], "\n", 
+   "\[IndentingNewLine]", 
    RowBox[{"(*", 
     RowBox[{"Create", " ", "a", " ", "table"}], "*)"}], "\[IndentingNewLine]", 
    RowBox[{"(*", 
@@ -121,7 +121,7 @@ Cell[BoxData[
           RowBox[{"None", ",", 
            RowBox[{"{", 
             RowBox[{"\"\<Condition\>\"", ",", "\"\<Value\>\""}], "}"}]}], 
-          "}"}]}]}], "]"}]}], ";"}], "*)"}], "\[IndentingNewLine]", "\n", 
+          "}"}]}]}], "]"}]}], ";"}], "*)"}], "\n", "\[IndentingNewLine]", 
    RowBox[{"(*", 
     RowBox[{"conditionList", ";"}], "*)"}], 
    "\[IndentingNewLine]"}]}]], "Input",
@@ -1435,7 +1435,7 @@ Cell[BoxData[
 }, Open  ]]
 },
 WindowSize->{693, 762},
-WindowMargins->{{0, Automatic}, {0, Automatic}},
+WindowMargins->{{Automatic, -1157.25}, {-19.5, Automatic}},
 FrontEndVersion->"13.1 for Linux x86 (64-bit) (June 16, 2022)",
 StyleDefinitions->"Default.nb",
 ExpressionUUID->"e2238e61-f10b-4907-bc78-59d1b4d6dfce"

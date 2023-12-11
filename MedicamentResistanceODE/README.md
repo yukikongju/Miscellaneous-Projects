@@ -11,6 +11,7 @@
 **Lectures**
 
 - [Mathematical Modeling of Epidemics - Epidemics on networks](https://www.youtube.com/watch?v=GVTDWQEXZj0)
+- [HIV Model](https://docs.idmod.org/projects/emod-hiv/en/2.20_a/model-sir.html)
 - [Epidemiological Models for Influenza and COVID](https://www.youtube.com/watch?v=pcFB6_yrxGE&t=3030s)
 - [Stochastic Network Model for Epidoology](https://www.youtube.com/watch?v=KY_KLdjSWEg&t=1521s)
 - [NonLinear Dynamic and Chaos I - Haller](https://www.youtube.com/watch?v=pdMSwFifunE&t=85s)
