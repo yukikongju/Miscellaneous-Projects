@@ -83,7 +83,7 @@ def dataframe_with_selections(df):
     )
 
     # Filter the dataframe using the temporary column, then drop the column
-    selected_rows = edited_df[edited_df.Select]
+    selected_rows = edited_df[edited_df.Select].reset_index()
     return selected_rows.drop('Select', axis=1)
 
 
@@ -103,7 +103,8 @@ def main():
 
         container = st.container(border=True)
         # button: Select All FIXME: weird behavior
-        st.session_state.checkbox_init_value = False
+        if 'checkbox_init_value' not in st.session_state:
+            st.session_state.checkbox_init_value = False
         if container.button(label="Select All"):
             st.session_state.checkbox_init_value = True
         if container.button(label="Unselect All"):
@@ -113,7 +114,7 @@ def main():
 
         # FIXME: compute download time from songs duration
         download_time = df_selection['duration'].sum() / 6
-        download_time_min, download_time_sec = download_time // 60 , download_time % 60
+        download_time_min, download_time_sec = download_time // 60 , round(download_time % 60, 2)
         st.write(f"Estimated Download Time: **{download_time_min} min {download_time_sec} s**")
 
         # FIXME: compute selection size from songs duration
@@ -125,7 +126,11 @@ def main():
 
         # 4. download songs if button is pressed
         if st.button(label="Download"):
+            # TODO: add cancel button
+            #  if st.button(label="Cancel"):
+            #      st.stop()
             download_selected_songs(df_selection)
+
 
 
 if __name__ == "__main__":
