@@ -2,6 +2,11 @@
 
 [RSS Finder App Launch](https://yukikongju-miscellaneous-projects-rssfindermain-glcl5p.streamlit.app/)
 
+Generating RSS url for:
 
-- generating RSS url for youtube channel 
+- [X] YouTube channel 
+- [ ] Apple Podcast
+- [ ] Spotify Podcast
+
+
 
