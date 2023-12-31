@@ -5,6 +5,8 @@ import youtube_dl
 import pandas as pd
 
 
+
+@st.cache_data
 def get_playlist_info(playlist_url: str):
     ydl_opts = {
         'quiet': True,
@@ -42,23 +44,51 @@ def download_selected_songs(songs_ids: [str]):
             '--download-archive', 'archive.txt',
             song_url
         ]
+
+        #  progress_bar = st.progress(0, text="Downloading ")
         subprocess.run(download_command)
 
 
 def main():
-    # 1. create streamlit widgets
-    youtube_playlist = 'https://www.youtube.com/playlist?list=PLzx7xtGqjNzoElKjq_zmpzgoS8RNrqHYh'
+    # 1. create streamlit widgets: (1) playlist url (2) Download Directory
+    st.title("YouTube Playlist Downloader")
 
     # 2. fetch urls of playlist once
-    df_playlist = get_playlist_info(youtube_playlist)
+    #  youtube_playlist = 'https://www.youtube.com/playlist?list=PLzx7xtGqjNzoElKjq_zmpzgoS8RNrqHYh'
+    playlist_url = st.text_input("Enter YouTube Playlist URL:")
+    if playlist_url:
+        df_playlist = get_playlist_info(playlist_url=playlist_url)
+
+        container = st.container(border=True)
+        # button: Select All
+        checkbox_init_value = True
+        if container.button(label="Select All"):
+            checkbox_init_value = True
+        if container.button(label="Unselect All"):
+            checkbox_init_value = False
+
+        #
+        cols = container.columns([2, 1])
+
+        # 3. select songs urls with checkboxes in a container
 
 
-    # 3. select songs urls with checkboxes
+        checkbox_keys = {}
+        for i, song in df_playlist.iterrows():
+            checkbox_key = f"checkbox_{song['id']}"
+            checkbox_keys[song['id']] = cols[0].checkbox(label=f"{i+1} - {song['title']}", key=checkbox_key, value=checkbox_init_value)
 
 
+        # get selected items
+        selected_songs_ids = [key for key, value in checkbox_keys.items() if value]
+        cols[1].write(selected_songs_ids)
 
-    # 4. download songs if button is pressed
-    download_selected_songs(songs_ids=list(df_playlist['id']))
+
+        # 4. download songs if button is pressed
+        if st.button(label="Download"):
+            download_selected_songs(songs_ids=selected_songs_ids)
+
+            # TODO: progress bar
 
 
     pass
