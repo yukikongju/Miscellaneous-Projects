@@ -11,6 +11,7 @@
 3. Data Exploration: can we check if corona is derived from HIV
     a. how to find capsid from genome => capsid: capsule of virus
     b. peptide: linear chain of 2-50 amino acids
+    c. proteases
 4. Protein Function
     a. three codons positions: P1, P2, P3; Wobble Position
     b. Negative selection principle: the less important parts change more 
@@ -22,3 +23,4 @@
     a. `ncbi.nlm.nih.gov/protein` => 
     b. `uniprot.org/uniprot/`
 2. Python Package: `nglview`
+3. [Foldingathome](https://foldingathome.org/start-folding/?lng=en)
