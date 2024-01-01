@@ -1,9 +1,9 @@
 import os
-import streamlit as st
 import subprocess
-import youtube_dl
-import pandas as pd
 import time
+import streamlit as st
+import pandas as pd
+import youtube_dl
 
 def get_download_time_and_size(duration: int, media_type: str = 'mp3'):
     """
