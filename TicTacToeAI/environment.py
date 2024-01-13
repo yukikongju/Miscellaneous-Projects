@@ -104,10 +104,18 @@ class TicTacToeEnv(gym.Env):
         done |= all(c == player for c in diago1)
         done |= all(c == player for c in diago2)
 
-        # check if all cell are filled ie Tie
-        filled = not all(self.state.flatten())
 
-        return done
+        # check if all cell are filled ie Tie
+        filled = all(all(cell != 0 for cell in row) for row in self.state)
+
+        # add info 
+        if done:
+            self.info["winner"] = player
+        elif filled:
+            self.info["winner"] = 'tie'
+
+
+        return done | filled
 
 
     def render(self):

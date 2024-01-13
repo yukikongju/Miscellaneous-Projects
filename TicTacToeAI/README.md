@@ -4,8 +4,8 @@ A Tic Tac Toe Game at the command line
 
 ## Todos
 
-- [ ] Consider tie in the game
-- [ ] add result in env.info
+- [X] Consider tie in the game
+- [X] add result in env.info
 - [ ] save game results in json
 
 
@@ -21,6 +21,7 @@ A Tic Tac Toe Game at the command line
 - [Kying18's Minimax Tutorial](https://www.youtube.com/watch?v=8ext9G7xspg&t=9731s)
 - [Solving TicTacTow with RL](https://www.govindgnair.com/post/solving-tic-tac-toe-with-reinforcement-learning/)
 - [OpenAI Gym Tic Tac Toe](https://github.com/MauroLuzzatto/OpenAI-Gym-TicTacToe-Environment/blob/master/gym-TicTacToe/gym_TicTacToe/envs/tictactoe_env.py)
+- [Barto RL python](https://github.com/ShangtongZhang/reinforcement-learning-an-introduction)
 
 **OpenAI Spinning Up**
 
