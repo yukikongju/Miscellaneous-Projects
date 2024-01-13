@@ -13,10 +13,10 @@ class TicTacToeEnv(gym.Env):
         """
         self.show = show
         self.board_width = 3
-        n_actions = self.board_width * self.board_width
-        n_states = 19683 # number of combinations: 3**n**2 (n=3) 
-        self.action_space = gym.spaces.Discrete(n_actions)
-        self.observation_space = gym.spaces.Discrete(n_states)
+        self.n_actions = self.board_width * self.board_width
+        self.n_states = 19683 # number of combinations: 3**n**2 (n=3) 
+        self.action_space = gym.spaces.Discrete(self.n_actions)
+        self.observation_space = gym.spaces.Discrete(self.n_states)
         self.p1 = 1
         self.p2 = 2
 
@@ -26,6 +26,7 @@ class TicTacToeEnv(gym.Env):
         """
         reset the board
         """
+        self.available_moves = set(range(self.n_actions))
         self.state = np.zeros((self.board_width, self.board_width), dtype=int)
         self.is_p1_turn = True
         self.info = {"players": {1: {"actions": []}, 2: {"actions": []}}}
@@ -75,6 +76,7 @@ class TicTacToeEnv(gym.Env):
         if self.state[row, col] != 0:
             raise ValueError(f"This position has already been played!")
 
+        self.available_moves.remove(action)
         self.state[row, col] = self.p1 if self.is_p1_turn else self.p2
         if self.is_p1_turn:
             self.info["players"][self.p1]["actions"].append(action)

@@ -6,6 +6,11 @@ A Tic Tac Toe Game at the command line
 
 - [X] Consider tie in the game
 - [X] add result in env.info
+- [.] Train Agents
+    - [ ] Random Bot
+    - [ ] Minmax Agent
+    - [X] Q-Learning Agent
+- [ ] Making agent play against random bot
 - [ ] save game results in json
 
 
@@ -22,6 +27,7 @@ A Tic Tac Toe Game at the command line
 - [Solving TicTacTow with RL](https://www.govindgnair.com/post/solving-tic-tac-toe-with-reinforcement-learning/)
 - [OpenAI Gym Tic Tac Toe](https://github.com/MauroLuzzatto/OpenAI-Gym-TicTacToe-Environment/blob/master/gym-TicTacToe/gym_TicTacToe/envs/tictactoe_env.py)
 - [Barto RL python](https://github.com/ShangtongZhang/reinforcement-learning-an-introduction)
+- [Q-Learning with Taxi](https://www.learndatasci.com/tutorials/reinforcement-q-learning-scratch-python-openai-gym/)
 
 **OpenAI Spinning Up**
 
