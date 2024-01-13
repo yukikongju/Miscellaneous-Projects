@@ -42,8 +42,13 @@ A collection of random projects
 - [ ] RSA
 - [ ] Weather API
 - [ ] QR Code Generator
+- [ ] Google Calendar Color Time Table
+	* [Gcalendardata](https://github.com/dpalikhe/GcalendarData)
+	* [google-calendar-hours](https://github.com/aronwoost/google-calendar-hours)
+- [ ] RSS Feed App
 - [ ] Fast Fourier Transform
 - [ ] NBA Tweets
+- [ ] Questrade Portfolio distribution: EQT/growth/equilibree; markets(US,CAN, EU, Asia); buy price vs current price
 - [ ] Youtube Profile Analysis
 - [ ] tf-idf and pdf searcher
 - [ ] Reinforcement Learning in Game Dev: SnakeAI
