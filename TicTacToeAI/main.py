@@ -7,6 +7,7 @@ def main():
 
     while not done:
         player = env.p1 if env.is_p1_turn else env.p2
+        print()
         print(f"Player {player} to play. Selection action [0-8]")
         env.render()
         action = int(input())

@@ -106,7 +106,7 @@ class TicTacToeEnv(gym.Env):
 
 
         # check if all cell are filled ie Tie
-        filled = all(all(cell != 0 for cell in row) for row in self.state)
+        filled = all(cell != 0 for cell in self.state.flatten())
 
         # add info 
         if done:
