@@ -1,15 +1,54 @@
 from environment import TicTacToeEnv
-from agent import QLearningAgent
+from agent import QLearningAgent, SARSAAgent
 
 
 def main():
-    agent = train_q_learning_agent(verbose=False)
+    #  agent = train_q_learning_agent(verbose=False)
+    agent = train_sarsa_agent(verbose=False)
+
+
+def train_sarsa_agent(episodes=100, verbose=False):
+    env = TicTacToeEnv()
+    agent = SARSAAgent(alpha=0.1, gamma=0.1, epsilon=0.1)
+
+    # train the agent
+    for e in range(episodes):
+        env.reset()
+        available_actions = list(env.available_moves)
+        old_state = str(env.state.flatten())
+        old_action = agent.choose_action(old_state, available_actions)
+        done = False
+
+        while not done:
+            # agent choose action
+            available_actions = list(env.available_moves)
+
+            # agent make action and receives feedback
+            action = agent.choose_action(old_state, available_actions)
+            state, reward, done, info = env.step(action)
+            state = str(env.state.flatten())
+            #  print(state)
+
+            # agent update its beliefs
+            agent.update_q_value(old_state=old_state, state=state, 
+                                 old_action=old_action,
+                                 action=action, reward=reward, 
+                                 available_actions=available_actions)
+
+            old_action = action
+            old_state = state
+
+        if verbose:
+            print(f"Episode {e}: {info}")
+
+    return agent
 
 
 def train_q_learning_agent(episodes=100, verbose=False):
     env = TicTacToeEnv()
     agent = QLearningAgent(alpha=0.1, gamma=0.1, epsilon=0.1)
 
+    # train the agent
     for e in range(episodes):
         env.reset()
         state = str(env.state.flatten())
@@ -27,16 +66,15 @@ def train_q_learning_agent(episodes=100, verbose=False):
             #  print(state)
 
             # agent update its beliefs
-            old_q_value = agent.get_q_value(old_state, action)
-            max_next_q_value = max([agent.get_q_value(state, next_action) for next_action in available_actions])
-            next_q_value = (1 - agent.alpha) * old_q_value + agent.alpha * (reward + agent.gamma * max_next_q_value)
-            agent.update_q_value(old_state, action, new_value=next_q_value)
+            agent.update_q_value(old_state=old_state, state=state, 
+                                 action=action, reward=reward, 
+                                 available_actions=available_actions)
 
         if verbose:
             print(f"Episode {e}: {info}")
 
     return agent
-    
+
 
 def play():
     """

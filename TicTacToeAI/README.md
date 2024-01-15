@@ -6,11 +6,15 @@ A Tic Tac Toe Game at the command line
 
 - [X] Consider tie in the game
 - [X] add result in env.info
-- [.] Train Agents
+- [o] Train Agents
     - [ ] Random Bot
     - [ ] Minmax Agent
     - [X] Q-Learning Agent
-- [ ] Making agent play against random bot
+    - [X] SARSA
+    - [ ] REINFORCE Agent
+- [ ] Visualize "goodness" of being in a given state; value function
+- [ ] How to know when agent has converged?
+- [ ] Making agent play against each other
 - [ ] save game results in json
 
 

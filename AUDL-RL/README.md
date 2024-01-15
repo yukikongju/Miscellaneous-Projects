@@ -20,8 +20,26 @@ to find such strategy using reinforcement learning.
 All the data will come from the [AUDL API] that fetches data from the official 
 AUDL website. This API provide useful information such as the throwing 
 
+For each throw open/break side, we consider (1) probability of completion 
+(2) mean and variance given for distance/angle for each position on the field
+
+**Types of throws considered**
+
+- dump
+- dish
+- swing
+- under
+- huck
+
+Notes:
+- we cannot generate the throw based on mean and variance alone because it 
+  doesn't reflect the decision making of the thrower. We have to make the 
+  throw more difficult as the user has a less space to throw into.
+
 ## Algorithms used
 
 - [Monte Carlo Methods](https://en.wikipedia.org/wiki/Reinforcement_learning)
 
 ## Ressources
+
+
