@@ -7,14 +7,16 @@ A Tic Tac Toe Game at the command line
 - [X] Consider tie in the game
 - [X] add result in env.info
 - [o] Train Agents
-    - [ ] Random Bot
+    - [X] Random Bot
     - [ ] Minmax Agent
     - [X] Q-Learning Agent
     - [X] SARSA
     - [ ] REINFORCE Agent
 - [ ] Visualize "goodness" of being in a given state; value function
+- [X] Code value function:
+    - weighted by proportion of time we spend in each state (NO)
 - [ ] How to know when agent has converged?
-- [ ] Making agent play against each other
+- [X] Making agent play against each other
 - [ ] save game results in json
 
 
@@ -32,6 +34,8 @@ A Tic Tac Toe Game at the command line
 - [OpenAI Gym Tic Tac Toe](https://github.com/MauroLuzzatto/OpenAI-Gym-TicTacToe-Environment/blob/master/gym-TicTacToe/gym_TicTacToe/envs/tictactoe_env.py)
 - [Barto RL python](https://github.com/ShangtongZhang/reinforcement-learning-an-introduction)
 - [Q-Learning with Taxi](https://www.learndatasci.com/tutorials/reinforcement-q-learning-scratch-python-openai-gym/)
+- [SARSA](https://builtin.com/machine-learning/sarsa)
+- [RL Algorithms - intuitive overview](https://smartlabai.medium.com/reinforcement-learning-algorithms-an-intuitive-overview-904e2dff5bbc)
 
 **OpenAI Spinning Up**
 
