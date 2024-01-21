@@ -8,9 +8,9 @@ A Tic Tac Toe Game at the command line
 - [X] add result in env.info
 - [o] Train Agents
     - [X] Random Bot
-    - [ ] Minmax Agent
     - [X] Q-Learning Agent
     - [X] SARSA
+    - [ ] Minimax Agent
     - [ ] REINFORCE Agent
 - [ ] Visualize "goodness" of being in a given state; value function
 - [X] Code value function:
@@ -24,7 +24,7 @@ A Tic Tac Toe Game at the command line
 
 - [X] Play against a dumb computer which choose actions at random
 - [ ] Play against a smart computer which choose actions following minimax algorithm
-- [ ] Train agent with RL
+- [X] Train agent with RL
 
 ## Ressources
 

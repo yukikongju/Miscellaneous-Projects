@@ -13,7 +13,7 @@ def main():
 
 
     # make bots compete against each other
-    NUM_GAMES = 1000
+    NUM_GAMES = 10
     env = TicTacToeEnv(show=False)
     wins = {env.p1: 0, env.p2: 0, 'tie': 0} # count number of game wons
     for i in range(NUM_GAMES):
@@ -28,11 +28,12 @@ def main():
             state = str(state.flatten())
 
             if done:
+                env.render()
                 if info["winner"] == 'tie':
-                    #  print(f"Tie")
+                    print(f"Tie")
                     wins['tie'] += 1
                 else:
-                    #  print(f"Player {info['winner']} wins!") 
+                    print(f"Player {info['winner']} wins!") 
                     wins[env.p1] += 1
                 break
 
@@ -45,11 +46,12 @@ def main():
             available_actions = list(env.available_moves)
 
             if done:
+                env.render()
                 if info["winner"] == 'tie':
-                    #  print(f"Tie")
+                    print(f"Tie")
                     wins['tie'] += 1
                 else:
-                    #  print(f"Player {info['winner']} wins!") 
+                    print(f"Player {info['winner']} wins!") 
                     wins[env.p2] += 1
                 break
 

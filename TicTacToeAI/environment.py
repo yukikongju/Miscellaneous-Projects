@@ -125,6 +125,7 @@ class TicTacToeEnv(gym.Env):
         Print the board
 
         """
+        print()
         for i in range(self.board_width):
             row = []
             for j in range(self.board_width):
@@ -135,4 +136,5 @@ class TicTacToeEnv(gym.Env):
                 else:
                     row.append('O')
             print('|' + '|'.join(map(str, row)) + '|')
+        print()
 
