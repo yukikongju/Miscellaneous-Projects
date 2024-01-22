@@ -32,9 +32,12 @@ class UltimateFieldThrowDistribution(object):
         self.OFFSET_WIDTH = 27
         self.FIELD_WIDTH = 55
         self.FIELD_LENGTH = 120
+        self.NUM_NEIGHBORS = 2 # make sure not greater than min throws
+
+        self._init_throw_distributions()
 
 
-    def _init_throw_distributions(self, ):  # FIXME
+    def _init_throw_distributions(self):
         """
 
         """
@@ -44,13 +47,13 @@ class UltimateFieldThrowDistribution(object):
         for t_type, t_side in itertools.product(throws_types, throws_sides):
             self.throws_distribution[(t_type, t_side)] = self.__init_throw_side_distribution(throw_type=t_type, throw_side=t_side)
 
-    def __init_throw_side_distribution(self, throw_type: str, throw_side: str):
+    def __init_throw_side_distribution(self, throw_type: str, throw_side: str): # FIXME: check why X has NAN value
         """
 
         """
         # --- filter out rows
-        is_throw_type = self.df_throws[self.df_throws['throw_type'] == throw_type]
-        is_throw_side = self.df_throws[self.df_throws['throw_side'] == throw_side]
+        is_throw_type = self.df_throws['throw_type'] == throw_type
+        is_throw_side = self.df_throws['throw_side'] == throw_side
         df = self.df_throws[is_throw_type & is_throw_side]
 
         # --- initialize KNNs to predict (1) proba (2) x_delta (3) y_delta
@@ -58,13 +61,19 @@ class UltimateFieldThrowDistribution(object):
         successes = np.array(df[['successful']])
         x_deltas, y_deltas = np.array(df[['x']]), np.array(df[['y']])
 
-        knn_proba = KNeighborsRegressor(n_neighbors = NUM_NEIGHBORS, weights = 'distance', algorithm='auto', metric='minkowski')
+        knn_proba = KNeighborsRegressor(n_neighbors = self.NUM_NEIGHBORS, 
+                                        weights = 'distance', algorithm='auto',
+                                        metric='minkowski')
         knn_proba.fit(points, successes)
         
-        knn_x = KNeighborsRegressor(n_neighbors = NUM_NEIGHBORS, weights = 'distance', algorithm='auto', metric='minkowski')
+        knn_x = KNeighborsRegressor(n_neighbors = self.NUM_NEIGHBORS, 
+                                    weights = 'distance', algorithm='auto', 
+                                    metric='minkowski')
         knn_x.fit(points, x_deltas)
 
-        knn_y = KNeighborsRegressor(n_neighbors = NUM_NEIGHBORS, weights = 'distance', algorithm='auto', metric='minkowski')
+        knn_y = KNeighborsRegressor(n_neighbors = self.NUM_NEIGHBORS, 
+                                    weights = 'distance', algorithm='auto', 
+                                    metric='minkowski')
         knn_y.fit(points, y_deltas)
 
         def get_knn_prediction(current_pos: np.array, 
@@ -82,7 +91,7 @@ class UltimateFieldThrowDistribution(object):
             row = []
             for y_pos in range(self.FIELD_LENGTH):
                 # init current position
-                current_pos = np.array([x_pos-OFFSET_WIDTH, y_pos])
+                current_pos = np.array([x_pos-self.OFFSET_WIDTH, y_pos])
 
                 # compute mean and variance for: proba, x_delta, y_delta
                 proba_mean, proba_var = get_knn_prediction(current_pos, knn_proba, successes)
@@ -106,8 +115,6 @@ class UltimateFieldThrowDistribution(object):
 
         """
         pass
-        
-        
 
 
 class UltimateGameResults(object):
