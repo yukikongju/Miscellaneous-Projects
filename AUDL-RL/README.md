@@ -36,6 +36,11 @@ Notes:
   doesn't reflect the decision making of the thrower. We have to make the 
   throw more difficult as the user has a less space to throw into.
 
+
+completion_dict = {
+""
+}
+
 ## Algorithms used
 
 - [Monte Carlo Methods](https://en.wikipedia.org/wiki/Reinforcement_learning)

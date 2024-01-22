@@ -56,6 +56,10 @@ A collection of random projects
 - [ ] Information Spreading in social network
 - [ ] genetic algorithm
 - [ ] Markov Chain Simulation
+- [ ] Using Bayesian Decision making to optimize supply chains
+	* [Using Bayesian decision making to optimize supply chain](https://twiecki.io/blog/2019/01/14/supply_chain/)
+	* [Random Walk Bayesian Deep Networks: dealing with non-stationary data](https://twiecki.io/blog/2017/03/14/random-walk-deep-net/)
+	* [mcmc sampling for dummies](https://twiecki.io/blog/2015/11/10/mcmc-sampling/)
 - [ ] EDA Application
 - [ ] Streamlit Goodreads, Github Commit
 - [ ] Remove PDF Pages + reorder PDF
