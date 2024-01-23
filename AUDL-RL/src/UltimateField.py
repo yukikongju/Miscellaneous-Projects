@@ -32,7 +32,7 @@ class UltimateFieldThrowDistribution(object):
         self.OFFSET_WIDTH = 27
         self.FIELD_WIDTH = 55
         self.FIELD_LENGTH = 120
-        self.NUM_NEIGHBORS = 2 # make sure not greater than min throws
+        self.NUM_NEIGHBORS = 20 # make sure not greater than min throws
 
         self._init_throw_distributions()
 
@@ -47,7 +47,7 @@ class UltimateFieldThrowDistribution(object):
         for t_type, t_side in itertools.product(throws_types, throws_sides):
             self.throws_distribution[(t_type, t_side)] = self.__init_throw_side_distribution(throw_type=t_type, throw_side=t_side)
 
-    def __init_throw_side_distribution(self, throw_type: str, throw_side: str): # FIXME: check why X has NAN value
+    def __init_throw_side_distribution(self, throw_type: str, throw_side: str): 
         """
 
         """
@@ -61,17 +61,20 @@ class UltimateFieldThrowDistribution(object):
         successes = np.array(df[['successful']])
         x_deltas, y_deltas = np.array(df[['x']]), np.array(df[['y']])
 
-        knn_proba = KNeighborsRegressor(n_neighbors = self.NUM_NEIGHBORS, 
+        # select num neighbors
+        num_neighbors = min(self.NUM_NEIGHBORS, df.shape[0])
+
+        knn_proba = KNeighborsRegressor(n_neighbors = num_neighbors,
                                         weights = 'distance', algorithm='auto',
                                         metric='minkowski')
         knn_proba.fit(points, successes)
         
-        knn_x = KNeighborsRegressor(n_neighbors = self.NUM_NEIGHBORS, 
+        knn_x = KNeighborsRegressor(n_neighbors = num_neighbors, 
                                     weights = 'distance', algorithm='auto', 
                                     metric='minkowski')
         knn_x.fit(points, x_deltas)
 
-        knn_y = KNeighborsRegressor(n_neighbors = self.NUM_NEIGHBORS, 
+        knn_y = KNeighborsRegressor(n_neighbors = num_neighbors, 
                                     weights = 'distance', algorithm='auto', 
                                     metric='minkowski')
         knn_y.fit(points, y_deltas)
@@ -161,7 +164,8 @@ class UltimateGameResults(object):
         df_valid_throws = df[is_valid_throw]
         df_valid_throws.loc[:, 'successful'] = True
 
-        df_throwaways = df[~is_valid_throw]
+        is_throwaway = df['throw_type'] == 'Throwaway'
+        df_throwaways = df[is_throwaway]
         df_throwaways.loc[:, 'throw_type'] = df_throwaways.apply(lambda r: get_throw_type(x1=0, y1=0, x2=r['x'], y2=r['y'])[0], axis=1)
         df_throwaways.loc[:, 'throw_side'] = df_throwaways.apply(lambda r: get_throw_type(x1=0, y1=0, x2=r['x'], y2=r['y'])[1], axis=1)
         df_throwaways.loc[:, 'successful'] = False
