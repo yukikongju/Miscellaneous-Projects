@@ -26,13 +26,15 @@ class FieldSquare(object):
 
 class UltimateFieldThrowDistribution(object):
 
-    def __init__(self, df_throws: pd.DataFrame):
+    def __init__(self, df_throws: pd.DataFrame, field_width: int, 
+                 field_length: int, offset_width: int, endzone_length: int):
         self.df_throws = df_throws
+        self.field_width = field_width
+        self.field_length = field_length
+        self.offset_width = offset_width
+        self.endzone_length = endzone_length
 
-        self.OFFSET_WIDTH = 27
-        self.FIELD_WIDTH = 55
-        self.FIELD_LENGTH = 120
-        self.NUM_NEIGHBORS = 20 # make sure not greater than min throws
+        self.num_neighbors = 20 # make sure not greater than min throws
 
         self._init_throw_distributions()
 
@@ -62,7 +64,7 @@ class UltimateFieldThrowDistribution(object):
         x_deltas, y_deltas = np.array(df[['x']]), np.array(df[['y']])
 
         # select num neighbors
-        num_neighbors = min(self.NUM_NEIGHBORS, df.shape[0])
+        num_neighbors = min(self.num_neighbors, df.shape[0])
 
         knn_proba = KNeighborsRegressor(n_neighbors = num_neighbors,
                                         weights = 'distance', algorithm='auto',
@@ -90,11 +92,11 @@ class UltimateFieldThrowDistribution(object):
 
         # --- compute throw distribution for all squares using KNN
         field = []
-        for x_pos in range(self.FIELD_WIDTH):
+        for x_pos in range(self.field_width):
             row = []
-            for y_pos in range(self.FIELD_LENGTH):
+            for y_pos in range(self.field_length):
                 # init current position
-                current_pos = np.array([x_pos-self.OFFSET_WIDTH, y_pos])
+                current_pos = np.array([x_pos-self.offset_width, y_pos])
 
                 # compute mean and variance for: proba, x_delta, y_delta
                 proba_mean, proba_var = get_knn_prediction(current_pos, knn_proba, successes)
@@ -139,8 +141,16 @@ class UltimateGameResults(object):
         self.team_ext_id = team_ext_id
         self.game = GameStats(self.game_id)
 
+        self.offset_width = 27
+        self.field_width = 55
+        self.field_length = 120
+        self.endzone_length = 20
+
         self.df_throws = self._get_throws_dataframe()
-        self.throws_distributions = UltimateFieldThrowDistribution(self.df_throws)
+        self.throws_distributions = UltimateFieldThrowDistribution(
+                df_throws=self.df_throws, field_width=self.field_width, 
+                field_length=self.field_length, endzone_length=self.endzone_length, 
+                offset_width=self.offset_width)
 
 
     def _get_throws_dataframe(self):
