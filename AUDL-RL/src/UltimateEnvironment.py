@@ -54,7 +54,7 @@ class UltimateFrisbeeEnv(gym.Env):
         x = np.random.choice(range(self.field_width))
         y = np.random.choice(range(self.field_length // 3))
         state = (x, y)
-        #  print(state)
+        print(state)
         info = {}
         return state, info
 
@@ -185,9 +185,11 @@ class UltimateFrisbeeEnv(gym.Env):
         x_new_pos = max(0, min(x_pos + x_delta, self.field_width - 1))
         y_new_pos = max(0, min(y_pos + y_delta, self.field_length - 1))
         next_state = (x_new_pos, y_new_pos)
+        #  print(next_state)
 
         # - verify if team has scored
-        if (self.field_length - self.endzone_length < y_new_pos < self.endzone_length):
+        if (self.field_length - self.endzone_length < y_new_pos < self.field_length):
+            #  print(self.field_length - self.endzone_length, y_new_pos, self.field_length)
             done = True
             reward = 100
             info = {'outcome': 'goal'}
