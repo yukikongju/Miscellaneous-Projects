@@ -54,7 +54,6 @@ class UltimateFrisbeeEnv(gym.Env):
         x = np.random.choice(range(self.field_width))
         y = np.random.choice(range(self.field_length // 3))
         state = (x, y)
-        print(state)
         info = {}
         return state, info
 
@@ -114,6 +113,7 @@ class UltimateFrisbeeEnv(gym.Env):
 
         # give reward + determine if we are done (turnover or endzone) + info
         next_state, reward, done, info = self.__step(action, is_throw_successful)
+        #  print(next_state)
         self.state = next_state
 
         return next_state, reward, done, info 

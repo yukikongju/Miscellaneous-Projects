@@ -1,8 +1,12 @@
 # Notes
 
+TODOs:
+- [X] verify if throw sequence are correct; do we ever reset in a winning state?
+- [ ] implement agent: qlearning, sarsa
+
 Guideline:
-- [ ] 0. Define actions and state spaces
-- [ ] 1. Define environment: SimpleFrisbeeEnv
+- [X] 0. Define actions and state spaces
+- [X] 1. Define environment: SimpleFrisbeeEnv
 - [ ] 2. Define DQN
 - [ ] 3. Generate Heatmap from states space
 - [ ] 4. Fetch data for each AUDL team + generate heatmap for all frisbee teams
