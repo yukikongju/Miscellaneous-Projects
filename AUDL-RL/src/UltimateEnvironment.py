@@ -67,7 +67,7 @@ class UltimateFrisbeeEnv(gym.Env):
         dct_throws_to_action: dict => ((throw_type: str, throw_side: str), action: int)
             > dictionary that maps (throw_type, throw_side) to action
         """
-        dct_action_to_throws = {action: throws for action, throws in enumerate(game.throws_distributions.throws_distribution.keys())}
+        dct_action_to_throws = {action: throws for action, throws in enumerate(self.game_results.throws_distributions.throws_distribution.keys())}
         dct_throws_to_action = {throws: action for action, throws in dct_action_to_throws.items()}
         return dct_action_to_throws, dct_throws_to_action
 
