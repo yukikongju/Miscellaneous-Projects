@@ -1,6 +1,6 @@
 # Music Downloader from Youtube
 
-[Link](https://youtubeplaylistdownloader.streamlit.app/)
+[Link](https://youtubedldownloader.streamlit.app/)
 
 
 ## Prerequisites
