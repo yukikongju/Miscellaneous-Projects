@@ -2,7 +2,10 @@
 
 TODOs:
 - [X] verify if throw sequence are correct; do we ever reset in a winning state?
-- [ ] implement agent: qlearning, sarsa
+- [o] implement agent: 
+    - [X] q-learning
+    - [ ] sarsa
+- [ ] Debug Agent => why does q-function has value prior endzone?
 
 Guideline:
 - [X] 0. Define actions and state spaces
