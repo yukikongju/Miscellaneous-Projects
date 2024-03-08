@@ -2,17 +2,25 @@
 
 [Link](https://youtubedldownloader.streamlit.app/)
 
+# Usage
+
+Enter a YouTube Playlist:
+- YT Music Format: `https://music.youtube.com/playlist?list=<playlist_id>`
+    * Ex: `https://music.youtube.com/playlist?list=PLzx7xtGqjNzqisEJx-18RJcRAwDnWMr_w`
+- YouTube Format: `https://www.youtube.com/playlist?list=<playlist_id>`
+    * Ex: `https://www.youtube.com/playlist?list=PLTp_E7iMLSc0N411p14wJM5kwK-G1sG6X`
 
 ## Prerequisites
 
-1. 
-
-
 Features to Fix:
-- [ ] estimated time for download + size: `filesize` before downloading and after
+- [X] estimated time for download + size: `filesize` before downloading and after
 - [ ] directory to download music
-- [ ] fix select all /unselect button
-- [ ] Deployed Streamlit app cannot import youtube_dl => try using pytube instead?
+- [X] fix select all /unselect button
+- [X] Deployed Streamlit app cannot import youtube_dl => try using pytube instead?
+	* requirements.txt file needs to be in root 
+
+Additional Features:
+- [ ] CLI app
 
 
 ## Ressources
