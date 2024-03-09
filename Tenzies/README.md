@@ -10,8 +10,8 @@ Currently, two official plugins are available:
 
 **TODOs**
 
-- [ ] confetti on win
-- [ ] new game
+- [X] confetti on win
+- [X] new game
 
 
 ## Resources

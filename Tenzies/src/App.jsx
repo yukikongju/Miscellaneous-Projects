@@ -44,6 +44,11 @@ function App() {
     console.log(dice);
   }
 
+  function resetGame() {
+    setDice(getNewDices());
+    setHasWin(false);
+  }
+
   useEffect(
     function () {
       // check is all dice are the same value and are held
@@ -74,9 +79,16 @@ function App() {
       {hasWin && <Confetti />}
       <div className="die-container">{diceElements}</div>
       <div className="bottom-div">
-        <button className="button-roll" onClick={rollDice}>
-          Roll the Dice
-        </button>
+        {!hasWin && (
+          <button className="button-roll" onClick={rollDice}>
+            Roll the Dice
+          </button>
+        )}
+        {hasWin && (
+          <button className="button-newgame" onClick={resetGame}>
+            Reset Game
+          </button>
+        )}
       </div>
     </main>
   );

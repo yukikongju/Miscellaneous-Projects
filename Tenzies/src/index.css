@@ -43,3 +43,10 @@ main {
   border-radius: 2px;
   background-color: #ef56;
 }
+
+.button-newgame {
+  height: 4em;
+  width: 15em;
+  border-radius: 2px;
+  background-color: #5965;
+}
