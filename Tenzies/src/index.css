@@ -1,0 +1,45 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+main {
+  margin: 3em;
+}
+
+.die {
+  padding: 5em;
+  margin: 1em;
+  /* display: flex; */
+  /* justify-content: center; */
+  /* align-items: center; */
+}
+
+.die-container {
+  display: grid;
+  grid-template: auto auto / repeat(5, 1fr);
+}
+
+.bottom-div {
+  padding: 5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button-roll {
+  height: 4em;
+  width: 15em;
+  border-radius: 2px;
+  background-color: #ef56;
+}
