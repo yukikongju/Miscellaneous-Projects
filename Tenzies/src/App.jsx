@@ -2,9 +2,11 @@ import "./App.css";
 import { useState, useEffect } from "react";
 import Die from "./components/Die";
 import { nanoid } from "nanoid";
+import Confetti from "react-confetti";
 
 function App() {
   const [dice, setDice] = useState(getNewDices());
+  const [hasWin, setHasWin] = useState(false);
 
   function getNewDices() {
     const newDice = Array.from({ length: 10 }, () => ({
@@ -44,15 +46,15 @@ function App() {
 
   useEffect(
     function () {
-      // check is all dice are the same value
+      // check is all dice are the same value and are held
+      const allHeld = dice.every((die) => die.isHeld);
       const val = dice[0].value;
-      for (let i = 0; i < dice.length; i++) {
-        if (dice[i].value !== val || !dice[i].isHeld) {
-          return;
-        }
+      const allSameValue = dice.every((die) => die.value === val);
+      if (allHeld && allSameValue) {
+        // alert("You won! All values are the same");
+        console.log("You won! All values are the same");
+        setHasWin(true);
       }
-      // if all values is the same
-      alert("You won! All values are the same");
     },
     [dice]
   );
@@ -69,6 +71,7 @@ function App() {
 
   return (
     <main>
+      {hasWin && <Confetti />}
       <div className="die-container">{diceElements}</div>
       <div className="bottom-div">
         <button className="button-roll" onClick={rollDice}>
