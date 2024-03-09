@@ -18,8 +18,10 @@ main {
 }
 
 .die {
-  padding: 5em;
-  margin: 1em;
+  padding: 2em;
+  margin: 0.5em;
+  border-radius: 1em;
+  font-size: 25px;
   /* display: flex; */
   /* justify-content: center; */
   /* align-items: center; */
@@ -41,6 +43,7 @@ main {
   height: 4em;
   width: 15em;
   border-radius: 2px;
+  font-size: 20px;
   background-color: #ef56;
 }
 
@@ -48,5 +51,6 @@ main {
   height: 4em;
   width: 15em;
   border-radius: 2px;
+  font-size: 20px;
   background-color: #5965;
 }
