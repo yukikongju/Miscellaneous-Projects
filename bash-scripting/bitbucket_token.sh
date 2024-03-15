@@ -2,10 +2,10 @@
 
 email=""
 certificate_name="ipnos-linux"
+certificate_path="$HOME/.ssh/${certificate_name}"
 
 create_git_certificate() {
     # 
-    certificate_path="$HOME/.ssh/${certificate_name}"
     echo "${certificate_path}"
 
     if [ -f ${certificate_path} ]; then
@@ -22,4 +22,6 @@ create_git_certificate() {
 }
 
 create_git_certificate
+
+cat ${certificate_path} | pbcopy
 
