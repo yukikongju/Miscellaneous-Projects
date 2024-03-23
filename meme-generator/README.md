@@ -1,10 +1,11 @@
 # React + TypeScript + Vite
 
+- [X] Create meme from templates
+- [x] Download meme
+- [ ] Save/Remove from Library
 - [ ] Login to Firebase
 - [ ] Save/Remove meme from database
 - [ ] Like other user content
-- [ ] Create meme from library
-- [ ] Download meme
 
 ## Resources
 

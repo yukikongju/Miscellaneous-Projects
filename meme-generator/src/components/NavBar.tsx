@@ -15,7 +15,18 @@ export default function NavBar() {
             <ul className="flex gap-x-2">
               {navbar.map((item) => (
                 <li className="">
-                  <NavLink to={item.to}>{item.name}</NavLink>
+                  <NavLink
+                    to={item.to}
+                    className={({ isActive, isPending }) =>
+                      isActive
+                        ? "navbar--active"
+                        : isPending
+                        ? "navbar--pending"
+                        : "navbar--inactive"
+                    }
+                  >
+                    {item.name}
+                  </NavLink>
                 </li>
               ))}
             </ul>
