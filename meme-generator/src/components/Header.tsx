@@ -1,6 +1,8 @@
 // import { Fragment } from "react";
 // import { Disclosure, Menu, Transition } from "@headlessui/react";
 
+import { NavLink } from "react-router-dom";
+
 export default function Header() {
   const navigation = [
     { name: "Browse", href: "#", current: true },
@@ -12,13 +14,15 @@ export default function Header() {
   return (
     <header>
       <div className="w-full bg-gray-800">
-        <div className="ml-10 flex text-center text-white">
-          {navigation.map((item) => (
-            <a key={item.name} href={item.href} className="p-4 mr-4">
-              {item.name}
-            </a>
-          ))}
-        </div>
+        <nav className="ml-10 flex text-center text-white">
+          <ul>
+            {navigation.map((item) => (
+              <li>
+                <NavLink to="/">{item.name}</NavLink>
+              </li>
+            ))}
+          </ul>
+        </nav>
       </div>
     </header>
   );
