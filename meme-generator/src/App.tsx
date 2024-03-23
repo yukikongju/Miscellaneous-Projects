@@ -24,6 +24,9 @@ const router = createBrowserRouter(
 );
 
 function App() {
+  // set library
+  localStorage.setItem("memeLibrary", JSON.stringify([]));
+
   return <RouterProvider router={router} />;
 }
 

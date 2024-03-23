@@ -50,17 +50,36 @@ export default function CreatePage() {
 
   useEffect(() => {
     const storedMeme = JSON.parse(localStorage.getItem("memeDraft"));
-    // console.log(storedMeme);
     if (storedMeme.imageUrl) {
       setMeme(storedMeme);
-      // console.log(JSON.parse(storedMeme));
     }
   }, []);
 
   useEffect(() => {
     localStorage.setItem("memeDraft", JSON.stringify(meme));
-    // console.log(JSON.parse(localStorage.getItem("memeDraft")));
   }, [meme]);
+
+  function saveMemeToLibrary() {
+    // --- save meme to Library
+    const storedLibrary = JSON.parse(localStorage.getItem("memeLibrary"));
+    // if (storedLibrary.length > 0) {
+    //   // alert(storedLibrary);
+    // }
+    const updatedMemeLibrary = [...storedLibrary, meme];
+    localStorage.setItem("memeLibrary", JSON.stringify(updatedMemeLibrary));
+
+    // --- TODO: show that image was saved
+
+    // --- reset meme
+    setTimeout(() => {
+      setMeme({
+        imageUrl: "",
+        topText: "",
+        bottomText: "",
+        id: nanoid(),
+      });
+    }, 100);
+  }
 
   return (
     <main>
@@ -106,7 +125,9 @@ export default function CreatePage() {
           <button className="meme--button" onClick={downloadMeme}>
             Download Meme
           </button>
-          <button className="meme--button">Save Meme</button>
+          <button className="meme--button" onClick={saveMemeToLibrary}>
+            Save Meme
+          </button>
         </div>
       </div>
     </main>
