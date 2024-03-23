@@ -6,6 +6,7 @@ import { nanoid } from "nanoid";
 
 export default function CreatePage() {
   const [memeTemplates, setMemeTemplates] = useState([]);
+
   const [meme, setMeme] = useState({
     imageUrl: "",
     topText: "",
@@ -46,6 +47,20 @@ export default function CreatePage() {
       });
     });
   };
+
+  useEffect(() => {
+    const storedMeme = JSON.parse(localStorage.getItem("memeDraft"));
+    // console.log(storedMeme);
+    if (storedMeme.imageUrl) {
+      setMeme(storedMeme);
+      // console.log(JSON.parse(storedMeme));
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("memeDraft", JSON.stringify(meme));
+    // console.log(JSON.parse(localStorage.getItem("memeDraft")));
+  }, [meme]);
 
   return (
     <main>

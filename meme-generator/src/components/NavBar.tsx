@@ -13,8 +13,8 @@ export default function NavBar() {
         <div className="w-full bg-gray-600">
           <nav className="flex text-center text-white px-5 py-3">
             <ul className="flex gap-x-2">
-              {navbar.map((item) => (
-                <li className="">
+              {navbar.map((item, index) => (
+                <li key={index} className="">
                   <NavLink
                     to={item.to}
                     className={({ isActive, isPending }) =>
