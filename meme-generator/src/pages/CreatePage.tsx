@@ -1,5 +1,8 @@
+import html2canvas from "html2canvas";
+import { saveAs } from "file-saver";
 import { useState, useEffect } from "react";
 import MemeCard from "../components/MemeCard";
+import { nanoid } from "nanoid";
 
 export default function CreatePage() {
   const [memeTemplates, setMemeTemplates] = useState([]);
@@ -7,6 +10,7 @@ export default function CreatePage() {
     imageUrl: "",
     topText: "",
     bottomText: "",
+    id: nanoid(),
   });
 
   useEffect(() => {
@@ -29,6 +33,19 @@ export default function CreatePage() {
       imageUrl: memeTemplates[index].url,
     }));
   }
+
+  const downloadMeme = () => {
+    const divToCapture = document.getElementById("meme-screenshot");
+    if (!divToCapture) return;
+
+    const fileName = "meme_" + meme.id + ".png";
+
+    html2canvas(divToCapture).then((canvas) => {
+      canvas.toBlob((blob) => {
+        saveAs(blob, fileName);
+      });
+    });
+  };
 
   return (
     <main>
@@ -62,13 +79,18 @@ export default function CreatePage() {
             className="meme--textbox"
           />
         </div>
-        <div className="mx-auto p-1 border-black border-2 flex items-center justify-center relative h-[450px] w-[450px]">
+        <div
+          className="mx-auto p-1 border-black border-2 flex items-center justify-center relative h-[450px] w-[450px]"
+          id="meme-screenshot"
+        >
           <img src={meme.imageUrl} className="inset-0 h-full w-full" />
           <h2 className="meme--text absolute top-0">{meme.topText}</h2>
           <h2 className="meme--text absolute bottom-0">{meme.bottomText}</h2>
         </div>
         <div className="">
-          <button className="meme--button">Download Meme</button>
+          <button className="meme--button" onClick={downloadMeme}>
+            Download Meme
+          </button>
           <button className="meme--button">Save Meme</button>
         </div>
       </div>
