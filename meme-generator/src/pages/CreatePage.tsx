@@ -62,9 +62,6 @@ export default function CreatePage() {
   function saveMemeToLibrary() {
     // --- save meme to Library
     const storedLibrary = JSON.parse(localStorage.getItem("memeLibrary"));
-    // if (storedLibrary.length > 0) {
-    //   // alert(storedLibrary);
-    // }
     const updatedMemeLibrary = [...storedLibrary, meme];
     localStorage.setItem("memeLibrary", JSON.stringify(updatedMemeLibrary));
 
@@ -83,53 +80,60 @@ export default function CreatePage() {
 
   return (
     <main>
-      <div className="mt-3 mb-3 overflow-y-scroll h-60 flex justify-center">
+      <div className="mt-3 mb-3 overflow-y-scroll h-[250px] flex justify-center">
         <div className="grid grid-cols-10 gap-1">
-          {memeTemplates.map((item, index) => (
-            <MemeCard
-              key={item.id}
-              img={item}
-              selectMeme={() => selectMeme(index)}
-            />
-          ))}
+          {memeTemplates &&
+            memeTemplates.map((item, index) => (
+              <MemeCard
+                key={item.id}
+                img={item}
+                selectMeme={() => selectMeme(index)}
+              />
+            ))}
         </div>
       </div>
-      <div className="">
-        <div className="grid grid-cols-2 gap-2 my-3">
-          <input
-            type="text"
-            placeholder="Top Text"
-            name="topText"
-            value={meme.topText}
-            onChange={handleMeme}
-            className="meme--textbox"
-          />
-          <input
-            type="text"
-            placeholder="Bottom Text"
-            name="bottomText"
-            value={meme.bottomText}
-            onChange={handleMeme}
-            className="meme--textbox"
-          />
+      {meme.imageUrl && (
+        <div>
+          <div className="">
+            <div className="grid grid-cols-2 gap-2 my-3">
+              <input
+                type="text"
+                placeholder="Top Text"
+                name="topText"
+                value={meme.topText}
+                onChange={handleMeme}
+                className="meme--textbox"
+              />
+              <input
+                type="text"
+                placeholder="Bottom Text"
+                name="bottomText"
+                value={meme.bottomText}
+                onChange={handleMeme}
+                className="meme--textbox"
+              />
+            </div>
+            <div
+              className="mx-auto p-1 border-black border-2 flex items-center justify-center relative h-[450px] w-[450px]"
+              id="meme-screenshot"
+            >
+              <img src={meme.imageUrl} className="inset-0 h-full w-full" />
+              <h2 className="meme--text absolute top-0">{meme.topText}</h2>
+              <h2 className="meme--text absolute bottom-0">
+                {meme.bottomText}
+              </h2>
+            </div>
+            <div className="">
+              <button className="meme--button" onClick={downloadMeme}>
+                Download Meme
+              </button>
+              <button className="meme--button" onClick={saveMemeToLibrary}>
+                Save Meme
+              </button>
+            </div>
+          </div>
         </div>
-        <div
-          className="mx-auto p-1 border-black border-2 flex items-center justify-center relative h-[450px] w-[450px]"
-          id="meme-screenshot"
-        >
-          <img src={meme.imageUrl} className="inset-0 h-full w-full" />
-          <h2 className="meme--text absolute top-0">{meme.topText}</h2>
-          <h2 className="meme--text absolute bottom-0">{meme.bottomText}</h2>
-        </div>
-        <div className="">
-          <button className="meme--button" onClick={downloadMeme}>
-            Download Meme
-          </button>
-          <button className="meme--button" onClick={saveMemeToLibrary}>
-            Save Meme
-          </button>
-        </div>
-      </div>
+      )}
     </main>
   );
 }

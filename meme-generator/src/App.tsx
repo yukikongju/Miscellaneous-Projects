@@ -24,7 +24,7 @@ const router = createBrowserRouter(
 );
 
 function App() {
-  // set library
+  // FIXME: set library [ not clean code? ]
   localStorage.setItem("memeLibrary", JSON.stringify([]));
 
   return <RouterProvider router={router} />;

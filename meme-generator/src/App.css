@@ -15,6 +15,17 @@
 }
 
 .meme--textbox {
+  width: 100%;
+  padding: 0.75rem 1rem; /* Adjust padding as needed */
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.meme--textbox:focus {
+  border-color: #3f83f8;
 }
 
 .meme--button {
