@@ -64,5 +64,7 @@ A collection of random projects
 - [ ] Streamlit Goodreads, Github Commit
 - [ ] Remove PDF Pages + reorder PDF
 - [ ] Social Network Analysis for social media [maxim piessen](https://medium.com/@maximpiessen/how-i-visualised-my-instagram-network-and-what-i-learned-from-it-d7cc125ef297)
+- [ ] Matrix Multiplication Optimization with FP [MIT](https://ocw.mit.edu/ans7870/6/6.005/s16/classes/16-recursive-data-types/matexpr/)
+- [ ] Parser Generator
 
 

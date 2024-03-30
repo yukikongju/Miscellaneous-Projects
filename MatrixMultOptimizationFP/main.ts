@@ -21,7 +21,28 @@ const right = <A, E = never>(a: A): Either<E, A> => ({
   right: a,
 });
 
+function printEither<E, A>(x: Either<E, A>) {
+  if (x._tag == "right") {
+    console.log(x.right);
+  } else {
+    console.log(x.left);
+  }
+}
+
+// if (res._tag == "right") {
+//   console.log(res.right);
+// } else {
+//   console.log(res.left);
+// }
+
 // 1. Define Matrix Addition and Multiplication: what is valid/invalid
+let a: Scalar = 5;
+let x: Matrix = [
+  [1, 2],
+  [3, 4],
+];
+// console.log(a);
+// console.log(x);
 
 function matrixMultiplication(X: Matrix, Y: Matrix): Either<string, Matrix> {
   // check if size match
@@ -29,15 +50,24 @@ function matrixMultiplication(X: Matrix, Y: Matrix): Either<string, Matrix> {
   let nx = X[0].length;
   let my = Y.length;
   let ny = Y[0].length;
-  if (nx == my) {
+
+  if (nx !== my) {
     return left("undefined");
   }
 
+  // init empty matrix filled with 1s
+  let Z: Matrix = [];
+  for (let i = 0; i < mx; i++) {
+    Z[i] = [];
+    for (let j = 0; j < ny; j++) {
+      Z[i][j] = 1;
+    }
+  }
+
   // perform matrix multiplication
-  const Z: Matrix = Array.from({ length: mx }, () => Array(ny).fill(1));
   for (let i = 0; i < mx; i++) {
     for (let j = 0; j < ny; j++) {
-      for (let k = 0; k < mx; k++) {
+      for (let k = 0; k < nx; k++) {
         Z[i][j] = X[i][k] * Y[k][j];
       }
     }
@@ -45,20 +75,42 @@ function matrixMultiplication(X: Matrix, Y: Matrix): Either<string, Matrix> {
 
   return right(Z);
 }
-const x: Matrix = [
-  [1, 2],
-  [3, 4],
-];
-console.log(x);
-// const res: Either<string, Matrix> = matrixMultiplication(x, x);
-// if (res._tag == "right") {
-//         console.log('a');
-// } else {
-//   print(res.left);
-// }
+
+let res: Either<string, Matrix> = matrixMultiplication(x, x);
+printEither(res);
+
+function scalarMultiplication(a: Scalar, X: Matrix): Matrix {
+  let m = X.length;
+  let n = X[0].length;
+
+  for (let i = 0; i < m; i++) {
+    for (let j = 0; j < n; j++) {
+      X[i][j] *= a;
+    }
+  }
+  return X;
+}
+
+function maxtrixAddition(X: Matrix, Y: Matrix): Either<string, Matrix> {
+  let mx = X.length;
+  let nx = X[0].length;
+  let my = Y.length;
+  let ny = Y[0].length;
+
+  if (mx !== nx || my !== ny) {
+    return left("undefined");
+  }
+
+  for (let i = 0; i < mx; i++) {
+    for (let j = 0; j < nx; j++) {
+      X[i][j] += Y[i][j];
+    }
+  }
+  return right(X);
+}
 
 // 2. Define Commutativity Property
 
-// 3. Using Commutativity for different cases
+// 3. Using Commutativity for different cases with tree parser
 
 // 4. Try out tests cases and compare compute time

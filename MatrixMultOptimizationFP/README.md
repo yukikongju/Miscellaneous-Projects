@@ -6,9 +6,9 @@ We want to exploit matrix multiplication properties (commutativity) to make matr
 
 Cases:
 - [ ] X
-- [ ] aX
+- [ ] (Xa) => aX
 - [ ] (aX)b => (ab)X
-- [ ] (Xa)(bY) => ((ab)X)Y
+- [ ] (Xa)(bY) => (aX)(bY) => ((ab)X)Y
 - [ ] aX + aY = a(X+Y) = Xa + Ya
 
 

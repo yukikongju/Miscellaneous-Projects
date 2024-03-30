@@ -1,0 +1,23 @@
+{
+    "compilerOptions": {
+        "rootDir": "",
+        "outDir": "",
+        "module": "",
+        "noImplicitAny": false,
+        "removeComments": false,
+        "preserveConstEnums": true,
+        "sourceMap": true,
+        "target": "es5",
+        "lib": [
+	    "es6",
+            "dom",
+            "es2015"
+        ],
+        "types": [
+            "reflect-metadata"
+        ],
+        "moduleResolution": "node",
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true
+    }
+}
