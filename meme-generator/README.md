@@ -2,7 +2,13 @@
 
 - [X] Create meme from templates
 - [x] Download meme
-- [ ] Save/Remove from Library
+- [X] Save to Library locally
+- [ ] Remove from Library
+- [ ] Edit Meme in Library
+- [ ] save meme template to local storage in Create Page
+
+**With Database**
+
 - [ ] Login to Firebase
 - [ ] Save/Remove meme from database
 - [ ] Like other user content
