@@ -6,16 +6,16 @@ export default function LibraryPage() {
   const [meme, setMeme] = useState({});
   const [memeIndex, setMemeIndex] = useState(-1);
 
-  // useEffect(() => {
-  //   // localStorage.setItem("memeLibrary", JSON.stringify(memeLibrary));
-  // }, [memeLibrary]);
-
   useEffect(() => {
     const savedLibrary = localStorage.getItem("memeLibrary");
     if (savedLibrary) {
       setMemeLibrary(JSON.parse(savedLibrary));
     }
   }, []);
+
+  // useEffect(() => {
+  //   // localStorage.setItem("memeLibrary", JSON.stringify(memeLibrary));
+  // }, [memeLibrary]);
 
   function selectMeme(index) {
     const meme = memeLibrary[index];
@@ -33,7 +33,17 @@ export default function LibraryPage() {
   }
 
   function updateLibraryMeme() {
-    // TODO
+    setMemeLibrary((prevLibrary) => {
+      const updatedLibrary = prevLibrary.map((item, index) => {
+        if (index === memeIndex) {
+          return meme;
+        } else {
+          return item;
+        }
+      });
+      localStorage.setItem("memeLibrary", JSON.stringify(updatedLibrary));
+      return updatedLibrary;
+    });
   }
 
   function deleteLibraryMeme() {
@@ -42,10 +52,10 @@ export default function LibraryPage() {
         (item, index) => index !== memeIndex
       );
       localStorage.setItem("memeLibrary", JSON.stringify(updatedLibrary));
+      setMemeIndex(-1);
+      setMeme({});
       return updatedLibrary;
     });
-    setMemeIndex(-1);
-    setMeme({});
 
     // update localstorage => cannot update here because delay
     // localStorage.setItem("memeLibrary", JSON.stringify(memeLibrary));
