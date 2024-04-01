@@ -4,6 +4,7 @@ import LibraryCard from "../components/LibraryCard";
 export default function LibraryPage() {
   const [memeLibrary, setMemeLibrary] = useState([]);
   const [meme, setMeme] = useState({});
+  const [memeIndex, setMemeIndex] = useState(-1);
 
   useEffect(() => {
     const savedLibrary = localStorage.getItem("memeLibrary");
@@ -12,9 +13,12 @@ export default function LibraryPage() {
     }
   }, []);
 
+  useEffect(() => {}, [memeLibrary]);
+
   function selectMeme(index) {
     const meme = memeLibrary[index];
     setMeme(meme);
+    setMemeIndex(index);
     // alert(JSON.stringify(meme));
   }
 
@@ -28,6 +32,14 @@ export default function LibraryPage() {
 
   function updateLibraryMeme() {
     // TODO
+  }
+
+  function deleteLibraryMeme() {
+    setMemeLibrary((prevLibrary) => {
+      return prevLibrary.filter((item, index) => index !== memeIndex);
+    });
+    setMemeIndex(-1);
+    setMeme({});
   }
 
   return (
@@ -77,7 +89,9 @@ export default function LibraryPage() {
             <button className="meme--button" onClick={updateLibraryMeme}>
               Update Meme
             </button>
-            <button className="meme--button">Delete Meme</button>
+            <button className="meme--button" onClick={deleteLibraryMeme}>
+              Delete Meme
+            </button>
           </div>
         </div>
       )}
