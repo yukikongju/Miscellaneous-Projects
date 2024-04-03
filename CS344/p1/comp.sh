@@ -38,44 +38,29 @@ function read_grades_file {
     grade_type=$3
 
     # --- computing results based on grade_type
-    # results=()
-    # case $grade_type in
-    #     student*)
-    #         while read line; do
-    #             res=$( $computation_method "$line" )
-    #         done < $file_name
-    #         ;;
-    #     exam*)
-    #         num_cols=$(head -n 1 $file_name | wc -w)
-    #         i=1
-    #         while [ $i -le $num_cols ]; do
-    #             col=$( cut -f $i $file_name )
-    #             res=$( $computation_method "$col" )
-    #             ((i++))
-    #         done
-    #     ;;
-    # esac
+    results=()
+    case $grade_type in
+	student*) 
+	    # - reading row by row
+	    while read line; do
+		res=$( $computation_method "$line" )
+		results+=($res)
+	    done < $file_name
+	    ;;
+	exam*)
+	    # - reading col by col
+	    num_cols=$(head -n 1 $file_name | wc -w)
+	    i=1
+	    while [ $i -le $num_cols ]; do
+		col=$( cut -f $i $file_name )
+		res=$( $computation_method "$col" )
+		results+=($res)
+		((i++))
+	    done
+	;;
+    esac
 
-    # echo $results
-
-
-    # - reading row by row
-    while read line; do
-	res=$( $computation_method "$line" )
-	echo $res
-    done < $file_name
-    
-    echo
-
-    # - reading col by col
-    num_cols=$(head -n 1 $file_name | wc -w)
-    i=1
-    while [ $i -le $num_cols ]; do
-	col=$( cut -f $i $file_name )
-	res=$( $computation_method "$col" )
-	echo $res
-	((i++))
-    done
+    echo ${results[@]}
 
 
 }
