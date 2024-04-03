@@ -67,6 +67,26 @@ function compute_results {
 
 }
 
+function usage {
+    printf "
+	Description:
+	This program compute mean/median from txt file based on rows (student grade) or columns (exam grade)
+
+	Usage: %s [options] [query]
+	If a query is provided, it will be used to compute the grades
+	
+	Options:
+	  -f, --file
+	    Specify grades files
+	  -m, --method
+	    Specify computation method. Values: 'mean', 'median'
+	  -g, --grade
+	    Specify grade type. Values: 'student' (row-wise), 'exam' (column-wise)
+	  -v, --verbose
+	    Show additional message
+    "
+}
+
 
 function main {
     # --- Select Menu: (1) computation method: mean/median; (2) gradestype: student/exam
@@ -89,6 +109,7 @@ function main {
 # compute_results "grades.txt" "median" "exam" # okay
 
 file_name="grades.txt"
-main
+# main
+usage
 
 
