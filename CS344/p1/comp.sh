@@ -6,13 +6,16 @@
 
 function mean {
     list=$1
+    n=$( echo $list | wc -w )
+    sum=$( echo "$list" | tr ' ' '\n' | awk '{sum+=$1} END {print sum}' )
+    mean=$(( sum / n ))
+    echo $mean
 }
 
 function median {
     list=$1
     n=$(echo $list | wc -w)
     sorted_list=$( echo $list | tr ' ' '\n' | sort -g | tr '\n' ' ' )
-    echo $sorted_list
 
     # compute median
     if [ $((n % 2)) -eq 0 ]; then
@@ -36,20 +39,16 @@ function read_grades_file {
 
     # - reading row by row
     while read line; do
-	# echo $line | tr " "  "\n"
-	# echo $line
-	# s=$( echo $line | tr " " "\n" | sort -g )
-	# echo $s
-	$computation_method "$line"
+	res=$( $computation_method "$line" )
+	# echo $res
     done < $file_name
 
     # - reading col by col
     num_cols=$(head -n 1 $file_name | wc -w)
-    i=0
-    while [ $i -lt $num_cols ]; do
-	# col=$( cut -f $i $file_name | tr " " "\n" | sort -g )
-	col=$( cut -f $i $file_name | sort -g )
-	# echo $col
+    i=1
+    while [ $i -le $num_cols ]; do
+	col=$( cut -f $i $file_name )
+	res=$( $computation_method "$col" )
 	((i++))
     done
 
@@ -74,8 +73,8 @@ function main {
 
 }
 
-# read_grades_file "grades.txt" "mean" "student"
-read_grades_file "grades.txt" "median" "student"
+read_grades_file "grades.txt" "mean" "student"
+# read_grades_file "grades.txt" "median" "student"
 # main
 
 
