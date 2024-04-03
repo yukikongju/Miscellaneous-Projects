@@ -32,7 +32,7 @@ function median {
     echo $med
 }
 
-function read_grades_file {
+function compute_results {
     file_name=$1
     computation_method=$2
     grade_type=$3
@@ -44,6 +44,7 @@ function read_grades_file {
 	    # - reading row by row
 	    while read line; do
 		res=$( $computation_method "$line" )
+		# echo $line
 		results+=($res)
 	    done < $file_name
 	    ;;
@@ -54,14 +55,15 @@ function read_grades_file {
 	    while [ $i -le $num_cols ]; do
 		col=$( cut -f $i $file_name )
 		res=$( $computation_method "$col" )
+		# echo $col
 		results+=($res)
 		((i++))
 	    done
 	;;
     esac
 
+    # echo
     echo ${results[@]}
-
 
 }
 
@@ -76,16 +78,17 @@ function main {
     selected_grade_type=$(printf '%s\n' "${grade_types[@]}" |fzf --reverse --with-nth 1 -d "\t" --header "Select a grade type:")
 
     # --- Compute based on computation method and grade type
-    case $selected_computation_method in
-	mean*) echo "mean1" ;;
-	median*) echo "median1" ;;
-	*) echo "unavailable" ;;
-    esac
+    compute_results $file_name $selected_computation_method $selected_grade_type
 
 }
 
-read_grades_file "grades.txt" "mean" "student" 
-# read_grades_file "grades.txt" "median" "student"
-# main
+# --- test cases
+# compute_results "grades.txt" "mean" "student" # okay
+# compute_results "grades.txt" "mean" "exam" # okay
+# compute_results "grades.txt" "median" "student" # okay
+# compute_results "grades.txt" "median" "exam" # okay
+
+file_name="grades.txt"
+main
 
 
