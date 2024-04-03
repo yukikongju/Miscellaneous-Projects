@@ -1,36 +1,59 @@
 #!/bin/sh
+
 # Author: yukikongju
 # Description: This program compute mean/median from txt file based on rows (student grade) or columns (exam grade)
 
 
+function mean {
+    list=$1
+}
+
+function median {
+    list=$1
+}
+
 function read_grades_file {
     file_name=$1
+    # grade_type=$2
 
-    grades=()
-    while IFS=$'\t' read -r -a line;do
-	grades+=(${line[@]})
-	echo ${line[@]}
+    # - reading row by row
+    while read line; do
+	# echo $line | tr " "  "\n"
+	echo $line
     done < $file_name
+
+    # - reading col by col
+    num_cols=$(head -n 1 $file_name | wc -w)
+    i=0
+    while [ $i -lt $num_cols ]; do
+	# col=$( cut -f $i $file_name | tr " " "\n" | sort -g )
+	col=$( cut -f $i $file_name | sort -g )
+	echo $col
+	((i++))
+    done
+
+
 }
 
 
 function main {
-    # --- Select Menu: Compute (1) mean/median
+    # --- Select Menu: (1) computation method: mean/median; (2) gradestype: student/exam
     computation_methods=("mean" "median")
     selected_computation_method=$(printf '%s\n' "${computation_methods[@]}" | fzf --reverse --with-nth 1 -d "\t" --header "Select a computation method:")
 
+    grade_types=("student (row-wise)" "exam (column-wise)")
+    selected_grade_type=$(printf '%s\n' "${grade_types[@]}" |fzf --reverse --with-nth 1 -d "\t" --header "Select a grade type:")
 
-    # ---
+    # --- Compute based on computation method and grade type
     case $selected_computation_method in
 	mean*) echo "mean1" ;;
 	median*) echo "median1" ;;
 	*) echo "unavailable" ;;
     esac
-    
 
 }
 
-# read_grades_file "grades.txt"
-main
+read_grades_file "grades.txt"
+# main
 
 
