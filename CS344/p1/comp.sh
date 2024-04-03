@@ -88,9 +88,6 @@ function usage {
 }
 
 
-file_name="grades.txt"
-# usage
-
 # --- process flags
 n=$# # number of parameters
 args=("$@") # store args in array
@@ -126,11 +123,19 @@ while [ $i -lt $n ]; do
 	    # set -x
 	    verbose=1
 	    ;;
+	--help)
+	    usage
+	    exit
+	    ;;
 	*) echo "Unrecognized flag";;
     esac
 
     ((i++))
 done
+
+# --- TODO: init file with fzf
+file_name="grades.txt"
+
 
 # --- check if variables are set. if not, then ask with menu
 if [ -z "$selected_computation_method" ]; then
@@ -144,6 +149,7 @@ if [ -z "$selected_grade_type" ]; then
 fi
 
 # --- Compute based on computation method and grade type
+# TODO: add verbose
 compute_results $file_name $selected_computation_method $selected_grade_type
 
 # ---------------------------- TESTS --------------------
