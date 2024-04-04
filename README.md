@@ -66,5 +66,8 @@ A collection of random projects
 - [ ] Social Network Analysis for social media [maxim piessen](https://medium.com/@maximpiessen/how-i-visualised-my-instagram-network-and-what-i-learned-from-it-d7cc125ef297)
 - [ ] Matrix Multiplication Optimization with FP [MIT](https://ocw.mit.edu/ans7870/6/6.005/s16/classes/16-recursive-data-types/matexpr/)
 - [ ] Parser Generator
+- [ ] JIT for python for-loop. see [Andrease Kling]
+- [ ] chat client + download files w/ protocol. see [CS372](https://github.com/townsste/CS372/tree/master/Project%201)
+- [ ] Parallel Programming: [udacity](https://github.com/nickspell/udacity-IntroToParallelProgramming)
 
 
