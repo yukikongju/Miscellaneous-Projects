@@ -2,6 +2,22 @@
 
 [link](https://github.com/TylerC10/CS344/tree/master/Project%202%20-%20Adventure)
 
+[Colossal Cave Adventure](https://en.wikipedia.org/wiki/Colossal_Cave_Adventure)
+
+**How to play**
+
+Input 1-2 letters to give direction
+
+Moves: [ 8 directions ]
+- n: north
+- ne: north-east
+- nw: north-west
+- s: south
+- se: south-east
+- sw: south-west
+- w: west
+- e: east
+
 **The Game**
 
 Player tries to escape a maze by trying to open different doors. Every time 
