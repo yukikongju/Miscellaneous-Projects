@@ -38,12 +38,22 @@ Difficulty:
 1. The maze will be a *graph*
     a. Generate n rooms
     b. Generate edges between each rooms
+	+ Easy: 
+	    1. Create Straight forward path: start from source and advance until 
+	       we find destination
+	    2. With remaining rooms, link them together and link them back to 
+	       one of the nodes in the path. must not be source nor destination
+	+ Medium: 
+	    1. 
+	+ Hard:
+	    1. 
 2. Summon player in a random room
 3. When a player opens a room, start a thread. Unlock the door when the thread 
    is done
 
 **Implementing the map**
 
+- Graph will be an *adjacency graph*
 
 # Resources
 

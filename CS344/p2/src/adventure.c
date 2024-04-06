@@ -6,7 +6,7 @@
 int main() {
 
   int num_rooms = 10;
-  enum LevelDifficulty difficulty = Easy;
+  enum LevelDifficulty difficulty = Medium;
   generateRooms(num_rooms, difficulty);
 
   return 0;
