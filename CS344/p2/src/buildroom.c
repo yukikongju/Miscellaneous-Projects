@@ -1,4 +1,5 @@
 
+#include "../include/buildroom.h"
 #include "../include/constants.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -33,10 +34,14 @@ void generateNaiveEdges(int num_rooms, int source, int destination,
 }
 
 // Generating random rooms as a graph
-void generateRooms(int num_rooms, enum LevelDifficulty levelDifficulty) {
+// 0: no edge; 1: has edge; 2: source; 3: destination
+struct Room generateRooms(int num_rooms, enum LevelDifficulty levelDifficulty) {
   // determine start and end
-  int source, destination;
-  getSourceDestination(&source, &destination, num_rooms);
+  struct Room room;
+  room.source = -1;
+  room.destination = -1;
+  /* int source, destination; */
+  getSourceDestination(&room.source, &room.destination, num_rooms);
 
   // generate edges ie which rooms are connected - depending on level difficulty
   int graph[num_rooms][num_rooms];
@@ -44,20 +49,26 @@ void generateRooms(int num_rooms, enum LevelDifficulty levelDifficulty) {
     for (int j = 0; j < num_rooms; j++)
       graph[i][j] = 0;
   }
+  graph[room.source][room.source] = 2;
+  graph[room.destination][room.destination] = 3;
 
   switch (levelDifficulty) {
   case Easy:
     break;
   case Medium:
-    generateNaiveEdges(num_rooms, source, destination, graph);
+    generateNaiveEdges(num_rooms, room.source, room.destination, graph);
     break;
   case Hard:
     break;
   default:
     break;
   }
+  room.graph = *graph;
 
   // print graph + source/destination
-  printf("source: %d; destination: %d \n", source, destination);
-  printGraph(num_rooms, graph);
+  /* printf("source: %d; destination: %d \n", room.source, room.destination); */
+  /* printGraph(num_rooms, graph); */
+
+  // return room struct
+  return room;
 }

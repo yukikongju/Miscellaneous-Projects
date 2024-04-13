@@ -18,6 +18,9 @@ Moves: [ 8 directions ]
 - w: west
 - e: east
 
+Moves: select room number
+
+
 **The Game**
 
 Player tries to escape a maze by trying to open different doors. Every time 
@@ -54,6 +57,17 @@ Difficulty:
 **Implementing the map**
 
 - Graph will be an *adjacency graph*
+- Types of rooms:
+    * Simple Room: once the source, destination and graph have been generated, 
+      they don't change
+    * Open room: the user can open some room, and an edge will be created 
+      after a certain amount of time.
+
+**TODOS**
+
+- [ ] Shortest path algorithm for adjacency graph
+- [ ] Compute score based on (1) time to solve (2) number of moves compared to 
+      shortest path
 
 # Resources
 
