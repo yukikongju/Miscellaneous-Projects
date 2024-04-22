@@ -15,6 +15,7 @@ export default function CreatePage() {
   });
 
   useEffect(() => {
+    // TODO: save template to local storage
     fetch("https://api.imgflip.com/get_memes")
       .then((res) => res.json())
       .then((data) => setMemeTemplates(data.data.memes));
