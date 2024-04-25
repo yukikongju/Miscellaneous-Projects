@@ -70,5 +70,7 @@ A collection of random projects
 - [ ] chat client + download files w/ protocol. see [CS372](https://github.com/townsste/CS372/tree/master/Project%201)
 - [ ] Parallel Programming: [udacity](https://github.com/nickspell/udacity-IntroToParallelProgramming)
 - [ ] [Toralizer](https://www.youtube.com/watch?v=Pebul1c9JKE)
+- [ ] HenryFord Stack Stats
+- [ ] UA Retention 
 
 
