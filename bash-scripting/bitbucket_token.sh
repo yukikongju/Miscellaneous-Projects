@@ -23,5 +23,5 @@ create_git_certificate() {
 
 create_git_certificate
 
-cat ${certificate_path} | pbcopy
+cat ${certificate_path}.pub | pbcopy
 
