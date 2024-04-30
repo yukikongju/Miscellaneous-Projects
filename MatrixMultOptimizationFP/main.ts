@@ -29,12 +29,6 @@ function printEither<E, A>(x: Either<E, A>) {
   }
 }
 
-// if (res._tag == "right") {
-//   console.log(res.right);
-// } else {
-//   console.log(res.left);
-// }
-
 // 1. Define Matrix Addition and Multiplication: what is valid/invalid
 let a: Scalar = 5;
 let x: Matrix = [
@@ -76,9 +70,6 @@ function matrixMultiplication(X: Matrix, Y: Matrix): Either<string, Matrix> {
   return right(Z);
 }
 
-let res: Either<string, Matrix> = matrixMultiplication(x, x);
-printEither(res);
-
 function scalarMultiplication(a: Scalar, X: Matrix): Matrix {
   let m = X.length;
   let n = X[0].length;
@@ -109,8 +100,19 @@ function maxtrixAddition(X: Matrix, Y: Matrix): Either<string, Matrix> {
   return right(X);
 }
 
+// test functions
+let res: Either<string, Matrix> = matrixMultiplication(x, x);
+printEither(res);
+let res1: Either<string, Matrix> = maxtrixAddition(x, x);
+printEither(res1);
+let res2: Matrix = scalarMultiplication(a, x);
+console.log(res2);
+
 // 2. Define Commutativity Property
 
 // 3. Using Commutativity for different cases with tree parser
+
+// aXbYcdD + dXF
+const expression = "aXbYcdD + dXF";
 
 // 4. Try out tests cases and compare compute time
