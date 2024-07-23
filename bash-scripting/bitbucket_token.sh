@@ -16,7 +16,10 @@ create_git_certificate() {
 
 	# --- generating key and adding to ssh-agent
 	ssh-keygen -t rsa -b 4096 -C "${email}" -f ${certificate_path}
+	eval "$(ssh-agent)" # start ssh-agent
 	ssh-add ${certificate_path}
+
+	echo "${email}"
     fi
 
 }
