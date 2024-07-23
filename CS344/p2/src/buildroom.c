@@ -4,8 +4,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define MAX_VERTICES 100
-
 void getSourceDestination(int *source, int *destination, int num_rooms) {
   *source = rand() % num_rooms;
   do {
@@ -67,7 +65,7 @@ struct Room generateRooms(int num_rooms, enum LevelDifficulty levelDifficulty) {
 
   // print graph + source/destination
   /* printf("source: %d; destination: %d \n", room.source, room.destination); */
-  /* printGraph(num_rooms, graph); */
+  printGraph(num_rooms, graph);
 
   // return room struct
   return room;
