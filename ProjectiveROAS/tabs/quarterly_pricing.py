@@ -46,5 +46,8 @@ def render():
     st.write(f"**Yearly Revenues:** {revenues}$")
 
 
+def render_sidebar():
+    st.write("### Model Rates")
+    st.selectbox("Model", ["Quarterly Pricing Model"])
 
 

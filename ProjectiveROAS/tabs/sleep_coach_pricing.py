@@ -54,7 +54,7 @@ variables_description = """
 - pb: paid rate baseline
 - p delta: change in paid rate
 - Rg: overall refund rate
-- rb: paid refund baseline
+- rb: refund baseline
 - r delta: change in refund rate
 - C: cost per commission
 - R_{BS}: Revenue from BetterSleep App
@@ -74,9 +74,9 @@ def render():
     st.write("### Playground")
     c7, c8 = st.columns(2)
     with c7: 
-        T = st.slider("T: Monthly Traffic", 0, 10000, 1)
+        T = st.slider("T: Monthly Traffic", 0, 2500000, 1)
     with c8: 
-        C = st.slider("C: Comission per conversion", 0.0, 100.0, 0.5)
+        C = st.slider("C: Comission per conversion", 0.0, 1000.0, 0.5)
 
     c1, c2 = st.columns(2)
     with c1: 
@@ -108,6 +108,11 @@ def render():
     st.write(f"**Revenue B2B:** {R_B2B:.2f}$")
     st.write(f"**Total Revenue:** {R:.2f}$")
 
+    # --- 
+
+def render_sidebar():
+    st.write("### Model Rates")
+    st.selectbox("Model", ["Sleep Coach Pricing"])
 
 
 
