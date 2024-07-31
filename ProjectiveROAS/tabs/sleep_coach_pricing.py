@@ -74,25 +74,25 @@ def render():
     st.write("### Playground")
     c7, c8 = st.columns(2)
     with c7: 
-        T = st.slider("T: Monthly Traffic", 0, 2500000, 1)
+        T = st.slider("T: Monthly Traffic", 0, 3500000, 1)
     with c8: 
         C = st.slider("C: Comission per conversion", 0.0, 1000.0, 0.5)
 
     c1, c2 = st.columns(2)
     with c1: 
-        r_v = st.slider("r_v: banner/PAC view rate", 0.0, 1.0, 0.01)
+        r_v = st.slider("r_v: banner/PAC view rate", 0.0, 100.0, 0.1) / 100
     with c2:
-        r_c = st.slider("r_c: B2B conversion rate", 0.0, 1.0, 0.01)
+        r_c = st.slider("r_c: B2B conversion rate", 0.0, 100.0, 0.01) / 100
 
     c3, c4, c5, c6 = st.columns(4)
     with c3:
-        p_b = st.slider("p_b: paid rate baseline", 0.0, 1.0, 0.01)
+        p_b = st.slider("p_b: paid rate baseline", 0.0, 100.0, 0.01) / 100
     with c4:
-        p_delta = st.slider("p_delta: paid rate diff", 0.0, 1.0, 0.01)
+        p_delta = st.slider("p_delta: paid rate diff", 0.0, 100.0, 0.01) / 100
     with c5:
-        r_b = st.slider("r_b: refund rate baseline", 0.0, 1.0, 0.01)
+        r_b = st.slider("r_b: refund rate baseline", 0.0, 100.0, 0.01) / 100
     with c6:
-        r_delta = st.slider("r_delta: refund rate diff", 0.0, 1.0, 0.01)
+        r_delta = st.slider("r_delta: refund rate diff", 0.0, 100.0, 0.01) / 100
 
 
     N_val = T * r_v * r_c
