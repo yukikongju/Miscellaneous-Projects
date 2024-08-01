@@ -9,6 +9,11 @@ we should account for the potential paid rate decrease and refund rate increase.
 Subscription Model:
 - Monthly Subscription give you access to one session
 - User pay for extra session
+
+Assumptions:
+- renewal rates for previous month will be the one used for this month 
+  revenue estimation
+
 """
 
 latex_formula = r"""
@@ -37,13 +42,19 @@ R_{BS} = T * (P_g - R_g)
 \\
 
 \begin{equation}
-R_{B2B} = N * C + N * S * CA
+R_{B2B} = N * C + N * S * C_a
 \end{equation}
 
 \\
 
 \begin{equation}
-R = R_{BS} + R_{B2B}
+R_{B2B_\text{renewals}} = R_{B2B} * W
+\end{equation}
+
+\\
+
+\begin{equation}
+R = R_{BS} + R_{B2B} + R_{B2B_\text{renewals}}
 \end{equation}
 
 """
@@ -51,6 +62,7 @@ R = R_{BS} + R_{B2B}
 variables_description = """
 - T: Monthly Traffic
 - N: Number of Conversions
+- W: Monthly Renewal Rates
 - rv: % of users who view banners/PAC
 - rc: % of users who convert to B2B
 - Pg: overall paid rate
@@ -60,7 +72,7 @@ variables_description = """
 - rb: refund baseline
 - r delta: change in refund rate
 - C: commission per subscription
-- CA: commision per additional session
+- C_a: commision per additional session
 - S: Number of additional session per user per month
 - R_{BS}: Revenue from BetterSleep App
 - R_{B2B}: Revenue from B2B
@@ -87,20 +99,23 @@ def render():
     with c10:
         CA = st.slider("CA: Commision per additional session ", 0.0, 1000.0, 0.5)
 
-    c1, c2 = st.columns(2)
-    with c1: 
+    c4, c5, c6 = st.columns(3)
+    with c4: 
         r_v = st.slider("r_v: banner/PAC view rate", 0.0, 100.0, 0.1) / 100
-    with c2:
-        r_c = st.slider("r_c: B2B conversion rate", 0.0, 100.0, 0.01) / 100
-
-    c3, c4, c5, c6 = st.columns(4)
-    with c3:
-        p_b = st.slider("p_b: paid rate baseline", 0.0, 100.0, 0.01) / 100
-    with c4:
-        p_delta = st.slider("p_delta: paid rate diff", 0.0, 100.0, 0.01) / 100
     with c5:
-        r_b = st.slider("r_b: refund rate baseline", 0.0, 100.0, 0.01) / 100
+        r_c = st.slider("r_c: B2B conversion rate", 0.0, 100.0, 0.01) / 100
     with c6:
+        W = st.slider("W: Monthly Renewal rate", 0.0, 100.0, 0.01) / 100
+
+
+    c0, c1, c2, c3 = st.columns(4)
+    with c0:
+        p_b = st.slider("p_b: paid rate baseline", 0.0, 100.0, 0.01) / 100
+    with c1:
+        p_delta = st.slider("p_delta: paid rate diff", 0.0, 100.0, 0.01) / 100
+    with c2:
+        r_b = st.slider("r_b: refund rate baseline", 0.0, 100.0, 0.01) / 100
+    with c3:
         r_delta = st.slider("r_delta: refund rate diff", 0.0, 100.0, 0.01) / 100
 
 
@@ -109,7 +124,8 @@ def render():
     R_g = r_b + r_delta
     R_BS = T * (P_g - R_g)
     R_B2B = N_val * C + N_val * S * CA
-    R = R_BS + R_B2B
+    R_B2B_renewals = R_B2B * W
+    R = R_BS + R_B2B + R_B2B_renewals
 
     # --- 
     st.write(f"**Estimated number of conversions:** {N_val}")
