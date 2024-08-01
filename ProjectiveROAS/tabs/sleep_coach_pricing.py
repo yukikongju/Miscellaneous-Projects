@@ -128,7 +128,7 @@ def render():
     R = R_BS + R_B2B + R_B2B_renewals
 
     # --- 
-    st.write(f"**Estimated number of conversions:** {N_val}")
+    st.write(f"**Estimated number of conversions:** {N_val:.2f}")
     st.write(f"**Revenue BetterSleep:** {R_BS:.2f}$")
     st.write(f"**Revenue B2B:** {R_B2B:.2f}$")
     st.write(f"**Total Revenue:** {R:.2f}$")
