@@ -2,10 +2,13 @@ import streamlit as st
 
 description = """
 We would like to determine the comission that should be charged for a B2B 
-partnership in order to make money (or at least be even). We consider that
-when integrating B2B into our app, we should account for the potential 
-paid rate decrease and refund rate increase.
+partnership in order to make money (or at least be even) based on a **monthly**
+revenue projection. We consider that when integrating B2B into our app,
+we should account for the potential paid rate decrease and refund rate increase. 
 
+Subscription Model:
+- Monthly Subscription give you access to one session
+- User pay for extra session
 """
 
 latex_formula = r"""
@@ -34,7 +37,7 @@ R_{BS} = T * (P_g - R_g)
 \\
 
 \begin{equation}
-R_{B2B} = N * C
+R_{B2B} = N * C + N * S * CA
 \end{equation}
 
 \\
@@ -56,7 +59,9 @@ variables_description = """
 - Rg: overall refund rate
 - rb: refund baseline
 - r delta: change in refund rate
-- C: cost per commission
+- C: commission per subscription
+- CA: commision per additional session
+- S: Number of additional session per user per month
 - R_{BS}: Revenue from BetterSleep App
 - R_{B2B}: Revenue from B2B
 - R: Total Revenue
@@ -72,11 +77,15 @@ def render():
 
     # --- Sliders for the parameters
     st.write("### Playground")
-    c7, c8 = st.columns(2)
+    c7, c8, c9, c10 = st.columns(4)
     with c7: 
         T = st.slider("T: Monthly Traffic", 0, 3500000, 1)
     with c8: 
         C = st.slider("C: Comission per conversion", 0.0, 1000.0, 0.5)
+    with c9:
+        S = st.slider("S: Number of additional sessions per user", 1.0, 30.0, 0.01)
+    with c10:
+        CA = st.slider("CA: Commision per additional session ", 0.0, 1000.0, 0.5)
 
     c1, c2 = st.columns(2)
     with c1: 
@@ -99,7 +108,7 @@ def render():
     P_g = p_b + p_delta
     R_g = r_b + r_delta
     R_BS = T * (P_g - R_g)
-    R_B2B = N_val * C
+    R_B2B = N_val * C + N_val * S * CA
     R = R_BS + R_B2B
 
     # --- 
