@@ -24,8 +24,10 @@ A collection of random projects
 - [X] MBTI Cognitive Functions Stack
 - [X] Mardown to Latex Cover Letter
 - [X] CRON Job to sync music downloader and ebooks to tablet (see MusicDownloader)
+- [-] AUDL RL: Learning Best strategy through RL
 - [ ] Option Pricing Models
-- [ ] AUDL RL: Learning Best strategy through RL
+- [ ] Gender Bias in Langugage Embedding
+- [ ] Noise Cancellation with Sound Difference and anti-aliasing
 - [ ] OpenCV
 - [ ] Image Denoising: Edge Detection, Thresholding operations and Morphological operations using opencv => r/PhotoshopRequests
 - [ ] Text Counter in Rust, text analysis
