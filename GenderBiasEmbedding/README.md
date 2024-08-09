@@ -17,5 +17,6 @@ Pre-trained word embedding:
 ## Resources
 
 - [Top 5 pre-trained word embedding](https://patil-aakanksha.medium.com/top-5-pre-trained-word-embeddings-20de114bc26)
+- [Hugging Face - Transformers Models](https://huggingface.co/docs/transformers/index)
 
 
