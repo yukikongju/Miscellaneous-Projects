@@ -25,6 +25,7 @@ A collection of random projects
 - [X] Mardown to Latex Cover Letter
 - [X] CRON Job to sync music downloader and ebooks to tablet (see MusicDownloader)
 - [-] AUDL RL: Learning Best strategy through RL
+- [ ] Closest Bixi in React
 - [ ] Option Pricing Models
 - [ ] Gender Bias in Langugage Embedding
 - [ ] Noise Cancellation with Sound Difference and anti-aliasing
