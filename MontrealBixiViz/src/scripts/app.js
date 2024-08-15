@@ -118,6 +118,9 @@ const translations = {
 };
 
 // initialize variables
+const AVAIBLE_BIKE_COLOR = "green";
+const UNAVAILABLE_BIKE_COLOR = "red";
+const HOOPS_STATIONS_COLOR = "turquoise";
 var currentLanguage = "en";
 const coord = new Coordinate(45.5335, -73.6483); // montreal coordinates
 var map = L.map("map").setView([coord.x, coord.y], 13);
@@ -243,11 +246,11 @@ function updateBixiStationsVisuals() {
     const getStationColor = (station, isLookingForBixi) => {
       return isLookingForBixi
         ? station.num_bikes_available > 0
-          ? "green"
-          : "red"
+          ? AVAIBLE_BIKE_COLOR
+          : UNAVAILABLE_BIKE_COLOR
         : station.num_docks_available > 0
-        ? "green"
-        : "red";
+        ? AVAIBLE_BIKE_COLOR
+        : UNAVAILABLE_BIKE_COLOR;
     };
     stationColor = getStationColor(station, isLookingForBixi);
 
