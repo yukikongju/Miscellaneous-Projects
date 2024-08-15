@@ -4,11 +4,13 @@ Steps:
     - [X] [Map of Bixi](https://gbfs.velobixi.com/gbfs/gbfs.json)
     - [X] [Map of REV](https://donnees.montreal.ca/en/dataset/pistes-cyclables/resource/0dc6612a-be66-406b-b2d9-59c9e1c65ebf)
 - [X] Update user position on map click
-- [o] Toggle Language
-    - [X] Update Text Function
+- [ ] Toggle Language
+    - [ ] Update Text Function to show current coordinates
     - [ ] Move translation into assets
 - [ ] Add Visuals
     - [ ] Add pins for closest bixi that are disponible (green dispo; red not)
+    - [ ] Update Station Status every x minutes
+    - [ ] Cache station
     - [ ] Add user popup with nearest BIXI spot by walk
     - [ ] ~~Add pins for saved spot~~
 
