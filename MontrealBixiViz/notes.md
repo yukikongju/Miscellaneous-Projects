@@ -10,10 +10,10 @@ Steps:
 - [o] Toggle Language
     - [X] Switching language on button click
     - [ ] Move translation into assets
-- [o] Add Arceaux
+- [X] Add Arceaux
     - [X] Add arceaux to map
     - [X] Show distance from marker
-    - [ ] Add 'show/hide arceaux' button
+    - [X] Add 'show/hide arceaux' button
 - [o] Add Bixi
     - [X] init bixi json: information + availability
     - [X] Add bixi stations on the map
@@ -26,5 +26,10 @@ Steps:
     - [ ] Cache station
     - [ ] Add user popup with nearest BIXI spot by walk
     - [ ] ~~Add pins for saved spot~~
+
+
+Code Improvements:
+- [ ] Use same update/init function for language: `toggleLanguage` and `initButtonText`
+
 
 

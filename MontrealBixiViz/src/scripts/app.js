@@ -160,6 +160,8 @@ const translations = {
     markerPopupHere: "You are here!",
     lookingForBixiButtonText: "Looking for Bixi",
     notLookingForBixiButtonText: "Putting Back Bixi",
+    showArceauxText: "Show Arceaux",
+    hideArceauxText: "Hide Arceaux",
     distanceString: "Distance",
     reloadString: "reload",
     bikeAvailableString: "Bikes Available",
@@ -175,6 +177,8 @@ const translations = {
     markerPopupHere: "Vous êtes ici!",
     lookingForBixiButtonText: "Chercher un Bixi",
     notLookingForBixiButtonText: "Remettre un Bixi",
+    showArceauxText: "Montrer Arceaux",
+    hideArceauxText: "Cacher Arceaux",
     distanceString: "Distance",
     reloadString: "rafraîchir",
     bikeAvailableString: "Vélos Disponibles",
@@ -191,6 +195,8 @@ const ARCEAUX_STATIONS_COLOR = "turquoise";
 const BIKE_STATION_RADIUS = 25;
 const ARCEAUX_STATION_RADIUS = 15;
 const NUM_DECIMAL_FORMAT = 4;
+// const OPACITY_HIDE = 0;
+const FILL_OPACITY_SHOW = 0.2;
 var currentLanguage = "en";
 const coord = new Coordinate(45.5335, -73.6483); // montreal coordinates
 var map = L.map("map").setView([coord.x, coord.y], 13);
@@ -200,14 +206,17 @@ var arceauxIdToArrayPosDict = {};
 var bixiStationsArray = [];
 var bixiIdToArrayPosDict = {};
 var isLookingForBixi = true;
+var showArceauxStations = true;
 
 function toggleLanguage() {
   currentLanguage = currentLanguage === "en" ? "fr" : "en";
 
   updateLanguageButtonText();
   updateMarkerText();
-  updateBixiStationsVisuals();
   updateReloadButtonText();
+  updateShowArceauxButtonText();
+  updateBixiStationsVisuals();
+  updateArceauxStationVisuals();
 }
 
 function toggleLookingForBixiButton() {
@@ -215,6 +224,12 @@ function toggleLookingForBixiButton() {
 
   updateLookingForBixiButtonText();
   updateBixiStationsVisuals();
+}
+
+function toggleShowArceauxButton() {
+  showArceauxStations = !showArceauxStations;
+
+  updateArceauxStationVisuals();
 }
 
 function updateLookingForBixiButtonText() {
@@ -239,10 +254,18 @@ function updateMarkerText() {
   marker.setPopupContent(translations[currentLanguage].markerPopupHere);
 }
 
-function initLanguageText() {
+function updateShowArceauxButtonText() {
+  button = document.getElementById("show-arceaux-button");
+  button.textContent = showArceauxStations
+    ? translations[currentLanguage].showArceauxText
+    : translations[currentLanguage].hideArceauxText;
+}
+
+function initButtons() {
   updateLanguageButtonText();
   updateReloadButtonText();
   updateLookingForBixiButtonText();
+  updateShowArceauxButtonText();
 
   // init Marker popup
   marker.bindPopup(translations[currentLanguage].markerPopupHere);
@@ -323,11 +346,15 @@ async function initArceauxStationsOnMap() {
 
 function updateArceauxStationVisuals() {
   arceauxStationsArray.forEach((station) => {
+    const fillOpacity = showArceauxStations ? FILL_OPACITY_SHOW : 0;
+    const opacity = showArceauxStations ? 1 : 0;
+
     // add circle
     var circle = L.circle([station.lat, station.long], {
       color: ARCEAUX_STATIONS_COLOR,
       fillColor: ARCEAUX_STATIONS_COLOR,
-      fillOpacity: 0.2,
+      opacity: opacity,
+      fillOpacity: fillOpacity,
       radius: ARCEAUX_STATION_RADIUS,
     }).addTo(map);
 
@@ -408,7 +435,7 @@ function updateBixiStationsVisuals() {
     const circle = L.circle([station.lat, station.lon], {
       color: stationColor,
       fillColor: stationColor,
-      fillOpacity: 0.2,
+      fillOpacity: FILL_OPACITY_SHOW,
       radius: BIKE_STATION_RADIUS,
     }).addTo(map);
 
@@ -527,7 +554,6 @@ function updateBixiStationsDistanceFromMarker() {
 }
 
 function updateArceauxStationsDistanceFromMarker() {
-  // FIXME
   arceauxStationsArray.forEach((station) => {
     station.distance_from_marker_in_km = getDistanceBetweenCoordinatesInKM(
       coord.x,
@@ -545,7 +571,7 @@ function onMapClick(e) {
 }
 
 function main() {
-  initLanguageText();
+  initButtons();
   initMap();
 
   // add listening events
