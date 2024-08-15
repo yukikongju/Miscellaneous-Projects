@@ -10,22 +10,42 @@ class Coordinate {
   }
 }
 
+const translations = {
+  en: {
+    markerPopupHere: "You are here!",
+  },
+  fr: {
+    markerPopupHere: "Vous êtes ici!",
+  },
+};
+
 // initialize variables
-var language = "en";
-var popup = L.popup();
+var currentLanguage = "en";
+// var popup = L.popup();
 const coord = new Coordinate(45.5335, -73.6483); // montreal coordinates
 var map = L.map("map").setView([coord.x, coord.y], 13);
-var marker = L.marker([coord.x, coord.y]).addTo(map).bindPopup("You are here"); // .openPopup();
+var marker = L.marker([coord.x, coord.y]).addTo(map);
 
 function toggleLanguage() {
-  language = language === "en" ? "fr" : "en";
+  currentLanguage = currentLanguage === "en" ? "fr" : "en";
   button = document.getElementById("language-button");
-  button.textContent = language;
+  button.textContent = currentLanguage;
+
+  updateText();
 }
 
-function initLanguageButton() {
+function updateText() {
+  // update marker popup
+  marker.setPopupContent(translations[currentLanguage].markerPopupHere);
+}
+
+function initLanguageText() {
+  // init language button
   button = document.getElementById("language-button");
-  button.textContent = language;
+  button.textContent = currentLanguage;
+
+  // init Marker popup
+  marker.bindPopup(translations[currentLanguage].markerPopupHere);
 }
 
 function initMap() {
@@ -41,8 +61,9 @@ function updateMarkerPosition(e) {
   coord.updatePosition(e.latlng.lat, e.latlng.lng);
 
   // TODO: set popup content to see closest Bixi stations
-  var popupContent = "Clicked here!";
-  marker.setLatLng(e.latlng).setPopupContent(popupContent).openOn(map);
+  // marker.setLatLng(e.latlng).setPopupContent(popupContent).openOn(map);
+  marker.setLatLng(e.latlng).openOn(map);
+  updateText();
 }
 
 function onMapClick(e) {
@@ -50,7 +71,7 @@ function onMapClick(e) {
 }
 
 function main() {
-  initLanguageButton();
+  initLanguageText();
   initMap();
 
   // add listening events
