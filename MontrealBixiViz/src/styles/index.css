@@ -3,13 +3,13 @@
   width: 100%;
 }
 
-#language-button {
+.responsive-button {
   padding: 5px 5px;
   font-size: 12px;
   border: black;
   /* transition: background-color 0.3s ease; */
 }
 
-#language-button:hover {
+.responsive-button:hover {
   font-weight: bold;
 }

@@ -89,6 +89,7 @@ const translations = {
     bixiStationInformationURL:
       "https://gbfs.velobixi.com/gbfs/en/station_information.json",
     markerPopupHere: "You are here!",
+    reloadString: "reload",
     bikeAvailableString: "Bikes Available",
     dockAvailableString: "Docks Available",
     dockDisabledString: "Docks Disabled",
@@ -100,6 +101,7 @@ const translations = {
     bixiStationInformationURL:
       "https://gbfs.velobixi.com/gbfs/fr/station_information.json",
     markerPopupHere: "Vous êtes ici!",
+    reloadString: "rafraîchir",
     bikeAvailableString: "Vélos Disponibles",
     dockAvailableString: "Places Disponibles",
     dockDisabledString: "Places Désactivées",
@@ -117,22 +119,30 @@ var bixiIdToArrayPosDict = {};
 
 function toggleLanguage() {
   currentLanguage = currentLanguage === "en" ? "fr" : "en";
-  button = document.getElementById("language-button");
-  button.textContent = currentLanguage;
 
+  updateLanguageButtonText();
   updateMarkerText();
   updateBixiStationsVisuals();
+  updateReloadButtonText();
+}
+
+function updateLanguageButtonText() {
+  button = document.getElementById("language-button");
+  button.textContent = currentLanguage;
+}
+
+function updateReloadButtonText() {
+  button = document.getElementById("reload-button");
+  button.textContent = translations[currentLanguage].reloadString;
 }
 
 function updateMarkerText() {
-  // update marker popup
   marker.setPopupContent(translations[currentLanguage].markerPopupHere);
 }
 
 function initLanguageText() {
-  // init language button
-  button = document.getElementById("language-button");
-  button.textContent = currentLanguage;
+  updateLanguageButtonText();
+  updateReloadButtonText();
 
   // init Marker popup
   marker.bindPopup(translations[currentLanguage].markerPopupHere);

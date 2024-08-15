@@ -9,11 +9,12 @@ Steps:
 - [ ] Toggle Language
     - [ ] Update Text Function to show current coordinates
     - [ ] Move translation into assets
-- [.] Add Visuals
+- [o] Add Visuals
     - [X] init bixi json: information + availability
     - [X] Add bixi stations on the map
-    - [ ] Add pins for closest bixi that are disponible (green dispo; red not)
-    - [ ] Update Station Status with reload button
+    - [X] Update Station Status with reload button
+    - [X] Add pins for closest bixi that are disponible (green dispo; red not)
+    - [ ] Find closest available stations
     - [ ] Update Station Status every x minutes => `updateBixiAvailability()` 
     - [ ] Cache station
     - [ ] Add user popup with nearest BIXI spot by walk
