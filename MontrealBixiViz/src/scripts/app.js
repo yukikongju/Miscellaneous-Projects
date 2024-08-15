@@ -38,7 +38,7 @@ class BixiStation {
     this.short_name = short_name;
     this.station_id = station_id;
 
-    this.num_bikes_availables = 0;
+    this.num_bikes_available = 0;
     this.num_ebikes_available = 0;
     this.num_bikes_disabled = 0;
     this.num_docks_available = 0;
@@ -49,6 +49,32 @@ class BixiStation {
     this.last_reported = 0;
     this.eightd_has_available_keys = false;
     this.is_charging = false;
+  }
+
+  updateAvailability(
+    num_bikes_available,
+    num_ebikes_available,
+    num_bikes_disabled,
+    num_docks_available,
+    num_docks_disabled,
+    is_installed,
+    is_renting,
+    is_returning,
+    last_reported,
+    eightd_has_available_keys,
+    is_charging
+  ) {
+    this.num_bikes_available = num_bikes_available;
+    this.num_ebikes_available = num_ebikes_available;
+    this.num_bikes_disabled = num_bikes_disabled;
+    this.num_docks_available = num_docks_available;
+    this.num_docks_disabled = num_docks_disabled;
+    this.is_installed = is_installed;
+    this.is_renting = is_renting;
+    this.is_returning = is_returning;
+    this.last_reported = last_reported;
+    this.eightd_has_available_keys = eightd_has_available_keys;
+    this.is_charging = is_charging;
   }
 
   getInfo() {
@@ -80,6 +106,7 @@ const coord = new Coordinate(45.5335, -73.6483); // montreal coordinates
 var map = L.map("map").setView([coord.x, coord.y], 13);
 var marker = L.marker([coord.x, coord.y]).addTo(map);
 var bixiStationsArray = [];
+var bixiIdToArrayPosDict = {};
 
 function toggleLanguage() {
   currentLanguage = currentLanguage === "en" ? "fr" : "en";
@@ -152,11 +179,46 @@ async function initBixiStationsOnMap() {
       )
   );
 
+  // init bixiIdToArrayPosDict
+  // Note: need to treat key as object with reduce(), otherwise, js treats
+  // station_id as an index instead of the key
+  // bixiIdToArrayPosDict = data.data.stations.map((station, idx) => ({
+  //   key: station.station_id,
+  //   value: idx,
+  // }));
+  bixiIdToArrayPosDict = data.data.stations.reduce((acc, station, idx) => {
+    acc[station.station_id] = idx;
+    return acc;
+  }, {});
+
   updateBixiAvailability();
 }
 
 async function updateBixiAvailability() {
-  // TODO
+  // fetching bixi availability JSON
+  const data = await fetchJSONData(
+    translations[currentLanguage].bixiStationStatusURL
+  );
+
+  // update bixi based on id pos
+  data.data.stations.forEach((station) => {
+    const idx = bixiIdToArrayPosDict[station.station_id];
+    bixiStationsArray[idx].updateAvailability(
+      station.num_bikes_available,
+      station.num_ebikes_available,
+      station.num_bikes_disabled,
+      station.num_docks_available,
+      station.num_docks_disabled,
+      station.is_installed,
+      station.is_renting,
+      station.is_returning,
+      station.last_reported,
+      station.eightd_has_available_keys,
+      station.is_charging
+    );
+  });
+
+  console.log("Updated Bixi Availability");
 }
 
 function updateMarkerPosition(e) {
