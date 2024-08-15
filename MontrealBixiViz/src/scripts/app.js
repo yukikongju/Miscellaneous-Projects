@@ -78,7 +78,7 @@ class BixiStation {
   }
 
   getInfo() {
-    // TODO
+    return `Name: ${this.name}\nCapacity: ${this.capacity}\nNum Bikes Available: ${this.num_bikes_available}\nNum Docks Available: ${this.num_docks_available}`;
   }
 }
 
@@ -89,6 +89,10 @@ const translations = {
     bixiStationInformationURL:
       "https://gbfs.velobixi.com/gbfs/en/station_information.json",
     markerPopupHere: "You are here!",
+    bikeAvailableString: "Bikes Available",
+    dockAvailableString: "Docks Available",
+    dockDisabledString: "Docks Disabled",
+    capacityString: "Capacity",
   },
   fr: {
     bixiStationStatusURL:
@@ -96,12 +100,15 @@ const translations = {
     bixiStationInformationURL:
       "https://gbfs.velobixi.com/gbfs/fr/station_information.json",
     markerPopupHere: "Vous êtes ici!",
+    bikeAvailableString: "Vélos Disponibles",
+    dockAvailableString: "Places Disponibles",
+    dockDisabledString: "Places Désactivées",
+    capacityString: "Capacité",
   },
 };
 
 // initialize variables
 var currentLanguage = "en";
-// var popup = L.popup();
 const coord = new Coordinate(45.5335, -73.6483); // montreal coordinates
 var map = L.map("map").setView([coord.x, coord.y], 13);
 var marker = L.marker([coord.x, coord.y]).addTo(map);
@@ -113,10 +120,11 @@ function toggleLanguage() {
   button = document.getElementById("language-button");
   button.textContent = currentLanguage;
 
-  updateText();
+  updateMarkerText();
+  updateBixiStationsVisuals();
 }
 
-function updateText() {
+function updateMarkerText() {
   // update marker popup
   marker.setPopupContent(translations[currentLanguage].markerPopupHere);
 }
@@ -195,7 +203,6 @@ async function initBixiStationsOnMap() {
 }
 
 function updateBixiStationsVisuals() {
-  // FIXME
   bixiStationsArray.forEach((station) => {
     stationColor = station.num_bikes_available > 0 ? "green" : "red";
     const circle = L.circle([station.lat, station.lon], {
@@ -204,6 +211,22 @@ function updateBixiStationsVisuals() {
       fillOpacity: 0.2,
       radius: 25,
     }).addTo(map);
+
+    // add popup with station information on hover
+    const popupContent = `
+    <b>${station.name}</b><br>
+    ${translations[currentLanguage].capacityString} : ${station.capacity} <br>
+    ${translations[currentLanguage].bikeAvailableString} : ${station.num_bikes_available} <br>
+    ${translations[currentLanguage].dockAvailableString} : ${station.num_docks_available} <br>
+    ${translations[currentLanguage].dockDisabledString} : ${station.num_docks_disabled} <br>
+      `;
+    const popup = L.popup().setContent(popupContent);
+    circle.on("mouseover", function (e) {
+      popup.setLatLng(e.latlng).openOn(map);
+    });
+    circle.on("mouseout", function () {
+      map.closePopup();
+    });
   });
 }
 
@@ -242,7 +265,7 @@ function updateMarkerPosition(e) {
   // TODO: set popup content to see closest Bixi stations
   // marker.setLatLng(e.latlng).setPopupContent(popupContent).openOn(map);
   marker.setLatLng([coord.x, coord.y]); //.openOn(map);
-  updateText();
+  updateMarkerText();
 }
 
 function onMapClick(e) {
