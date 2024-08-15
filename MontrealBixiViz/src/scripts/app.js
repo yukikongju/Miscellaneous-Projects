@@ -49,6 +49,8 @@ class BixiStation {
     this.last_reported = 0;
     this.eightd_has_available_keys = false;
     this.is_charging = false;
+
+    this.distance_from_marker_in_km = -1;
   }
 
   updateAvailability(
@@ -89,6 +91,7 @@ const translations = {
     bixiStationInformationURL:
       "https://gbfs.velobixi.com/gbfs/en/station_information.json",
     markerPopupHere: "You are here!",
+    distanceString: "Distance",
     reloadString: "reload",
     bikeAvailableString: "Bikes Available",
     dockAvailableString: "Docks Available",
@@ -101,6 +104,7 @@ const translations = {
     bixiStationInformationURL:
       "https://gbfs.velobixi.com/gbfs/fr/station_information.json",
     markerPopupHere: "Vous êtes ici!",
+    distanceString: "Distance",
     reloadString: "rafraîchir",
     bikeAvailableString: "Vélos Disponibles",
     dockAvailableString: "Places Disponibles",
@@ -210,6 +214,7 @@ async function initBixiStationsOnMap() {
   }, {});
 
   updateBixiAvailability();
+  updateBixiStationsDistanceFromMarker();
 }
 
 function updateBixiStationsVisuals() {
@@ -226,9 +231,18 @@ function updateBixiStationsVisuals() {
     const popupContent = `
     <b>${station.name}</b><br>
     ${translations[currentLanguage].capacityString} : ${station.capacity} <br>
-    ${translations[currentLanguage].bikeAvailableString} : ${station.num_bikes_available} <br>
-    ${translations[currentLanguage].dockAvailableString} : ${station.num_docks_available} <br>
-    ${translations[currentLanguage].dockDisabledString} : ${station.num_docks_disabled} <br>
+    ${translations[currentLanguage].bikeAvailableString} : ${
+      station.num_bikes_available
+    } <br>
+    ${translations[currentLanguage].dockAvailableString} : ${
+      station.num_docks_available
+    } <br>
+    ${translations[currentLanguage].dockDisabledString} : ${
+      station.num_docks_disabled
+    } <br>
+    ${
+      translations[currentLanguage].distanceString
+    } : ${station.distance_from_marker_in_km.toFixed(4)} km <br>
       `;
     const popup = L.popup().setContent(popupContent);
     circle.on("mouseover", function (e) {
@@ -272,10 +286,54 @@ async function updateBixiAvailability() {
 function updateMarkerPosition(e) {
   coord.updatePosition(e.latlng.lat, e.latlng.lng);
 
+  marker.setLatLng([coord.x, coord.y]); //.openOn(map);
+
+  updateBixiStationsDistanceFromMarker();
+
   // TODO: set popup content to see closest Bixi stations
   // marker.setLatLng(e.latlng).setPopupContent(popupContent).openOn(map);
-  marker.setLatLng([coord.x, coord.y]); //.openOn(map);
   updateMarkerText();
+}
+
+function getClosestBixiStations() {
+  // TODO
+
+  // find available bixi stations
+  availableStations = bixiStationsArray.filter(
+    (station) => station.num_bikes_available > 0
+  );
+}
+
+function getDistanceBetweenCoordinatesInKM(lat1, lon1, lat2, lon2) {
+  const EARTH_RADIUS = 6371;
+
+  // convert degrees to radians
+  const lat1Rad = lat1 * (Math.PI / 180);
+  const lat2Rad = lat2 * (Math.PI / 180);
+  const lon1Rad = lon1 * (Math.PI / 180);
+  const lon2Rad = lon2 * (Math.PI / 180);
+
+  // Haversine formula: https://en.wikipedia.org/wiki/Haversine_formula
+  const dLat = lat2Rad - lat1Rad;
+  const dLon = lon2Rad - lon1Rad;
+  const a = Math.sin(dLat / 2) ** 2;
+  const b = Math.cos(lon1) * Math.cos(lon2) * Math.sin(dLon / 2) ** 2;
+  const dist = 2 * EARTH_RADIUS * Math.asin(Math.sqrt(a + b));
+
+  return dist;
+}
+
+function updateBixiStationsDistanceFromMarker() {
+  bixiStationsArray.forEach((station) => {
+    station.distance_from_marker_in_km = getDistanceBetweenCoordinatesInKM(
+      coord.x,
+      coord.y,
+      station.lat,
+      station.lon
+    );
+  });
+
+  updateBixiStationsVisuals();
 }
 
 function onMapClick(e) {

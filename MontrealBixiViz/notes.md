@@ -9,11 +9,15 @@ Steps:
 - [ ] Toggle Language
     - [ ] Update Text Function to show current coordinates
     - [ ] Move translation into assets
-- [o] Add Visuals
+- [ ] Add Arceaux
+    - [ ] Add arceaux to map
+    - [ ] Add 'show/hide arceaux' button
+- [o] Add Bixi
     - [X] init bixi json: information + availability
     - [X] Add bixi stations on the map
     - [X] Update Station Status with reload button
     - [X] Add pins for closest bixi that are disponible (green dispo; red not)
+    - [X] Compute Distance from Marker to stations
     - [ ] Find closest available stations
     - [ ] Update Station Status every x minutes => `updateBixiAvailability()` 
     - [ ] Cache station
