@@ -5,9 +5,10 @@ Steps:
     - [X] [Map of REV](https://donnees.montreal.ca/en/dataset/pistes-cyclables/resource/0dc6612a-be66-406b-b2d9-59c9e1c65ebf)
 - [o] Move Marker
     - [X] Update user position on map click
-    - [ ] Update user position based on address search
-- [ ] Toggle Language
     - [ ] Update Text Function to show current coordinates
+    - [ ] Update user position based on address search
+- [o] Toggle Language
+    - [X] Switching language on button click
     - [ ] Move translation into assets
 - [ ] Add Arceaux
     - [ ] Add arceaux to map
@@ -18,7 +19,8 @@ Steps:
     - [X] Update Station Status with reload button
     - [X] Add pins for closest bixi that are disponible (green dispo; red not)
     - [X] Compute Distance from Marker to stations
-    - [ ] Find closest available stations
+    - [X] Change color based if user wants to drop or take a bixi: 'Looking for Bixi'; 'Putting back Bixi'
+    - [ ] Find closest available stations and open popup on station click
     - [ ] Update Station Status every x minutes => `updateBixiAvailability()` 
     - [ ] Cache station
     - [ ] Add user popup with nearest BIXI spot by walk

@@ -91,6 +91,8 @@ const translations = {
     bixiStationInformationURL:
       "https://gbfs.velobixi.com/gbfs/en/station_information.json",
     markerPopupHere: "You are here!",
+    lookingForBixiButtonText: "Looking for Bixi",
+    notLookingForBixiButtonText: "Putting Back Bixi",
     distanceString: "Distance",
     reloadString: "reload",
     bikeAvailableString: "Bikes Available",
@@ -104,6 +106,8 @@ const translations = {
     bixiStationInformationURL:
       "https://gbfs.velobixi.com/gbfs/fr/station_information.json",
     markerPopupHere: "Vous êtes ici!",
+    lookingForBixiButtonText: "Chercher un Bixi",
+    notLookingForBixiButtonText: "Remettre un Bixi",
     distanceString: "Distance",
     reloadString: "rafraîchir",
     bikeAvailableString: "Vélos Disponibles",
@@ -120,6 +124,7 @@ var map = L.map("map").setView([coord.x, coord.y], 13);
 var marker = L.marker([coord.x, coord.y]).addTo(map);
 var bixiStationsArray = [];
 var bixiIdToArrayPosDict = {};
+var isLookingForBixi = true;
 
 function toggleLanguage() {
   currentLanguage = currentLanguage === "en" ? "fr" : "en";
@@ -128,6 +133,21 @@ function toggleLanguage() {
   updateMarkerText();
   updateBixiStationsVisuals();
   updateReloadButtonText();
+}
+
+function toggleLookingForBixiButton() {
+  isLookingForBixi = !isLookingForBixi;
+
+  updateLookingForBixiButtonText();
+  updateBixiStationsVisuals();
+}
+
+function updateLookingForBixiButtonText() {
+  const buttonText = isLookingForBixi
+    ? translations[currentLanguage].lookingForBixiButtonText
+    : translations[currentLanguage].notLookingForBixiButtonText;
+  button = document.getElementById("looking-for-bixi-button");
+  button.textContent = buttonText;
 }
 
 function updateLanguageButtonText() {
@@ -147,6 +167,7 @@ function updateMarkerText() {
 function initLanguageText() {
   updateLanguageButtonText();
   updateReloadButtonText();
+  updateLookingForBixiButtonText();
 
   // init Marker popup
   marker.bindPopup(translations[currentLanguage].markerPopupHere);
@@ -219,7 +240,17 @@ async function initBixiStationsOnMap() {
 
 function updateBixiStationsVisuals() {
   bixiStationsArray.forEach((station) => {
-    stationColor = station.num_bikes_available > 0 ? "green" : "red";
+    const getStationColor = (station, isLookingForBixi) => {
+      return isLookingForBixi
+        ? station.num_bikes_available > 0
+          ? "green"
+          : "red"
+        : station.num_docks_available > 0
+        ? "green"
+        : "red";
+    };
+    stationColor = getStationColor(station, isLookingForBixi);
+
     const circle = L.circle([station.lat, station.lon], {
       color: stationColor,
       fillColor: stationColor,
@@ -302,6 +333,8 @@ function getClosestBixiStations() {
   availableStations = bixiStationsArray.filter(
     (station) => station.num_bikes_available > 0
   );
+
+  // compute closest stations and display in order
 }
 
 function getDistanceBetweenCoordinatesInKM(lat1, lon1, lat2, lon2) {
