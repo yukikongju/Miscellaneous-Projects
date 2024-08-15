@@ -10,6 +10,68 @@ class Coordinate {
   }
 }
 
+class ArceauxStation {
+  constructor(
+    _id,
+    aire,
+    ancrage,
+    anc_num,
+    base,
+    categorie,
+    catl_modele,
+    ce_no,
+    condition,
+    couleur,
+    date_inspection,
+    element,
+    empl_id,
+    empl_x,
+    empl_y,
+    empl_z,
+    intervention,
+    inv_catl_no,
+    inv_id,
+    inv_no,
+    lat,
+    long,
+    marq,
+    materiau,
+    ordre_affichage,
+    parc,
+    statut,
+    territoire
+  ) {
+    this.id = _id;
+    this.aire = aire;
+    this.ancrage = ancrage;
+    this.anc_num = anc_num;
+    this.base = base;
+    this.categorie = categorie;
+    this.catl_modele = catl_modele;
+    this.ce_no = ce_no;
+    this.condition = condition;
+    this.couleur = couleur;
+    this.date_inspection = date_inspection;
+    this.element = element;
+    this.empl_id = empl_id;
+    this.empl_x = empl_x;
+    this.empl_y = empl_y;
+    this.empl_z = empl_z;
+    this.intervention = intervention;
+    this.inv_catl_no = inv_catl_no;
+    this.inv_id = inv_id;
+    this.inv_no = inv_no;
+    this.lat = lat;
+    this.long = long;
+    this.marq = marq;
+    this.materiau = materiau;
+    this.ordre_affichage = ordre_affichage;
+    this.parc = parc;
+    this.statut = statut;
+    this.territoire = territoire;
+  }
+}
+
 class BixiStation {
   constructor(
     capacity,
@@ -84,6 +146,9 @@ class BixiStation {
   }
 }
 
+MONTREAL_ARCEAUX_URL =
+  "https://donnees.montreal.ca/api/3/action/datastore_search?resource_id=78dd2f91-2e68-4b8b-bb4a-44c1ab5b79b6&limit=1000";
+
 const translations = {
   en: {
     bixiStationStatusURL:
@@ -120,11 +185,15 @@ const translations = {
 // initialize variables
 const AVAIBLE_BIKE_COLOR = "green";
 const UNAVAILABLE_BIKE_COLOR = "red";
-const HOOPS_STATIONS_COLOR = "turquoise";
+const ARCEAUX_STATIONS_COLOR = "turquoise";
+const BIKE_STATION_RADIUS = 25;
+const ARCEAUX_STATION_RADIUS = 15;
 var currentLanguage = "en";
 const coord = new Coordinate(45.5335, -73.6483); // montreal coordinates
 var map = L.map("map").setView([coord.x, coord.y], 13);
 var marker = L.marker([coord.x, coord.y]).addTo(map);
+var arceauxStationsArray = [];
+var arceauxIdToArrayPosDict = {};
 var bixiStationsArray = [];
 var bixiIdToArrayPosDict = {};
 var isLookingForBixi = true;
@@ -185,6 +254,7 @@ function initMap() {
   }).addTo(map);
 
   initBixiStationsOnMap();
+  initArceauxStationsOnMap();
 }
 
 async function fetchJSONData(url) {
@@ -200,6 +270,78 @@ async function fetchJSONData(url) {
   } catch (error) {
     console.error("Error fetching JSON data: ", error);
   }
+}
+
+async function initArceauxStationsOnMap() {
+  const data = await fetchJSONData(MONTREAL_ARCEAUX_URL);
+  arceauxStationsArray = data.result.records.map(
+    (station) =>
+      new ArceauxStation(
+        station._id,
+        station.AIRE,
+        station.ANCRAGE,
+        station.ANC_NUM,
+        station.BASE,
+        station.CATEGORIE,
+        station.CATL_MODELE,
+        station.CE_NO,
+        station.CONDITION,
+        station.COULEUR,
+        station.DATE_INSPECTION,
+        station.ELEMENT,
+        station.EMPL_ID,
+        station.EMPL_X,
+        station.EMPL_Y,
+        station.EMPL_Z,
+        station.INTERVENTION,
+        station.INV_CATL_NO,
+        station.INV_ID,
+        station.INV_NO,
+        station.LAT,
+        station.LONG,
+        station.MARQ,
+        station.MATERIAU,
+        station.ORDRE_AFFICHAGE,
+        station.PARC,
+        station.STATUT,
+        station.TERRITOIRE
+      )
+  );
+
+  // init arceaux id to array pos dict
+  arceauxIdToArrayPosDict = data.result.records.reduce((acc, station, idx) => {
+    acc[station._id] = idx;
+    return acc;
+  }, {});
+
+  updateArceauxStationVisuals();
+}
+
+function updateArceauxStationVisuals() {
+  // TODO
+  arceauxStationsArray.forEach((station) => {
+    // add circle
+    var circle = L.circle([station.lat, station.long], {
+      color: ARCEAUX_STATIONS_COLOR,
+      fillColor: ARCEAUX_STATIONS_COLOR,
+      fillOpacity: 0.2,
+      radius: ARCEAUX_STATION_RADIUS,
+    }).addTo(map);
+
+    // add popup information on hover
+    const popupContent = `
+    <b>${station.parc}</b> <br>
+    ${station.lat} ${station.long}
+      `;
+
+    const popup = L.popup().setContent(popupContent);
+    circle.on("mouseover", function (e) {
+      popup.setLatLng(e.latlng).openOn(map);
+    });
+    circle.on("mouseout", function () {
+      map.closePopup();
+    });
+  });
 }
 
 async function initBixiStationsOnMap() {
@@ -239,6 +381,7 @@ async function initBixiStationsOnMap() {
 
   updateBixiAvailability();
   updateBixiStationsDistanceFromMarker();
+  // updateBixiStationsVisuals();
 }
 
 function updateBixiStationsVisuals() {
@@ -258,7 +401,7 @@ function updateBixiStationsVisuals() {
       color: stationColor,
       fillColor: stationColor,
       fillOpacity: 0.2,
-      radius: 25,
+      radius: BIKE_STATION_RADIUS,
     }).addTo(map);
 
     // add popup with station information on hover

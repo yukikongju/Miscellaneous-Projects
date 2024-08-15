@@ -10,8 +10,9 @@ Steps:
 - [o] Toggle Language
     - [X] Switching language on button click
     - [ ] Move translation into assets
-- [ ] Add Arceaux
-    - [ ] Add arceaux to map
+- [.] Add Arceaux
+    - [X] Add arceaux to map
+    - [ ] Show distance to marker
     - [ ] Add 'show/hide arceaux' button
 - [o] Add Bixi
     - [X] init bixi json: information + availability
@@ -21,7 +22,7 @@ Steps:
     - [X] Compute Distance from Marker to stations
     - [X] Change color based if user wants to drop or take a bixi: 'Looking for Bixi'; 'Putting back Bixi'
     - [ ] Find closest available stations and open popup on station click
-    - [ ] Update Station Status every x minutes => `updateBixiAvailability()` 
+    - [ ] Update Station Status every x minutes => `updateBixiAvailability()` + add last updated 
     - [ ] Cache station
     - [ ] Add user popup with nearest BIXI spot by walk
     - [ ] ~~Add pins for saved spot~~
