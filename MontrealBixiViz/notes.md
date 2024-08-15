@@ -10,9 +10,9 @@ Steps:
 - [o] Toggle Language
     - [X] Switching language on button click
     - [ ] Move translation into assets
-- [.] Add Arceaux
+- [o] Add Arceaux
     - [X] Add arceaux to map
-    - [ ] Show distance to marker
+    - [X] Show distance from marker
     - [ ] Add 'show/hide arceaux' button
 - [o] Add Bixi
     - [X] init bixi json: information + availability

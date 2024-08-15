@@ -69,6 +69,8 @@ class ArceauxStation {
     this.parc = parc;
     this.statut = statut;
     this.territoire = territoire;
+
+    this.distance_from_marker_in_km = -1;
   }
 }
 
@@ -188,6 +190,7 @@ const UNAVAILABLE_BIKE_COLOR = "red";
 const ARCEAUX_STATIONS_COLOR = "turquoise";
 const BIKE_STATION_RADIUS = 25;
 const ARCEAUX_STATION_RADIUS = 15;
+const NUM_DECIMAL_FORMAT = 4;
 var currentLanguage = "en";
 const coord = new Coordinate(45.5335, -73.6483); // montreal coordinates
 var map = L.map("map").setView([coord.x, coord.y], 13);
@@ -314,11 +317,11 @@ async function initArceauxStationsOnMap() {
     return acc;
   }, {});
 
+  updateArceauxStationsDistanceFromMarker();
   updateArceauxStationVisuals();
 }
 
 function updateArceauxStationVisuals() {
-  // TODO
   arceauxStationsArray.forEach((station) => {
     // add circle
     var circle = L.circle([station.lat, station.long], {
@@ -331,7 +334,12 @@ function updateArceauxStationVisuals() {
     // add popup information on hover
     const popupContent = `
     <b>${station.parc}</b> <br>
-    ${station.lat} ${station.long}
+    ${station.lat} ${station.long} <br>
+    ${
+      translations[currentLanguage].distanceString
+    } : ${station.distance_from_marker_in_km.toFixed(
+      NUM_DECIMAL_FORMAT
+    )} km <br>
       `;
 
     const popup = L.popup().setContent(popupContent);
@@ -419,7 +427,9 @@ function updateBixiStationsVisuals() {
     } <br>
     ${
       translations[currentLanguage].distanceString
-    } : ${station.distance_from_marker_in_km.toFixed(4)} km <br>
+    } : ${station.distance_from_marker_in_km.toFixed(
+      NUM_DECIMAL_FORMAT
+    )} km <br>
       `;
     const popup = L.popup().setContent(popupContent);
     circle.on("mouseover", function (e) {
@@ -466,6 +476,7 @@ function updateMarkerPosition(e) {
   marker.setLatLng([coord.x, coord.y]); //.openOn(map);
 
   updateBixiStationsDistanceFromMarker();
+  updateArceauxStationsDistanceFromMarker();
 
   // TODO: set popup content to see closest Bixi stations
   // marker.setLatLng(e.latlng).setPopupContent(popupContent).openOn(map);
@@ -513,6 +524,20 @@ function updateBixiStationsDistanceFromMarker() {
   });
 
   updateBixiStationsVisuals();
+}
+
+function updateArceauxStationsDistanceFromMarker() {
+  // FIXME
+  arceauxStationsArray.forEach((station) => {
+    station.distance_from_marker_in_km = getDistanceBetweenCoordinatesInKM(
+      coord.x,
+      coord.y,
+      station.lat,
+      station.long
+    );
+  });
+
+  updateArceauxStationVisuals();
 }
 
 function onMapClick(e) {
