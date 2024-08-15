@@ -11,12 +11,24 @@ class Coordinate {
 }
 
 // initialize variables
+var language = "en";
 var popup = L.popup();
 const coord = new Coordinate(45.5335, -73.6483); // montreal coordinates
 var map = L.map("map").setView([coord.x, coord.y], 13);
 var marker = L.marker([coord.x, coord.y]).addTo(map).bindPopup("You are here"); // .openPopup();
 
-function loadMap() {
+function toggleLanguage() {
+  language = language === "en" ? "fr" : "en";
+  button = document.getElementById("language-button");
+  button.textContent = language;
+}
+
+function initLanguageButton() {
+  button = document.getElementById("language-button");
+  button.textContent = language;
+}
+
+function initMap() {
   // Step 3: Add a tile layer to the map
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
     maxZoom: 19,
@@ -38,7 +50,10 @@ function onMapClick(e) {
 }
 
 function main() {
-  loadMap();
+  initLanguageButton();
+  initMap();
+
+  // add listening events
   map.on("click", onMapClick);
 }
 
