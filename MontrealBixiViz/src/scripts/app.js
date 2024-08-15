@@ -194,6 +194,19 @@ async function initBixiStationsOnMap() {
   updateBixiAvailability();
 }
 
+function updateBixiStationsVisuals() {
+  // FIXME
+  bixiStationsArray.forEach((station) => {
+    stationColor = station.num_bikes_available > 0 ? "green" : "red";
+    const circle = L.circle([station.lat, station.lon], {
+      color: stationColor,
+      fillColor: stationColor,
+      fillOpacity: 0.2,
+      radius: 25,
+    }).addTo(map);
+  });
+}
+
 async function updateBixiAvailability() {
   // fetching bixi availability JSON
   const data = await fetchJSONData(
@@ -218,6 +231,8 @@ async function updateBixiAvailability() {
     );
   });
 
+  updateBixiStationsVisuals();
+
   console.log("Updated Bixi Availability");
 }
 
@@ -226,7 +241,7 @@ function updateMarkerPosition(e) {
 
   // TODO: set popup content to see closest Bixi stations
   // marker.setLatLng(e.latlng).setPopupContent(popupContent).openOn(map);
-  marker.setLatLng(e.latlng).openOn(map);
+  marker.setLatLng([coord.x, coord.y]); //.openOn(map);
   updateText();
 }
 

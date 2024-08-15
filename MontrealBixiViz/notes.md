@@ -11,9 +11,9 @@ Steps:
     - [ ] Move translation into assets
 - [.] Add Visuals
     - [X] init bixi json: information + availability
-    - [ ] Add bixi stations on the map
+    - [X] Add bixi stations on the map
     - [ ] Add pins for closest bixi that are disponible (green dispo; red not)
-    - [ ] Update Station Status every x minutes
+    - [ ] Update Station Status every x minutes => `updateBixiAvailability()`
     - [ ] Cache station
     - [ ] Add user popup with nearest BIXI spot by walk
     - [ ] ~~Add pins for saved spot~~
