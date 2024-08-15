@@ -29,7 +29,7 @@ Steps:
 
 
 Code Improvements:
-- [ ] Use same update/init function for language: `toggleLanguage` and `initButtonText`
+- [X] Use same update/init function for language: `toggleLanguage` and `initButtonText`
 
 
 

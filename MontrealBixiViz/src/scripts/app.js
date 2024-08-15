@@ -210,10 +210,14 @@ var showArceauxStations = true;
 
 function toggleLanguage() {
   currentLanguage = currentLanguage === "en" ? "fr" : "en";
+  updateTextLanguage();
+}
 
+function updateTextLanguage() {
   updateLanguageButtonText();
   updateMarkerText();
   updateReloadButtonText();
+  updateLookingForBixiButtonText();
   updateShowArceauxButtonText();
   updateBixiStationsVisuals();
   updateArceauxStationVisuals();
@@ -262,13 +266,11 @@ function updateShowArceauxButtonText() {
 }
 
 function initButtons() {
-  updateLanguageButtonText();
-  updateReloadButtonText();
-  updateLookingForBixiButtonText();
-  updateShowArceauxButtonText();
-
   // init Marker popup
   marker.bindPopup(translations[currentLanguage].markerPopupHere);
+
+  // init button text
+  updateTextLanguage();
 }
 
 function initMap() {
