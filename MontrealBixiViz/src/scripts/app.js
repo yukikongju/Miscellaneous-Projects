@@ -1,5 +1,6 @@
 import { translations } from "../assets/config/translations.js";
 import { Coordinate } from "../models/coordinate.js";
+import { fetchJSONData } from "./httpRequest.js";
 
 const MONTREAL_ARCEAUX_URL =
   "https://donnees.montreal.ca/api/3/action/datastore_search?resource_id=78dd2f91-2e68-4b8b-bb4a-44c1ab5b79b6&limit=1000";
@@ -370,21 +371,6 @@ function initMap() {
 
   initBixiStationsOnMap();
   initArceauxStationsOnMap();
-}
-
-async function fetchJSONData(url) {
-  try {
-    const response = await fetch(url);
-
-    if (!response.ok) {
-      throw new Error(`HTTP error with status ${response.status}`);
-    }
-
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error("Error fetching JSON data: ", error);
-  }
 }
 
 async function initArceauxStationsOnMap() {

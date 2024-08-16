@@ -41,9 +41,11 @@ Code Improvements:
     - [X] clicking on Show Arceaux only change visibility
     - [X] add default visibility of station to true
     - [X] set bixi station visibility based on status load
-- [ ] File Refractoring
-    - [ ] Move translation into assets
-    - [ ] Move 'Station' classes into their own file
+- [o] File Refractoring
+    - [X] Move translation into assets
+    - [X] Move Coordinate class into models/
+    - [ ] Move 'Station' classes into models/
+	- [ ] set global variable for `currentLanguage`
     - [ ] Fetch JSON Function into its own file
 
 Bug Fix:
