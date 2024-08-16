@@ -1,3 +1,43 @@
+MONTREAL_ARCEAUX_URL =
+  "https://donnees.montreal.ca/api/3/action/datastore_search?resource_id=78dd2f91-2e68-4b8b-bb4a-44c1ab5b79b6&limit=1000";
+
+const translations = {
+  en: {
+    bixiStationStatusURL:
+      "https://gbfs.velobixi.com/gbfs/en/station_status.json",
+    bixiStationInformationURL:
+      "https://gbfs.velobixi.com/gbfs/en/station_information.json",
+    markerPopupHere: "You are here!",
+    lookingForBixiButtonText: "Looking for Bixi",
+    notLookingForBixiButtonText: "Putting Back Bixi",
+    showArceauxText: "Show Arceaux",
+    hideArceauxText: "Hide Arceaux",
+    distanceString: "Distance",
+    reloadString: "reload",
+    bikeAvailableString: "Bikes Available",
+    dockAvailableString: "Docks Available",
+    dockDisabledString: "Docks Disabled",
+    capacityString: "Capacity",
+  },
+  fr: {
+    bixiStationStatusURL:
+      "https://gbfs.velobixi.com/gbfs/fr/station_status.json",
+    bixiStationInformationURL:
+      "https://gbfs.velobixi.com/gbfs/fr/station_information.json",
+    markerPopupHere: "Vous êtes ici!",
+    lookingForBixiButtonText: "Chercher un Bixi",
+    notLookingForBixiButtonText: "Remettre un Bixi",
+    showArceauxText: "Montrer Arceaux",
+    hideArceauxText: "Cacher Arceaux",
+    distanceString: "Distance",
+    reloadString: "rafraîchir",
+    bikeAvailableString: "Vélos Disponibles",
+    dockAvailableString: "Places Disponibles",
+    dockDisabledString: "Places Désactivées",
+    capacityString: "Capacité",
+  },
+};
+
 class Coordinate {
   constructor(x, y) {
     this.x = x;
@@ -9,6 +49,25 @@ class Coordinate {
     this.y = y;
   }
 }
+
+// initialize variables
+const ARCEAUX_STATION_RADIUS = 15;
+const NUM_DECIMAL_FORMAT = 4;
+const ARCEAUX_STATIONS_COLOR = "turquoise";
+// const OPACITY_HIDE = 0;
+const FILL_OPACITY_SHOW = 0.2;
+var currentLanguage = "en";
+const coord = new Coordinate(45.5335, -73.6483); // montreal coordinates
+var map = L.map("map").setView([coord.x, coord.y], 13);
+var marker = L.marker([coord.x, coord.y]).addTo(map);
+var arceauxStationsArray = [];
+var arceauxIdToArrayPosDict = {};
+var bixiStationsArray = [];
+var bixiIdToArrayPosDict = {};
+var isLookingForBixi = true;
+var hasBixiStationsStatusLoaded = false;
+var showBixiStations = true;
+var showArceauxStations = true;
 
 class ArceauxStation {
   constructor(
@@ -74,11 +133,71 @@ class ArceauxStation {
   }
 }
 
-class BixiStation {
+class Station {
+  static AVAILABLE_STATION_COLOR = "green";
+  static UNAVAILABLE_STATION_COLOR = "red";
+  static DEFAULT_STATION_COLOR = "blue";
+  static FILL_OPACITY_SHOW = 0.2;
+  static STATION_RADIUS = 25;
+
+  constructor(lat, lon) {
+    this.lat = lat;
+    this.lon = lon;
+
+    this.distance_from_marker_in_km = -1;
+
+    this.circle = null;
+    this.popup = L.popup().setContent(this.getPopupContentText());
+    this.initCircle();
+  }
+
+  getPopupContentText() {
+    return ``;
+  }
+
+  getStationColor() {
+    return Station.DEFAULT_STATION_COLOR;
+  }
+
+  initCircle() {
+    // init shape
+    this.circle = L.circle([this.lat, this.lon], {
+      color: this.getStationColor(),
+      fillColor: this.getStationColor(),
+      fillOpacity: Station.FILL_OPACITY_SHOW,
+      radius: Station.STATION_RADIUS,
+    }).addTo(map);
+
+    // add popup with station information
+    this.circle.on("mouseover", (e) => {
+      this.popup.setLatLng(e.latlng).openOn(map);
+    });
+
+    this.circle.on("mouseout", () => {
+      map.closePopup();
+    });
+  }
+
+  updateStationVisual(isVisible) {
+    // update change station color and visibility
+    if (this.circle) {
+      this.circle.setStyle({
+        color: this.getStationColor(),
+        fillColor: this.getStationColor(),
+        opacity: isVisible ? 1 : 0,
+        fillOpacity: isVisible ? Station.FILL_OPACITY_SHOW : 0,
+      });
+    }
+
+    // update popup content
+    this.popup.setContent(this.getPopupContentText());
+  }
+}
+
+class BixiStation extends Station {
   static AVAIBLE_BIKE_COLOR = "green";
   static UNAVAILABLE_BIKE_COLOR = "red";
-  static BIKE_STATION_RADIUS = 25;
-  static FILL_OPACITY_SHOW = 0.2;
+  static STATION_RADIUS = 25;
 
   constructor(
     capacity,
@@ -94,14 +213,15 @@ class BixiStation {
     short_name,
     station_id
   ) {
+    super(lat, lon);
     this.capacity = capacity;
     this.eightd_has_key_dispenser = eightd_has_key_dispenser;
     this.electric_bike_surchage_waiver = electric_bike_surchage_waiver;
     this.external_id = external_id;
     this.has_kiosk = has_kiosk;
     this.is_charging = is_charging;
-    this.lat = lat;
-    this.lon = lon;
+    // this.lat = lat;
+    // this.lon = lon;
     this.name = name;
     this.rental_methods = rental_methods;
     this.short_name = short_name;
@@ -118,15 +238,10 @@ class BixiStation {
     this.last_reported = 0;
     this.eightd_has_available_keys = false;
     this.is_charging = false;
-
-    this.distance_from_marker_in_km = -1;
-
-    this.circle = null;
-    this.popup = L.popup().setContent(this.getPopupContentText());
-    this.initCircle();
   }
 
   getStationColor() {
+    // FIXME: pass isLookingForBixi as param
     return isLookingForBixi
       ? this.num_bikes_available > 0
         ? BixiStation.AVAIBLE_BIKE_COLOR
@@ -155,40 +270,6 @@ class BixiStation {
       `;
   }
 
-  initCircle() {
-    // init shape
-    this.circle = L.circle([this.lat, this.lon], {
-      color: this.getStationColor(),
-      fillColor: this.getStationColor(),
-      fillOpacity: BixiStation.FILL_OPACITY_SHOW,
-      radius: BixiStation.BIKE_STATION_RADIUS,
-    }).addTo(map);
-
-    // add popup with station information
-    this.circle.on("mouseover", (e) => {
-      this.popup.setLatLng(e.latlng).openOn(map);
-    });
-
-    this.circle.on("mouseout", () => {
-      map.closePopup();
-    });
-  }
-
-  updateStationVisual(isVisible) {
-    // update change station color and visibility
-    if (this.circle) {
-      this.circle.setStyle({
-        color: this.getStationColor(),
-        fillColor: this.getStationColor(),
-        opacity: isVisible ? 1 : 0,
-        fillOpacity: isVisible ? BixiStation.FILL_OPACITY_SHOW : 0,
-      });
-    }
-
-    // update popup content
-    this.popup.setContent(this.getPopupContentText());
-  }
-
   updateAvailability(
     num_bikes_available,
     num_ebikes_available,
@@ -214,70 +295,7 @@ class BixiStation {
     this.eightd_has_available_keys = eightd_has_available_keys;
     this.is_charging = is_charging;
   }
-
-  getInfo() {
-    return `Name: ${this.name}\nCapacity: ${this.capacity}\nNum Bikes Available: ${this.num_bikes_available}\nNum Docks Available: ${this.num_docks_available}`;
-  }
 }
-
-MONTREAL_ARCEAUX_URL =
-  "https://donnees.montreal.ca/api/3/action/datastore_search?resource_id=78dd2f91-2e68-4b8b-bb4a-44c1ab5b79b6&limit=1000";
-
-const translations = {
-  en: {
-    bixiStationStatusURL:
-      "https://gbfs.velobixi.com/gbfs/en/station_status.json",
-    bixiStationInformationURL:
-      "https://gbfs.velobixi.com/gbfs/en/station_information.json",
-    markerPopupHere: "You are here!",
-    lookingForBixiButtonText: "Looking for Bixi",
-    notLookingForBixiButtonText: "Putting Back Bixi",
-    showArceauxText: "Show Arceaux",
-    hideArceauxText: "Hide Arceaux",
-    distanceString: "Distance",
-    reloadString: "reload",
-    bikeAvailableString: "Bikes Available",
-    dockAvailableString: "Docks Available",
-    dockDisabledString: "Docks Disabled",
-    capacityString: "Capacity",
-  },
-  fr: {
-    bixiStationStatusURL:
-      "https://gbfs.velobixi.com/gbfs/fr/station_status.json",
-    bixiStationInformationURL:
-      "https://gbfs.velobixi.com/gbfs/fr/station_information.json",
-    markerPopupHere: "Vous êtes ici!",
-    lookingForBixiButtonText: "Chercher un Bixi",
-    notLookingForBixiButtonText: "Remettre un Bixi",
-    showArceauxText: "Montrer Arceaux",
-    hideArceauxText: "Cacher Arceaux",
-    distanceString: "Distance",
-    reloadString: "rafraîchir",
-    bikeAvailableString: "Vélos Disponibles",
-    dockAvailableString: "Places Disponibles",
-    dockDisabledString: "Places Désactivées",
-    capacityString: "Capacité",
-  },
-};
-
-// initialize variables
-const ARCEAUX_STATION_RADIUS = 15;
-const NUM_DECIMAL_FORMAT = 4;
-const ARCEAUX_STATIONS_COLOR = "turquoise";
-// const OPACITY_HIDE = 0;
-const FILL_OPACITY_SHOW = 0.2;
-var currentLanguage = "en";
-const coord = new Coordinate(45.5335, -73.6483); // montreal coordinates
-var map = L.map("map").setView([coord.x, coord.y], 13);
-var marker = L.marker([coord.x, coord.y]).addTo(map);
-var arceauxStationsArray = [];
-var arceauxIdToArrayPosDict = {};
-var bixiStationsArray = [];
-var bixiIdToArrayPosDict = {};
-var isLookingForBixi = true;
-var hasBixiStationsStatusLoaded = false;
-var showBixiStations = true;
-var showArceauxStations = true;
 
 function toggleLanguage() {
   currentLanguage = currentLanguage === "en" ? "fr" : "en";
