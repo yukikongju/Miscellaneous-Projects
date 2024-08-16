@@ -14,8 +14,6 @@ const MONTREAL_ARCEAUX_URL =
 
 // initialize variables
 const NUM_CLOSEST_BIXI_STATIONS = 5;
-// const FILL_OPACITY_SHOW = 0.2;
-// let currentLanguage;
 const coord = new Coordinate(45.5335, -73.6483); // montreal coordinates
 var map = L.map("map").setView([coord.x, coord.y], 13);
 var marker = L.marker([coord.x, coord.y]).addTo(map);

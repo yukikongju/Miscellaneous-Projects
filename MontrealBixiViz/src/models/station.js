@@ -5,9 +5,8 @@ import {
 } from "../scripts/store.js";
 import L from "leaflet";
 
-const NUM_DECIMAL_FORMAT = 4;
-
 class Station {
+  static NUM_DECIMAL_FORMAT = 4;
   static AVAILABLE_STATION_COLOR = "green";
   static UNAVAILABLE_STATION_COLOR = "red";
   static DEFAULT_STATION_COLOR = "blue";
@@ -23,7 +22,6 @@ class Station {
 
     this.circle = null;
     this.popup = L.popup().setContent(this._getPopupContentText());
-    // this._initCircle();
   }
 
   _getPopupContentText() {
@@ -167,7 +165,9 @@ export class ArceauxStation extends Station {
     ${this.lat} ${this.long} <br>
     ${
       translations[getLanguageStoreVariable()].distanceString
-    } : ${this.distance_from_marker_in_km.toFixed(NUM_DECIMAL_FORMAT)} km <br>
+    } : ${this.distance_from_marker_in_km.toFixed(
+      Station.NUM_DECIMAL_FORMAT
+    )} km <br>
       `;
   }
 
@@ -250,7 +250,9 @@ export class BixiStation extends Station {
     } <br>
     ${
       translations[getLanguageStoreVariable()].distanceString
-    } : ${this.distance_from_marker_in_km.toFixed(NUM_DECIMAL_FORMAT)} km <br>
+    } : ${this.distance_from_marker_in_km.toFixed(
+      Station.NUM_DECIMAL_FORMAT
+    )} km <br>
       `;
   }
 
