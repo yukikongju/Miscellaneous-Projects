@@ -30,8 +30,12 @@ Steps:
 
 Code Improvements:
 - [X] Use same update/init function for language: `toggleLanguage` and `initButtonText`
+- [X] No latence when fetching bixi station status in visual
 - [X] Refractor bike circle update into class
 - [ ] Refractor arceaux circle update into class
+- [ ] Make "Station" class
+    - [ ] BixiStation extends Station
+    - [ ] ArceauxStation extends Station
 
 Bug Fix:
 - [ ] Put Arceaux Circle into array

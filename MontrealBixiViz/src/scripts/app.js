@@ -275,6 +275,7 @@ var arceauxIdToArrayPosDict = {};
 var bixiStationsArray = [];
 var bixiIdToArrayPosDict = {};
 var isLookingForBixi = true;
+var showBixiStations = false;
 var showArceauxStations = true;
 
 function toggleLanguage() {
@@ -492,7 +493,7 @@ async function initBixiStationsOnMap() {
 
 function updateBixiStationsVisuals() {
   bixiStationsArray.forEach((station) => {
-    station.updateStationVisual(true);
+    station.updateStationVisual(showBixiStations);
   });
 }
 
@@ -520,6 +521,7 @@ async function updateBixiAvailability() {
     );
   });
 
+  showBixiStations = true;
   updateBixiStationsVisuals();
 
   console.log("Updated Bixi Availability");
