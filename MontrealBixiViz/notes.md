@@ -30,6 +30,11 @@ Steps:
 
 Code Improvements:
 - [X] Use same update/init function for language: `toggleLanguage` and `initButtonText`
+- [X] Refractor bike circle update into class
+- [ ] Refractor arceaux circle update into class
 
+Bug Fix:
+- [ ] Put Arceaux Circle into array
+- [ ] Show Arceaux Button
 
 

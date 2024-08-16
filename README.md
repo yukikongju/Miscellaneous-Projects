@@ -25,7 +25,11 @@ A collection of random projects
 - [X] Mardown to Latex Cover Letter
 - [X] CRON Job to sync music downloader and ebooks to tablet (see MusicDownloader)
 - [-] AUDL RL: Learning Best strategy through RL
-- [ ] Closest Bixi in React
+- [-] Closest Bixi in React
+- [ ] Multi-threading applications with rust (web browser, trading systems)
+- [ ] Process Schedular Simulation: Round Robin, FIFO, Priority Scheduling
+- [ ] Device Driver Development
+- [ ] Disk Scheduling Algorithm
 - [ ] Option Pricing Models
 - [ ] Gender Bias in Langugage Embedding
 - [ ] Noise Cancellation with Sound Difference and anti-aliasing
@@ -34,8 +38,9 @@ A collection of random projects
 - [ ] Text Counter in Rust, text analysis
 - [ ] ODE Solver
 - [ ] NDS ROM Hacks: [ex1](https://gbatemp.net/threads/the-ultimate-nintendo-ds-rom-hacking-guide.291274/) [nesasm](http://www.patater.com/gbaguy/nesasm.htm) [CS4803](https://faculty.cc.gatech.edu/~hyesoon/spr10/schedule.html) [nds](https://faculty.cc.gatech.edu/~hyesoon/spr10/fromTA/CS4803DGC/Getting_Started....html) [nds roms](https://www.youtube.com/watch?v=lakp5ZRN7rE&list=PLKTW2ZuQjbEEVYHhxRZF9N8v_9AUneJq1)
-- [ ] Interpreter: [Maths](https://medium.com/@lawsus/simple-math-interpreter-in-python-497b961d7713), AEDIROUM [playlist](https://www.youtube.com/playlist?list=PLZQftyCk7_SdoVexSmwy_tBgs7P0b97yD)
+- [ ] Interpreter: [Maths](https://medium.com/@lawsus/simple-math-interpreter-in-python-497b961d7713), AEDIROUM [playlist](https://www.youtube.com/playlist?list=PLZQftyCk7_SdoVexSmwy_tBgs7P0b97yD) [Crafting Interpreter](https://craftinginterpreters.com/contents.html)
 - [ ] MathMemes (1) given soundwave, find function using lagrange multipliers that generates that function (2) given image, generate data where residuals are the image
+- [ ] Integral Calculator with Lagrange Polynomials: (1) symbolic and (2) estimation
 - [ ] Morse Code
 - [ ] Generating Code with GPT
 - [ ] Text Generation: https://www.tensorflow.org/text/tutorials/text_generation
@@ -72,8 +77,14 @@ A collection of random projects
 - [ ] JIT for python for-loop. see [Andrease Kling]
 - [ ] chat client + download files w/ protocol. see [CS372](https://github.com/townsste/CS372/tree/master/Project%201)
 - [ ] Parallel Programming: [udacity](https://github.com/nickspell/udacity-IntroToParallelProgramming)
+- [ ] [Eldiro Programming Language](https://lunacookies.github.io/lang/) in rust
 - [ ] [Toralizer](https://www.youtube.com/watch?v=Pebul1c9JKE)
-- [ ] HenryFord Stack Stats
+- [X] HenryFord Stack Stats
 - [ ] UA Retention 
+- [ ] Web Browser Engine
 
+
+## Resources
+
+- [10 Advanced Projects to Build in 2021](https://dev.to/hb/10-advanced-projects-to-build-in-2021-425o)
 

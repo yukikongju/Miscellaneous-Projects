@@ -75,6 +75,11 @@ class ArceauxStation {
 }
 
 class BixiStation {
+  static AVAIBLE_BIKE_COLOR = "green";
+  static UNAVAILABLE_BIKE_COLOR = "red";
+  static BIKE_STATION_RADIUS = 25;
+  static FILL_OPACITY_SHOW = 0.2;
+
   constructor(
     capacity,
     eightd_has_key_dispenser,
@@ -115,6 +120,73 @@ class BixiStation {
     this.is_charging = false;
 
     this.distance_from_marker_in_km = -1;
+
+    this.circle = null;
+    this.popup = L.popup().setContent(this.getPopupContentText());
+    this.initCircle();
+  }
+
+  getStationColor() {
+    return isLookingForBixi
+      ? this.num_bikes_available > 0
+        ? BixiStation.AVAIBLE_BIKE_COLOR
+        : BixiStation.UNAVAILABLE_BIKE_COLOR
+      : this.num_docks_available > 0
+      ? BixiStation.AVAIBLE_BIKE_COLOR
+      : BixiStation.UNAVAILABLE_BIKE_COLOR;
+  }
+
+  getPopupContentText() {
+    return `
+    <b>${this.name}</b><br>
+    ${translations[currentLanguage].capacityString} : ${this.capacity} <br>
+    ${translations[currentLanguage].bikeAvailableString} : ${
+      this.num_bikes_available
+    } <br>
+    ${translations[currentLanguage].dockAvailableString} : ${
+      this.num_docks_available
+    } <br>
+    ${translations[currentLanguage].dockDisabledString} : ${
+      this.num_docks_disabled
+    } <br>
+    ${
+      translations[currentLanguage].distanceString
+    } : ${this.distance_from_marker_in_km.toFixed(NUM_DECIMAL_FORMAT)} km <br>
+      `;
+  }
+
+  initCircle() {
+    // init shape
+    this.circle = L.circle([this.lat, this.lon], {
+      color: this.getStationColor(),
+      fillColor: this.getStationColor(),
+      fillOpacity: BixiStation.FILL_OPACITY_SHOW,
+      radius: BixiStation.BIKE_STATION_RADIUS,
+    }).addTo(map);
+
+    // add popup with station information
+    this.circle.on("mouseover", (e) => {
+      this.popup.setLatLng(e.latlng).openOn(map);
+    });
+
+    this.circle.on("mouseout", () => {
+      map.closePopup();
+    });
+  }
+
+  updateStationVisual(isVisible) {
+    // update change station color and visibility
+    if (this.circle) {
+      this.circle.setStyle({
+        color: this.getStationColor(),
+        fillColor: this.getStationColor(),
+        opacity: isVisible ? 1 : 0,
+        fillOpacity: isVisible ? BixiStation.FILL_OPACITY_SHOW : 0,
+      });
+    }
+
+    // update popup content
+    this.popup.setContent(this.getPopupContentText());
   }
 
   updateAvailability(
@@ -189,12 +261,9 @@ const translations = {
 };
 
 // initialize variables
-const AVAIBLE_BIKE_COLOR = "green";
-const UNAVAILABLE_BIKE_COLOR = "red";
-const ARCEAUX_STATIONS_COLOR = "turquoise";
-const BIKE_STATION_RADIUS = 25;
 const ARCEAUX_STATION_RADIUS = 15;
 const NUM_DECIMAL_FORMAT = 4;
+const ARCEAUX_STATIONS_COLOR = "turquoise";
 // const OPACITY_HIDE = 0;
 const FILL_OPACITY_SHOW = 0.2;
 var currentLanguage = "en";
@@ -423,50 +492,7 @@ async function initBixiStationsOnMap() {
 
 function updateBixiStationsVisuals() {
   bixiStationsArray.forEach((station) => {
-    const getStationColor = (station, isLookingForBixi) => {
-      return isLookingForBixi
-        ? station.num_bikes_available > 0
-          ? AVAIBLE_BIKE_COLOR
-          : UNAVAILABLE_BIKE_COLOR
-        : station.num_docks_available > 0
-        ? AVAIBLE_BIKE_COLOR
-        : UNAVAILABLE_BIKE_COLOR;
-    };
-    stationColor = getStationColor(station, isLookingForBixi);
-
-    const circle = L.circle([station.lat, station.lon], {
-      color: stationColor,
-      fillColor: stationColor,
-      fillOpacity: FILL_OPACITY_SHOW,
-      radius: BIKE_STATION_RADIUS,
-    }).addTo(map);
-
-    // add popup with station information on hover
-    const popupContent = `
-    <b>${station.name}</b><br>
-    ${translations[currentLanguage].capacityString} : ${station.capacity} <br>
-    ${translations[currentLanguage].bikeAvailableString} : ${
-      station.num_bikes_available
-    } <br>
-    ${translations[currentLanguage].dockAvailableString} : ${
-      station.num_docks_available
-    } <br>
-    ${translations[currentLanguage].dockDisabledString} : ${
-      station.num_docks_disabled
-    } <br>
-    ${
-      translations[currentLanguage].distanceString
-    } : ${station.distance_from_marker_in_km.toFixed(
-      NUM_DECIMAL_FORMAT
-    )} km <br>
-      `;
-    const popup = L.popup().setContent(popupContent);
-    circle.on("mouseover", function (e) {
-      popup.setLatLng(e.latlng).openOn(map);
-    });
-    circle.on("mouseout", function () {
-      map.closePopup();
-    });
+    station.updateStationVisual(true);
   });
 }
 
