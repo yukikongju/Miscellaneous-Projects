@@ -1,4 +1,4 @@
-MONTREAL_ARCEAUX_URL =
+const MONTREAL_ARCEAUX_URL =
   "https://donnees.montreal.ca/api/3/action/datastore_search?resource_id=78dd2f91-2e68-4b8b-bb4a-44c1ab5b79b6&limit=1000";
 
 const translations = {
@@ -373,17 +373,17 @@ function updateLookingForBixiButtonText() {
   const buttonText = isLookingForBixi
     ? translations[currentLanguage].lookingForBixiButtonText
     : translations[currentLanguage].notLookingForBixiButtonText;
-  button = document.getElementById("looking-for-bixi-button");
+  const button = document.getElementById("looking-for-bixi-button");
   button.textContent = buttonText;
 }
 
 function updateLanguageButtonText() {
-  button = document.getElementById("language-button");
+  const button = document.getElementById("language-button");
   button.textContent = currentLanguage;
 }
 
 function updateReloadButtonText() {
-  button = document.getElementById("reload-button");
+  const button = document.getElementById("reload-button");
   button.textContent = translations[currentLanguage].reloadString;
 }
 
@@ -392,7 +392,7 @@ function updateMarkerText() {
 }
 
 function updateShowArceauxButtonText() {
-  button = document.getElementById("show-arceaux-button");
+  const button = document.getElementById("show-arceaux-button");
   button.textContent = showArceauxStations
     ? translations[currentLanguage].showArceauxText
     : translations[currentLanguage].hideArceauxText;
