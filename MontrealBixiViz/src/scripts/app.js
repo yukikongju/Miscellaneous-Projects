@@ -1,42 +1,7 @@
+import { translations } from "../assets/config/translations.js";
+
 const MONTREAL_ARCEAUX_URL =
   "https://donnees.montreal.ca/api/3/action/datastore_search?resource_id=78dd2f91-2e68-4b8b-bb4a-44c1ab5b79b6&limit=1000";
-
-const translations = {
-  en: {
-    bixiStationStatusURL:
-      "https://gbfs.velobixi.com/gbfs/en/station_status.json",
-    bixiStationInformationURL:
-      "https://gbfs.velobixi.com/gbfs/en/station_information.json",
-    markerPopupHere: "You are here!",
-    lookingForBixiButtonText: "Looking for Bixi",
-    notLookingForBixiButtonText: "Putting Back Bixi",
-    showArceauxText: "Show Arceaux",
-    hideArceauxText: "Hide Arceaux",
-    distanceString: "Distance",
-    reloadString: "reload",
-    bikeAvailableString: "Bikes Available",
-    dockAvailableString: "Docks Available",
-    dockDisabledString: "Docks Disabled",
-    capacityString: "Capacity",
-  },
-  fr: {
-    bixiStationStatusURL:
-      "https://gbfs.velobixi.com/gbfs/fr/station_status.json",
-    bixiStationInformationURL:
-      "https://gbfs.velobixi.com/gbfs/fr/station_information.json",
-    markerPopupHere: "Vous êtes ici!",
-    lookingForBixiButtonText: "Chercher un Bixi",
-    notLookingForBixiButtonText: "Remettre un Bixi",
-    showArceauxText: "Montrer Arceaux",
-    hideArceauxText: "Cacher Arceaux",
-    distanceString: "Distance",
-    reloadString: "rafraîchir",
-    bikeAvailableString: "Vélos Disponibles",
-    dockAvailableString: "Places Disponibles",
-    dockDisabledString: "Places Désactivées",
-    capacityString: "Capacité",
-  },
-};
 
 class Coordinate {
   constructor(x, y) {
