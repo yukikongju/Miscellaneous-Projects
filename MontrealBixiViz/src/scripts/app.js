@@ -76,9 +76,10 @@ class Station {
   static FILL_OPACITY_SHOW = 0.2;
   static STATION_RADIUS = 25;
 
-  constructor(lat, lon) {
+  constructor(lat, lon, isVisible) {
     this.lat = lat;
     this.lon = lon;
+    this.isVisible = isVisible;
 
     this.distance_from_marker_in_km = -1;
 
@@ -134,14 +135,15 @@ class Station {
       2 * EARTH_RADIUS * Math.asin(Math.sqrt(a + b));
   }
 
-  updateStationVisual(isVisible) {
+  updateStationVisual() {
     // update change station color and visibility
     if (this.circle) {
       this.circle.setStyle({
         color: this._getStationColor(),
         fillColor: this._getStationColor(),
-        opacity: isVisible ? 1 : 0,
-        fillOpacity: isVisible ? Station.FILL_OPACITY_SHOW : 0,
+        opacity: this.isVisible ? 1 : 0,
+        fillOpacity: this.isVisible ? Station.FILL_OPACITY_SHOW : 0,
+        radius: Station.STATION_RADIUS,
       });
     }
 
@@ -182,9 +184,10 @@ class ArceauxStation extends Station {
     ordre_affichage,
     parc,
     statut,
-    territoire
+    territoire,
+    isVisible
   ) {
-    super(lat, long);
+    super(lat, long, isVisible);
     this.id = _id;
     this.aire = aire;
     this.ancrage = ancrage;
@@ -247,9 +250,10 @@ class BixiStation extends Station {
     name,
     rental_methods,
     short_name,
-    station_id
+    station_id,
+    isVisible
   ) {
-    super(lat, lon);
+    super(lat, lon, isVisible);
     this.capacity = capacity;
     this.eightd_has_key_dispenser = eightd_has_key_dispenser;
     this.electric_bike_surchage_waiver = electric_bike_surchage_waiver;
@@ -358,6 +362,10 @@ function toggleLookingForBixiButton() {
 function toggleShowArceauxButton() {
   showArceauxStations = !showArceauxStations;
 
+  arceauxStationsArray.forEach((station) => {
+    station.isVisible = showArceauxStations;
+  });
+
   updateArceauxStationVisuals();
 }
 
@@ -457,7 +465,8 @@ async function initArceauxStationsOnMap() {
         station.ORDRE_AFFICHAGE,
         station.PARC,
         station.STATUT,
-        station.TERRITOIRE
+        station.TERRITOIRE,
+        showArceauxStations
       )
   );
 
@@ -472,7 +481,7 @@ async function initArceauxStationsOnMap() {
 
 function updateArceauxStationVisuals() {
   arceauxStationsArray.forEach((station) => {
-    station.updateStationVisual(showArceauxStations);
+    station.updateStationVisual();
   });
 }
 
@@ -495,7 +504,8 @@ async function initBixiStationsOnMap() {
         s.name,
         s.rental_methods,
         s.short_name,
-        s.station_id
+        s.station_id,
+        showBixiStations & hasBixiStationsStatusLoaded
       )
   );
 
@@ -518,7 +528,7 @@ async function initBixiStationsOnMap() {
 function updateBixiStationsVisuals() {
   const isVisible = showBixiStations & hasBixiStationsStatusLoaded;
   bixiStationsArray.forEach((station) => {
-    station.updateStationVisual(isVisible);
+    station.updateStationVisual();
   });
 }
 
@@ -546,7 +556,12 @@ async function updateBixiAvailability() {
     );
   });
 
+  // set visibility
   hasBixiStationsStatusLoaded = true;
+  bixiStationsArray.forEach((station) => {
+    station.isVisible = showBixiStations; // & hasBixiStationsStatusLoaded
+  });
+
   updateBixiStationsVisuals();
 
   console.log("Updated Bixi Availability");
