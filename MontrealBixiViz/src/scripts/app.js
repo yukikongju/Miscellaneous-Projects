@@ -147,23 +147,23 @@ class Station {
     this.distance_from_marker_in_km = -1;
 
     this.circle = null;
-    this.popup = L.popup().setContent(this.getPopupContentText());
-    this.initCircle();
+    this.popup = L.popup().setContent(this._getPopupContentText());
+    this._initCircle();
   }
 
-  getPopupContentText() {
+  _getPopupContentText() {
     return ``;
   }
 
-  getStationColor() {
+  _getStationColor() {
     return Station.DEFAULT_STATION_COLOR;
   }
 
-  initCircle() {
+  _initCircle() {
     // init shape
     this.circle = L.circle([this.lat, this.lon], {
-      color: this.getStationColor(),
-      fillColor: this.getStationColor(),
+      color: this._getStationColor(),
+      fillColor: this._getStationColor(),
       fillOpacity: Station.FILL_OPACITY_SHOW,
       radius: Station.STATION_RADIUS,
     }).addTo(map);
@@ -178,19 +178,39 @@ class Station {
     });
   }
 
+  updateDistanceFromMarkerInKm(markerLat, markerLon) {
+    const EARTH_RADIUS = 6371;
+
+    // convert degrees to radians
+    const lat1Rad = this.lat * (Math.PI / 180);
+    const lat2Rad = markerLat * (Math.PI / 180);
+    const lon1Rad = this.lon * (Math.PI / 180);
+    const lon2Rad = markerLon * (Math.PI / 180);
+
+    // Haversine formula: https://en.wikipedia.org/wiki/Haversine_formula
+    const dLat = lat2Rad - lat1Rad;
+    const dLon = lon2Rad - lon1Rad;
+    const a = Math.sin(dLat / 2) ** 2;
+    const b =
+      Math.cos(this.lon) * Math.cos(markerLon) * Math.sin(dLon / 2) ** 2;
+
+    this.distance_from_marker_in_km =
+      2 * EARTH_RADIUS * Math.asin(Math.sqrt(a + b));
+  }
+
   updateStationVisual(isVisible) {
     // update change station color and visibility
     if (this.circle) {
       this.circle.setStyle({
-        color: this.getStationColor(),
-        fillColor: this.getStationColor(),
+        color: this._getStationColor(),
+        fillColor: this._getStationColor(),
         opacity: isVisible ? 1 : 0,
         fillOpacity: isVisible ? Station.FILL_OPACITY_SHOW : 0,
       });
     }
 
     // update popup content
-    this.popup.setContent(this.getPopupContentText());
+    this.popup.setContent(this._getPopupContentText());
   }
 }
 
@@ -240,7 +260,7 @@ class BixiStation extends Station {
     this.is_charging = false;
   }
 
-  getStationColor() {
+  _getStationColor() {
     // FIXME: pass isLookingForBixi as param
     return isLookingForBixi
       ? this.num_bikes_available > 0
@@ -251,7 +271,7 @@ class BixiStation extends Station {
       : BixiStation.UNAVAILABLE_BIKE_COLOR;
   }
 
-  getPopupContentText() {
+  _getPopupContentText() {
     return `
     <b>${this.name}</b><br>
     ${translations[currentLanguage].capacityString} : ${this.capacity} <br>
@@ -592,12 +612,7 @@ function getDistanceBetweenCoordinatesInKM(lat1, lon1, lat2, lon2) {
 
 function updateBixiStationsDistanceFromMarker() {
   bixiStationsArray.forEach((station) => {
-    station.distance_from_marker_in_km = getDistanceBetweenCoordinatesInKM(
-      coord.x,
-      coord.y,
-      station.lat,
-      station.lon
-    );
+    station.updateDistanceFromMarkerInKm(coord.x, coord.y);
   });
 
   updateBixiStationsVisuals();
