@@ -45,7 +45,7 @@ Code Improvements:
     - [X] Move translation into assets
     - [X] Move Coordinate class into models/
     - [ ] Move 'Station' classes into models/
-	- [ ] set global variable for `currentLanguage`
+	- [ ] set global variable for `currentLanguage` with [redux](https://redux.js.org/introduction/why-rtk-is-redux-today)
     - [ ] Fetch JSON Function into its own file
 
 Bug Fix:

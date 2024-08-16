@@ -7,6 +7,8 @@ Find the shortest path from where you are to the nearest Bixi
 
 ## How to run the code locally
 
+**V1: With http server**
+
 http protocol doesn't work when opening up the `index.html`
 file in our browser, so we can't import file properly, so 
 we need to run a server with
@@ -14,6 +16,13 @@ we need to run a server with
 `python3 -m http.server`
 
 Website will be at `http://localhost:8000/`
+
+**V2: with Vite**
+
+Vite allows for easier package management
+
+`npm run dev`
+
 
 # Resources
 

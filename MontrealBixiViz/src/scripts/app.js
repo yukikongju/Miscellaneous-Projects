@@ -1,6 +1,7 @@
 import { translations } from "../assets/config/translations.js";
 import { Coordinate } from "../models/coordinate.js";
 import { fetchJSONData } from "./httpRequest.js";
+import store, { setLanguage } from "./store.js";
 
 const MONTREAL_ARCEAUX_URL =
   "https://donnees.montreal.ca/api/3/action/datastore_search?resource_id=78dd2f91-2e68-4b8b-bb4a-44c1ab5b79b6&limit=1000";
@@ -9,7 +10,7 @@ const MONTREAL_ARCEAUX_URL =
 const NUM_DECIMAL_FORMAT = 4;
 const NUM_CLOSEST_BIXI_STATIONS = 5;
 // const FILL_OPACITY_SHOW = 0.2;
-var currentLanguage = "en";
+// let currentLanguage;
 const coord = new Coordinate(45.5335, -73.6483); // montreal coordinates
 var map = L.map("map").setView([coord.x, coord.y], 13);
 var marker = L.marker([coord.x, coord.y]).addTo(map);
@@ -21,6 +22,16 @@ var isLookingForBixi = true;
 var hasBixiStationsStatusLoaded = false;
 var showBixiStations = true;
 var showArceauxStations = true;
+
+// global variables management
+// store.subscribe(() => {
+//   currentLanguage = store.getState().language;
+//   updateTextLanguage();
+// });
+
+function getCurrentLanguage() {
+  return store.getState().language;
+}
 
 class Station {
   static AVAILABLE_STATION_COLOR = "green";
@@ -176,7 +187,7 @@ class ArceauxStation extends Station {
     <b>${this.parc}</b> <br>
     ${this.lat} ${this.long} <br>
     ${
-      translations[currentLanguage].distanceString
+      translations[getCurrentLanguage()].distanceString
     } : ${this.distance_from_marker_in_km.toFixed(NUM_DECIMAL_FORMAT)} km <br>
       `;
   }
@@ -247,18 +258,18 @@ class BixiStation extends Station {
   _getPopupContentText() {
     return `
     <b>${this.name}</b><br>
-    ${translations[currentLanguage].capacityString} : ${this.capacity} <br>
-    ${translations[currentLanguage].bikeAvailableString} : ${
+    ${translations[getCurrentLanguage()].capacityString} : ${this.capacity} <br>
+    ${translations[getCurrentLanguage()].bikeAvailableString} : ${
       this.num_bikes_available
     } <br>
-    ${translations[currentLanguage].dockAvailableString} : ${
+    ${translations[getCurrentLanguage()].dockAvailableString} : ${
       this.num_docks_available
     } <br>
-    ${translations[currentLanguage].dockDisabledString} : ${
+    ${translations[getCurrentLanguage()].dockDisabledString} : ${
       this.num_docks_disabled
     } <br>
     ${
-      translations[currentLanguage].distanceString
+      translations[getCurrentLanguage()].distanceString
     } : ${this.distance_from_marker_in_km.toFixed(NUM_DECIMAL_FORMAT)} km <br>
       `;
   }
@@ -291,7 +302,10 @@ class BixiStation extends Station {
 }
 
 function toggleLanguage() {
-  currentLanguage = currentLanguage === "en" ? "fr" : "en";
+  // currentLanguage = currentLanguage === "en" ? "fr" : "en";
+  const newLanguage = store.getState().language === "en" ? "fr" : "en";
+  store.dispatch(setLanguage(newLanguage));
+
   updateTextLanguage();
 }
 
@@ -326,36 +340,36 @@ function toggleShowArceauxButton() {
 
 function updateLookingForBixiButtonText() {
   const buttonText = isLookingForBixi
-    ? translations[currentLanguage].lookingForBixiButtonText
-    : translations[currentLanguage].notLookingForBixiButtonText;
+    ? translations[getCurrentLanguage()].lookingForBixiButtonText
+    : translations[getCurrentLanguage()].notLookingForBixiButtonText;
   const button = document.getElementById("looking-for-bixi-button");
   button.textContent = buttonText;
 }
 
 function updateLanguageButtonText() {
   const button = document.getElementById("language-button");
-  button.textContent = currentLanguage;
+  button.textContent = getCurrentLanguage();
 }
 
 function updateReloadButtonText() {
   const button = document.getElementById("reload-button");
-  button.textContent = translations[currentLanguage].reloadString;
+  button.textContent = translations[getCurrentLanguage()].reloadString;
 }
 
 function updateMarkerText() {
-  marker.setPopupContent(translations[currentLanguage].markerPopupHere);
+  marker.setPopupContent(translations[getCurrentLanguage()].markerPopupHere);
 }
 
 function updateShowArceauxButtonText() {
   const button = document.getElementById("show-arceaux-button");
   button.textContent = showArceauxStations
-    ? translations[currentLanguage].showArceauxText
-    : translations[currentLanguage].hideArceauxText;
+    ? translations[getCurrentLanguage()].showArceauxText
+    : translations[getCurrentLanguage()].hideArceauxText;
 }
 
 function initButtons() {
   // init Marker popup
-  marker.bindPopup(translations[currentLanguage].markerPopupHere);
+  marker.bindPopup(translations[getCurrentLanguage()].markerPopupHere);
 
   // init button text
   updateTextLanguage();
@@ -427,7 +441,7 @@ function updateArceauxStationVisuals() {
 
 async function initBixiStationsOnMap() {
   const data = await fetchJSONData(
-    translations[currentLanguage].bixiStationInformationURL
+    translations[getCurrentLanguage()].bixiStationInformationURL
   );
 
   bixiStationsArray = data.data.stations.map(
@@ -475,7 +489,7 @@ function updateBixiStationsVisuals() {
 async function updateBixiAvailability() {
   // fetching bixi availability JSON
   const data = await fetchJSONData(
-    translations[currentLanguage].bixiStationStatusURL
+    translations[getCurrentLanguage()].bixiStationStatusURL
   );
 
   // update bixi based on id pos
