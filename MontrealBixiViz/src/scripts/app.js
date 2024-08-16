@@ -1,14 +1,20 @@
 import { translations } from "../assets/config/translations.js";
 import { Coordinate } from "../models/coordinate.js";
+// import { BixiStation, ArceauxStation } from "../models/station.js";
 import { fetchJSONData } from "./httpRequest.js";
-import store, { getCurrentLanguage, updateStoreLanguage } from "./store.js";
+import store, {
+  getCurrentLanguage,
+  updateStoreLanguage,
+  getIsLookingForBixi,
+  toggleIsLookingForBixi,
+} from "./store.js";
 
 const MONTREAL_ARCEAUX_URL =
   "https://donnees.montreal.ca/api/3/action/datastore_search?resource_id=78dd2f91-2e68-4b8b-bb4a-44c1ab5b79b6&limit=1000";
 
 // initialize variables
-const NUM_DECIMAL_FORMAT = 4;
 const NUM_CLOSEST_BIXI_STATIONS = 5;
+const NUM_DECIMAL_FORMAT = 4;
 // const FILL_OPACITY_SHOW = 0.2;
 // let currentLanguage;
 const coord = new Coordinate(45.5335, -73.6483); // montreal coordinates
@@ -18,16 +24,9 @@ var arceauxStationsArray = [];
 var arceauxIdToArrayPosDict = {};
 var bixiStationsArray = [];
 var bixiIdToArrayPosDict = {};
-var isLookingForBixi = true;
 var hasBixiStationsStatusLoaded = false;
 var showBixiStations = true;
 var showArceauxStations = true;
-
-// global variables management
-// store.subscribe(() => {
-//   currentLanguage = store.getState().language;
-//   updateTextLanguage();
-// });
 
 class Station {
   static AVAILABLE_STATION_COLOR = "green";
@@ -242,7 +241,7 @@ class BixiStation extends Station {
 
   _getStationColor() {
     // FIXME: pass isLookingForBixi as param
-    return isLookingForBixi
+    return getIsLookingForBixi()
       ? this.num_bikes_available > 0
         ? BixiStation.AVAIBLE_BIKE_COLOR
         : BixiStation.UNAVAILABLE_BIKE_COLOR
@@ -318,8 +317,7 @@ function updateTextLanguage() {
 }
 
 window.toggleLookingForBixiButton = function () {
-  isLookingForBixi = !isLookingForBixi;
-
+  toggleIsLookingForBixi();
   updateLookingForBixiButtonText();
   updateBixiStationsVisuals();
 };
@@ -337,7 +335,7 @@ window.toggleShowArceauxButton = function () {
 };
 
 function updateLookingForBixiButtonText() {
-  const buttonText = isLookingForBixi
+  const buttonText = getIsLookingForBixi()
     ? translations[getCurrentLanguage()].lookingForBixiButtonText
     : translations[getCurrentLanguage()].notLookingForBixiButtonText;
   const button = document.getElementById("looking-for-bixi-button");
@@ -535,7 +533,7 @@ function updateMarkerPosition(e) {
 function getClosestBixiStations() {
   // find available bixi stations
   availableStations = bixiStationsArray.filter((station) =>
-    isLookingForBixi
+    getIsLookingForBixi()
       ? station.num_bikes_available > 0
       : station.num_docks_available > 0
   );
