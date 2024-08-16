@@ -364,6 +364,8 @@ function toggleShowArceauxButton() {
     station.isVisible = showArceauxStations;
   });
 
+  updateShowArceauxButtonText();
+
   updateArceauxStationVisuals();
 }
 
@@ -623,6 +625,9 @@ function main() {
 
   // add listening events
   map.on("click", onMapClick);
+
+  // adding some components to the app
+  const app = document.getElementById("app");
 }
 
 main();
