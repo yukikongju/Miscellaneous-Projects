@@ -8,8 +8,6 @@ const languageSlice = createSlice({
   },
 });
 
-export const { setLanguage } = languageSlice.actions;
-
 const store = configureStore({
   reducer: {
     language: languageSlice.reducer,
@@ -17,3 +15,15 @@ const store = configureStore({
 });
 
 export default store;
+
+// --- Language helpers
+
+export const { setLanguage } = languageSlice.actions;
+
+export function getCurrentLanguage() {
+  return store.getState().language;
+}
+
+export function updateStoreLanguage(newLanguage) {
+  store.dispatch(setLanguage(newLanguage));
+}

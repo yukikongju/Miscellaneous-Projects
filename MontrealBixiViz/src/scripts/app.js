@@ -1,7 +1,7 @@
 import { translations } from "../assets/config/translations.js";
 import { Coordinate } from "../models/coordinate.js";
 import { fetchJSONData } from "./httpRequest.js";
-import store, { setLanguage } from "./store.js";
+import store, { getCurrentLanguage, updateStoreLanguage } from "./store.js";
 
 const MONTREAL_ARCEAUX_URL =
   "https://donnees.montreal.ca/api/3/action/datastore_search?resource_id=78dd2f91-2e68-4b8b-bb4a-44c1ab5b79b6&limit=1000";
@@ -28,10 +28,6 @@ var showArceauxStations = true;
 //   currentLanguage = store.getState().language;
 //   updateTextLanguage();
 // });
-
-function getCurrentLanguage() {
-  return store.getState().language;
-}
 
 class Station {
   static AVAILABLE_STATION_COLOR = "green";
@@ -301,13 +297,15 @@ class BixiStation extends Station {
   }
 }
 
-function toggleLanguage() {
-  // currentLanguage = currentLanguage === "en" ? "fr" : "en";
-  const newLanguage = store.getState().language === "en" ? "fr" : "en";
-  store.dispatch(setLanguage(newLanguage));
-
+window.toggleLanguage = function () {
+  const newLanguage = getCurrentLanguage() === "en" ? "fr" : "en";
+  updateStoreLanguage(newLanguage);
   updateTextLanguage();
-}
+};
+
+window.toggleReloadButton = function () {
+  updateBixiAvailability();
+};
 
 function updateTextLanguage() {
   updateLanguageButtonText();
@@ -319,14 +317,14 @@ function updateTextLanguage() {
   updateArceauxStationVisuals();
 }
 
-function toggleLookingForBixiButton() {
+window.toggleLookingForBixiButton = function () {
   isLookingForBixi = !isLookingForBixi;
 
   updateLookingForBixiButtonText();
   updateBixiStationsVisuals();
-}
+};
 
-function toggleShowArceauxButton() {
+window.toggleShowArceauxButton = function () {
   showArceauxStations = !showArceauxStations;
 
   arceauxStationsArray.forEach((station) => {
@@ -336,7 +334,7 @@ function toggleShowArceauxButton() {
   updateShowArceauxButtonText();
 
   updateArceauxStationVisuals();
-}
+};
 
 function updateLookingForBixiButtonText() {
   const buttonText = isLookingForBixi
@@ -480,7 +478,7 @@ async function initBixiStationsOnMap() {
 }
 
 function updateBixiStationsVisuals() {
-  const isVisible = showBixiStations & hasBixiStationsStatusLoaded;
+  // const isVisible = showBixiStations & hasBixiStationsStatusLoaded;
   bixiStationsArray.forEach((station) => {
     station.updateStationVisual();
   });
