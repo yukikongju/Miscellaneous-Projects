@@ -1,19 +1,8 @@
 import { translations } from "../assets/config/translations.js";
+import { Coordinate } from "../models/coordinate.js";
 
 const MONTREAL_ARCEAUX_URL =
   "https://donnees.montreal.ca/api/3/action/datastore_search?resource_id=78dd2f91-2e68-4b8b-bb4a-44c1ab5b79b6&limit=1000";
-
-class Coordinate {
-  constructor(x, y) {
-    this.x = x;
-    this.y = y;
-  }
-
-  updatePosition(x, y) {
-    this.x = x;
-    this.y = y;
-  }
-}
 
 // initialize variables
 const NUM_DECIMAL_FORMAT = 4;
