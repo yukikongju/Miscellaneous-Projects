@@ -32,15 +32,18 @@ Code Improvements:
 - [X] Use same update/init function for language: `toggleLanguage` and `initButtonText`
 - [X] No latence when fetching bixi station status in visual
 - [X] Refractor bike circle update into class
-- [o] Update distance from marker in Station class
+- [X] Update distance from marker in Station class
     - [X] BixiStation
-    - [ ] ArceauxStation
-- [ ] Refractor arceaux circle update into class
-- [o] Make "Station" class
+    - [X] ArceauxStation
+- [X] Make "Station" class
     - [X] BixiStation extends Station
-    - [ ] ArceauxStation extends Station
+    - [X] ArceauxStation extends Station
+- [ ] Don't pass 'isVisible' when calling `updateStationVisual`
+    - [ ] clicking on Show Arceaux only change visibility
+    - [ ] add default visibility of station to true
+    - [ ] set bixi station visibility based on status load
 
 Bug Fix:
-- [ ] Show Arceaux Button
+- [X] Show Arceaux Button
 
 

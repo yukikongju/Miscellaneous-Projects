@@ -51,9 +51,9 @@ class Coordinate {
 }
 
 // initialize variables
-const ARCEAUX_STATION_RADIUS = 15;
 const NUM_DECIMAL_FORMAT = 4;
-const ARCEAUX_STATIONS_COLOR = "turquoise";
+// const ARCEAUX_STATION_RADIUS = 15;
+// const ARCEAUX_STATIONS_COLOR = "turquoise";
 // const OPACITY_HIDE = 0;
 const FILL_OPACITY_SHOW = 0.2;
 var currentLanguage = "en";
@@ -68,70 +68,6 @@ var isLookingForBixi = true;
 var hasBixiStationsStatusLoaded = false;
 var showBixiStations = true;
 var showArceauxStations = true;
-
-class ArceauxStation {
-  constructor(
-    _id,
-    aire,
-    ancrage,
-    anc_num,
-    base,
-    categorie,
-    catl_modele,
-    ce_no,
-    condition,
-    couleur,
-    date_inspection,
-    element,
-    empl_id,
-    empl_x,
-    empl_y,
-    empl_z,
-    intervention,
-    inv_catl_no,
-    inv_id,
-    inv_no,
-    lat,
-    long,
-    marq,
-    materiau,
-    ordre_affichage,
-    parc,
-    statut,
-    territoire
-  ) {
-    this.id = _id;
-    this.aire = aire;
-    this.ancrage = ancrage;
-    this.anc_num = anc_num;
-    this.base = base;
-    this.categorie = categorie;
-    this.catl_modele = catl_modele;
-    this.ce_no = ce_no;
-    this.condition = condition;
-    this.couleur = couleur;
-    this.date_inspection = date_inspection;
-    this.element = element;
-    this.empl_id = empl_id;
-    this.empl_x = empl_x;
-    this.empl_y = empl_y;
-    this.empl_z = empl_z;
-    this.intervention = intervention;
-    this.inv_catl_no = inv_catl_no;
-    this.inv_id = inv_id;
-    this.inv_no = inv_no;
-    this.lat = lat;
-    this.long = long;
-    this.marq = marq;
-    this.materiau = materiau;
-    this.ordre_affichage = ordre_affichage;
-    this.parc = parc;
-    this.statut = statut;
-    this.territoire = territoire;
-
-    this.distance_from_marker_in_km = -1;
-  }
-}
 
 class Station {
   static AVAILABLE_STATION_COLOR = "green";
@@ -211,6 +147,86 @@ class Station {
 
     // update popup content
     this.popup.setContent(this._getPopupContentText());
+  }
+}
+
+class ArceauxStation extends Station {
+  static STATION_RADIUS = 15;
+  static DEFAULT_STATION_COLOR = "turquoise";
+
+  constructor(
+    _id,
+    aire,
+    ancrage,
+    anc_num,
+    base,
+    categorie,
+    catl_modele,
+    ce_no,
+    condition,
+    couleur,
+    date_inspection,
+    element,
+    empl_id,
+    empl_x,
+    empl_y,
+    empl_z,
+    intervention,
+    inv_catl_no,
+    inv_id,
+    inv_no,
+    lat,
+    long,
+    marq,
+    materiau,
+    ordre_affichage,
+    parc,
+    statut,
+    territoire
+  ) {
+    super(lat, long);
+    this.id = _id;
+    this.aire = aire;
+    this.ancrage = ancrage;
+    this.anc_num = anc_num;
+    this.base = base;
+    this.categorie = categorie;
+    this.catl_modele = catl_modele;
+    this.ce_no = ce_no;
+    this.condition = condition;
+    this.couleur = couleur;
+    this.date_inspection = date_inspection;
+    this.element = element;
+    this.empl_id = empl_id;
+    this.empl_x = empl_x;
+    this.empl_y = empl_y;
+    this.empl_z = empl_z;
+    this.intervention = intervention;
+    this.inv_catl_no = inv_catl_no;
+    this.inv_id = inv_id;
+    this.inv_no = inv_no;
+    // this.lat = lat;
+    // this.long = long;
+    this.marq = marq;
+    this.materiau = materiau;
+    this.ordre_affichage = ordre_affichage;
+    this.parc = parc;
+    this.statut = statut;
+    this.territoire = territoire;
+  }
+
+  _getPopupContentText() {
+    return `
+    <b>${this.parc}</b> <br>
+    ${this.lat} ${this.long} <br>
+    ${
+      translations[currentLanguage].distanceString
+    } : ${this.distance_from_marker_in_km.toFixed(NUM_DECIMAL_FORMAT)} km <br>
+      `;
+  }
+
+  _getStationColor() {
+    return ArceauxStation.DEFAULT_STATION_COLOR;
   }
 }
 
@@ -452,41 +468,11 @@ async function initArceauxStationsOnMap() {
   }, {});
 
   updateArceauxStationsDistanceFromMarker();
-  updateArceauxStationVisuals();
 }
 
 function updateArceauxStationVisuals() {
   arceauxStationsArray.forEach((station) => {
-    const fillOpacity = showArceauxStations ? FILL_OPACITY_SHOW : 0;
-    const opacity = showArceauxStations ? 1 : 0;
-
-    // add circle
-    var circle = L.circle([station.lat, station.long], {
-      color: ARCEAUX_STATIONS_COLOR,
-      fillColor: ARCEAUX_STATIONS_COLOR,
-      opacity: opacity,
-      fillOpacity: fillOpacity,
-      radius: ARCEAUX_STATION_RADIUS,
-    }).addTo(map);
-
-    // add popup information on hover
-    const popupContent = `
-    <b>${station.parc}</b> <br>
-    ${station.lat} ${station.long} <br>
-    ${
-      translations[currentLanguage].distanceString
-    } : ${station.distance_from_marker_in_km.toFixed(
-      NUM_DECIMAL_FORMAT
-    )} km <br>
-      `;
-
-    const popup = L.popup().setContent(popupContent);
-    circle.on("mouseover", function (e) {
-      popup.setLatLng(e.latlng).openOn(map);
-    });
-    circle.on("mouseout", function () {
-      map.closePopup();
-    });
+    station.updateStationVisual(showArceauxStations);
   });
 }
 
@@ -514,7 +500,7 @@ async function initBixiStationsOnMap() {
   );
 
   // init bixiIdToArrayPosDict
-  // Note: need to treat key as object with reduce(), otherwise, js treats
+  // Note: need to treat key as object with reduce() instead of map(), otherwise, js treats
   // station_id as an index instead of the key
   // bixiIdToArrayPosDict = data.data.stations.map((station, idx) => ({
   //   key: station.station_id,
@@ -527,7 +513,6 @@ async function initBixiStationsOnMap() {
 
   updateBixiAvailability();
   updateBixiStationsDistanceFromMarker();
-  // updateBixiStationsVisuals();
 }
 
 function updateBixiStationsVisuals() {
@@ -591,25 +576,6 @@ function getClosestBixiStations() {
   // compute closest stations and display in order
 }
 
-function getDistanceBetweenCoordinatesInKM(lat1, lon1, lat2, lon2) {
-  const EARTH_RADIUS = 6371;
-
-  // convert degrees to radians
-  const lat1Rad = lat1 * (Math.PI / 180);
-  const lat2Rad = lat2 * (Math.PI / 180);
-  const lon1Rad = lon1 * (Math.PI / 180);
-  const lon2Rad = lon2 * (Math.PI / 180);
-
-  // Haversine formula: https://en.wikipedia.org/wiki/Haversine_formula
-  const dLat = lat2Rad - lat1Rad;
-  const dLon = lon2Rad - lon1Rad;
-  const a = Math.sin(dLat / 2) ** 2;
-  const b = Math.cos(lon1) * Math.cos(lon2) * Math.sin(dLon / 2) ** 2;
-  const dist = 2 * EARTH_RADIUS * Math.asin(Math.sqrt(a + b));
-
-  return dist;
-}
-
 function updateBixiStationsDistanceFromMarker() {
   bixiStationsArray.forEach((station) => {
     station.updateDistanceFromMarkerInKm(coord.x, coord.y);
@@ -620,12 +586,7 @@ function updateBixiStationsDistanceFromMarker() {
 
 function updateArceauxStationsDistanceFromMarker() {
   arceauxStationsArray.forEach((station) => {
-    station.distance_from_marker_in_km = getDistanceBetweenCoordinatesInKM(
-      coord.x,
-      coord.y,
-      station.lat,
-      station.long
-    );
+    station.updateDistanceFromMarkerInKm(coord.x, coord.y);
   });
 
   updateArceauxStationVisuals();
