@@ -275,7 +275,8 @@ var arceauxIdToArrayPosDict = {};
 var bixiStationsArray = [];
 var bixiIdToArrayPosDict = {};
 var isLookingForBixi = true;
-var showBixiStations = false;
+var hasBixiStationsStatusLoaded = false;
+var showBixiStations = true;
 var showArceauxStations = true;
 
 function toggleLanguage() {
@@ -492,8 +493,9 @@ async function initBixiStationsOnMap() {
 }
 
 function updateBixiStationsVisuals() {
+  const isVisible = showBixiStations & hasBixiStationsStatusLoaded;
   bixiStationsArray.forEach((station) => {
-    station.updateStationVisual(showBixiStations);
+    station.updateStationVisual(isVisible);
   });
 }
 
@@ -521,7 +523,7 @@ async function updateBixiAvailability() {
     );
   });
 
-  showBixiStations = true;
+  hasBixiStationsStatusLoaded = true;
   updateBixiStationsVisuals();
 
   console.log("Updated Bixi Availability");
