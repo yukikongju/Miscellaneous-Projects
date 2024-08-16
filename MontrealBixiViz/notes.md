@@ -9,7 +9,6 @@ Steps:
     - [ ] Update user position based on address search
 - [o] Toggle Language
     - [X] Switching language on button click
-    - [ ] Move translation into assets
 - [X] Add Arceaux
     - [X] Add arceaux to map
     - [X] Show distance from marker
@@ -38,10 +37,14 @@ Code Improvements:
 - [X] Make "Station" class
     - [X] BixiStation extends Station
     - [X] ArceauxStation extends Station
-- [ ] Don't pass 'isVisible' when calling `updateStationVisual`
-    - [ ] clicking on Show Arceaux only change visibility
-    - [ ] add default visibility of station to true
-    - [ ] set bixi station visibility based on status load
+- [X] Don't pass 'isVisible' when calling `updateStationVisual`
+    - [X] clicking on Show Arceaux only change visibility
+    - [X] add default visibility of station to true
+    - [X] set bixi station visibility based on status load
+- [ ] File Refractoring
+    - [ ] Move translation into assets
+    - [ ] Move 'Station' classes into their own file
+    - [ ] Fetch JSON Function into its own file
 
 Bug Fix:
 - [X] Show Arceaux Button

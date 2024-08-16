@@ -52,10 +52,8 @@ class Coordinate {
 
 // initialize variables
 const NUM_DECIMAL_FORMAT = 4;
-// const ARCEAUX_STATION_RADIUS = 15;
-// const ARCEAUX_STATIONS_COLOR = "turquoise";
-// const OPACITY_HIDE = 0;
-const FILL_OPACITY_SHOW = 0.2;
+const NUM_CLOSEST_BIXI_STATIONS = 5;
+// const FILL_OPACITY_SHOW = 0.2;
 var currentLanguage = "en";
 const coord = new Coordinate(45.5335, -73.6483); // montreal coordinates
 var map = L.map("map").setView([coord.x, coord.y], 13);
@@ -581,14 +579,22 @@ function updateMarkerPosition(e) {
 }
 
 function getClosestBixiStations() {
-  // TODO
-
   // find available bixi stations
-  availableStations = bixiStationsArray.filter(
-    (station) => station.num_bikes_available > 0
+  availableStations = bixiStationsArray.filter((station) =>
+    isLookingForBixi
+      ? station.num_bikes_available > 0
+      : station.num_docks_available > 0
   );
 
   // compute closest stations and display in order
+  availableStations.sort(
+    (a, b) => a.distance_from_marker_in_km - b.distance_from_marker_in_km
+  );
+
+  // keep only top 5 closest
+  closestStations = availableStations.slice(0, NUM_CLOSEST_BIXI_STATIONS); // FIXME: check if num closest station is valid
+
+  return closestStations;
 }
 
 function updateBixiStationsDistanceFromMarker() {
