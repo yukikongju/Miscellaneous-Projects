@@ -14,6 +14,9 @@
     <!-- <base href="/" /> -->
     <link rel="icon" href="assets/favicon.ico" />
     <link rel="stylesheet" href="styles/index.css" type="text/css" />
+
+    <!-- webpack for dev usage -->
+    <!-- <script src="dist/bundle.js"></script> -->
   </head>
   <body>
     <!-- Language Button -->
@@ -52,8 +55,9 @@
       integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
       crossorigin=""
     ></script>
-
     <script type="module" src="./scripts/app.js"></script>
-    <!-- <script src="./scripts/app.js"></script> -->
+
+    <!-- Closest Bixi Stations List -->
+    <bixi-stations-list id="closestStationList"> </bixi-stations-list>
   </body>
 </html>
