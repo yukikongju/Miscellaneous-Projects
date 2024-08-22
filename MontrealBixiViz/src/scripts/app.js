@@ -266,7 +266,7 @@ function updateMarkerPosition(e) {
   updateArceauxStationsDistanceFromMarker();
 
   // set popup content to see closest Bixi stations
-  updateClosestBixiStationsList();
+  // updateClosestBixiStationsList();
 
   updateMarkerText();
 }
@@ -277,7 +277,7 @@ function updateClosestBixiStationsList() {
   const closestStationListComponent =
     document.getElementById("closestStationList");
   closestStationListComponent.stations = closestStations;
-  console.log("Updating component: bixi-stations-list");
+  // console.log("Updating component: bixi-stations-list");
 }
 
 function getClosestBixiStations() {
@@ -305,6 +305,7 @@ function updateBixiStationsDistanceFromMarker() {
   });
 
   updateBixiStationsVisuals();
+  updateClosestBixiStationsList();
 }
 
 function updateArceauxStationsDistanceFromMarker() {

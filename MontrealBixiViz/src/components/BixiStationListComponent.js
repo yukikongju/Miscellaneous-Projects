@@ -31,8 +31,9 @@ class BixiStationComponentListComponent extends HTMLElement {
 	<div class="bixi-station">
         <h2>${idx + 1} ${station.name}</h2>
         <p>ID: ${station.id}</p>
-        <p>Latitude: ${station.lat}</p>
-        <p>Longitude: ${station.lon}</p>
+        <p>Lat: ${station.lat}</p>
+        <p>Lon: ${station.lon}</p>
+	<p>Distance: ${station.distance_from_marker_in_km.toFixed(4)} km</p>
       </div>
     `
       )
@@ -43,4 +44,4 @@ class BixiStationComponentListComponent extends HTMLElement {
   }
 }
 
-// customElements.define("bixi-stations-list", BixiStationComponentListComponent);
+customElements.define("bixi-stations-list", BixiStationComponentListComponent);
