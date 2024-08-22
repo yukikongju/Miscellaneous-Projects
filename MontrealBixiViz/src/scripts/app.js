@@ -8,6 +8,7 @@ import store, {
   getIsLookingForBixiStoreVariable,
   toggleIsLookingForBixiStoreVariable,
 } from "./store.js";
+import "../components/BixiStationListComponent.js";
 
 const MONTREAL_ARCEAUX_URL =
   "https://donnees.montreal.ca/api/3/action/datastore_search?resource_id=78dd2f91-2e68-4b8b-bb4a-44c1ab5b79b6&limit=1000";
@@ -17,9 +18,9 @@ const NUM_CLOSEST_BIXI_STATIONS = 5;
 const coord = new Coordinate(45.5335, -73.6483); // montreal coordinates
 var map = L.map("map").setView([coord.x, coord.y], 13);
 var marker = L.marker([coord.x, coord.y]).addTo(map);
-var arceauxStationsArray = [];
+let arceauxStationsArray = [];
 var arceauxIdToArrayPosDict = {};
-var bixiStationsArray = [];
+let bixiStationsArray = [];
 var bixiIdToArrayPosDict = {};
 var hasBixiStationsStatusLoaded = false;
 var showBixiStations = true;
@@ -190,7 +191,7 @@ async function initBixiStationsOnMap() {
         s.rental_methods,
         s.short_name,
         s.station_id,
-        showBixiStations & hasBixiStationsStatusLoaded
+        showBixiStations && hasBixiStationsStatusLoaded
       )
   );
 
@@ -264,14 +265,24 @@ function updateMarkerPosition(e) {
   updateBixiStationsDistanceFromMarker();
   updateArceauxStationsDistanceFromMarker();
 
-  // TODO: set popup content to see closest Bixi stations
-  // marker.setLatLng(e.latlng).setPopupContent(popupContent).openOn(map);
+  // set popup content to see closest Bixi stations
+  updateClosestBixiStationsList();
+
   updateMarkerText();
+}
+
+function updateClosestBixiStationsList() {
+  const closestStations = getClosestBixiStations();
+
+  const closestStationListComponent =
+    document.getElementById("closestStationList");
+  closestStationListComponent.stations = closestStations;
+  console.log("Updating component: bixi-stations-list");
 }
 
 function getClosestBixiStations() {
   // find available bixi stations
-  availableStations = bixiStationsArray.filter((station) =>
+  const availableStations = bixiStationsArray.filter((station) =>
     getIsLookingForBixiStoreVariable()
       ? station.num_bikes_available > 0
       : station.num_docks_available > 0
@@ -283,7 +294,7 @@ function getClosestBixiStations() {
   );
 
   // keep only top 5 closest
-  closestStations = availableStations.slice(0, NUM_CLOSEST_BIXI_STATIONS); // FIXME: check if num closest station is valid
+  const closestStations = availableStations.slice(0, NUM_CLOSEST_BIXI_STATIONS);
 
   return closestStations;
 }

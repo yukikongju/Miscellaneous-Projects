@@ -24,6 +24,7 @@ A collection of random projects
 - [X] MBTI Cognitive Functions Stack
 - [X] Mardown to Latex Cover Letter
 - [X] CRON Job to sync music downloader and ebooks to tablet (see MusicDownloader)
+- [X] HenryFord Stack Stats
 - [-] AUDL RL: Learning Best strategy through RL
 - [-] Closest Bixi in React
 - [ ] Multi-threading applications with rust (web browser, trading systems)
@@ -41,6 +42,7 @@ A collection of random projects
 - [ ] Interpreter: [Maths](https://medium.com/@lawsus/simple-math-interpreter-in-python-497b961d7713), AEDIROUM [playlist](https://www.youtube.com/playlist?list=PLZQftyCk7_SdoVexSmwy_tBgs7P0b97yD) [Crafting Interpreter](https://craftinginterpreters.com/contents.html)
 - [ ] MathMemes (1) given soundwave, find function using lagrange multipliers that generates that function (2) given image, generate data where residuals are the image
 - [ ] Integral Calculator with Lagrange Polynomials: (1) symbolic and (2) estimation
+- [ ] Sound Generator that matches images (ex: cow sound with soundwave with cow shape)
 - [ ] Morse Code
 - [ ] Generating Code with GPT
 - [ ] Text Generation: https://www.tensorflow.org/text/tutorials/text_generation
@@ -79,7 +81,6 @@ A collection of random projects
 - [ ] Parallel Programming: [udacity](https://github.com/nickspell/udacity-IntroToParallelProgramming)
 - [ ] [Eldiro Programming Language](https://lunacookies.github.io/lang/) in rust
 - [ ] [Toralizer](https://www.youtube.com/watch?v=Pebul1c9JKE)
-- [X] HenryFord Stack Stats
 - [ ] UA Retention 
 - [ ] Web Browser Engine
 
