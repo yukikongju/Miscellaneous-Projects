@@ -27,12 +27,13 @@ A collection of random projects
 - [X] HenryFord Stack Stats
 - [-] AUDL RL: Learning Best strategy through RL
 - [-] Closest Bixi in React
+- [-] Gender Bias in Langugage Embedding
+- [ ] Style Transfer: Shakespeare-like text generation 
 - [ ] Multi-threading applications with rust (web browser, trading systems)
 - [ ] Process Schedular Simulation: Round Robin, FIFO, Priority Scheduling
 - [ ] Device Driver Development
 - [ ] Disk Scheduling Algorithm
 - [ ] Option Pricing Models
-- [ ] Gender Bias in Langugage Embedding
 - [ ] Noise Cancellation with Sound Difference and anti-aliasing
 - [ ] OpenCV
 - [ ] Image Denoising: Edge Detection, Thresholding operations and Morphological operations using opencv => r/PhotoshopRequests

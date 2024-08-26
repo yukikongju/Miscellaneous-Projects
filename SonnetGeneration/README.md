@@ -1,7 +1,7 @@
 # Sonnet Generation
 
 Generating Shakespearean Sonnet using the following methods:
-- [ ] Method 1: co-occurence matrix distribution
+- [X] Method 1: co-occurence matrix distribution
     * Idea: similar to bi-grams => given context of `block_size`, sample from 
       probability distribution
 - Method 2: character level prediction

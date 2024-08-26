@@ -1,6 +1,7 @@
 import { translations } from "../assets/config/translations.js";
 import { Coordinate } from "../models/coordinate.js";
 import { BixiStation, ArceauxStation } from "../models/station.js";
+import { REVRoute } from "../models/REVRoute.js";
 import { fetchJSONData } from "./httpRequest.js";
 import store, {
   getLanguageStoreVariable,
@@ -12,19 +13,24 @@ import "../components/BixiStationListComponent.js";
 
 const MONTREAL_ARCEAUX_URL =
   "https://donnees.montreal.ca/api/3/action/datastore_search?resource_id=78dd2f91-2e68-4b8b-bb4a-44c1ab5b79b6&limit=1000";
+// const REV_ROUTE_URL =
+//   "https://donnees.montreal.ca/api/3/action/datastore_search";
+const REV_ROUTE_JSON_PATH = "assets/reseau_cyclable.geojson";
 
 // initialize variables
 const NUM_CLOSEST_BIXI_STATIONS = 5;
 const coord = new Coordinate(45.5335, -73.6483); // montreal coordinates
-var map = L.map("map").setView([coord.x, coord.y], 13);
-var marker = L.marker([coord.x, coord.y]).addTo(map);
+let map = L.map("map").setView([coord.x, coord.y], 13);
+let marker = L.marker([coord.x, coord.y]).addTo(map);
 let arceauxStationsArray = [];
-var arceauxIdToArrayPosDict = {};
+let arceauxIdToArrayPosDict = {};
 let bixiStationsArray = [];
-var bixiIdToArrayPosDict = {};
-var hasBixiStationsStatusLoaded = false;
-var showBixiStations = true;
-var showArceauxStations = true;
+let routesREVArray = [];
+let bixiIdToArrayPosDict = {};
+let hasBixiStationsStatusLoaded = false;
+let showBixiStations = true;
+let showArceauxStations = true;
+let showREVPath = true;
 
 window.toggleLanguage = function () {
   const newLanguage = getLanguageStoreVariable() === "en" ? "fr" : "en";
@@ -42,6 +48,7 @@ function updateTextLanguage() {
   updateReloadButtonText();
   updateLookingForBixiButtonText();
   updateShowArceauxButtonText();
+  updateShowREVPathButtonText();
   updateBixiStationsVisuals();
   updateArceauxStationVisuals();
 }
@@ -50,6 +57,13 @@ window.toggleLookingForBixiButton = function () {
   toggleIsLookingForBixiStoreVariable();
   updateLookingForBixiButtonText();
   updateBixiStationsVisuals();
+};
+
+window.toggleShowREVPathButton = function () {
+  showREVPath = !showREVPath;
+
+  updateShowREVPathButtonText();
+  updateREVPathVisuals();
 };
 
 window.toggleShowArceauxButton = function () {
@@ -63,6 +77,18 @@ window.toggleShowArceauxButton = function () {
 
   updateArceauxStationVisuals();
 };
+
+function updateREVPathVisuals() {
+  // TODO
+}
+
+function updateShowREVPathButtonText() {
+  const buttonText = showREVPath
+    ? translations[getLanguageStoreVariable()].showREVPathText
+    : translations[getLanguageStoreVariable()].hideREVPathText;
+  const button = document.getElementById("show-rev-path-button");
+  button.textContent = buttonText;
+}
 
 function updateLookingForBixiButtonText() {
   const buttonText = getIsLookingForBixiStoreVariable()
@@ -113,6 +139,42 @@ function initMap() {
 
   initBixiStationsOnMap();
   initArceauxStationsOnMap();
+}
+
+async function loadREVGeoJSON() {
+  const data = await fetchJSONData(REV_ROUTE_JSON_PATH);
+
+  routesREVArray = data.features.map(
+    (route) =>
+      new REVRoute(
+        route.properties.ID_CYCL,
+        route.properties.ID_TRC,
+        route.properties.AFFICHEUR_DYNAMIQUE,
+        route.properties.AVANCEMENT_CODE,
+        route.properties.AVANCEMENT_DESC,
+        route.properties.COMPTEUR_CYLISTE,
+        route.properties.LONGUEUR,
+        route.properties.NBR_VOIE,
+        route.properties.NOM_ARR_VILLE_CODE,
+        route.properties.NOM_ARR_VILLE_DESC,
+        route.properties.PROTEGE_4S,
+        route.properties.REV_AVANCEMENT_CODE,
+        route.properties.REV_AVANCEMENT_DESC,
+        route.properties.ROUTE_VERTE,
+        route.properties.SAISONS4,
+        route.properties.SAS_VELO,
+        route.properties.SEPARATEUR_CODE,
+        route.properties.SEPARATEUR_DESC,
+        route.properties.TYPE_VOIE_CODE,
+        route.properties.TYPE_VOIE_DESC,
+        route.properties.TYPE_VOIE2_CODE,
+        route.properties.TYPE_VOIE2_DESC,
+        route.properties.VILLE_MTL,
+        route.geometry.coordinates,
+        showREVPath
+      )
+  );
+  // console.log(routesREVArray);
 }
 
 async function initArceauxStationsOnMap() {
@@ -321,6 +383,7 @@ function onMapClick(e) {
 }
 
 function main() {
+  loadREVGeoJSON();
   initButtons();
   initMap();
 

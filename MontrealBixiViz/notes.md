@@ -41,15 +41,18 @@ Code Improvements:
     - [X] clicking on Show Arceaux only change visibility
     - [X] add default visibility of station to true
     - [X] set bixi station visibility based on status load
-- [O] File Refractoring
+- [X] File Refractoring
     - [X] Move translation into assets
     - [X] Move Coordinate class into models/
-    - [o] Move 'Station' classes into models/
+    - [X] Move 'Station' classes into models/
 	- [X] set store variable for `currentLanguage` with [redux toolkit](https://redux.js.org/introduction/why-rtk-is-redux-today)
-	- [ ] move station and use store variable
+	- [X] move station and use store variable
     - [X] Fetch JSON Function into its own file
 
-- [ ] keep store variable for 'isLookingForBixi' and 'showArceaux' instead without updating visibility everytime ?
+- [X] keep store variable for 'isLookingForBixi' and 'showArceaux' instead without updating visibility everytime ?
+
+- [ ] Add button 'showREVPath'
+    - [ ] load geojson file
 
 Bug Fix:
 - [X] Show Arceaux Button
