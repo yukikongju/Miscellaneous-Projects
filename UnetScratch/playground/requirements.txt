@@ -2,3 +2,6 @@ torch
 torchvision
 pandas
 matplotlib
+kagglehub
+PIL
+numpy

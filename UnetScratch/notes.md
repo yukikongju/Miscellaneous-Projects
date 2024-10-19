@@ -4,7 +4,7 @@ Prerequisites:
 
 Exercices:
 
-- Using a trained model on different image size
+- [X] Using a trained model on different image size
     * Load a trained model. Use the model on an image with the same input shape
     * Use the model on different shapes:
 	+ (1,3,8,8)
@@ -20,7 +20,7 @@ Exercices:
 **Useful Links**
 
 - [ImageNet Classes](https://deeplearning.cms.waikato.ac.nz/user-guide/class-maps/IMAGENET/)
-
-[Torchvision VGG19 model Link](https://download.pytorch.org/models/vgg19-dcbb9e9d.pth)
+- [Torchvision VGG19 model Link](https://download.pytorch.org/models/vgg19-dcbb9e9d.pth)
+- [Image Segmentation From Scratch in PyTorch](https://www.kaggle.com/code/dhananjay3/image-segmentation-from-scratch-in-pytorch)
 
 
