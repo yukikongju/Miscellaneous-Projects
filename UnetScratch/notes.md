@@ -1,4 +1,5 @@
 Prerequisites:
+- [X] Download pretrained model and place it into '/Users/emulie/.cache/torch/hub/checkpoints/vgg19-dcbb9e9d.pth'
 - [ ] Redeem Google Cloud Credits and setup to train on GPU
 
 Exercices:
@@ -19,3 +20,7 @@ Exercices:
 **Useful Links**
 
 - [ImageNet Classes](https://deeplearning.cms.waikato.ac.nz/user-guide/class-maps/IMAGENET/)
+
+[Torchvision VGG19 model Link](https://download.pytorch.org/models/vgg19-dcbb9e9d.pth)
+
+
