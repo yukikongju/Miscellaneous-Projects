@@ -13,7 +13,11 @@ Exercices:
     * We suggest using VGG19
 - Adapting a trained model for a custom tasks
     * Use an already trained model for an alternative tasks
-    * Try to use a UNet for (1) image segmentation (2) image augmentation (3) classification
+    * Try to use a UNet for:
+	+ classification: VGG19 on CalTech101 Dataset (originally ImageNet)
+	+ image segmentation: Cloud Dataset / MRI
+	+ image augmentation: goblins dataset
+	+ Style Transfer: Use Eman's images with prompt
 - Implement Paper Architecture
 - Fine-Tuning a pretrained classification model to add another sound
 
@@ -22,5 +26,10 @@ Exercices:
 - [ImageNet Classes](https://deeplearning.cms.waikato.ac.nz/user-guide/class-maps/IMAGENET/)
 - [Torchvision VGG19 model Link](https://download.pytorch.org/models/vgg19-dcbb9e9d.pth)
 - [Image Segmentation From Scratch in PyTorch](https://www.kaggle.com/code/dhananjay3/image-segmentation-from-scratch-in-pytorch)
+
+**Kaggle Competitions**
+
+Image Segmentaion:
+- [Kaggle - Understanding Clouds from Satellite Images](https://www.kaggle.com/competitions/understanding_cloud_organization/data)
 
 
