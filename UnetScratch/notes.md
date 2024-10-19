@@ -14,4 +14,8 @@ Exercices:
     * Use an already trained model for an alternative tasks
     * Try to use a UNet for (1) image segmentation (2) image augmentation (3) classification
 - Implement Paper Architecture
+- Fine-Tuning a pretrained classification model to add another sound
 
+**Useful Links**
+
+- [ImageNet Classes](https://deeplearning.cms.waikato.ac.nz/user-guide/class-maps/IMAGENET/)
