@@ -1,2 +1,4 @@
 pandas
 pydantic
+pydantic_extra_types
+pycountry
