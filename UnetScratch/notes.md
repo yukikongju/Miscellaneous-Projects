@@ -14,7 +14,7 @@ Exercices:
 - Adapting a trained model for a custom tasks
     * Use an already trained model for an alternative tasks
     * Try to use a UNet for:
-	+ classification: VGG19 on CalTech101 Dataset (originally ImageNet)
+	+ classification: VGG19 on CalTech101 Dataset (originally ImageNet) [ DONE ]
 	+ image segmentation: Cloud Dataset / MRI
 	+ image augmentation: goblins dataset
 	+ Style Transfer: Use Eman's images with prompt
@@ -31,5 +31,7 @@ Exercices:
 
 Image Segmentaion:
 - [Kaggle - Understanding Clouds from Satellite Images](https://www.kaggle.com/competitions/understanding_cloud_organization/data)
+- [Kaggle Notebook - Segmentation in PyTorch using convenient tools](https://www.kaggle.com/code/artgor/segmentation-in-pytorch-using-convenient-tools)
+- [MS-COCO Dataset](https://cocodataset.org/#home)
 
 
