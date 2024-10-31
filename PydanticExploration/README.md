@@ -1,5 +1,10 @@
 # Exploring Pydantic framework
 
+Libraries learned:
+- pydantic
+- pandera
+- polars
+
 Concepts to learn:
 - [ ] Defining dataframe model with `BasicModel`
 - [ ] Validating field type with `Field`

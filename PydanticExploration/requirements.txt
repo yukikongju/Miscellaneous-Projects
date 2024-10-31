@@ -1,4 +1,6 @@
 pandas
+pandera
+polars
 pydantic
 pydantic_extra_types
 pycountry
