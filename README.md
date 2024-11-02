@@ -26,7 +26,7 @@ A collection of random projects
 - [X] CRON Job to sync music downloader and ebooks to tablet (see MusicDownloader)
 - [X] HenryFord Stack Stats
 - [-] AUDL RL: Learning Best strategy through RL
-- [-] Closest Bixi in React
+- [X] Closest Bixi in React
 - [-] Gender Bias in Langugage Embedding
 - [ ] Semantic segmentation for frisbee video: compute player movement + stack
 - [ ] Number plate detection on video [kaggle notebook](https://www.kaggle.com/code/aslanahmedov/automatic-number-plate-recognition) [dataset](https://www.kaggle.com/datasets/fareselmenshawii/license-plate-dataset) [dataset2](late-detection)

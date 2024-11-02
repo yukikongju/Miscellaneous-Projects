@@ -1,0 +1,8 @@
+torch
+torchvision
+scipy
+pandas
+numpy==1.24.1
+pillow
+matplotlib
+ipywidgets
