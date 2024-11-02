@@ -28,7 +28,9 @@ A collection of random projects
 - [-] AUDL RL: Learning Best strategy through RL
 - [-] Closest Bixi in React
 - [-] Gender Bias in Langugage Embedding
-- [ ] Style Transfer: Shakespeare-like text generation 
+- [ ] Semantic segmentation for frisbee video: compute player movement + stack
+- [ ] Number plate detection on video [kaggle notebook](https://www.kaggle.com/code/aslanahmedov/automatic-number-plate-recognition) [dataset](https://www.kaggle.com/datasets/fareselmenshawii/license-plate-dataset) [dataset2](late-detection)
+- [ ] Style Transfer: Shakespeare-like text generation, NER, 
 - [ ] Multi-threading applications with rust (web browser, trading systems)
 - [ ] Process Schedular Simulation: Round Robin, FIFO, Priority Scheduling
 - [ ] Device Driver Development

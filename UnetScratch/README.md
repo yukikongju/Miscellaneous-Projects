@@ -1,14 +1,16 @@
 # Unet Scracth
 
-This project has 2 main purposes:
+This project has 3 main purposes:
 - learn how to implement a neural network architecture from a paper from scratch
 - modify a neural network architecture that learns representation for a specific 
   task. 
+- Hyperparameter tuning with MLFlow
 
 We will first implement a SRUnet and then use it for the following tasks:
 - image segmentation
 - image augmentation
 - style transfer
+- image generation with GANs Pix2Pix => [neptune.ai - tut](https://neptune.ai/blog/pix2pix-key-model-architecture-decisions)
 
 We will also learn how to adapt an existing architecture for a different image 
 size
