@@ -35,6 +35,9 @@ A collection of random projects
 - [ ] Process Schedular Simulation: Round Robin, FIFO, Priority Scheduling
 - [ ] Device Driver Development
 - [ ] Disk Scheduling Algorithm
+- [ ] Web Socket Implementation
+- [ ] HTTPS Server in C with Cryptographic Server Messaging => [video](https://www.youtube.com/watch?v=6stTRIOsm2E&ab_channel=NirLichtman) => `man socket` => [chat video](https://www.youtube.com/watch?v=gGfTjKwLQxY&ab_channel=NirLichtman) => `man 2 open` (system call) => `man 3 sleep` (c)
+	* perplexity: steps to make https server in C
 - [ ] Option Pricing Models
 - [ ] Noise Cancellation with Sound Difference and anti-aliasing
 - [ ] OpenCV
@@ -65,7 +68,12 @@ A collection of random projects
 - [ ] Youtube Profile Analysis
 - [ ] tf-idf and pdf searcher
 - [ ] Reinforcement Learning in Game Dev: SnakeAI
+- [ ] Use Youtube to store any type of files => [storage glitch code](https://github.com/DvorakDwarf/Infinite-Storage-Glitch) => [yt](https://www.youtube.com/watch?v=_w6PCHutmb4&ab_channel=BKBinary)
 - [ ] Creating a gym environment with CartPole
+- [ ] Blockchain Simulator
+	* [neuralnine - blockchain in python](https://www.youtube.com/watch?v=pYasYyjByKI&ab_channel=NeuralNine)
+	* [neuralnine - bitcoin miner](https://www.youtube.com/watch?v=f0ZDVqoViqE&ab_channel=NeuralNine)
+	* build nft
 - [ ] Information Spreading in social network
 - [ ] genetic algorithm
 - [ ] Markov Chain Simulation
@@ -86,6 +94,10 @@ A collection of random projects
 - [ ] [Toralizer](https://www.youtube.com/watch?v=Pebul1c9JKE)
 - [ ] UA Retention 
 - [ ] Web Browser Engine
+- [ ] DB from scratch
+- [ ] Git from scratch
+
+
 
 
 ## Resources
