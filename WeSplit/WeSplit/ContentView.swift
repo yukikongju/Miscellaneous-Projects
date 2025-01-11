@@ -94,11 +94,11 @@ struct ContentView: View {
                 
                 // Amount per person
                 let amountPerPerson = billAmount / Double(numPeople)
-                Text(String(format: "Amount per person: %.2f", amountPerPerson))
+                Text(String(format: "Amount per person: $%.2f", amountPerPerson))
                 
                 // Amount per person w/ tip included
                 let amountPerPersonWithTip = (billAmount + tipAmount) / Double(numPeople)
-                Text(String(format: "Amount per person with Tip: %.2f%", amountPerPersonWithTip))
+                Text(String(format: "Amount per person with Tip: $%.2f%", amountPerPersonWithTip))
                 
             }
         
