@@ -14,7 +14,7 @@ struct ContentView: View {
     @State private var selectedStudent = "ENC"
     let students = ["ENC", "LEX", "HDS", "TJP"]
     
-    @State private var numPeople: Int = 0
+    @State private var numPeople: Int = 1
     @State private var billAmount: Double = 0
     @State private var tipPercentage = 15.0
     let tipPercentages: [Double] = [0.0, 5.0, 10.0, 15.0, 20.0]
@@ -92,10 +92,13 @@ struct ContentView: View {
                 let tipAmount = billAmount * Double(tipPercentage) / 100.0
                 Text(String(format: "Tip Amount: $%.2f%", tipAmount))
                 
-                // TODO: Amount per person
+                // Amount per person
+                let amountPerPerson = billAmount / Double(numPeople)
+                Text(String(format: "Amount per person: %.2f", amountPerPerson))
                 
-                // TODO: Amount per person w/ tip included
-
+                // Amount per person w/ tip included
+                let amountPerPersonWithTip = (billAmount + tipAmount) / Double(numPeople)
+                Text(String(format: "Amount per person with Tip: %.2f%", amountPerPersonWithTip))
                 
             }
         
