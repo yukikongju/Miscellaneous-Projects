@@ -14,6 +14,8 @@ struct ContentView: View {
     @State private var selectedStudent = "ENC"
     let students = ["ENC", "LEX", "HDS", "TJP"]
     
+    
+    @FocusState private var amountIsFocused: Bool
     @State private var numPeople: Int = 1
     @State private var billAmount: Double = 0
     @State private var tipPercentage = 15.0
@@ -30,91 +32,90 @@ struct ContentView: View {
             Text("Hello, world!")
         }
         .padding()
-        
-        Form {
-            Section {
-                Text("Hello buddy!!")
-                Text("Hello buddy!!")
-                Text("Hello buddy!!")
-            }
-            Section {
-                Button("Tap Count: \(tapCount)") {
-                    tapCount += 1
-
+        NavigationStack {
+            Form {
+                Section {
+                    Text("Hello buddy!!")
+                    Text("Hello buddy!!")
+                    Text("Hello buddy!!")
                 }
-            }
-            
-            Section {
-                Text("Write your name: \(name)")
-                TextField("Name", text: $name)
-            }
-            
-            Section {
-                ForEach(0 ..< 10) { number in
-                    Text("Row \(number)")
-                }
-            }
-            
-            Section {
-                Picker("Select a user", selection: $selectedStudent) {
-                    ForEach(students, id: \.self) {
-                        Text($0)
-                    }
-                }
-
-            }
-            
-            Section {
-                // Calculate check amount for each person
-                Text("Bill Calculator")
-                Picker("Number of people", selection: $numPeople) {
-                    ForEach(1 ..< 10) { number in
-                        Text("\(number)")
+                Section {
+                    Button("Tap Count: \(tapCount)") {
+                        tapCount += 1
+                        
                     }
                 }
                 
-                Picker("Tip Percentage", selection: $tipPercentage) {
-                    ForEach(tipPercentages, id: \.self) { perc in
-                        Text(String(format: "%.2f%%", perc))
+                Section {
+                    Text("Write your name: \(name)")
+                    TextField("Name", text: $name)
+                }
+                
+                Section {
+                    ForEach(0 ..< 10) { number in
+                        Text("Row \(number)")
                     }
                 }
-                .pickerStyle(.segmented)
                 
-//                Text("Bill Amount: \(billAmount)", format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
-
+                Section {
+                    Picker("Select a user", selection: $selectedStudent) {
+                        ForEach(students, id: \.self) {
+                            Text($0)
+                        }
+                    }
+                    
+                }
                 
-                TextField("Bill Amount", value: $billAmount, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
-                    .keyboardType(.decimalPad)
-                
-
-                
-                // Tip Calculation
-                let tipAmount = billAmount * Double(tipPercentage) / 100.0
-                Text(String(format: "Tip Amount: $%.2f%", tipAmount))
-                
-                // Amount per person
-                let amountPerPerson = billAmount / Double(numPeople)
-                Text(String(format: "Amount per person: $%.2f", amountPerPerson))
-                
-                // Amount per person w/ tip included
-                let amountPerPersonWithTip = (billAmount + tipAmount) / Double(numPeople)
-                Text(String(format: "Amount per person with Tip: $%.2f%", amountPerPersonWithTip))
+                Section {
+                    // Calculate check amount for each person
+                    Text("Bill Calculator")
+                    Picker("Number of people", selection: $numPeople) {
+                        ForEach(1 ..< 10) { number in
+                            Text("\(number)")
+                        }
+                    }
+                    
+                    Picker("Tip Percentage", selection: $tipPercentage) {
+                        ForEach(tipPercentages, id: \.self) { perc in
+                            Text(String(format: "%.2f%%", perc))
+                        }
+                    }
+                    .pickerStyle(.segmented)
+                    
+                    //                Text("Bill Amount: \(billAmount)", format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
+                    
+                    
+                    TextField("Bill Amount", value: $billAmount, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
+                        .keyboardType(.decimalPad)
+                        .focused($amountIsFocused)
+                    
+                    
+                    
+                    // Tip Calculation
+                    let tipAmount = billAmount * Double(tipPercentage) / 100.0
+                    Text(String(format: "Tip Amount: $%.2f%", tipAmount))
+                    
+                    // Amount per person
+                    let amountPerPerson = billAmount / Double(numPeople)
+                    Text(String(format: "Amount per person: $%.2f", amountPerPerson))
+                    
+                    // Amount per person w/ tip included
+                    let amountPerPersonWithTip = (billAmount + tipAmount) / Double(numPeople)
+                    Text(String(format: "Amount per person with Tip: $%.2f%", amountPerPersonWithTip))
+                    
+                }
                 
             }
-        
         }
-        
-        
-//    NavigationStack {
-//        Form {
-//            Section {
-//                Text("Hello buddy!!")
-//            }
-//        }
-//    }
-//    .navigationTitle("SwiftUI")
-//    .navigationBarTitleDisplayMode(.inline)
-        
+        .navigationTitle("WeSplit")
+        .toolbar {
+            if amountIsFocused {
+                Button("Done") {
+                    amountIsFocused = false
+                }
+            }
+        }
+               
              
     }
         
