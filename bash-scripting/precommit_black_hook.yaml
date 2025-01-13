@@ -1,3 +1,5 @@
+# https://medium.com/@0xmatriksh/how-to-setup-git-hooks-pre-commit-commit-msg-in-my-project-11aaec139536
+
 repos:
   - repo: https://github.com/psf/black
     rev: 24.10.0
