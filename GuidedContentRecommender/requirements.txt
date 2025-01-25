@@ -1,0 +1,6 @@
+pandas
+gensim
+spacy
+black
+flake8
+pre-commit
