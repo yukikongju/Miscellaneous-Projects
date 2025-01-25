@@ -56,7 +56,7 @@ filter_valid_EN_files() {
 	# adding file if valid
 	if [ "$is_valid" = true ]; then
 	    echo $file
-	    valid_files+=($file)
+	    valid_files+=("$file")
 	fi
     done
 
@@ -70,7 +70,7 @@ rename_files_without_spacing_in_dir() {
     for file in $directory_path/*; do
 	new_name=$(echo "$(basename "$file")" | sed 's/ /_/g')
 	new_file_path="$directory_path/$new_name"
-	mv $file $new_file_path
+	mv "$file" "$new_file_path"
     done
 }
 
@@ -78,7 +78,6 @@ rename_files_without_spacing_in_dir() {
 cleanup_meditations() {
     directory_path=$1
     output_path=$2
-
 
     # --- create/cleanup output directory if non-existent
     echo "--- Create/Cleanup Output directory ---\n"
