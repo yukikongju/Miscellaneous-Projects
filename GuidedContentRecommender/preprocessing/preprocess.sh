@@ -11,10 +11,10 @@ convert_docx_to_txt() {
     directory_path=$1
 
     for docx_file in $directory_path/*.docx; do
-	base_name=$(basename $docx_file .docx)
+	base_name=$(basename "$docx_file" .docx)
 	output_file=$directory_path/$base_name.txt
-	echo $output_file
-	# pandoc -s $docx_file -o $output_file
+	pandoc -s "$docx_file" -o "$output_file"
+	echo "Succesfully converted $base_name"
     done
 
     # echo "Successfully converted word document inside $directory_path to $output_path"
@@ -30,7 +30,7 @@ copy_txt_file_to_output_dir() { # DEPRECATED
     output_path=$2
 
     for file in "$directory_path"/*.txt; do
-	base_name=$(basename $file .txt)
+	base_name=$(basename "$file" .txt)
 	output_file=$output_path/$base_name.txt
 	# cp $file $output_file
     done
@@ -43,7 +43,7 @@ filter_valid_EN_files() {
 
     valid_files=()
     substrings="FR SP RU JP PT ES é (\d)"
-    for file in $directory_path/*; do
+    for file in "$directory_path"/*; do
 	is_valid=true
 	for substring in $substrings; do
 	    if echo "$(basename "$file")" | grep -q "$substring"; then
@@ -63,18 +63,25 @@ filter_valid_EN_files() {
     echo ${valid_files[@]}
 }
 
-rename_file_without_spacing() {
+rename_files_without_spacing_in_dir() {
     # replace space with underscore
-    file_name=$1
-    new_name=" echo $(basename "$file_name") | sed 's/ /_/g'"
+    directory_path=$1
+
+    for file in $directory_path/*; do
+	new_name=$(echo "$(basename "$file")" | sed 's/ /_/g')
+	new_file_path="$directory_path/$new_name"
+	mv $file $new_file_path
+    done
 }
 
 
 cleanup_meditations() {
-    $directory_path=$1
-    $output_path=$2
+    directory_path=$1
+    output_path=$2
+
 
     # --- create/cleanup output directory if non-existent
+    echo "--- Create/Cleanup Output directory ---\n"
     if [ ! -d $directory_path ]; then
 	echo "Data directory doesn't exist. Please check!"
 	exit 1
@@ -85,23 +92,26 @@ cleanup_meditations() {
 	mkdir $output_path
     else
 	echo "Cleaning up existing directory"
-	# TODO: remove files in directory?
+	rm -rf $output_path
+	mdkir $output_path
     fi
 
+
     # --- Copying files from raw to clean directory
-    echo "Copy files from raw directory to clean directory"
+    echo "--- Copy files from raw directory to clean directory ---\n"
     cp -r $directory_path $output_path
 
     # --- converting docx to txt
-    echo "convert docx to txt and removing old docx files"
+    echo "--- Convert docx to txt and removing old docx files ---\n"
     convert_docx_to_txt $output_path
     rm $output_path/*.docx
 
     # --- Filter for valid EN files
-    valid_files=$(filter_valid_EN_files $MEDITATIONS_DIR)
+    echo "Filter for valid EN files"
+    valid_files=$(filter_valid_EN_files $output_path)
 
-    # --- TODO: rename documents without spacing
-
+    # --- rename documents without spacing
+    rename_files_without_spacing_in_dir $output_path
 
 }
 
@@ -112,8 +122,9 @@ cleanup_sleeptales() {
 }
 
 # --- Cleaning up Meditations Files
-# cleanup_meditations $MEDITATIONS_DIR $MEDITATIONS_OUTPUT_DIR
+cleanup_meditations $MEDITATIONS_DIR $MEDITATIONS_OUTPUT_DIR
 
 # --- Cleaning up SleepTales Files
 
 # filter_valid_EN_files $MEDITATIONS_DIR
+# rename_files_without_spacing_in_dir $MEDITATIONS_DIR
