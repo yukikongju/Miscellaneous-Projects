@@ -77,7 +77,7 @@ rename_files_without_spacing_in_dir() {
 }
 
 
-cleanup_meditations() {
+cleanup_directory() {
     directory_path=$1
     output_path=$2
 
@@ -110,7 +110,7 @@ cleanup_meditations() {
     # --- Filter for valid EN files
     echo "Filter for valid EN files"
     invalid_files=$(get_invalid_EN_files $output_path)
-    rm $invalid_files
+    rm -r "$invalid_files"
 
     # --- rename documents without spacing
     rename_files_without_spacing_in_dir $output_path
@@ -124,12 +124,5 @@ cleanup_sleeptales() {
 }
 
 # --- Cleaning up Meditations Files
-cleanup_meditations $MEDITATIONS_DIR $MEDITATIONS_OUTPUT_DIR
-
-# --- Cleaning up SleepTales Files
-
-# filter_valid_EN_files $MEDITATIONS_DIR
-# rename_files_without_spacing_in_dir $MEDITATIONS_DIR
-
-# invalid_files=$(get_invalid_EN_files $MEDITATIONS_OUTPUT_DIR)
-# rm $invalid_files
+cleanup_directory $MEDITATIONS_DIR $MEDITATIONS_OUTPUT_DIR
+cleanup_directory $SLEEPTALES_DIR $SLEEPTALES_OUTPUT_DIR
