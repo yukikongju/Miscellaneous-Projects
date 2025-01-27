@@ -1,6 +1,11 @@
-pandas
-gensim
-spacy
 black
 flake8
+gensim
+jupyterlab
+kaleido
+mlflow
+nltk
+pandas
+plotly
 pre-commit
+spacy

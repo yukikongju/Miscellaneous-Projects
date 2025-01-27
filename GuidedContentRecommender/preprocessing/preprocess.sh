@@ -37,30 +37,32 @@ copy_txt_file_to_output_dir() { # DEPRECATED
 
 }
 
-filter_valid_EN_files() {
+get_invalid_EN_files() {
     ### EN files are the one without (*), _<LANG>, (LANG)
     directory_path=$1
 
-    valid_files=()
+    invalid_files=()
     substrings="FR SP RU JP PT ES é (\d)"
     for file in "$directory_path"/*; do
-	is_valid=true
+	# is_valid=true
 	for substring in $substrings; do
 	    if echo "$(basename "$file")" | grep -q "$substring"; then
 		# echo "File $file contains substring $substring"
-		is_valid=false
+		# is_valid=false
+		invalid_files+=("$file")
 		break
 	    fi
 	done
 
 	# adding file if valid
-	if [ "$is_valid" = true ]; then
-	    echo $file
-	    valid_files+=("$file")
-	fi
+	# if [ "$is_valid" = true ]; then
+	#     echo $file
+	#     valid_files+=("$file")
+	# fi
     done
 
-    echo ${valid_files[@]}
+    # echo ${valid_files[@]}
+    echo ${invalid_files[@]}
 }
 
 rename_files_without_spacing_in_dir() {
@@ -107,7 +109,8 @@ cleanup_meditations() {
 
     # --- Filter for valid EN files
     echo "Filter for valid EN files"
-    valid_files=$(filter_valid_EN_files $output_path)
+    invalid_files=$(get_invalid_EN_files $output_path)
+    rm $invalid_files
 
     # --- rename documents without spacing
     rename_files_without_spacing_in_dir $output_path
@@ -127,3 +130,6 @@ cleanup_meditations $MEDITATIONS_DIR $MEDITATIONS_OUTPUT_DIR
 
 # filter_valid_EN_files $MEDITATIONS_DIR
 # rename_files_without_spacing_in_dir $MEDITATIONS_DIR
+
+# invalid_files=$(get_invalid_EN_files $MEDITATIONS_OUTPUT_DIR)
+# rm $invalid_files
