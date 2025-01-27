@@ -12,7 +12,7 @@ repos:
       - id: check-added-large-files
       - id: sort-simple-yaml
       - id: requirements-txt-fixer
-      - id: pretty-format-json
+      # - id: pretty-format-json
 
   - repo: https://github.com/psf/black
     rev: 24.10.0
