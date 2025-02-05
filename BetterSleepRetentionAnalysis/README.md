@@ -39,6 +39,11 @@ columns:
 
 **Use cases**
 
+- Correlation Analysis
+    * how does each event correlates to listening_session, long term retention,
+      paid, cancellation, ...
+    * `Corr(Xi, Xj) = \frac{Cov(Xi, Xj)}{\sigma_1 * \sigma_2}`
+    * segmentaing user by engagement level
 - Understanding users behavior
     * cancel vs not
     * tracker retention
@@ -46,5 +51,6 @@ columns:
 - User segmentation
     * group user with similar behavior together => guided content embedding recommendation based on similar users
 - Push notification for users that will churn
+
 
 ## Resources
