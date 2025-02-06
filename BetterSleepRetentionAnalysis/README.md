@@ -43,7 +43,11 @@ columns:
     * how does each event correlates to listening_session, long term retention,
       paid, cancellation, ...
     * `Corr(Xi, Xj) = \frac{Cov(Xi, Xj)}{\sigma_1 * \sigma_2}`
-    * segmentaing user by engagement level
+    * segmenting user by
+	+ engagement level: low, medium, high
+	+ product level: guided listening / player / mixer / tracker / both
+	+ old vs new users:
+	+ paid vs free users
 - Understanding users behavior
     * cancel vs not
     * tracker retention
