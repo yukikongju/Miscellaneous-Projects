@@ -2,6 +2,9 @@ declare start_date STRING DEFAULT '20240901';
 -- declare end_date STRING DEFAULT '20241231';
 declare end_date STRING DEFAULT '20240931';
 
+# TODO: add user platform
+# TODO: filter with event_param
+
 with first_app_open as (
   select
     user_pseudo_id,
@@ -28,14 +31,18 @@ with first_app_open as (
     and event_name in (
       'listening_session',
       # --- player metrics
+      'screen_content_playing',
       'toggle_favorite',
       'play_content',
+      'pause_content',
       'screen_recorder',
       'download_content',
       'click_explore',
       'screen_playlist_modal',
+      'sleep_recorder_landed',
       'play_next',
       'play_previous',
+      'click_explore',
       # --- mixer metrics
       'create_favorite',
       'add_to_playlist',

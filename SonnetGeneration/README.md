@@ -14,9 +14,9 @@ Generating Shakespearean Sonnet using the following methods:
 	    a. Source: [Andrej Kaparthy - makemore pt 2]
 	3. [ ] Flattening neurons
 	    a. Source: [Andrej Kaparthy - makemore pt 5 - wavenet]
-	4. [ ] RNN, LSTM, GRU
+	4. [X] RNN, LSTM, GRU
 	    a. Source:
-	5. [ ] With Temperature
+	5. [X] With Temperature
 - Method 3:
 
 
