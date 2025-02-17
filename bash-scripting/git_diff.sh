@@ -3,3 +3,9 @@ diff_HEAD_prev_commit() {
 }
 
 diff_HEAD_prev_commit main.c
+
+
+# see all git commits/merge in one line
+git log --oneline --graph --all --decorate
+
+#
