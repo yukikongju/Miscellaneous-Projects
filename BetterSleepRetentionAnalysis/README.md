@@ -7,6 +7,9 @@ paid, refund, cancelation. Previously, these analyses were made on MixPanel, but
 that method is not effective because the data is so dispersed and we cannot
 re-use the solution for similar processes.
 
+Notes:
+- retention analysis based on 2 months: Sep 2024 to Oct 2024
+
 **How**
 
 We want to have an `Events` dimensions table such that we have the following
