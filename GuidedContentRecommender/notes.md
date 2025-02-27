@@ -16,7 +16,12 @@
 **Creating the Embedding**
 
 - [X] doc2vec
+- [ ] Matrix Factorization Model
 
+**Querying the items for collaborative filtering**
+
+- Query based on listened items => listening
+- Query based on favorited items => toggle_favorite, create_favorite_result
 
 **Making the streamlit demo**
 
