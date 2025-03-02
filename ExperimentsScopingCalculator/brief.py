@@ -62,10 +62,8 @@ class BriefInformation:
 
         results = []
         for n_week in OTHER_WEEKS:
-            sample_size_per_bucket = int(self.monthly_reach 
-                                         / self.num_variants) / 4 * n_week
-            absolute_delta = self._compute_absolute_delta(
-                    sample_size=sample_size_per_bucket)
+            sample_size_per_bucket = int(self.monthly_reach / self.num_variants) / 4 * n_week
+            absolute_delta = self._compute_absolute_delta(sample_size=sample_size_per_bucket)
             relative_delta = float(absolute_delta / self.baseline)
             res = [n_week, relative_delta, absolute_delta, sample_size_per_bucket]
             results.append(res)

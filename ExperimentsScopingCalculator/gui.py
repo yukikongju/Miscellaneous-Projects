@@ -95,22 +95,7 @@ def init_sidebar():
     st.sidebar.markdown("[Tracker Adoption - EN](https://mixpanel.com/s/122zo0)")
 
 
-init_sidebar()
-
 # ------------------------------------------------------------------
-
-# create input fields for: (1) reach, (2) baseline, (3) week needed
-baseline_input = st.text_input("Baseline")
-reach_input = st.text_input("Monthly Reach")
-expected_timeline_input = st.selectbox(
-    label="Expected Timeline (in weeks)", options=[2, 3, 4, 5, 6]
-)
-num_variants_selectbox = st.selectbox(label="Number of Variants", options=[1, 2, 3, 4])
-alpha_input = st.number_input("Alpha", min_value=0.05, max_value=0.15, value=0.1)
-power_input = st.number_input("Power", min_value=0.60, max_value=1.0, value=0.8)
-
-compute_button = st.button("Compute Timeline")
-
 
 def show_brief_results():
     # initialize brief
@@ -138,9 +123,24 @@ def show_brief_results():
     st.dataframe(df_timeline)
 
 
-# compute Brief Information if button is pressed
-if compute_button:
-    show_brief_results()
+# ------------------------------------------------------------------
 
+# ---- init mixpanel sidebar links
+init_sidebar()
 
-# print information
+# ---- create input fields for: (1) reach, (2) baseline, (3) week needed
+baseline_input = st.text_input("Baseline")
+reach_input = st.text_input("Monthly Reach")
+expected_timeline_input = st.selectbox(
+    label="Expected Timeline (in weeks)", options=[2, 3, 4, 5, 6]
+)
+num_variants_selectbox = st.selectbox(label="Number of Variants", options=[1, 2, 3, 4])
+alpha_input = st.number_input("Alpha", min_value=0.05, max_value=0.15, value=0.1)
+power_input = st.number_input("Power", min_value=0.60, max_value=1.0, value=0.8)
+
+# ---- compute brief information if button is pressed
+if baseline_input and reach_input and expected_timeline_input and num_variants_selectbox and alpha_input and power_input:
+    compute_button = st.button("Compute Timeline")
+    if compute_button:
+        show_brief_results()
+
