@@ -12,6 +12,10 @@ services:
       - "5432:5432"
     networks:
       - pg-network
+    # healthcheck:
+    #   test: ["CMD", "pg_isready", "-U", "root"]
+    #   interval: 30s
+    #   retries: 2
 
   pgadmin:
     image: dpage/pgadmin4
@@ -44,6 +48,11 @@ services:
       bash -c "airflow db init && airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@example.com && airflow webserver --port 8081"
     networks:
       - pg-network
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:8081/health"]
+      interval: 30s
+      timeout: 30s
+      retries: 3
 
 networks:
   pg-network:
