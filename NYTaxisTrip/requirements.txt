@@ -1,6 +1,7 @@
+apache-airflow=2.10.5
+fastparquet
 pandas
-sqlalchemy
+pgcli
 psycopg2
 pyarrow
-fastparquet
-pgcli
+sqlalchemy

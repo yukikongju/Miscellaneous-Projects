@@ -23,6 +23,45 @@ services:
       - "8080:80"
     networks:
       - pg-network
+    depends_on:
+      - pgdatabase
+
+  airflow-webserver:
+    image: apache/airflow:2.10.5
+    container_name: airflow-webserver
+    restart: always
+    depends_on:
+      - pgdatabase
+    environment:
+      - EXECUTOR=Local
+    volumes:
+      - "./airflow/dags:/opt/airflow/dags"
+      - "./airflow/logs:/opt/airflow/logs"
+      - "./airflow/plugins:/opt/airflow/plugins"
+    ports:
+      - "8081:8080"
+    command: >
+      bash -c "airflow db init && airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@example.com && airflow webserver"
+    networks:
+      - pg-network
+
+
+  airflow-scheduler:
+    image: apache/airflow:2.10.5
+    container_name: airflow-scheduler
+    restart: always
+    depends_on:
+      - airflow-webserver
+    environment:
+      - EXECUTOR=Local
+    volumes:
+      - "./airflow/dags:/opt/airflow/dags"
+      - "./airflow/logs:/opt/airflow/logs"
+      - "./airflow/plugins:/opt/airflow/plugins"
+    command: airflow scheduler
+    networks:
+      - pg-network
+
 
 networks:
   pg-network:
