@@ -1,0 +1,50 @@
+[0m12:54:35.399204 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1112ce590>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1122e6f50>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1122e7670>]}
+
+
+============================== 12:54:35.405408 | a0414738-1e24-4ed8-b465-13f61070e0a4 ==============================
+[0m12:54:35.405408 [info ] [MainThread]: Running with dbt=1.9.3
+[0m12:54:35.405901 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'log_cache_events': 'False', 'write_json': 'True', 'partial_parse': 'True', 'cache_selected_only': 'False', 'profiles_dir': '/Users/emulie/.dbt', 'version_check': 'True', 'fail_fast': 'False', 'log_path': 'logs', 'warn_error': 'None', 'debug': 'False', 'use_colors': 'True', 'use_experimental_parser': 'False', 'empty': 'None', 'quiet': 'False', 'no_print': 'None', 'log_format': 'default', 'invocation_command': 'dbt init taxis', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'static_parser': 'True', 'target_path': 'None', 'introspect': 'True', 'send_anonymous_usage_stats': 'True'}
+[0m12:54:35.415388 [warn ] [MainThread]: [ConfigFolderDirectory]: Unable to parse logging event dictionary. Failed to parse dir field: expected string or bytes-like object.. Dictionary: {'dir': PosixPath('/Users/emulie/.dbt')}
+[0m12:54:35.415715 [info ] [MainThread]: Creating dbt configuration folder at 
+[0m12:54:35.416982 [debug] [MainThread]: Starter project path: /Users/emulie/Projects/Miscellaneous-Projects/NYTaxisTrip/venv/lib/python3.10/site-packages/dbt/include/starter_project
+[0m12:54:35.420997 [info ] [MainThread]: 
+Your new dbt project "taxis" was created!
+
+For more information on how to configure the profiles.yml file,
+please consult the dbt documentation here:
+
+  https://docs.getdbt.com/docs/configure-your-profile
+
+One more thing:
+
+Need help? Don't hesitate to reach out to us via GitHub issues or on Slack:
+
+  https://community.getdbt.com/
+
+Happy modeling!
+
+[0m12:54:35.421302 [info ] [MainThread]: Setting up your profile.
+[0m12:54:35.421801 [error] [MainThread]: Encountered an error:
+Runtime Error
+  No adapters available. Learn how to install an adapter by going to https://docs.getdbt.com/docs/connect-adapters#install-using-the-cli
+[0m12:54:35.423736 [debug] [MainThread]: Resource report: {"command_name": "init", "command_success": false, "command_wall_clock_time": 0.10937079, "process_in_blocks": "0", "process_kernel_time": 0.153125, "process_mem_max_rss": "95764480", "process_out_blocks": "0", "process_user_time": 0.963753}
+[0m12:54:35.424328 [debug] [MainThread]: Command `dbt init` failed at 12:54:35.424075 after 0.11 seconds
+[0m12:54:35.424698 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1112ce590>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1122e63e0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1122e7760>]}
+[0m12:54:35.425008 [debug] [MainThread]: Flushing usage events
+[0m12:54:35.675002 [debug] [MainThread]: An error was encountered while trying to flush usage events
+[0m12:55:56.558609 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1108ca560>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1118e3010>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1118e3730>]}
+
+
+============================== 12:55:56.564873 | bf31d5d9-12bd-4734-bc95-05f8209addae ==============================
+[0m12:55:56.564873 [info ] [MainThread]: Running with dbt=1.9.3
+[0m12:55:56.565357 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'log_cache_events': 'False', 'write_json': 'True', 'partial_parse': 'True', 'cache_selected_only': 'False', 'profiles_dir': '/Users/emulie/.dbt', 'fail_fast': 'False', 'debug': 'False', 'log_path': 'logs', 'warn_error': 'None', 'version_check': 'True', 'use_colors': 'True', 'use_experimental_parser': 'False', 'no_print': 'None', 'quiet': 'False', 'empty': 'False', 'log_format': 'default', 'introspect': 'True', 'invocation_command': 'dbt compile', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'target_path': 'None', 'static_parser': 'True', 'send_anonymous_usage_stats': 'True'}
+[0m12:55:56.565876 [error] [MainThread]: Encountered an error:
+Runtime Error
+  No dbt_project.yml found at expected path /Users/emulie/Projects/Miscellaneous-Projects/NYTaxisTrip/dbt_project.yml
+  Verify that each entry within packages.yml (and their transitive dependencies) contains a file named dbt_project.yml
+  
+[0m12:55:56.567494 [debug] [MainThread]: Resource report: {"command_name": "compile", "command_success": false, "command_wall_clock_time": 0.093540624, "process_in_blocks": "0", "process_kernel_time": 0.12297, "process_mem_max_rss": "94261248", "process_out_blocks": "0", "process_user_time": 0.92267}
+[0m12:55:56.568108 [debug] [MainThread]: Command `dbt compile` failed at 12:55:56.567838 after 0.09 seconds
+[0m12:55:56.568458 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1108ca560>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10cb7f310>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1118e3730>]}
+[0m12:55:56.568756 [debug] [MainThread]: Flushing usage events
+[0m12:55:56.805403 [debug] [MainThread]: An error was encountered while trying to flush usage events
