@@ -3,9 +3,7 @@ services:
     image: postgres:13
     container_name: pgdatabase
     environment:
-      - POSTGRES_USER=root
-      - POSTGRES_PASSWORD=root
-      - POSTGRES_DB=ny_taxi
+      - .env
     volumes:
       - "./ny_taxi_postgres_data:/var/lib/postgresql/data"
     ports:
@@ -24,16 +22,16 @@ services:
       - PGADMIN_DEFAULT_EMAIL=admin@admin.com
       - PGADMIN_DEFAULT_PASSWORD=root
     ports:
-      - "8080:80"
+      - "8081:80"
     networks:
       - pg-network
     depends_on:
       - pgdatabase
 
-  airflow-webserver:
+  webserver:
     image: apache/airflow:2.10.5
-    container_name: airflow-webserver
-    restart: always
+    container_name: webserver
+    restart: on-failure
     depends_on:
       - pgdatabase
     environment:
@@ -42,10 +40,12 @@ services:
       - "./airflow/dags:/opt/airflow/dags"
       - "./airflow/logs:/opt/airflow/logs"
       - "./airflow/plugins:/opt/airflow/plugins"
+      - "./scripts:/opt/airflow/scripts"
     ports:
-      - "8081:8081" # host_port:container_port
-    command: >
-      bash -c "airflow db init && airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@example.com && airflow webserver --port 8081"
+      - "8080:8080" # host_port:container_port; note: airflow is designed to run on port 8080, so we should keep it that way
+    command: 
+    - |
+      bash -c "airflow db init && airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@example.com && airflow webserver --port 8080 && airflow webserver" 
     networks:
       - pg-network
     healthcheck:
@@ -56,3 +56,7 @@ services:
 
 networks:
   pg-network:
+
+volumes:
+  ny_taxi_postgres_data:
+
