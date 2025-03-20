@@ -2,7 +2,7 @@
 
 TODOs
 1. [ ] Docker
-2. [ ] Airflow
+2. [ ] Airflow => find dags inside webserver
 
 ## 1. Postgres and pgAdmin4 setup with Docker for data ingestion
 
@@ -33,7 +33,7 @@ pgcli -h localhost -p 5432 -u root -d ny_taxi
 
 ```
 
-### How to query inside pgAdmin4 
+### How to query inside pgAdmin4
 
 pgAdmin4 is a wrapper GUI around postgres. To query inside pgAdmin4, we need
 to create that server. However, because the postgres database and the gui
@@ -94,7 +94,7 @@ To do so,
 The table `yellow_taxi_trips` can be found under "local" > "ny_taxi" > "Schemas" > "Tables"
 
 Notes:
-To do the network automatically, we can add the following in 
+To do the network automatically, we can add the following in
 our docker-compose.yaml file
 
 ```
@@ -107,5 +107,18 @@ networks:
 ### How to dockerize the ingestion script (TODO)
 
 
-## 2. 
+## 2. Setting up Airflow
 
+[airflow docker tutorial](https://medium.com/@le.oasis/apache-airflow-docker-tutorial-2c8c152a074a)
+
+```
+
+mkdir -p airflow/dags airflow/logs airflow/plugins
+
+
+# verifying if dags are recognized
+docker exec -it airflow-webserver ls /opt/airflow/dags
+
+# spinning up single docker container
+docker compose up -d <CONTAINER_NAME>
+```
