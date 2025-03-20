@@ -5,9 +5,9 @@
 [0m12:54:35.405408 [info ] [MainThread]: Running with dbt=1.9.3
 [0m12:54:35.405901 [debug] [MainThread]: running dbt with arguments {'printer_width': '80', 'indirect_selection': 'eager', 'log_cache_events': 'False', 'write_json': 'True', 'partial_parse': 'True', 'cache_selected_only': 'False', 'profiles_dir': '/Users/emulie/.dbt', 'version_check': 'True', 'fail_fast': 'False', 'log_path': 'logs', 'warn_error': 'None', 'debug': 'False', 'use_colors': 'True', 'use_experimental_parser': 'False', 'empty': 'None', 'quiet': 'False', 'no_print': 'None', 'log_format': 'default', 'invocation_command': 'dbt init taxis', 'warn_error_options': 'WarnErrorOptions(include=[], exclude=[])', 'static_parser': 'True', 'target_path': 'None', 'introspect': 'True', 'send_anonymous_usage_stats': 'True'}
 [0m12:54:35.415388 [warn ] [MainThread]: [ConfigFolderDirectory]: Unable to parse logging event dictionary. Failed to parse dir field: expected string or bytes-like object.. Dictionary: {'dir': PosixPath('/Users/emulie/.dbt')}
-[0m12:54:35.415715 [info ] [MainThread]: Creating dbt configuration folder at 
+[0m12:54:35.415715 [info ] [MainThread]: Creating dbt configuration folder at
 [0m12:54:35.416982 [debug] [MainThread]: Starter project path: /Users/emulie/Projects/Miscellaneous-Projects/NYTaxisTrip/venv/lib/python3.10/site-packages/dbt/include/starter_project
-[0m12:54:35.420997 [info ] [MainThread]: 
+[0m12:54:35.420997 [info ] [MainThread]:
 Your new dbt project "taxis" was created!
 
 For more information on how to configure the profiles.yml file,
@@ -42,7 +42,7 @@ Runtime Error
 Runtime Error
   No dbt_project.yml found at expected path /Users/emulie/Projects/Miscellaneous-Projects/NYTaxisTrip/dbt_project.yml
   Verify that each entry within packages.yml (and their transitive dependencies) contains a file named dbt_project.yml
-  
+
 [0m12:55:56.567494 [debug] [MainThread]: Resource report: {"command_name": "compile", "command_success": false, "command_wall_clock_time": 0.093540624, "process_in_blocks": "0", "process_kernel_time": 0.12297, "process_mem_max_rss": "94261248", "process_out_blocks": "0", "process_user_time": 0.92267}
 [0m12:55:56.568108 [debug] [MainThread]: Command `dbt compile` failed at 12:55:56.567838 after 0.09 seconds
 [0m12:55:56.568458 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1108ca560>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x10cb7f310>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x1118e3730>]}
