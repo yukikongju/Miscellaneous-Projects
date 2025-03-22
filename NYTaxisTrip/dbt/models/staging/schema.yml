@@ -1,0 +1,34 @@
+# https://www.nyc.gov/assets/tlc/downloads/pdf/data_dictionary_trip_records_yellow.pdf
+
+version: 0
+
+models:
+  - name: example
+    description: yello taxi trip data
+    columns:
+      - name: VendorID
+        description: A code indicating the TPEP provider that provided the record. 1= Creative Mobile Technologies, LLC; 2= VeriFone Inc
+        data_tests:
+          - not_null
+      - name: tpep_pickup_datetime
+        description: The date and time when the meter was engaged.
+        data_tests:
+          - not_null
+      - name: tpep_dropoff_datetime
+        description: The date and time when the meter was disengaged.
+        data_tests:
+          - not_null
+      - name: passenger_count
+        description: The number of passengers in the vehicle.  This is a driver-entered value
+      - name: trip_distance
+        description: The elapsed trip distance in miles reported by the taximeter.
+        data_tests:
+          - not_null
+      - name: fare_amount
+        description: The time-and-distance fare calculated by the meter
+        data_tests:
+          - not_null
+      - name: total_amount
+        description: The total amount charged to passengers. Does not include cash tips.
+        data_tests:
+          - not_null
