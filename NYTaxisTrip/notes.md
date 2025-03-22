@@ -128,12 +128,12 @@ docker compose up -d <CONTAINER_NAME>
 
 ## 3. Setting up DBT
 
-DBT is a tool to allow data engineer to manage data warehouse 
+DBT is a tool to allow data engineer to manage data warehouse
 transformations more easily. It can be set up 2 ways:
 - `dbt-core`: local setup
 - `dbt-cloud`: paid service on cloud
 
-dbt also support several "flavors" of data warehouse, 
+dbt also support several "flavors" of data warehouse,
 mainly:
 - postgresql
 - bigquery
@@ -166,9 +166,7 @@ Steps:
 
 3. Initialize `dbt_project.yml` file. "name" and "profile"  should match as described in [connection profiles](https://docs.getdbt.com/docs/core/connect-data-platform/connection-profiles)
 4. Check if connection is successful using `dbt debug`. Important: for postgres, make sure to run container instance in another terminal
-5. To generate dbt GUI: `dbt docs generate`; to view: `dbt docs serve --port 9000`
-
-
+5. To run: `dbt run`; To generate dbt GUI: `dbt docs generate`; to view: `dbt docs serve --port 9000`
 
 
 Useful Links:
@@ -177,4 +175,5 @@ Useful Links:
 - [Quickstart for dbt core from a manual install](https://docs.getdbt.com/guides/manual-install?step=5)
 - [bigquery setup](https://docs.getdbt.com/docs/core/connect-data-platform/bigquery-setup)
 - [dbt-core postgres setup](https://medium.com/@jewelski/configure-my-dbt-core-side-project-using-my-local-postgres-database-f31c998ab6f3)
-
+- [dbt best practices](https://docs.getdbt.com/best-practices)
+- [gitlab code structure example](https://gitlab.com/gitlab-data/analytics)

@@ -1,2 +1,4 @@
 ny_taxi_postgres_data/*
 *.csv
+logs/*
+target/*

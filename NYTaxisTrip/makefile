@@ -1,3 +1,6 @@
+postgres:
+	pgcli -h localhost -p 5432 -u root -d ny_taxi
+
 docker_prune:
 	docker system prune -a --volumes -f
 
