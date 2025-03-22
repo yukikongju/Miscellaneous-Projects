@@ -3,6 +3,9 @@
 TODOs
 1. [ ] Docker
 2. [ ] Airflow => find dags inside webserver
+3. [ ] DBT
+4. [ ] Spark
+5. [ ] Kafka
 
 ## 1. Postgres and pgAdmin4 setup with Docker for data ingestion
 
@@ -41,7 +44,7 @@ resides on different docker containers, we need to link them using
 `pg-network`
 
 
-```
+```{}
 1. Create network to link containers
 
 > docker network create pg-network
@@ -74,7 +77,7 @@ We can check if the containers are on the same network using
 `docker network inspect pg-network`. We should be able to see `pgadmin` and
 `pg-database` under "Containers". To manually connect them:
 
-```
+```{}
 docker network connect <network_name> pgadmin
 docker network connect <network_name> pgdatabase
 ```
@@ -97,7 +100,7 @@ Notes:
 To do the network automatically, we can add the following in
 our docker-compose.yaml file
 
-```
+```{}
 networks:
   default:
     name: airflow-network
@@ -122,3 +125,56 @@ docker exec -it airflow-webserver ls /opt/airflow/dags
 # spinning up single docker container
 docker compose up -d <CONTAINER_NAME>
 ```
+
+## 3. Setting up DBT
+
+DBT is a tool to allow data engineer to manage data warehouse 
+transformations more easily. It can be set up 2 ways:
+- `dbt-core`: local setup
+- `dbt-cloud`: paid service on cloud
+
+dbt also support several "flavors" of data warehouse, 
+mainly:
+- postgresql
+- bigquery
+- Google Redshift
+- Amazon Athena
+- Databricks
+- Microsoft Fabric
+- Azure Synapse Analytics
+- Snowflake
+- many more..
+
+Steps:
+1. Download the adapter needed ie the "flavor". For our needs `pip install dbt-core dbt-postgres dbt-bigquery`
+2. Init the project with `dbt init <PROJECT_NAME>` and fill in the required information. `~/.dbt/profiles.yml` should contains the credentials instance and should look like this
+
+    ```{/.dbt/profiles.yml}
+    taxis:
+      outputs:
+	dev:
+	  dbname: ny_taxi
+	  host: localhost  # Change this if needed
+	  password: root
+	  port: 5432
+	  schema: yellow
+	  threads: 1
+	  type: postgres
+	  user: root
+      target: dev
+    ```
+
+3. Initialize `dbt_project.yml` file. "name" and "profile"  should match as described in [connection profiles](https://docs.getdbt.com/docs/core/connect-data-platform/connection-profiles)
+4. Check if connection is successful using `dbt debug`. Important: for postgres, make sure to run container instance in another terminal
+5. To generate dbt GUI: `dbt docs generate`; to view: `dbt docs serve --port 9000`
+
+
+
+
+Useful Links:
+- [Jerico - dbt core and bigquery](https://blog.det.life/dbt-core-and-bigquery-a-complete-guide-to-automating-data-transformations-with-github-ci-cd-0b46121c66db)
+- [Quickstart for dbt cloud and bigquery](https://docs.getdbt.com/guides/bigquery?step=1)
+- [Quickstart for dbt core from a manual install](https://docs.getdbt.com/guides/manual-install?step=5)
+- [bigquery setup](https://docs.getdbt.com/docs/core/connect-data-platform/bigquery-setup)
+- [dbt-core postgres setup](https://medium.com/@jewelski/configure-my-dbt-core-side-project-using-my-local-postgres-database-f31c998ab6f3)
+

@@ -1,0 +1,24 @@
+name: "taxis"
+version: "1.0"
+config-version: 2
+
+profile: "taxis"
+
+model-paths: ["dbt/models"]
+analysis-paths: ["dbt/analyses"]
+test-paths: ["dbt/tests"]
+seed-paths: ["dbt/seeds"]
+macro-paths: ["dbt/macros"]
+snapshot-paths: ["dbt/snapshots"]
+# docs-paths: [directorypath]
+# asset-paths: [directorypath]
+
+target-path: "target"
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  taxis:
+    example:
+      +materialized: view

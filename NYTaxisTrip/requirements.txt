@@ -1,9 +1,11 @@
 apache-airflow==2.10.5
-dbt-core==1.9.1
-dbt-postgres==1.9.3
+dbt-bigquery
+dbt-core
+dbt-postgres
 fastparquet
 pandas
 pgcli
-psycopg2
+psycopg2-binary
 pyarrow
+pyspark==3.5.5
 sqlalchemy
