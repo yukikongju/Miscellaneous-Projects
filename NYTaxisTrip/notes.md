@@ -167,6 +167,7 @@ Steps:
 3. Initialize `dbt_project.yml` file. "name" and "profile"  should match as described in [connection profiles](https://docs.getdbt.com/docs/core/connect-data-platform/connection-profiles)
 4. Check if connection is successful using `dbt debug`. Important: for postgres, make sure to run container instance in another terminal
 5. To run: `dbt run`; To generate dbt GUI: `dbt docs generate`; to view: `dbt docs serve --port 9000`
+6. To add dependencies: `dbt deps`
 
 
 Useful Links:

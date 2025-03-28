@@ -27,7 +27,7 @@ with first_app_open as (
     event_name,
     param.key as param_key,
     param.value.string_value as param_value,
-  from `relax-melodies-android.analytics_151587246.events_*`, 
+  from `relax-melodies-android.analytics_151587246.events_*`,
     unnest(event_params) as param
   where
     _table_suffix >= start_date and _table_suffix <= end_date
@@ -115,7 +115,7 @@ from daily_sessions
 --    select
 --      user_pseudo_id,
 --      PARSE_DATE('%Y%m%d', event_date) as event_date,
---      COUNTIF(event_name = 'click_explore' 
+--      COUNTIF(event_name = 'click_explore'
 --              AND EXISTS (
 --                SELECT 1 FROM UNNEST(event_params) as param
 --                WHERE param.key='location' AND param.value.string_value = 'mixer_drawer'
@@ -126,7 +126,7 @@ from daily_sessions
 --        )
 --            ) AS mixer_add_music,
 
---    from `relax-melodies-android.analytics_151587246.events_*`, 
+--    from `relax-melodies-android.analytics_151587246.events_*`,
 --      unnest(event_params) as param
 --    where
 --      _table_suffix >= start_date and _table_suffix <= end_date
@@ -154,7 +154,4 @@ from daily_sessions
 --    group by user_pseudo_id, event_date
 --  )
 
---  select * from event_sessions 
-
-
-
+--  select * from event_sessions
