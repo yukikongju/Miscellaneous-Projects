@@ -7,7 +7,7 @@ models:
     description: yello taxi trip data
     columns:
       - name: VendorID
-        description: A code indicating the TPEP provider that provided the record. 1= Creative Mobile Technologies, LLC; 2= VeriFone Inc
+        description: "{{ doc('VendorID') }}"
         data_tests:
           - not_null
       - name: tpep_pickup_datetime
@@ -37,7 +37,7 @@ models:
     description: Staging model for Yellow Taxi trip records
     columns:
       - name: vendor_id
-        description: TPEP provider code '(1=Creative Mobile, 2=Curb, 6=Myle, 7=Helix)'
+        description: "{{ doc('VendorID') }}"
         data_tests:
           - not_null
           - accepted_values:
@@ -61,7 +61,7 @@ models:
           # - greater_than:
           #     value: 0
       - name: rate_code_id
-        description: Final rate code at end of trip
+        description: "{{ doc('RateCodeID') }}"
         data_tests:
           - accepted_values:
               values: [1, 2, 3, 4, 5, 6, 99]
@@ -79,7 +79,7 @@ models:
         data_tests:
           - not_null
       - name: payment_type
-        description: Payment method '(0=Flex Fare, 1= Credit, 2= Cash, etc.)'
+        description: "{{ doc('PaymentType') }}"
         data_tests:
           - accepted_values:
               values: [0, 1, 2, 3, 4, 5, 6]
@@ -116,7 +116,7 @@ models:
     description: Staging model for Green Taxi trip records
     columns:
       - name: vendor_id
-        description: "LPEP provider code (1=Creative Mobile, 2=Curb, 6=Myle)"
+        description: "{{ doc('VendorID') }}"
         tests:
           - not_null
           - accepted_values:
@@ -135,7 +135,7 @@ models:
           - accepted_values:
               values: ["Y", "N"]
       - name: rate_code_id
-        description: "Final rate code at end of trip"
+        description: "{{ doc('RateCodeID') }}"
         tests:
           - accepted_values:
               values: [1, 2, 3, 4, 5, 6, 99]
@@ -180,12 +180,12 @@ models:
           # - greater_than:
           #     value: 0
       - name: payment_type
-        description: "Payment method (0=Flex Fare, 1=Credit, 2=Cash, etc.)"
+        description: "{{ doc('PaymentType') }}"
         tests:
           - accepted_values:
               values: [0, 1, 2, 3, 4, 5, 6]
       - name: trip_type
-        description: "Trip type code (1=Street-hail, 2=Dispatch)"
+        description: "{{ doc('TripType') }}"
         tests:
           - accepted_values:
               values: [1, 2]
