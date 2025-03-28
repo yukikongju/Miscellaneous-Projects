@@ -111,3 +111,85 @@ models:
         description: Flat fee for JFK & LGA pickups
       - name: cbd_congestion_fee
         description: MTA Congestion Relief Zone charge starting Jan 5, 2025
+
+  - name: stg_green_taxis
+    description: Staging model for Green Taxi trip records
+    columns:
+      - name: vendor_id
+        description: "LPEP provider code (1=Creative Mobile, 2=Curb, 6=Myle)"
+        tests:
+          - not_null
+          - accepted_values:
+              values: [1, 2, 6]
+      - name: lpep_pickup_datetime
+        description: "Timestamp when the meter was engaged"
+        tests:
+          - not_null
+      - name: lpep_dropoff_datetime
+        description: "Timestamp when the meter was disengaged"
+        tests:
+          - not_null
+      - name: store_and_fwd_flag
+        description: "Indicates if trip was stored before being sent (Y/N)"
+        tests:
+          - accepted_values:
+              values: ["Y", "N"]
+      - name: rate_code_id
+        description: "Final rate code at end of trip"
+        tests:
+          - accepted_values:
+              values: [1, 2, 3, 4, 5, 6, 99]
+      - name: pu_location_id
+        description: "Pickup TLC Taxi Zone ID"
+        tests:
+          - not_null
+      - name: do_location_id
+        description: "Dropoff TLC Taxi Zone ID"
+        tests:
+          - not_null
+      - name: passenger_count
+        description: "Number of passengers in the vehicle"
+        tests:
+          - not_null
+      - name: trip_distance
+        description: "Distance traveled in miles, as reported by the taximeter"
+        tests:
+          - not_null
+          # - greater_than:
+          #     value: 0
+      - name: fare_amount
+        description: "Meter-calculated fare"
+        tests:
+          - not_null
+          # - greater_than:
+          #     value: 0
+      - name: extra
+        description: "Miscellaneous surcharges"
+      - name: mta_tax
+        description: "Mandatory tax triggered by metered rate"
+      - name: tip_amount
+        description: "Tip amount (Credit card only, cash tips not included)"
+      - name: tolls_amount
+        description: "Total toll charges"
+      - name: improvement_surcharge
+        description: "Fixed fee charged per trip since 2015"
+      - name: total_amount
+        description: "Total charge (excluding cash tips)"
+        tests:
+          - not_null
+          # - greater_than:
+          #     value: 0
+      - name: payment_type
+        description: "Payment method (0=Flex Fare, 1=Credit, 2=Cash, etc.)"
+        tests:
+          - accepted_values:
+              values: [0, 1, 2, 3, 4, 5, 6]
+      - name: trip_type
+        description: "Trip type code (1=Street-hail, 2=Dispatch)"
+        tests:
+          - accepted_values:
+              values: [1, 2]
+      - name: congestion_surcharge
+        description: "NYS congestion surcharge for trips"
+      - name: cbd_congestion_fee
+        description: "MTA Congestion Relief Zone charge"
