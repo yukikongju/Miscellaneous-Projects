@@ -3,9 +3,9 @@ dbt-bigquery
 dbt-core
 dbt-postgres
 fastparquet
-pandas
+pandas==2.1.*
 pgcli
 psycopg2-binary
 pyarrow
 pyspark==3.5.5
-sqlalchemy
+sqlalchemy==1.4.*

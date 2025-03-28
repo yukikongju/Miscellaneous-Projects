@@ -24,6 +24,17 @@ python3 ingest_data.py \
   --table_name=yellow_taxi_trips \
   --url=${URL}
 
+URL="https://d37ci6vzurychx.cloudfront.net/trip-data/green_tripdata_2024-01.parquet"
+python3 ingest_data.py \
+  --user=root \
+  --password=root \
+  --host=localhost \
+  --port=5432 \
+  --db=ny_taxi \
+  --table_name=green_taxi_trips \
+  --url=${URL}
+
+
 ```
 
 ### How to open postgres database in the terminal
