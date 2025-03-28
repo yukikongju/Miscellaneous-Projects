@@ -44,15 +44,15 @@ def main(args):
         if col.endswith("datetime"):
             df[col] = pd.to_datetime(df[col])
 
-    df.head(n=0).to_sql(name=table_name, con=connection, if_exists="replace")
-    df.to_sql(name=table_name, con=connection, if_exists="append")
+    df.head(n=0).to_sql(name=table_name, con=connection, if_exists="replace", index=False)
+    df.to_sql(name=table_name, con=connection, if_exists="append", index=False)
 
     while True:
         try:
             t_start = time()
 
             df = next(df_iter)
-            df.to_sql(name=table_name, con=engine, if_exists="append")
+            df.to_sql(name=table_name, con=engine, if_exists="append", index=False)
 
             t_end = time()
             print("inserted another chunk, took %.3f second" % (t_end - t_start))
