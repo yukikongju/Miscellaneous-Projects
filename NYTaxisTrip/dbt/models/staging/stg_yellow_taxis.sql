@@ -22,7 +22,8 @@ with yellow_taxis as (
 	"congestion_surcharge",
 	"Airport_fee" as airport_fee
 	--  "cbd_congestion_fee"
-    FROM public.yellow_taxi_trips
+    --  FROM public.yellow_taxi_trips
+    FROM {{ source('src_posgres', 'yellow_taxi_trips') }}
     ORDER BY tpep_pickup_datetime DESC
 )
 

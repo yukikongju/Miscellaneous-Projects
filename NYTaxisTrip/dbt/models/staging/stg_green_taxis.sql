@@ -19,7 +19,8 @@ WITH green_taxis AS (
         "payment_type",
         "trip_type",
         "congestion_surcharge"
-    FROM public.green_taxi_trips
+    --  FROM public.green_taxi_trips
+    FROM {{ source('src_posgres', 'green_taxi_trips') }}
     ORDER BY lpep_pickup_datetime DESC
 )
 

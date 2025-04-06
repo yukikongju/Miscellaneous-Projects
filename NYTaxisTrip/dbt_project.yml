@@ -21,7 +21,8 @@ clean-targets:
 models:
   taxis:
     staging:
-      +materialized: view
+      +materialized: table
+      +schema: staging
     intermediate:
       +materialized: table
     marts:

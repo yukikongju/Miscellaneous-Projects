@@ -179,6 +179,9 @@ Steps:
 4. Check if connection is successful using `dbt debug`. Important: for postgres, make sure to run container instance in another terminal
 5. To run: `dbt run`; To generate dbt GUI: `dbt docs generate`; to view: `dbt docs serve --port 9000`
 6. To add dependencies: `dbt deps`
+7. List the staging table with `dbt/codegen` package: `dbt run-operation generate_source --args "{'schema_name': 'yellow'}"` (to copy to `source.yml`)
+8. Generate base model: `dbt run-operation generate_base_model --args "{'source_name': 'public', 'table_name': 'green_taxi_trips'}"`
+9. Generate description: `dbt generate_model_yaml --args "{'model_name': ['stg_green_taxis']}"`
 
 
 TODO:

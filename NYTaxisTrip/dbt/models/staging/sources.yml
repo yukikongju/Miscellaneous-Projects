@@ -1,0 +1,30 @@
+version: 2
+
+sources:
+  - name: src_posgres # This can be named to anything, it's just the name we tell dbt
+    database: ny_taxi
+    schema: public
+
+    tables:
+      - name: green_taxi_trips
+      - name: yellow_taxi_trips
+
+
+# sources:
+#   - name: pgdatabase
+#     schema: public
+#     database: ny_taxi
+
+#     tables:
+#       - name: stg_green_taxis
+#       - name: stg_yellow_taxis
+
+# ------
+# sources:
+#   - name: src_postgres # This can be named to anything, it's just the name we tell dbt
+#     schema: public
+#     database: ny_taxi
+
+#     tables:
+#       - name: green_taxi_trips
+#       - name: yellow_taxi_trips
