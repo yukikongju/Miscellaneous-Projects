@@ -31,3 +31,7 @@ models:
     marts:
       +materialized: table
       +schema: trips
+
+seeds:
+  taxis:
+    +schema: staging

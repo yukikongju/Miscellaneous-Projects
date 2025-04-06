@@ -1,0 +1,8 @@
+rate_code_id,rate_code_name
+1,Standard Rate
+2,JFK
+3,Newark
+4,Nassauu or Westchester
+5,Negociated Fare
+6,Group Ride
+99,Null/Unknown
