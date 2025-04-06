@@ -12,11 +12,11 @@ models:
           - not_null
           - accepted_values:
               values: [1, 2, 6, 7]
-      - name: tpep_pickup_datetime
+      - name: pickup_datetime
         description: Timestamp when the meter was engaged
         data_tests:
           - not_null
-      - name: tpep_dropoff_datetime
+      - name: dropoff_datetime
         description: Timestamp when the meter was disengaged
         data_tests:
           - not_null
@@ -48,7 +48,7 @@ models:
         description: Dropoff TLC Taxi Zone ID
         data_tests:
           - not_null
-      - name: payment_type
+      - name: payment_id
         description: "{{ doc('PaymentType') }}"
         data_tests:
           - accepted_values:
@@ -91,11 +91,11 @@ models:
           - not_null
           - accepted_values:
               values: [1, 2, 6]
-      - name: lpep_pickup_datetime
+      - name: pickup_datetime
         description: "Timestamp when the meter was engaged"
         tests:
           - not_null
-      - name: lpep_dropoff_datetime
+      - name: dropoff_datetime
         description: "Timestamp when the meter was disengaged"
         tests:
           - not_null
@@ -149,7 +149,7 @@ models:
           - not_null
           # - greater_than:
           #     value: 0
-      - name: payment_type
+      - name: payment_id
         description: "{{ doc('PaymentType') }}"
         tests:
           - accepted_values:

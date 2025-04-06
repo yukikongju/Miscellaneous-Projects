@@ -9,3 +9,12 @@ models:
 
   - name: dim_rate_code
     description: Dimension Table for Rate Code
+
+  - name: dim_taxi_type
+    description: Dimension Table for Rate Code
+
+  - name: dim_datetime
+    description: Dimension Table for Rate Code
+
+  - name: dim_location
+    description: Dimension Table for Rate Code

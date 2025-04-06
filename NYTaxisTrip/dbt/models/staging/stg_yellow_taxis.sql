@@ -3,15 +3,15 @@
 with yellow_taxis as (
     SELECT
 	"VendorID" as vendor_id,
-	"tpep_pickup_datetime",
-	"tpep_dropoff_datetime",
+	"tpep_pickup_datetime" as pickup_datetime,
+	"tpep_dropoff_datetime" as dropoff_datetime,
 	"passenger_count",
 	"trip_distance",
 	"RatecodeID" as rate_code_id,
 	"store_and_fwd_flag",
 	"PULocationID" as pu_location_id,
 	"DOLocationID" as do_location_id,
-	"payment_type",
+	"payment_type" as payment_id,
 	"fare_amount",
 	"extra",
 	"mta_tax",
