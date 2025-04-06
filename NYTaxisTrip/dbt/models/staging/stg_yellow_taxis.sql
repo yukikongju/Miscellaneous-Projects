@@ -4,7 +4,11 @@ with yellow_taxis as (
     SELECT
 	"VendorID" as vendor_id,
 	"tpep_pickup_datetime" as pickup_datetime,
+        cast("tpep_pickup_datetime" as date) as pickup_date,
+        cast("tpep_pickup_datetime" as time) as pickup_time,
 	"tpep_dropoff_datetime" as dropoff_datetime,
+        cast("tpep_dropoff_datetime" as date) as dropoff_date,
+        cast("tpep_dropoff_datetime" as time) as dropoff_time,
 	"passenger_count",
 	"trip_distance",
 	"RatecodeID" as rate_code_id,

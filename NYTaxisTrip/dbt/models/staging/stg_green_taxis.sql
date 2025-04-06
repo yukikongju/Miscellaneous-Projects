@@ -2,7 +2,11 @@ WITH green_taxis AS (
     SELECT
         "VendorID" AS vendor_id,
         "lpep_pickup_datetime" as pickup_datetime,
+        cast("lpep_pickup_datetime" as date) as pickup_date,
+        cast("lpep_pickup_datetime" as time) as pickup_time,
         "lpep_dropoff_datetime" as dropoff_datetime,
+        cast("lpep_dropoff_datetime" as date) as dropoff_date,
+        cast("lpep_dropoff_datetime" as time) as dropoff_time,
         "store_and_fwd_flag",
         "RatecodeID" AS rate_code_id,
         "PULocationID" AS pu_location_id,

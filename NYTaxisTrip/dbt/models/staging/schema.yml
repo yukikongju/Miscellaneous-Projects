@@ -16,10 +16,18 @@ models:
         description: Timestamp when the meter was engaged
         data_tests:
           - not_null
+      - name: pickup_date
+        description: Date when the meter was engaged 'YYYY-MM-DD'
+      - name: pickup_time
+        description: Time when the meter was engaged 'HH:MM:SS'
       - name: dropoff_datetime
         description: Timestamp when the meter was disengaged
         data_tests:
           - not_null
+      - name: dropoff_date
+        description: Date when the meter was disengaged 'YYYY-MM-DD'
+      - name: dropoff_time
+        description: Time when the meter was disengaged 'HH:MM:SS'
       - name: passenger_count
         description: Number of passengers in the vehicle
         data_tests:
@@ -92,13 +100,21 @@ models:
           - accepted_values:
               values: [1, 2, 6]
       - name: pickup_datetime
-        description: "Timestamp when the meter was engaged"
-        tests:
+        description: Timestamp when the meter was engaged
+        data_tests:
           - not_null
+      - name: pickup_date
+        description: Date when the meter was engaged 'YYYY-MM-DD'
+      - name: pickup_time
+        description: Time when the meter was engaged 'HH:MM:SS'
       - name: dropoff_datetime
-        description: "Timestamp when the meter was disengaged"
-        tests:
+        description: Timestamp when the meter was disengaged
+        data_tests:
           - not_null
+      - name: dropoff_date
+        description: Date when the meter was disengaged 'YYYY-MM-DD'
+      - name: dropoff_time
+        description: Time when the meter was disengaged 'HH:MM:SS'
       - name: store_and_fwd_flag
         description: "Indicates if trip was stored before being sent (Y/N)"
         tests:
