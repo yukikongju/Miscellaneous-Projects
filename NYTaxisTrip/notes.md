@@ -182,11 +182,13 @@ Steps:
 7. List the staging table with `dbt/codegen` package: `dbt run-operation generate_source --args "{'schema_name': 'yellow'}"` (to copy to `source.yml`)
 8. Generate base model: `dbt run-operation generate_base_model --args "{'source_name': 'public', 'table_name': 'green_taxi_trips'}"`
 9. Generate description: `dbt generate_model_yaml --args "{'model_name': ['stg_green_taxis']}"`
+10. Materialize view for selected table: `dbt run --select dim_time`
 
 
 TODO:
 - `dbt parse`
 - `dbt sl`
+- `dbt seed`
 
 
 Useful Links:

@@ -13,13 +13,17 @@ models:
   - name: dim_taxi_type
     description: Dimension Table for Taxi Type
 
-  - name: dim_datetime
+  - name: dim_date
     # FIXME: generate all datetime with hours of days + ranged query for indexes
-    description: Dimension Table for datetime
+    description: Dimension Table for date
+
+  - name: dim_time
+    description: Dimension Table for time
+
 
   - name: dim_location
     description: Dimension Table for location # TODO
 
-  - name: fact_trips
+  - name: fct_trips
     # FIXME: use datetime id instead of datetime
     description: Fact Table for Taxi Trips
