@@ -181,11 +181,18 @@ Steps:
 6. To add dependencies: `dbt deps`
 
 
+TODO:
+- `dbt parse`
+- `dbt sl`
+
+
 Useful Links:
 - [Jerico - dbt core and bigquery](https://blog.det.life/dbt-core-and-bigquery-a-complete-guide-to-automating-data-transformations-with-github-ci-cd-0b46121c66db)
 - [Quickstart for dbt cloud and bigquery](https://docs.getdbt.com/guides/bigquery?step=1)
 - [Quickstart for dbt core from a manual install](https://docs.getdbt.com/guides/manual-install?step=5)
 - [bigquery setup](https://docs.getdbt.com/docs/core/connect-data-platform/bigquery-setup)
+- [dbt-quickstart](https://docs.getdbt.com/docs/get-started-dbt)
+- [dbt mateiralization](https://docs.getdbt.com/docs/build/materializations)
 - [dbt-core postgres setup](https://medium.com/@jewelski/configure-my-dbt-core-side-project-using-my-local-postgres-database-f31c998ab6f3)
 - [dbt best practices](https://docs.getdbt.com/best-practices)
 - [gitlab code structure example](https://gitlab.com/gitlab-data/analytics)

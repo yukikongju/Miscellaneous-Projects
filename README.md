@@ -30,7 +30,7 @@ A collection of random projects
 - [-] Gender Bias in Langugage Embedding
 - [ ] Semantic segmentation for frisbee video: compute player movement + stack
 - [ ] Number plate detection on video [kaggle notebook](https://www.kaggle.com/code/aslanahmedov/automatic-number-plate-recognition) [dataset](https://www.kaggle.com/datasets/fareselmenshawii/license-plate-dataset) [dataset2](late-detection)
-- [ ] Style Transfer: Shakespeare-like text generation, NER, 
+- [ ] Style Transfer: Shakespeare-like text generation, NER,
 - [ ] Multi-threading applications with rust (web browser, trading systems)
 - [ ] Process Schedular Simulation: Round Robin, FIFO, Priority Scheduling
 - [ ] Device Driver Development
@@ -92,10 +92,11 @@ A collection of random projects
 - [ ] Parallel Programming: [udacity](https://github.com/nickspell/udacity-IntroToParallelProgramming)
 - [ ] [Eldiro Programming Language](https://lunacookies.github.io/lang/) in rust
 - [ ] [Toralizer](https://www.youtube.com/watch?v=Pebul1c9JKE)
-- [ ] UA Retention 
+- [ ] UA Retention
 - [ ] Web Browser Engine
 - [ ] DB from scratch
 - [ ] Git from scratch
+- [ ] [Shazam](https://www.youtube.com/watch?v=a0CVCcb0RJM)
 
 
 
@@ -103,4 +104,3 @@ A collection of random projects
 ## Resources
 
 - [10 Advanced Projects to Build in 2021](https://dev.to/hb/10-advanced-projects-to-build-in-2021-425o)
-
