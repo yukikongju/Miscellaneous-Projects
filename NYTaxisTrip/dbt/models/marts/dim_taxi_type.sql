@@ -1,7 +1,5 @@
 select
-    distinct taxi_type_id,
-    case
-	when taxi_type_id = 1 then 'Yellow'
-	when taxi_type_id = 2 then 'Green'
-    end as taxi_type_name
-from {{ ref('fct_trips') }}
+    {{ dbt_utils.generate_surrogate_key(['taxi_type_id']) }} as taxi_type_key,
+    taxi_type_id,
+    taxi_type_name
+from {{ ref('taxi_types') }}
