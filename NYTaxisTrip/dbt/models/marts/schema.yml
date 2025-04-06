@@ -11,10 +11,15 @@ models:
     description: Dimension Table for Rate Code
 
   - name: dim_taxi_type
-    description: Dimension Table for Rate Code
+    description: Dimension Table for Taxi Type
 
   - name: dim_datetime
-    description: Dimension Table for Rate Code
+    # FIXME: generate all datetime with hours of days + ranged query for indexes
+    description: Dimension Table for datetime
 
   - name: dim_location
-    description: Dimension Table for Rate Code
+    description: Dimension Table for location # TODO
+
+  - name: fact_trips
+    # FIXME: use datetime id instead of datetime
+    description: Fact Table for Taxi Trips
