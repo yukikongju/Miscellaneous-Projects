@@ -4,6 +4,9 @@ config-version: 2
 
 profile: "taxis"
 
+vars:
+  "dbt_datetime_zone": "America/New_York"
+
 model-paths: ["dbt/models"]
 analysis-paths: ["dbt/analyses"]
 test-paths: ["dbt/tests"]
@@ -27,3 +30,4 @@ models:
       +materialized: table
     marts:
       +materialized: table
+      +schema: trips

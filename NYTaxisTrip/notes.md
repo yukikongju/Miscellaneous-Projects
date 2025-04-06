@@ -199,3 +199,4 @@ Useful Links:
 - [dbt-core postgres setup](https://medium.com/@jewelski/configure-my-dbt-core-side-project-using-my-local-postgres-database-f31c998ab6f3)
 - [dbt best practices](https://docs.getdbt.com/best-practices)
 - [gitlab code structure example](https://gitlab.com/gitlab-data/analytics)
+- [project example](https://github.com/hnawaz007/dbt-dw)

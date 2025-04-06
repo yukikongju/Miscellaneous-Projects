@@ -1,0 +1,11 @@
+version: 2
+
+models:
+  - name: dim_taxi_vendor
+    description: Dimension Table for Taxi Vendor
+
+  - name: dim_payment_type
+    description: Dimension Table for Payment Type
+
+  - name: dim_rate_code
+    description: Dimension Table for Rate Code
