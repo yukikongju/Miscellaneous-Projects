@@ -24,4 +24,4 @@ WITH green_taxis AS (
 )
 
 SELECT *
-FROM green_taxis;
+FROM green_taxis
