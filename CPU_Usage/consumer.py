@@ -4,8 +4,9 @@ import json
 
 #  import time
 
+
 def json_deserializer(data):
-    return json.loads(data.decode('utf-8'))
+    return json.loads(data.decode("utf-8"))
 
 
 # Kafka configuration
@@ -35,11 +36,9 @@ try:
             "measurement": "cpu",
             "tags": {"host": data["host"]},
             "time": data["timestamp"],
-            "fields": {
-                "cpu_usage": float(data["cpu_usage"]), 
-                "batch": int(data["batch"])},
+            "fields": {"cpu_usage": float(data["cpu_usage"]), "batch": int(data["batch"])},
         }
-        influx.write_points([point], time_precision='s')
+        influx.write_points([point], time_precision="s")
         print(f"Wrote to InfluxDB: {point}")
 
 except Exception as e:

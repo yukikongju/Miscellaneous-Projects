@@ -1,4 +1,4 @@
+fastapi
 influxdb
 kafka-python
-fastapi
 prometheus-client
