@@ -158,7 +158,8 @@ mainly:
 
 Steps:
 1. Download the adapter needed ie the "flavor". For our needs `pip install dbt-core dbt-postgres dbt-bigquery`
-2. Init the project with `dbt init <PROJECT_NAME>` and fill in the required information. `~/.dbt/profiles.yml` should contains the credentials instance and should look like this
+2. Activate virtual environment with `source venv/bin/activate`
+3. Init the project with `dbt init <PROJECT_NAME>` and fill in the required information. `~/.dbt/profiles.yml` should contains the credentials instance and should look like this
 
     ```{/.dbt/profiles.yml}
     taxis:
@@ -175,20 +176,20 @@ Steps:
       target: dev
     ```
 
-3. Initialize `dbt_project.yml` file. "name" and "profile"  should match as described in [connection profiles](https://docs.getdbt.com/docs/core/connect-data-platform/connection-profiles)
-4. Check if connection is successful using `dbt debug`. Important: for postgres, make sure to run container instance in another terminal
-5. To run: `dbt run`; To generate dbt GUI: `dbt docs generate`; to view: `dbt docs serve --port 9000`
-6. To add dependencies: `dbt deps`
-7. List the staging table with `dbt/codegen` package: `dbt run-operation generate_source --args "{'schema_name': 'yellow'}"` (to copy to `source.yml`)
-8. Generate base model: `dbt run-operation generate_base_model --args "{'source_name': 'public', 'table_name': 'green_taxi_trips'}"`
-9. Generate description: `dbt generate_model_yaml --args "{'model_name': ['stg_green_taxis']}"`
-10. Materialize view for selected table: `dbt run --select dim_time`
+4. Initialize `dbt_project.yml` file. "name" and "profile"  should match as described in [connection profiles](https://docs.getdbt.com/docs/core/connect-data-platform/connection-profiles)
+5. Check if connection is successful using `dbt debug`. Important: for postgres, make sure to run container instance in another terminal
+6. To run: `dbt run`; To generate dbt GUI: `dbt docs generate`; to view: `dbt docs serve --port 9000`
+7. To add dependencies: `dbt deps`
+8. List the staging table with `dbt/codegen` package: `dbt run-operation generate_source --args "{'schema_name': 'yellow'}"` (to copy to `source.yml`)
+9. Generate base model: `dbt run-operation generate_base_model --args "{'source_name': 'public', 'table_name': 'green_taxi_trips'}"`
+10. Generate description: `dbt generate_model_yaml --args "{'model_name': ['stg_green_taxis']}"`
+11. Materialize view for selected table: `dbt run --select dim_time`
+12. Materialize seed for all/selected table: `dbt seed` or `dbt seed --select locations`
 
 
 TODO:
 - `dbt parse`
 - `dbt sl`
-- `dbt seed`
 
 
 Useful Links:
