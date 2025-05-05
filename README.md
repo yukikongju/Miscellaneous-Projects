@@ -61,7 +61,7 @@ A collection of random projects
 - [ ] Google Calendar Color Time Table
 	* [Gcalendardata](https://github.com/dpalikhe/GcalendarData)
 	* [google-calendar-hours](https://github.com/aronwoost/google-calendar-hours)
-- [ ] RSS Feed App
+- [ ] RSS Feed App w/ NER + kafka subscription
 - [ ] Fast Fourier Transform
 - [ ] NBA Tweets
 - [ ] Questrade Portfolio distribution: EQT/growth/equilibree; markets(US,CAN, EU, Asia); buy price vs current price
