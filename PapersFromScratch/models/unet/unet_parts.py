@@ -67,6 +67,7 @@ class Down(nn.Module):
         super().__init__()
         self.down = nn.Sequential(
             nn.MaxPool2d(kernel_size=2, stride=2),
+            #  nn.MaxPool2d(kernel_size=2),
             DoubleConv(in_channels=in_channels, out_channels=out_channels),
         )
 
@@ -93,7 +94,8 @@ class Up(nn.Module):
             self.up = nn.Upsample(
                 scale_factor=2, mode="bilinear", align_corners=True
             )  # 28x28 => 56x56
-            self.conv = DoubleConv(in_channels, out_channels, in_channels // 2)
+            #  self.conv = DoubleConv(in_channels, out_channels, in_channels // 2)
+            self.conv = DoubleConv(in_channels, out_channels)
         else:
             self.up = nn.ConvTranspose2d(in_channels, in_channels // 2, kernel_size=2, stride=2)
             self.conv = DoubleConv(in_channels, out_channels)
@@ -113,8 +115,8 @@ class Up(nn.Module):
         x1 = self.up(x1)
 
         # pad size mismatch between skip connection and feature map BCHW
-        diffX = x2.size()[2] - x1.size()[2]
-        diffY = x2.size()[3] - x1.size()[3]
+        diffY = x2.size()[2] - x1.size()[2]
+        diffX = x2.size()[3] - x1.size()[3]
         x1 = F.pad(
             x1,
             [
@@ -126,7 +128,7 @@ class Up(nn.Module):
         )
 
         # concat:
-        x = torch.concat([x1, x2], dim=1)
+        x = torch.concat([x2, x1], dim=1)
         return self.conv(x)
 
 
