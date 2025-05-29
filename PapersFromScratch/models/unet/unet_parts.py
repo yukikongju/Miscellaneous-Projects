@@ -132,7 +132,7 @@ class OutConv(nn.Module):
     component feature vector to the desired number of classes
     """
 
-    def __init(self, in_channels, out_channels):
+    def __init__(self, in_channels, out_channels):
         super().__init__()
         self.conv = nn.Conv2d(in_channels, out_channels, kernel_size=1)
 
