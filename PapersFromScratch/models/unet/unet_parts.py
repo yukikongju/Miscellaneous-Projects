@@ -94,8 +94,8 @@ class Up(nn.Module):
             self.up = nn.Upsample(
                 scale_factor=2, mode="bilinear", align_corners=True
             )  # 28x28 => 56x56
-            #  self.conv = DoubleConv(in_channels, out_channels, in_channels // 2)
-            self.conv = DoubleConv(in_channels, out_channels)
+            self.conv = DoubleConv(in_channels, out_channels, in_channels // 2)
+            #  self.conv = DoubleConv(in_channels, out_channels)
         else:
             self.up = nn.ConvTranspose2d(in_channels, in_channels // 2, kernel_size=2, stride=2)
             self.conv = DoubleConv(in_channels, out_channels)
@@ -117,15 +117,10 @@ class Up(nn.Module):
         # pad size mismatch between skip connection and feature map BCHW
         diffY = x2.size()[2] - x1.size()[2]
         diffX = x2.size()[3] - x1.size()[3]
-        x1 = F.pad(
-            x1,
-            [
-                diffX // 2,
-                diffX - diffX // 2,  # left, rigth
-                diffY // 2,
-                diffY - diffY // 2,  # up, down
-            ],
-        )
+        x1 = F.pad(x1, [
+                diffX // 2, diffX - diffX // 2,  # left, rigth
+                diffY // 2, diffY - diffY // 2,  # up, down
+            ])
 
         # concat:
         x = torch.concat([x2, x1], dim=1)
