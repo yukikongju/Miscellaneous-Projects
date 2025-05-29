@@ -97,6 +97,9 @@ A collection of random projects
 - [ ] DB from scratch
 - [ ] Git from scratch
 - [ ] [Shazam](https://www.youtube.com/watch?v=a0CVCcb0RJM)
+- [ ] BFS Web Crawler in Go w/ NER + search RSS => find links from one web page and BFS through them concurrently
+- [ ] Http server in C
+- [ ] xv6 Operating System
 
 
 

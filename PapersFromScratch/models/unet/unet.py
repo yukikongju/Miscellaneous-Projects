@@ -3,7 +3,7 @@ import torch.nn as nn
 #  import torch.nn.functional as F
 #  from torch.utils.checkpoint import checkpoint
 
-from unet_parts import DoubleConv, Down, Up, OutConv
+from models.unet.unet_parts import DoubleConv, Down, Up, OutConv
 
 
 class UNet(nn.Module):

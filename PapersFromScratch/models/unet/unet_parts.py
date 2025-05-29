@@ -81,6 +81,10 @@ class Up(nn.Module):
     the number of feature channels, a concatenation with the correspondingly
     cropped feature map from the contracting path, and two 3x3 convolutions,
     each followed by a ReLU
+
+    Notes:
+    - Spatial Size Doubled; channels halved
+    - Ex: [B, 256, 143, 143] => [B, 128, 284, 284] => [B, 64, 572, 572] => ...
     """
 
     def __init__(self, in_channels, out_channels, bilinear=True):
