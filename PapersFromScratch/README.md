@@ -8,7 +8,7 @@ Easy:
 - Backpropagation
 - [VGG]
     * [video](https://www.youtube.com/watch?v=ACmuBbuXn20&list=PLhhyoLH6IjfxeoooqP9rhU3HJIAVAJ3Vz&index=18)
-- [LeNet-5](http://vision.stanford.edu/cs598_spring07/papers/Lecun98.pdf)
+- [X] [LeNet-5](http://vision.stanford.edu/cs598_spring07/papers/Lecun98.pdf)
     * [code](https://www.digitalocean.com/community/tutorials/writing-lenet5-from-scratch-in-python)
     * [video](https://www.youtube.com/watch?v=fcOW-Zyb5Bo&list=PLhhyoLH6IjfxeoooqP9rhU3HJIAVAJ3Vz&index=17)
 - Logistic Regression as Neural Net
