@@ -100,6 +100,15 @@ A collection of random projects
 - [ ] BFS Web Crawler in Go w/ NER + search RSS => find links from one web page and BFS through them concurrently
 - [ ] Http server in C
 - [ ] xv6 Operating System
+- [ ] Dominion Reinforcement Learning Bots
+    * [kaggle](https://www.kaggle.com/datasets/adamstacey/dominion-cards)
+    * [mdfisher](https://graphics.stanford.edu/~mdfisher/DominionAI.html)
+    * [paper](https://jaspergerigk.com/uploads/final.pdf)
+    * [dominion paper](https://www.templegatesgames.com/dominion-ai/)
+    * [dominion paper 2](https://math.leidenuniv.nl/scripties/BSC-vanderHeijden.pdf)
+    * [tactician](https://github.com/tygill/tactician)
+    * [paper - game balancing in dominion](https://cdn.aaai.org/ojs/21552/21552-13-25565-1-2-20220628.pdf)
+    * [recommended sets](https://kieranmillar.github.io/extra-recommended-sets/)
 
 
 
