@@ -1,5 +1,6 @@
 declare start_date string default "2020-01-01";
 declare end_date string default "2025-06-26";
+declare total_paid INT64 default 1060558;
 
 with paid_data as (
   SELECT
@@ -78,12 +79,13 @@ with paid_data as (
     JOIN renewal_unique r on p.user_id = r.user_id
 ), conversions_table as (
     select
-      renewal_bucket,
+      renewal_bucket, platform,
       count(*) as counts,
-      round(100 * count(*) / sum(count(*)) over (), 2) as percentage,
+      round(count(*) / total_paid * 100, 2) as renewal_percentage,
+      round(100 * count(*) / sum(count(*)) over (), 2) as renewal_distribution,
       avg(joined_table.renewal_proceeds) as avg_renewal_proceeds,
     from joined_table
-    group by renewal_bucket
+    group by renewal_bucket, platform
 )
 
 select * from conversions_table
