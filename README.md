@@ -62,6 +62,7 @@ A collection of random projects
 	* [Gcalendardata](https://github.com/dpalikhe/GcalendarData)
 	* [google-calendar-hours](https://github.com/aronwoost/google-calendar-hours)
 - [ ] RSS Feed App w/ NER + kafka subscription
+- [ ] Cumulative Table w/ kafka for Tweets events (posts, like, share, comment)
 - [ ] Fast Fourier Transform
 - [ ] NBA Tweets
 - [ ] Questrade Portfolio distribution: EQT/growth/equilibree; markets(US,CAN, EU, Asia); buy price vs current price
