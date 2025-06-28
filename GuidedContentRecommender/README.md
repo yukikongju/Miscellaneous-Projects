@@ -1,5 +1,12 @@
 # Guided Content Recommender
 
+Content Recommender:
+- [X] Content-based filtering => recommendation based on content metadata, audio/text, ..
+    * Ex: vectorize all content based on their text/audio using Doc2Vec and
+      use KNN to find the closest recommendation
+- [ ] Collaborative Filtering => use users similar content to suggest
+
+
 Making an Embedding for Guided content based on text. Trying to implement
 the following:
 
