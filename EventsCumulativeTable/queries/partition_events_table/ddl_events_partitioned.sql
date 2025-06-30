@@ -1,0 +1,36 @@
+CREATE TABLE `relax-melodies-android.sandbox.analytics_events`
+(
+  event_date STRING,
+  event_timestamp INT64,
+  event_name STRING,
+  event_params ARRAY<STRUCT<key STRING, value STRUCT<string_value STRING, int_value INT64, float_value FLOAT64, double_value FLOAT64>>>,
+  event_previous_timestamp INT64,
+  event_value_in_usd FLOAT64,
+  event_bundle_sequence_id INT64,
+  event_server_timestamp_offset INT64,
+  user_id STRING,
+  user_pseudo_id STRING,
+  privacy_info STRUCT<analytics_storage STRING, ads_storage STRING, uses_transient_token STRING>,
+  user_properties ARRAY<STRUCT<key STRING, value STRUCT<string_value STRING, int_value INT64, float_value FLOAT64, double_value FLOAT64, set_timestamp_micros INT64>>>,
+  user_first_touch_timestamp INT64,
+  user_ltv STRUCT<revenue FLOAT64, currency STRING>,
+  device STRUCT<category STRING, mobile_brand_name STRING, mobile_model_name STRING, mobile_marketing_name STRING, mobile_os_hardware_model STRING, operating_system STRING, operating_system_version STRING, vendor_id STRING, advertising_id STRING, language STRING, is_limited_ad_tracking STRING, time_zone_offset_seconds INT64, browser STRING, browser_version STRING, web_info STRUCT<browser STRING, browser_version STRING, hostname STRING>>,
+  geo STRUCT<city STRING, country STRING, continent STRING, region STRING, sub_continent STRING, metro STRING>,
+  app_info STRUCT<id STRING, version STRING, install_store STRING, firebase_app_id STRING, install_source STRING>,
+  traffic_source STRUCT<name STRING, medium STRING, source STRING>,
+  stream_id STRING,
+  platform STRING,
+  event_dimensions STRUCT<hostname STRING>,
+  ecommerce STRUCT<total_item_quantity INT64, purchase_revenue_in_usd FLOAT64, purchase_revenue FLOAT64, refund_value_in_usd FLOAT64, refund_value FLOAT64, shipping_value_in_usd FLOAT64, shipping_value FLOAT64, tax_value_in_usd FLOAT64, tax_value FLOAT64, unique_items INT64, transaction_id STRING>,
+  items ARRAY<STRUCT<item_id STRING, item_name STRING, item_brand STRING, item_variant STRING, item_category STRING, item_category2 STRING, item_category3 STRING, item_category4 STRING, item_category5 STRING, price_in_usd FLOAT64, price FLOAT64, quantity INT64, item_revenue_in_usd FLOAT64, item_revenue FLOAT64, item_refund_in_usd FLOAT64, item_refund FLOAT64, coupon STRING, affiliation STRING, location_id STRING, item_list_id STRING, item_list_name STRING, item_list_index STRING, promotion_id STRING, promotion_name STRING, creative_name STRING, creative_slot STRING, item_params ARRAY<STRUCT<key STRING, value STRUCT<string_value STRING, int_value INT64, float_value FLOAT64, double_value FLOAT64>>>>>,
+  collected_traffic_source STRUCT<manual_campaign_id STRING, manual_campaign_name STRING, manual_source STRING, manual_medium STRING, manual_term STRING, manual_content STRING, manual_source_platform STRING, manual_creative_format STRING, manual_marketing_tactic STRING, gclid STRING, dclid STRING, srsltid STRING>,
+  is_active_user BOOL,
+  batch_event_index INT64,
+  batch_page_id INT64,
+  batch_ordering_id INT64,
+  session_traffic_source_last_click STRUCT<manual_campaign STRUCT<campaign_id STRING, campaign_name STRING, source STRING, medium STRING, term STRING, content STRING, source_platform STRING, creative_format STRING, marketing_tactic STRING>, google_ads_campaign STRUCT<customer_id STRING, account_name STRING, campaign_id STRING, campaign_name STRING, ad_group_id STRING, ad_group_name STRING>, cross_channel_campaign STRUCT<campaign_id STRING, campaign_name STRING, source STRING, medium STRING, source_platform STRING, default_channel_group STRING, primary_channel_group STRING>, sa360_campaign STRUCT<campaign_id STRING, campaign_name STRING, source STRING, medium STRING, ad_group_id STRING, ad_group_name STRING, creative_format STRING, engine_account_name STRING, engine_account_type STRING, manager_account_name STRING>, cm360_campaign STRUCT<campaign_id STRING, campaign_name STRING, source STRING, medium STRING, account_id STRING, account_name STRING, advertiser_id STRING, advertiser_name STRING, creative_id STRING, creative_format STRING, creative_name STRING, creative_type STRING, creative_type_id STRING, creative_version STRING, placement_id STRING, placement_cost_structure STRING, placement_name STRING, rendering_id STRING, site_id STRING, site_name STRING>, dv360_campaign STRUCT<campaign_id STRING, campaign_name STRING, source STRING, medium STRING, advertiser_id STRING, advertiser_name STRING, creative_id STRING, creative_format STRING, creative_name STRING, exchange_id STRING, exchange_name STRING, insertion_order_id STRING, insertion_order_name STRING, line_item_id STRING, line_item_name STRING, partner_id STRING, partner_name STRING>>,
+  publisher STRUCT<ad_revenue_in_usd FLOAT64, ad_format STRING, ad_source_name STRING, ad_unit_id STRING>,
+  event_date_partition TIMESTAMP
+)
+PARTITION BY DATE(event_date_partition)
+CLUSTER BY event_date_partition, event_name, user_id, user_pseudo_id;
