@@ -1,3 +1,4 @@
+from sys import api_version
 from flask import Flask, request, jsonify
 
 from kafka import KafkaProducer
@@ -8,6 +9,7 @@ import json
 import logging
 
 BROKER_PORT = "localhost:9092"
+#  BROKER_PORT = "localhost:1234"
 TOPIC_NAME = "events"
 app = Flask(__name__)
 logging.basicConfig(level=logging.INFO)
@@ -17,10 +19,12 @@ logger = logging.getLogger(__name__)
 def create_producer():
     try:
         producer = KafkaProducer(
-            bootstrap_servers=[BROKER_PORT],
+            #  bootstrap_servers=[BROKER_PORT],
+            bootstrap_servers=BROKER_PORT,
             value_serializer=lambda v: json.dumps(v).encode("utf-8"),
             acks="all",
             retries=3,
+            api_version=(3, 9),
         )
         logger.info("Kafka producer created succesfully")
         return producer
@@ -61,24 +65,30 @@ def send_event():
         return jsonify({"error": f"Kafka error: {e}"}), 500
     except Exception as e:
         logger.error(f"Unexpected error: {e}")
-        return jsonify({"error": "Unexpected error occured when processing event: {str(e)}"}), 500
+        return (
+            jsonify(
+                {
+                    "error": "Unexpected error occured when processing \
+                        event: {str(e)}"
+                }
+            ),
+            500,
+        )
 
-@app.route('/health', methods=['GET'])
+
+@app.route("/health", methods=["GET"])
 def health_check():
     if not producer:
         return jsonify({"status": "unhealthy", "kafka": "disconnected"}), 500
     try:
         metadata = producer.bootstrap_connected()
-        return jsonify({
-            "status": "healthy", 
-            "kafka": "connected" if metadata else "disconnected"
-        }), 200
+        return (
+            jsonify({"status": "healthy", "kafka": "connected" if metadata else "disconnected"}),
+            200,
+        )
     except Exception as e:
-        return jsonify({
-            "status": "unhealthy", 
-            "kafka": "disconnected", 
-            "error": str(e)
-        }), 500
+        return jsonify({"status": "unhealthy", "kafka": "disconnected", "error": str(e)}), 500
+
 
 @app.errorhandler(Exception)
 def handle_exception(e):
