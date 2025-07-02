@@ -63,6 +63,28 @@ def send_event():
         logger.error(f"Unexpected error: {e}")
         return jsonify({"error": "Unexpected error occured when processing event: {str(e)}"}), 500
 
+@app.route('/health', methods=['GET'])
+def health_check():
+    if not producer:
+        return jsonify({"status": "unhealthy", "kafka": "disconnected"}), 500
+    try:
+        metadata = producer.bootstrap_connected()
+        return jsonify({
+            "status": "healthy", 
+            "kafka": "connected" if metadata else "disconnected"
+        }), 200
+    except Exception as e:
+        return jsonify({
+            "status": "unhealthy", 
+            "kafka": "disconnected", 
+            "error": str(e)
+        }), 500
+
+@app.errorhandler(Exception)
+def handle_exception(e):
+    logger.error(f"Unhandled exception: {e}")
+    return jsonify({"error": "Internal server error"}), 500
+
 
 if __name__ == "__main__":
     FLASK_PORT = 5000
