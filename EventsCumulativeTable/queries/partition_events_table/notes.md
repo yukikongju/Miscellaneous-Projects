@@ -93,4 +93,37 @@ are sometimes null. I believe this happens in the following cases:
 - on ios:
     * 'user_pseudo_id' is always there
 
+How:
+
+1. Creating table for the new partitioned events table with DDL and added
+   new `event_date_partition`
+
+```{sql}
+SELECT ddl
+FROM `my_project.my_dataset.INFORMATION_SCHEMA.TABLES`
+WHERE table_name = 'relax-melodies-android.analytics_151587246.events_20250628';
+
+--- adding the new partitioned column
+
+SELECT
+    ...
+    , TIMESTAMP_TRUNC(TIMESTAMP_MICROS(event_timestamp), DAY) = 'event_date'
+```
+
+
+2. Created Schedule Query in BigQuery to populate data daily
+
+```{sql}
+INSERT INTO
+  `relax-melodies-android.sandbox.analytics_events_pc`
+
+SELECT
+  *,
+  TIMESTAMP_TRUNC(TIMESTAMP_MICROS(event_timestamp), DAY) AS event_date_partition
+FROM
+  `relax-melodies-android.analytics_151587246.events_*`
+WHERE
+  _table_suffix = FORMAT_DATE('%Y%m%d', DATE_SUB(CURRENT_DATE("UTC"), INTERVAL 1 Day))
+```
+
 ## Problem 2 - Optimize Query used for T2P (TBD)
