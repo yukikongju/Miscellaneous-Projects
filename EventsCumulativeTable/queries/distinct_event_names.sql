@@ -1,6 +1,6 @@
-SELECT distinct(event_name) 
+SELECT distinct(event_name)
 FROM `relax-melodies-android.sandbox.analytics_events_20250327_20250610_partitioned`
-WHERE TIMESTAMP_TRUNC(event_date_partition, DAY) = TIMESTAMP("2025-06-01") 
+WHERE TIMESTAMP_TRUNC(event_date_partition, DAY) = TIMESTAMP("2025-06-01")
 order by event_name
 
 --- 865 events
@@ -8,6 +8,3 @@ order by event_name
 --- screen_content_playing
 --- scren_goals
 --- listening_session
-
-
-
