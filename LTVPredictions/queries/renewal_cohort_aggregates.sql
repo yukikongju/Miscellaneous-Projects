@@ -1,5 +1,5 @@
 declare start_date string default "2020-01-01";
-declare end_date string default "2023-06-26";
+declare end_date string default "2022-07-01";
 
 with paid_data as (
   SELECT
@@ -86,8 +86,6 @@ with paid_data as (
     count(*) as num_paid,
     avg(paid_proceeds) as paid_proceeds
   from joined_table
-  where
-    renewal_timestamp_s is null
   group by
     paid_year_month,
     platform
@@ -123,3 +121,5 @@ with paid_data as (
 
 select * from aggregate_cohorts
 order by paid_year_month, platform, renewal_bucket
+
+# -- TODO: pivot
