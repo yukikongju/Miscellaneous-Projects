@@ -1,3 +1,6 @@
+-- `late_conversions.renewal_rates_cohorted`
+-- `late_conversions.renewal_proceeds_cohorted`
+
 declare start_date string default "2020-01-01";
 declare end_date string default "2025-07-01";
 
@@ -119,6 +122,7 @@ with paid_data as (
   on r.paid_year_month = p.paid_year_month and r.platform = p.platform
 )
 
+--- for "renewal_percentage"
 select
   *
 from (
@@ -131,6 +135,23 @@ from (
 )
 pivot (
   avg(renewal_percentage)
+  FOR renewal_bucket in ('1-Year', '2-Years', '3-Years', '4-Years', '5-Years', '>5-Years')
+)
+order by paid_year_month, platform
+
+--- for "renewal_proceeds"
+select
+  *
+from (
+  select
+    paid_year_month,
+    platform,
+    renewal_bucket,
+    renewal_proceeds
+  from aggregate_cohorts
+)
+pivot (
+  avg(renewal_proceeds)
   FOR renewal_bucket in ('1-Year', '2-Years', '3-Years', '4-Years', '5-Years', '>5-Years')
 )
 order by paid_year_month, platform
