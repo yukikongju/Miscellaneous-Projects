@@ -1,5 +1,6 @@
 create or replace table `relax-melodies-android.late_conversions.users_utm_daily` (
     event_date DATE,
+    event_timestamp INT,
     user_id STRING,
     user_pseudo_id STRING,
     platform STRING,
@@ -12,6 +13,7 @@ create or replace table `relax-melodies-android.late_conversions.users_utm_daily
     page_title STRING,
     page_location STRING,
     page_referrer STRING,
+    content STRING,
 )
 PARTITION BY
     event_date

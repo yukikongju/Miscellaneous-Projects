@@ -1,5 +1,6 @@
 create or replace table `relax-melodies-android.late_conversions.users_hau_daily` (
     event_date DATE,
+    event_timestamp INT,
     user_id STRING,
     user_pseudo_id STRING,
     platform STRING,
