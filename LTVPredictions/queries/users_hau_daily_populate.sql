@@ -12,12 +12,13 @@ with daily_hau as (
     traffic_source.medium as traffic_source_medium,
     traffic_source.source as traffic_source,
     ep2.value.string_value as hau,
+    current_timestamp()
   from `relax-melodies-android.sandbox.analytics_events_pc`,
     unnest(event_params) as ep1,
     unnest(event_params) as ep2
   where
-    timestamp_trunc(event_date_partition, DAY) >= TIMESTAMP("2025-06-01")
-    and timestamp_trunc(event_date_partition, DAY) <= TIMESTAMP("2025-06-01")
+    timestamp_trunc(event_date_partition, DAY) >= TIMESTAMP("2025-01-01")
+    and timestamp_trunc(event_date_partition, DAY) <= TIMESTAMP("2025-07-13")
     and event_name = 'answer_question'
     and ep1.key in ('question_id')
     and lower(ep1.value.string_value) = 'hearaboutus'
@@ -26,6 +27,3 @@ with daily_hau as (
 )
 
 select * from daily_hau
-
---  Notes:
---  => Populated "2025-06-01"

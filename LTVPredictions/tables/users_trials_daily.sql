@@ -8,6 +8,7 @@ create or replace table `relax-melodies-android.late_conversions.users_trials_da
     traffic_source_name STRING,
     traffic_source_medium STRING,
     traffic_source STRING,
+    load_timestamp TIMESTAMP
 )
 PARTITION BY
     event_date

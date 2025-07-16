@@ -11,10 +11,11 @@ with daily_trials as (
     traffic_source.name as traffic_source_name,
     traffic_source.medium as traffic_source_medium,
     traffic_source.source as traffic_source,
+    current_timestamp()
   from `relax-melodies-android.sandbox.analytics_events_pc`
   where
-    timestamp_trunc(event_date_partition, DAY) >= TIMESTAMP("2025-06-01")
-    and timestamp_trunc(event_date_partition, DAY) <= TIMESTAMP("2025-06-01")
+    timestamp_trunc(event_date_partition, DAY) >= TIMESTAMP("2025-01-01")
+    and timestamp_trunc(event_date_partition, DAY) <= TIMESTAMP("2025-07-13")
     and event_name = 'subscription_process_succeed'
     and user_pseudo_id is not null
 )

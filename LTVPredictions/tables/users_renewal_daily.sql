@@ -5,6 +5,7 @@ create or replace table `relax-melodies-android.late_conversions.users_renewal_d
     user_pseudo_id STRING,
     platform STRING,
     country STRING,
+    load_timestamp TIMESTAMP
 )
 PARTITION BY
     event_date
