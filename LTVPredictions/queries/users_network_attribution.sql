@@ -1,4 +1,4 @@
-DECLARE conversion_window INT64 DEFAULT 60;
+DECLARE conversion_window INT64 DEFAULT 10;
 DECLARE single_day STRING DEFAULT '2025-05-01';
 
 with hau as (
@@ -37,6 +37,9 @@ with hau as (
   on
     hau.user_pseudo_id = utm.user_pseudo_id
     and hau.user_id = utm.user_id
+  where
+    hau.user_id is not null
+    and hau.user_pseudo_id is not null
 )
 
 select
@@ -48,8 +51,8 @@ select
   max(utm_source) as utm_source,
   max(campaign) as campaign,
   case
-    when max(utm_source) != 'no user consent' then max(utm_source)
-    when max(utm_source) = 'no user consent' and max(hau) = "['other']" then 'unavailable'
+    when max(utm_source) != 'no user consent' then max(utm_source) --- cast(coalesce(json_value(parse_json(max(utm_source)), '$[0]'), max(utm_source)) as string)
+    when max(utm_source) = 'no user consent' and max(hau) = "['no answer']" then 'unavailable'
     else max(hau)
   end as network_attribution
 from hau_utm
