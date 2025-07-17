@@ -1,0 +1,78 @@
+create or replace table `relax-melodies-android.mappings.utm_maps` (
+    original_utm STRING,
+    new_utm STRING
+);
+
+insert `relax-melodies-android.mappings.utm_maps`
+values
+    ('4weekplan', 'Organic'),
+    ('addon_email', 'Organic'),
+    ('an', 'Organic'), -- verify
+    ('app+store,', ''), -- verify
+    ('apple search ads', 'Apple Search Ads'),
+    ('apple+store', ''), -- verify
+    ('appsflyer_sdk_test_int', ''), -- verify
+    ('appstore', ''), -- verify
+    ('beehiiv', 'beehiiv'),
+    ('bettersleep_brg', ''),
+    ('bit.ly', ''), -- verify
+    ('blog', 'Organic'),
+    ('bytedanceglobal_int', 'tiktokglobal_int'),
+    ('chatgpt.com', 'Organic'),
+    ('content', 'Organic'),
+    ('crm', 'Organic'),
+    ('edge_int', 'edge_int'),
+    ('email', 'Organic'),
+    ('facebook ads', 'Facebook Ads'),
+    ('facebook web ads onelink', 'Facebook Ads'),
+    ('fb', 'Facebook Ads'),
+    ('fb-sitelink', 'Facebook Ads'),
+    ('google', 'googleadwords_int'),
+    ('googleadwords_int', 'googleadwords_int'),
+    ('group_plan', ''), -- verify
+    ('ig', 'Facebook Ads'),
+    ('impactradius_int', 'impactradius_int'),
+    ('influence_logic', ''), -- verify
+    ('iterable', ''), -- verify
+    ('lindahall', ''),
+    ('link_in_bio', 'Organic'),
+    ('msg', 'Organic'),
+    ('no user consent', 'no user consent'),
+    ('none', 'Organic'),
+    ('organic', 'Organic'),
+    ('outbrain', 'Organic'),
+    ('partnership', ''), -- verify
+    ('pinterest', ''), -- verify
+    ('play store', '') , -- verify
+    ('play+store', ''), -- verify
+    ('playstore', ''), -- verify
+    ('restricted', 'no user consent'),
+    ('rm_and', 'Organic'),
+    ('rm_andrduj', 'Organic'),
+    ('rm_android', 'Organic'),
+    ('rm_ios', 'Organic'),
+    ('rm_ios_referral', 'Organic'),
+    ('rm_web', 'Organic'),
+    ('rmweb', 'Organic'),
+    ('sleepfoundation', ''), -- verify
+    ('snapchat', 'snapchat_int'),
+    ('snapchat web ads onelink', 'snapchat_int'),
+    ('snapchat_int', 'snapchat_int'),
+    ('social', 'Organic'),
+    ('social_facebook', 'Organic'), -- verify
+    ('social_instagram', 'Organic'),
+    ('social_linkedin', 'Organic'),
+    ('social_twitter', 'Organic'),
+    ('social_youtube', 'Organic'),
+    ('store+events', ''), -- verify
+    ('support', 'Organic'),
+    ('tatari', 'tatari_streaming'),
+    ('tatari_qr-code', 'tatari_streaming'),
+    ('tiktok', 'tiktokglobal_int'),
+    ('tiktok web ads onelink', 'tiktokglobal_int'),
+    ('tiktokglobal_int', 'tiktokglobal_int'),
+    ('web', 'Organic'),
+    ('web_checkout', 'Organic'),
+    ('wellhub_onelink', 'wellhub'),
+    ('youtube', 'googleadwords_int'),
+    ('{{site_source_name}}', 'Organic'),
