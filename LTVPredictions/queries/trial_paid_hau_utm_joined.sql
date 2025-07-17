@@ -1,8 +1,6 @@
 DECLARE conversion_window INT64 DEFAULT 60;
 DECLARE single_day STRING DEFAULT '2025-05-01';
 
---- TODO: add proceeds
-
 with trials as (
   select
     user_id,
@@ -18,7 +16,8 @@ with trials as (
   select
     user_id,
     platform,
-    max(event_date) as event_date
+    max(event_date) as event_date,
+    avg(proceeds) as proceeds
   from `relax-melodies-android.late_conversions.users_paid_daily`
   where
     event_date between date(single_day) and (date(single_day) + interval conversion_window day)
@@ -64,6 +63,7 @@ with trials as (
     trials.platform,
     trials.event_date as trial_date,
     paid.event_date as paid_date,
+    paid.proceeds as paid_proceeds
   from trials
   full outer join paid
   on trials.user_id = paid.user_id
