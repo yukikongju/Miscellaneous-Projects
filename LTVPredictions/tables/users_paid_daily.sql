@@ -5,6 +5,9 @@ create or replace table `relax-melodies-android.late_conversions.users_paid_dail
     user_pseudo_id STRING,
     platform STRING,
     country STRING,
+    proceeds FLOAT64,
+    currency STRING,
+    sku STRING,
     load_timestamp TIMESTAMP
 )
 PARTITION BY
