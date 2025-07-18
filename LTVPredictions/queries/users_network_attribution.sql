@@ -1,59 +1,138 @@
-DECLARE conversion_window INT64 DEFAULT 10;
-DECLARE single_day STRING DEFAULT '2025-05-01';
-
-with hau as (
-  select
-    user_id,
-    user_pseudo_id,
-    hau,
-    traffic_source,
-    traffic_source_name
-  from `relax-melodies-android.late_conversions.users_hau_daily`
-  where
-    event_date between (date(single_day) - interval conversion_window day) and date(single_day)
-    and user_pseudo_id is not null
-), utm as (
-  select
+DECLARE
+  conversion_window INT64 DEFAULT 10;
+DECLARE
+  single_day STRING DEFAULT '2025-05-01';
+WITH
+  hau AS (
+  SELECT
     user_id,
     user_pseudo_id,
     platform,
+    country,
+    -- hau,
+    JSON_VALUE(PARSE_JSON(hau), '$[0]') AS hau,
+    traffic_source,
+    traffic_source_name
+  FROM
+    `relax-melodies-android.late_conversions.users_hau_daily`
+  WHERE
+    event_date BETWEEN (DATE(single_day) - INTERVAL conversion_window day)
+    AND DATE(single_day)
+    AND user_pseudo_id IS NOT NULL ),
+  utm AS (
+  SELECT
+    user_id,
+    user_pseudo_id,
+    platform,
+    country,
     utm_source,
     campaign
-  from `relax-melodies-android.late_conversions.users_utm_daily`
-  where
-    event_date between (date(single_day) - interval conversion_window day) and date(single_day)
-    and user_pseudo_id is not null
-), hau_utm as (
-  select
+  FROM
+    `relax-melodies-android.late_conversions.users_utm_daily`
+  WHERE
+    event_date BETWEEN (DATE(single_day) - INTERVAL conversion_window day)
+    AND DATE(single_day)
+    AND user_pseudo_id IS NOT NULL
+    AND utm_source IS NOT NULL ),
+  hau_clean AS (
+  SELECT
+    h.user_id,
+    h.user_pseudo_id,
+    h.platform,
+    h.country,
+    h.traffic_source,
+    h.traffic_source_name,
+    h.hau AS old_hau,
+    CASE
+      WHEN m.new_hau IS NOT NULL THEN m.new_hau
+      ELSE h.hau
+  END
+    AS hau
+  FROM
+    hau h
+  LEFT JOIN
+    `relax-melodies-android.mappings.hau_maps` m
+  ON
+    h.hau = m.original_hau ),
+  utm_clean AS (
+  SELECT
+    u.user_id,
+    u.user_pseudo_id,
+    u.platform,
+    u.country,
+    u.utm_source AS old_utm_source,
+    CASE
+      WHEN m.new_utm IS NOT NULL THEN m.new_utm
+      ELSE u.utm_source
+  END
+    AS utm_source,
+    u.campaign
+  FROM
+    utm u
+  LEFT JOIN
+    `relax-melodies-android.mappings.utm_maps` m
+  ON
+    u.utm_source = m.original_utm ),
+  hau_utm AS (
+  SELECT
     hau.user_id,
     hau.user_pseudo_id,
     hau.hau,
     hau.traffic_source,
     hau.traffic_source_name,
+    hau.old_hau,
+    hau.country,
+    hau.platform AS hau_platform,
+    utm.platform AS utm_platform,
+    utm.old_utm_source,
     utm.utm_source,
     utm.campaign,
-  from hau
-  full outer join utm
-  on
+  FROM
+    hau_clean hau
+  FULL OUTER JOIN
+    utm_clean utm
+  ON
     hau.user_pseudo_id = utm.user_pseudo_id
-    and hau.user_id = utm.user_id
-  where
-    hau.user_id is not null
-    and hau.user_pseudo_id is not null
+    AND hau.user_id = utm.user_id
+  WHERE
+    hau.user_id IS NOT NULL
+    AND hau.user_pseudo_id IS NOT NULL ),
+  users_network_attribution AS (
+  SELECT
+    user_id,
+    user_pseudo_id,
+    MAX(hau_platform) AS platform,
+    max(country) as country,
+    -- most of the time, hau_platform and utm_platform match, but utm_platform is sometimes missing
+    -- max(hau_platform) as hau_platform,
+    -- max(utm_platform) as utm_platform,
+    MAX(hau) AS hau,
+    MAX(traffic_source) AS traffic_source,
+    MAX(traffic_source_name) AS traffic_source_name,
+    MAX(utm_source) AS utm_source,
+    MAX(campaign) AS campaign,
+    MAX(old_utm_source) AS old_utm_source,
+    MAX(old_hau) AS old_hau,
+    CASE
+      WHEN MAX(utm_source) != 'no user consent' THEN MAX(utm_source) --- cast(coalesce(json_value(parse_json(max(utm_source)), '$[0]'), max(utm_source)) as string)
+      WHEN MAX(utm_source) = 'no user consent'
+    AND MAX(hau) = 'no answer' THEN 'unavailable'
+      ELSE MAX(hau)
+  END
+    AS network_attribution
+  FROM
+    hau_utm
+  GROUP BY
+    user_id,
+    user_pseudo_id
 )
 
 select
-  user_id,
-  user_pseudo_id,
-  max(hau) as hau,
-  max(traffic_source) as traffic_source,
-  max(traffic_source_name) as traffic_source_name,
-  max(utm_source) as utm_source,
-  max(campaign) as campaign,
-  case
-    when max(utm_source) != 'no user consent' then max(utm_source) --- cast(coalesce(json_value(parse_json(max(utm_source)), '$[0]'), max(utm_source)) as string)
-    when max(utm_source) = 'no user consent' and max(hau) = "['no answer']" then 'unavailable'
-    else max(hau)
-  end as network_attribution
-from hau_utm
-group by user_id, user_pseudo_id
+  u.user_id,
+  u.user_pseudo_id,
+  u.platform,
+  m.country_code,
+  u.network_attribution
+from users_network_attribution u
+left join `relax-melodies-android.mappings.country_maps` m
+on u.country = m.country_name

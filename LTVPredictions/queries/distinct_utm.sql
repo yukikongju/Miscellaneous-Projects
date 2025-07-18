@@ -1,0 +1,78 @@
+select
+  distinct utm_source
+from `relax-melodies-android.late_conversions.users_utm_daily`
+order by utm_source asc
+
+--  1	null
+--  2	 rm_and
+--  3	4weekplan
+--  4	addon_email
+--  5	an
+--  6	app+store
+--  7	apple search ads
+--  8	apple+store
+--  9	appsflyer_sdk_test_int
+--  10	appstore
+--  11	beehiiv
+--  12	bettersleep_brg
+--  13	bit.ly
+--  14	blog
+--  15	bytedanceglobal_int
+--  16	chatgpt.com
+--  17	content
+--  18	crm
+--  19	edge_int
+--  20	email
+--  21	facebook ads
+--  22	facebook web ads onelink
+--  23	fb
+--  24	fb-sitelink
+--  25	google
+--  26	googleadwords_int
+--  27	group_plan
+--  28	ig
+--  29	impactradius_int
+--  30	influence_logic
+--  31	iterable
+--  32	lindahall
+--  33	link_in_bio
+--  34	msg
+--  35	no user consent
+--  36	none
+--  37	organic
+--  38	outbrain
+--  39	partnership
+--  40	pinterest
+--  41	play store
+--  42	play+store
+--  43	playstore
+--  44	restricted
+--  45	rm_and
+--  46	rm_andrduj
+--  47	rm_android
+--  48	rm_ios
+--  49	rm_ios_referral
+--  50	rm_web
+--  51	rmweb
+--  52	sleepfoundation
+--  53	snapchat
+--  54	snapchat web ads onelink
+--  55	snapchat_int
+--  56	social
+--  57	social_facebook
+--  58	social_instagram
+--  59	social_linkedin
+--  60	social_twitter
+--  61	social_youtube
+--  62	store+events
+--  63	support
+--  64	tatari
+--  65	tatari_qr-code
+--  66	tiktok
+--  67	tiktok web ads onelink
+--  68	tiktokglobal_int
+--  69	web
+--  70	web_checkout
+--  71	wellhub_onelink
+--  72	youtube
+--  73	{{site_source_name}}
