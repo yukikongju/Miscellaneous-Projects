@@ -5,23 +5,23 @@ create or replace table `relax-melodies-android.mappings.hau_maps` (
 
 insert into `relax-melodies-android.mappings.hau_maps`
 values
-    ('appstore', ''), -- verify
+    ('appstore', 'Organic'),
     ('audiostreaming', 'audacy'),
     ('blog', 'Organic'),
     ('friendfamily', 'Organic'),
     ('healthprofessional', 'Organic'),
-    ('influencer', ''), -- verify
+    ('influencer', 'partnership'),
     ('no answer', 'no answer'),
     ('other', 'other'),
-    ('partners', ''), -- verify
-    ('playstore', ''), -- verify
+    ('partners', 'partnership'),
+    ('playstore', 'Organic'),
     ('podcast', 'audacy'),
-    ('socialmedia', ''), -- verify
-    ('socialmedia-facebook', ''),
-    ('socialmedia-instagram', ''),
-    ('socialmedia-snapchat', ''),
-    ('socialmedia-tiktok', ''),
-    ('socialmedia-youtube', ''),
+    ('socialmedia', 'Organic'),
+    ('socialmedia-facebook', 'Organic'),
+    ('socialmedia-instagram', 'Organic'),
+    ('socialmedia-snapchat', 'Organic'),
+    ('socialmedia-tiktok', 'Organic'),
+    ('socialmedia-youtube', 'Organic'),
     ('tiktok', 'tiktokglobal_int'),
     ('tvstreaming', 'tatari_streaming'),
     ('websearch', 'googleadwords_int');

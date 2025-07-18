@@ -3,19 +3,21 @@ create or replace table `relax-melodies-android.mappings.utm_maps` (
     new_utm STRING
 );
 
+-- Note: appstore and play store are Organic channels per Kevin Cluess on Jul 18, 2025
+
 insert `relax-melodies-android.mappings.utm_maps`
 values
     ('4weekplan', 'Organic'),
     ('addon_email', 'Organic'),
-    ('an', 'Organic'), -- verify
-    ('app+store,', ''), -- verify
+    ('an', 'Organic'),
+    ('app+store,', 'Organic'),
     ('apple search ads', 'Apple Search Ads'),
-    ('apple+store', ''), -- verify
-    ('appsflyer_sdk_test_int', ''), -- verify
-    ('appstore', ''), -- verify
+    ('apple+store', 'Organic'),
+    ('appsflyer_sdk_test_int', 'Organic'), -- verify
+    ('appstore', 'Organic'),
     ('beehiiv', 'beehiiv'),
     ('bettersleep_brg', ''),
-    ('bit.ly', ''), -- verify
+    ('bit.ly', 'Organic'), -- verify
     ('blog', 'Organic'),
     ('bytedanceglobal_int', 'tiktokglobal_int'),
     ('chatgpt.com', 'Organic'),
@@ -29,23 +31,23 @@ values
     ('fb-sitelink', 'Facebook Ads'),
     ('google', 'googleadwords_int'),
     ('googleadwords_int', 'googleadwords_int'),
-    ('group_plan', ''), -- verify
+    ('group_plan', 'Organic'),
     ('ig', 'Facebook Ads'),
     ('impactradius_int', 'impactradius_int'),
-    ('influence_logic', ''), -- verify
-    ('iterable', ''), -- verify
-    ('lindahall', ''),
+    ('influence_logic', 'partnership'),
+    ('iterable', 'Organice'),
+    ('lindahall', 'influencers'),
     ('link_in_bio', 'Organic'),
     ('msg', 'Organic'),
     ('no user consent', 'no user consent'),
     ('none', 'Organic'),
     ('organic', 'Organic'),
     ('outbrain', 'Organic'),
-    ('partnership', ''), -- verify
-    ('pinterest', ''), -- verify
-    ('play store', '') , -- verify
-    ('play+store', ''), -- verify
-    ('playstore', ''), -- verify
+    ('partnership', 'partnership'), -- verify
+    ('pinterest', 'Organic'), -- verify
+    ('play store', 'Organic'),
+    ('play+store', 'Organic'),
+    ('playstore', 'Organic'),
     ('restricted', 'no user consent'),
     ('rm_and', 'Organic'),
     ('rm_andrduj', 'Organic'),
@@ -54,7 +56,7 @@ values
     ('rm_ios_referral', 'Organic'),
     ('rm_web', 'Organic'),
     ('rmweb', 'Organic'),
-    ('sleepfoundation', ''), -- verify
+    ('sleepfoundation', 'Organic'),
     ('snapchat', 'snapchat_int'),
     ('snapchat web ads onelink', 'snapchat_int'),
     ('snapchat_int', 'snapchat_int'),
@@ -64,7 +66,7 @@ values
     ('social_linkedin', 'Organic'),
     ('social_twitter', 'Organic'),
     ('social_youtube', 'Organic'),
-    ('store+events', ''), -- verify
+    ('store+events', 'Organic'),
     ('support', 'Organic'),
     ('tatari', 'tatari_streaming'),
     ('tatari_qr-code', 'tatari_streaming'),
@@ -75,4 +77,4 @@ values
     ('web_checkout', 'Organic'),
     ('wellhub_onelink', 'wellhub'),
     ('youtube', 'googleadwords_int'),
-    ('{{site_source_name}}', 'Organic'),
+    ('{{site_source_name}}', 'Organic');
