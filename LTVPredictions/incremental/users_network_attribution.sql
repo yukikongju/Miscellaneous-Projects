@@ -1,8 +1,11 @@
+
 DECLARE
   conversion_window INT64 DEFAULT 20;
 DECLARE
-  --  single_day STRING DEFAULT '2025-05-01';
-  single_day timestamp default timestamp_sub(current_timestamp, interval 2 day);
+  single_day timestamp DEFAULT TIMESTAMP_SUB(current_timestamp, INTERVAL 10 day);
+
+insert into `relax-melodies-android.late_conversions.users_network_attribution`
+
 WITH
   hau AS (
   SELECT
@@ -13,12 +16,12 @@ WITH
     -- hau,
     JSON_VALUE(PARSE_JSON(hau), '$[0]') AS hau,
     traffic_source,
-    traffic_source_name
+    traffic_source_name,
+    event_timestamp
   FROM
     `relax-melodies-android.late_conversions.users_hau_daily`
   WHERE
-    event_date BETWEEN (DATE(single_day) - INTERVAL conversion_window day)
-    AND DATE(single_day)
+    event_date = DATE(single_day)
     AND user_pseudo_id IS NOT NULL ),
   utm AS (
   SELECT
@@ -27,7 +30,8 @@ WITH
     platform,
     country,
     utm_source,
-    campaign
+    campaign,
+    event_timestamp
   FROM
     `relax-melodies-android.late_conversions.users_utm_daily`
   WHERE
@@ -48,7 +52,8 @@ WITH
       WHEN m.new_hau IS NOT NULL THEN m.new_hau
       ELSE h.hau
   END
-    AS hau
+    AS hau,
+    h.event_timestamp
   FROM
     hau h
   LEFT JOIN
@@ -67,7 +72,8 @@ WITH
       ELSE u.utm_source
   END
     AS utm_source,
-    u.campaign
+    u.campaign,
+    u.event_timestamp,
   FROM
     utm u
   LEFT JOIN
@@ -83,11 +89,14 @@ WITH
     hau.traffic_source_name,
     hau.old_hau,
     hau.country,
-    hau.platform AS hau_platform,
-    utm.platform AS utm_platform,
+    hau.platform as platform,
+    -- hau.platform AS hau_platform,
+    -- utm.platform AS utm_platform,
     utm.old_utm_source,
     utm.utm_source,
     utm.campaign,
+    hau.event_timestamp as hau_timestamp,
+    utm.event_timestamp as utm_timestamp
   FROM
     hau_clean hau
   FULL OUTER JOIN
@@ -102,8 +111,8 @@ WITH
   SELECT
     user_id,
     user_pseudo_id,
-    MAX(hau_platform) AS platform,
-    max(country) as country,
+    MAX(platform) AS platform,
+    MAX(country) AS country,
     -- most of the time, hau_platform and utm_platform match, but utm_platform is sometimes missing
     -- max(hau_platform) as hau_platform,
     -- max(utm_platform) as utm_platform,
@@ -120,20 +129,39 @@ WITH
     AND MAX(hau) = 'no answer' THEN 'unavailable'
       ELSE MAX(hau)
   END
-    AS network_attribution
+    AS network_attribution,
+    MAX(hau_timestamp) as hau_timestamp,
+    MAX(utm_timestamp) as utm_timestamp,
   FROM
     hau_utm
   GROUP BY
     user_id,
-    user_pseudo_id
-)
+    user_pseudo_id )
 
-select
+-- select * from users_network_attribution
+-- select * from hau
+
+
+SELECT
   u.user_id,
   u.user_pseudo_id,
   u.platform,
+  u.country as country_name,
   m.country_code,
-  u.network_attribution
-from users_network_attribution u
-left join `relax-melodies-android.mappings.country_maps` m
-on u.country = m.country_name
+  u.traffic_source,
+  u.traffic_source_name,
+  u.campaign,
+  u.old_hau,
+  u.old_utm_source,
+  u.hau,
+  u.utm_source,
+  u.network_attribution,
+  u.hau_timestamp,
+  u.utm_timestamp,
+  current_timestamp()
+FROM
+  users_network_attribution u
+LEFT JOIN
+  `relax-melodies-android.mappings.country_maps` m
+ON
+  u.country = m.country_name
