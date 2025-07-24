@@ -1,70 +1,44 @@
--- cost: 624.27MB -
+--- cost: 43.53MB
 DECLARE
   conversion_window INT64 DEFAULT 20;
 DECLARE
-  single_day timestamp DEFAULT TIMESTAMP_SUB(current_timestamp, INTERVAL 10 day);
-  -- insert into `relax-melodies-android.late_conversions.users_network_attribution`
+  single_day timestamp DEFAULT TIMESTAMP_SUB(current_timestamp, INTERVAL 2 day);
+
+insert into `relax-melodies-android.late_conversions.users_network_attribution`
+
 WITH
   hau AS (
   SELECT
     user_id,
     user_pseudo_id,
-    LOWER(platform) AS platform,
-    geo.country AS country,
-    traffic_source.name AS traffic_source_name,
-    traffic_source.medium AS traffic_source_medium,
-    traffic_source.source AS traffic_source,
-    JSON_VALUE(PARSE_JSON(ep2.value.string_value), '$[0]') AS hau,
+    platform,
+    country,
+    -- hau,
+    JSON_VALUE(PARSE_JSON(hau), '$[0]') AS hau,
+    traffic_source,
+    traffic_source_name,
     event_timestamp
   FROM
-    `relax-melodies-android.sandbox.analytics_events_pc`,
-    UNNEST(event_params) AS ep1,
-    UNNEST(event_params) AS ep2
+    `relax-melodies-android.late_conversions.users_hau_daily`
   WHERE
-    TIMESTAMP_TRUNC(event_date_partition, DAY) = timestamp_trunc(single_day, day)
-    AND event_name = 'answer_question'
-    AND ep1.key IN ('question_id')
-    AND LOWER(ep1.value.string_value) = 'hearaboutus'
-    AND ep2.key IN ('answers',
-      'answer')
+    event_date = DATE(single_day)
     AND user_pseudo_id IS NOT NULL ),
   utm AS (
   SELECT
-    -- DATE(TIMESTAMP_MICROS(event_timestamp)) AS event_date_partition,
     user_id,
     user_pseudo_id,
-    LOWER(platform) AS platform,
-    geo.country AS country,
-    traffic_source.name AS traffic_source_name,
-    traffic_source.medium AS traffic_source_medium,
-    traffic_source.source AS traffic_source,
-    CASE
-      WHEN ep.key = 'campaign_id' THEN ep.value.string_value
-  END
-    AS campaign,
-    CASE
-      WHEN ep.key IN ('utm_source', 'source') THEN LOWER(ep.value.string_value)
-  END
-    AS utm_source,
-    -- CASE WHEN ep.key = 'page_title' THEN ep.value.string_value END AS page_title,
-    -- CASE WHEN ep.key = 'page_location' THEN ep.value.string_value END AS page_location,
-    -- CASE WHEN ep.key = 'page_referrer' THEN ep.value.string_value END AS page_referrer,
-    -- CASE WHEN ep.key = 'content' THEN ep.value.string_value END AS content,
+    platform,
+    country,
+    utm_source,
+    campaign,
     event_timestamp
   FROM
-    `relax-melodies-android.sandbox.analytics_events_pc`,
-    UNNEST(event_params) AS ep
+    `relax-melodies-android.late_conversions.users_utm_daily`
   WHERE
-    TIMESTAMP_TRUNC(event_date_partition, DAY) >= timestamp_trunc(single_day - interval conversion_window day, day)
-    AND TIMESTAMP_TRUNC(event_date_partition, DAY) <= timestamp_trunc(single_day, day)
-    AND event_name = 'UTM_Visited'
-    AND ep.key IN ('campaign_id',
-      'utm_source',
-      'source',
-      'content',
-      'page_location',
-      'page_referrer')
-    AND user_pseudo_id IS NOT NULL ),
+    event_date BETWEEN (DATE(single_day) - INTERVAL conversion_window day)
+    AND DATE(single_day)
+    AND user_pseudo_id IS NOT NULL
+    AND utm_source IS NOT NULL ),
   hau_clean AS (
   SELECT
     h.user_id,
@@ -105,9 +79,7 @@ WITH
   LEFT JOIN
     `relax-melodies-android.mappings.utm_maps` m
   ON
-    u.utm_source = m.original_utm
-  WHERE
-    u.utm_source IS NOT NULL ),
+    u.utm_source = m.original_utm ),
   hau_utm AS (
   SELECT
     hau.user_id,
@@ -117,14 +89,14 @@ WITH
     hau.traffic_source_name,
     hau.old_hau,
     hau.country,
-    hau.platform AS platform,
+    hau.platform as platform,
     -- hau.platform AS hau_platform,
     -- utm.platform AS utm_platform,
     utm.old_utm_source,
     utm.utm_source,
     utm.campaign,
-    hau.event_timestamp AS hau_timestamp,
-    utm.event_timestamp AS utm_timestamp
+    hau.event_timestamp as hau_timestamp,
+    utm.event_timestamp as utm_timestamp
   FROM
     hau_clean hau
   FULL OUTER JOIN
@@ -158,24 +130,23 @@ WITH
       ELSE MAX(hau)
   END
     AS network_attribution,
-    MAX(hau_timestamp) AS hau_timestamp,
-    MAX(utm_timestamp) AS utm_timestamp,
+    MAX(hau_timestamp) as hau_timestamp,
+    MAX(utm_timestamp) as utm_timestamp,
   FROM
     hau_utm
   GROUP BY
     user_id,
     user_pseudo_id )
 
-
-  -- select * from users_network_attribution
-  -- select * from hau
+-- select * from users_network_attribution
+-- select * from hau
 
 
 SELECT
   u.user_id,
   u.user_pseudo_id,
   u.platform,
-  u.country AS country_name,
+  u.country as country_name,
   m.country_code,
   u.traffic_source,
   u.traffic_source_name,
@@ -187,7 +158,7 @@ SELECT
   u.network_attribution,
   u.hau_timestamp,
   u.utm_timestamp,
-  CURRENT_TIMESTAMP()
+  current_timestamp()
 FROM
   users_network_attribution u
 LEFT JOIN
