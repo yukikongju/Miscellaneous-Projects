@@ -1,9 +1,9 @@
--- cost: 624.27MB -
+-- cost: 624.27MB ; 741.63MB => approx. 1GB per day ie 500GB ie 50 cents per year
 DECLARE
   conversion_window INT64 DEFAULT 20;
 DECLARE
-  single_day timestamp DEFAULT TIMESTAMP_SUB(current_timestamp, INTERVAL 10 day);
-  -- insert into `relax-melodies-android.late_conversions.users_network_attribution`
+  single_day timestamp DEFAULT TIMESTAMP_SUB(current_timestamp, INTERVAL 2 day);
+  insert into `relax-melodies-android.late_conversions.users_network_attribution`
 WITH
   hau AS (
   SELECT
@@ -187,7 +187,7 @@ SELECT
   u.network_attribution,
   u.hau_timestamp,
   u.utm_timestamp,
-  CURRENT_TIMESTAMP()
+  CURRENT_TIMESTAMP() as load_timestamp
 FROM
   users_network_attribution u
 LEFT JOIN
