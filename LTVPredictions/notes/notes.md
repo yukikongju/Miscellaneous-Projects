@@ -1,5 +1,8 @@
 # Notes
 
+
+
+
 **TODOs**
 
 [spreadsheet](https://docs.google.com/spreadsheets/d/1VNfA5q5SdOfmZ4EPrr8H9BdEB1UZA6sa2dQinBUp_oE/edit?gid=0#gid=0)
@@ -40,3 +43,8 @@
 **Questions**
 
 - How to use late revenue model to inform business decisions?
+
+
+**Boards**
+
+- [Time to convert - UTM to HAU](https://mixpanel.com/s/1EV85S) => 28D max

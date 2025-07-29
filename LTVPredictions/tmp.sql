@@ -1,4 +1,4 @@
--- cost: 1.37GB --- we can rebuild the table weekly
+-- cost: 1.27GB
 DECLARE
   start_date string DEFAULT "2023-01-01";
 DECLARE
@@ -71,7 +71,6 @@ WITH
     prev_renewal_timestamp_s IS NULL
     OR TIMESTAMP_SUB(renewal_timestamp_s, INTERVAL 1 DAY) > prev_renewal_timestamp_s
     AND renewal_sku LIKE '%year%' --- only keep yearly sku
-    AND proceeds is not null
   ORDER BY
     user_id,
     renewal_timestamp_s ),
@@ -91,15 +90,18 @@ WITH
     DATE_DIFF(r.renewal_timestamp_s, p.paid_timestamp_s, DAY) AS days_to_renewal,
     CASE
       WHEN DATE_DIFF(r.renewal_timestamp_s, p.paid_timestamp_s, DAY) <= 31 THEN '1-Month'
-      WHEN DATE_DIFF(r.renewal_timestamp_s, p.paid_timestamp_s, DAY) BETWEEN 31 AND 60 THEN '2-Months'
+      WHEN DATE_DIFF(r.renewal_timestamp_s, p.paid_timestamp_s, DAY) BETWEEN 31
+    AND 60 THEN '2-Months'
       WHEN DATE_DIFF(r.renewal_timestamp_s, p.paid_timestamp_s, DAY) BETWEEN 60 AND 180 THEN 'Half-Year'
-      WHEN DATE_DIFF(r.renewal_timestamp_s, p.paid_timestamp_s, DAY) BETWEEN 180 AND 365 THEN '1-Year'
+      WHEN DATE_DIFF(r.renewal_timestamp_s, p.paid_timestamp_s, DAY) BETWEEN 180
+    AND 365 THEN '1-Year'
       WHEN DATE_DIFF(r.renewal_timestamp_s, p.paid_timestamp_s, DAY) BETWEEN 365 AND 730 THEN '2-Years'
-      WHEN DATE_DIFF(r.renewal_timestamp_s, p.paid_timestamp_s, DAY) BETWEEN 730 AND 1095 THEN '3-Years'
+      WHEN DATE_DIFF(r.renewal_timestamp_s, p.paid_timestamp_s, DAY) BETWEEN 730
+    AND 1095 THEN '3-Years'
       WHEN DATE_DIFF(r.renewal_timestamp_s, p.paid_timestamp_s, DAY) BETWEEN 1095 AND 1460 THEN '4-Years'
-      WHEN DATE_DIFF(r.renewal_timestamp_s, p.paid_timestamp_s, DAY) BETWEEN 1460 AND 1825 THEN '5-Years'
-      when DATE_DIFF(r.renewal_timestamp_s, p.paid_timestamp_s, DAY) > 1825 THEN '>5-Years'
-      ELSE 'No Renewal'
+      WHEN DATE_DIFF(r.renewal_timestamp_s, p.paid_timestamp_s, DAY) BETWEEN 1460
+    AND 1825 THEN '5-Years'
+      ELSE '>5-Years'
   END
     AS renewal_bucket
   FROM
@@ -112,52 +114,27 @@ WITH
     `relax-melodies-android.late_conversions.users_network_attribution` u
   ON
     p.user_id = u.user_id
-  -- WHERE
-  --   p.proceeds is not null and r.proceeds is not null
   ORDER BY
     user_id,
     days_to_renewal ),
-  joined_table_filtered as (
-    select
-      user_id,
-      user_pseudo_id,
-      network_attribution,
-      platform,
-      country_code,
-      paid_timestamp_s,
-      renewal_timestamp_s,
-      paid_year_month,
-      paid_proceeds,
-      renewal_proceeds,
-      renewal_bucket
-    from joined_table
-    where
-      renewal_bucket not in (
-        '1-Month',
-        '2-Months',
-        'Half-Year'
-      )
-      and network_attribution is not null
-      and ((renewal_timestamp_s is not null and renewal_proceeds is not null) or (renewal_timestamp_s is null and renewal_proceeds is null))
-      and country_code is not null
-  ),
   paid_cohorts AS (
   SELECT
     paid_year_month,
     network_attribution,
     country_code,
     platform,
+    renewal_bucket,
     COUNT(*) AS num_paid,
     AVG(paid_proceeds) AS paid_proceeds
   FROM
-    joined_table_filtered
-  WHERE paid_timestamp_s is not null
+    joined_table
   GROUP BY
     paid_year_month,
     platform,
     network_attribution,
-    country_code
-  ),
+    country_code,
+    renewal_bucket
+     ),
   renewal_cohorts AS (
   SELECT
     paid_year_month,
@@ -168,9 +145,12 @@ WITH
     COUNT(*) AS num_renewals,
     AVG(renewal_proceeds) AS renewal_proceeds
   FROM
-    joined_table_filtered
+    joined_table
   WHERE
     renewal_timestamp_s IS NOT NULL
+    AND renewal_bucket NOT IN ('1-Month',
+      '2-Months',
+      'Half-Year')
   GROUP BY
     paid_year_month,
     platform,
@@ -197,8 +177,7 @@ WITH
   ON
     r.paid_year_month = p.paid_year_month
     AND r.platform = p.platform
-    and r.network_attribution = p.network_attribution
-    and r.country_code = p.country_code
+    -- and r.country = p.country
     ),
   mature_cohorts AS (
   SELECT
@@ -220,22 +199,12 @@ WITH
       OR (renewal_bucket = '3-Years'AND paid_year_month < FORMAT_DATE('%Y-%m', DATE_SUB(CURRENT_DATE(), INTERVAL 3 year)))
       OR (renewal_bucket = '4-Years'AND paid_year_month < FORMAT_DATE('%Y-%m', DATE_SUB(CURRENT_DATE(), INTERVAL 4 year)))
       OR (renewal_bucket = '5-Years'AND paid_year_month < FORMAT_DATE('%Y-%m', DATE_SUB(CURRENT_DATE(), INTERVAL 5 year))) ) )
-
   ---
   -- select * from joined_table
   -- where
   --   renewal_timestamp_s is not null and network_attribution is not null
 
--- select * from aggregate_cohorts
-
--- select * from joined_table_filtered
--- select count(*) from paid_unique --- 378180
--- select count(*) from renewal_unique --- 181634
--- select count(*) from joined_table --- 69502
-
--- select * from paid_cohorts --- script_job_9031264432ebd72e3c46d46ac5664082_0.csv
--- select * from renewal_cohorts --- script_job_10c458d7cc38fd359c3139c394c9337d_0.csv
--- select * from aggregate_cohorts
+select * from aggregate_cohorts
 
 
   --- for "renewal_percentage"
@@ -260,9 +229,7 @@ WITH
 --       '>5-Years') )
 -- ORDER BY
 --   paid_year_month,
---   network,
---   platform,
---   country_code
+--   platform
 
 
   --- for "renewal_proceeds"
@@ -282,4 +249,4 @@ WITH
   -- avg(renewal_proceeds)
   -- FOR renewal_bucket in ('1-Year', '2-Years', '3-Years', '4-Years', '5-Years', '>5-Years')
   -- )
-  -- order by paid_year_month, network, platform, country_code
+  -- order by paid_year_month, platform
