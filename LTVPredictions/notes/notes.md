@@ -1,18 +1,22 @@
 # Notes
 
-
+**Data Cleaning**
+- Missing month for network-platform-country
+- rolling average to smooth out
+- take the latest available
+- forecast unmature data
 
 
 **TODOs**
 
 [spreadsheet](https://docs.google.com/spreadsheets/d/1VNfA5q5SdOfmZ4EPrr8H9BdEB1UZA6sa2dQinBUp_oE/edit?gid=0#gid=0)
 
-- [ ] User-level HAU/UTM/Trials/paid/refund queries (used for this and T2P)
 - [ ] Add multiplier in MixPanel for experiments => Late Trial Conversions, Revenues from renewal within 5 years,
 
 
 **Done**
 
+- [X] User-level HAU/UTM/Trials/paid/refund queries (used for this and T2P)
 - [X] [Henry] Renewal conversions distribution => look at distribution
       of paid occuring after 60 days. These conversions won't be taken into
       account in the current T2P, so we can use the distribution to find a

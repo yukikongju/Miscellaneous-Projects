@@ -1,6 +1,6 @@
--- cost: 1.37GB --- we can rebuild the table weekly
+---- `relax-melodies-android.late_conversions.latest_renewal_rates`
+-- cost: 1.57GB --- we can rebuild the table weekly
 -- fixme: coalesce missing rates/proceeds in pivot table with 0.0
--- cost: 1.27GB
 DECLARE
   start_date string DEFAULT "2022-01-01";
 DECLARE
@@ -222,7 +222,35 @@ WITH
       OR (renewal_bucket = '3-Years'AND paid_year_month < FORMAT_DATE('%Y-%m', DATE_SUB(CURRENT_DATE(), INTERVAL 3 year)))
       OR (renewal_bucket = '4-Years'AND paid_year_month < FORMAT_DATE('%Y-%m', DATE_SUB(CURRENT_DATE(), INTERVAL 4 year)))
       OR (renewal_bucket = '5-Years'AND paid_year_month < FORMAT_DATE('%Y-%m', DATE_SUB(CURRENT_DATE(), INTERVAL 5 year))) )
+  ), mature_cohorts_ma as (
+    select
+    paid_year_month, network, platform, country_code, renewal_bucket,
+    round(avg(num_paid) over (partition by network, platform, country_code, renewal_bucket order by paid_year_month rows between 2 preceding and current row), 3) as num_paid,
+    round(avg(num_renewals) over (partition by network, platform, country_code, renewal_bucket order by paid_year_month rows between 2 preceding and current row), 3) as num_renewals,
+    round(avg(paid_proceeds) over (partition by network, platform, country_code, renewal_bucket order by paid_year_month rows between 2 preceding and current row), 3) as paid_proceeds,
+    round(avg(renewal_proceeds) over (partition by network, platform, country_code, renewal_bucket order by paid_year_month rows between 2 preceding and current row), 3) as renewal_proceeds,
+    ROUND(
+    AVG(num_renewals) OVER (
+        PARTITION BY network, platform, country_code, renewal_bucket
+        ORDER BY paid_year_month
+        ROWS BETWEEN 2 PRECEDING AND CURRENT ROW
+    ) /
+    NULLIF(AVG(num_paid) OVER (
+        PARTITION BY network, platform, country_code, renewal_bucket
+        ORDER BY paid_year_month
+        ROWS BETWEEN 2 PRECEDING AND CURRENT ROW
+    ), 0),
+    5) AS renewal_percentage,
+    rank() over (partition by network, platform, country_code, renewal_bucket order by paid_year_month desc) as rn
+    from mature_cohorts
+  ), latest_rates as (
+    select
+      network, platform, country_code, renewal_bucket, num_renewals, num_paid, paid_proceeds, renewal_proceeds, renewal_percentage
+    from mature_cohorts_ma
+    where
+      rn = 1
   )
+
 
   ---
   -- select * from joined_table
@@ -238,10 +266,42 @@ WITH
 
 -- select * from paid_cohorts --- script_job_9031264432ebd72e3c46d46ac5664082_0.csv
 -- select * from renewal_cohorts --- script_job_10c458d7cc38fd359c3139c394c9337d_0.csv
-select * from mature_cohorts order by platform, network, country_code, paid_year_month
+-- select * from mature_cohorts order by platform, network, country_code, paid_year_month
 
+-- select * from mature_cohorts_ma
+-- order by network, platform, country_code, renewal_bucket, paid_year_month
 
-  --- for "renewal_percentage"
+-- select * from latest_rates
+
+---- LATEST MATURE RENEWAL RATE & PROCEEDS ----
+--- for "renewal_percentage"
+-- SELECT
+--   *
+-- FROM (
+--   SELECT
+--     platform,
+--     network,
+--     country_code,
+--     renewal_bucket,
+--     renewal_percentage
+--   FROM
+--     latest_rates )
+-- PIVOT
+--   ( AVG(renewal_percentage) FOR renewal_bucket IN ('1-Year',
+--       '2-Years',
+--       '3-Years'
+--       -- '4-Years',
+--       -- '5-Years',
+--       -- '>5-Years'
+--       ))
+-- order by
+--   platform, network, country_code
+
+--- for "renewal_proceeds"
+
+---- RENEWAL RATE & PROCEEDS PER PAID_YEAR_MONTH ----
+
+--- for "renewal_percentage"
 -- SELECT
 --   *
 -- FROM (
@@ -253,7 +313,7 @@ select * from mature_cohorts order by platform, network, country_code, paid_year
 --     renewal_bucket,
 --     renewal_percentage
 --   FROM
---     mature_cohorts )
+--     mature_cohorts_ma )
 -- PIVOT
 --   ( AVG(renewal_percentage) FOR renewal_bucket IN ('1-Year',
 --       '2-Years',
@@ -279,7 +339,7 @@ select * from mature_cohorts order by platform, network, country_code, paid_year
   -- country_code,
   --  renewal_bucket,
   --  renewal_proceeds
-  -- from mature_cohorts
+  -- from mature_cohorts_ma
   -- )
   -- pivot (
   -- avg(renewal_proceeds)
