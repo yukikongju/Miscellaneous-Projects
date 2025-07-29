@@ -1,6 +1,8 @@
 -- cost: 1.37GB --- we can rebuild the table weekly
+-- fixme: coalesce missing rates/proceeds in pivot table with 0.0
+-- cost: 1.27GB
 DECLARE
-  start_date string DEFAULT "2023-01-01";
+  start_date string DEFAULT "2022-01-01";
 DECLARE
   end_date string DEFAULT "2025-07-01";
 WITH
@@ -219,7 +221,8 @@ WITH
       OR (renewal_bucket = '2-Years'AND paid_year_month < FORMAT_DATE('%Y-%m', DATE_SUB(CURRENT_DATE(), INTERVAL 2 year)))
       OR (renewal_bucket = '3-Years'AND paid_year_month < FORMAT_DATE('%Y-%m', DATE_SUB(CURRENT_DATE(), INTERVAL 3 year)))
       OR (renewal_bucket = '4-Years'AND paid_year_month < FORMAT_DATE('%Y-%m', DATE_SUB(CURRENT_DATE(), INTERVAL 4 year)))
-      OR (renewal_bucket = '5-Years'AND paid_year_month < FORMAT_DATE('%Y-%m', DATE_SUB(CURRENT_DATE(), INTERVAL 5 year))) ) )
+      OR (renewal_bucket = '5-Years'AND paid_year_month < FORMAT_DATE('%Y-%m', DATE_SUB(CURRENT_DATE(), INTERVAL 5 year))) )
+  )
 
   ---
   -- select * from joined_table
@@ -235,7 +238,7 @@ WITH
 
 -- select * from paid_cohorts --- script_job_9031264432ebd72e3c46d46ac5664082_0.csv
 -- select * from renewal_cohorts --- script_job_10c458d7cc38fd359c3139c394c9337d_0.csv
--- select * from aggregate_cohorts
+select * from mature_cohorts order by platform, network, country_code, paid_year_month
 
 
   --- for "renewal_percentage"
