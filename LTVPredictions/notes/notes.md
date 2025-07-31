@@ -10,6 +10,8 @@
 - compare variance on weekly moving average vs monthly moving average
 - compare query renewal rate for year 1 vs mixpanel
 
+**Blockers**
+- `Too many nested views/persistent user-defined functions or possible circular reference of views/persistent user-defined functions referenced in query. Only 16 levels of nested views/persistent user-defined functions are allowed.`
 
 **TODOs**
 

@@ -7,11 +7,21 @@ select
   f.paid * r.`1-Year` * p.`1-Year` as renewal_rev_1Year,
   f.paid * r.`2-Years` * p.`2-Years` as renewal_rev_2Years,
   f.paid * r.`3-Years` * p.`3-Years` as renewal_rev_3Years,
-  f.revenue + f.paid * r.`1-Year` * p.`1-Year` + f.paid * r.`2-Years` * p.`2-Years` + f.paid * r.`3-Years` * p.`3-Years` as late_revenue,
+  f.revenue + f.paid * r.`1-Year` * p.`1-Year` as late_revenue_year1,
+  f.revenue + f.paid * r.`1-Year` * p.`1-Year` + f.paid * r.`2-Years` * p.`2-Years` as late_revenue_year2,
+  f.revenue + f.paid * r.`1-Year` * p.`1-Year` + f.paid * r.`2-Years` * p.`2-Years` + f.paid * r.`3-Years` * p.`3-Years` as late_revenue_year3,
+  case when f.cost_usd > 0
+    then (f.revenue + f.paid * r.`1-Year` * p.`1-Year`) / f. cost_usd
+    else null
+  end as roas_year1,
+  case when f.cost_usd > 0
+    then (f.revenue + f.paid * r.`1-Year` * p.`1-Year` + f.paid * r.`2-Years` * p.`2-Years`) / f. cost_usd
+    else null
+  end as roas_year2,
   case when f.cost_usd > 0
     then (f.revenue + f.paid * r.`1-Year` * p.`1-Year` + f.paid * r.`2-Years` * p.`2-Years` + f.paid * r.`3-Years` * p.`3-Years`) / f. cost_usd
     else null
-  end as late_roas,
+  end as roas_year3,
   case when f.cost_usd > 0
     then f.revenue / f.cost_usd
     else null
@@ -30,3 +40,4 @@ on
 where
   f.date between start_date and end_date
   and paid > 0
+  and cost_usd > 0
