@@ -172,6 +172,7 @@ WITH
 
 
 SELECT
+  extract(date from timestamp_micros(u.hau_timestamp)) as hau_date,
   u.user_id,
   u.user_pseudo_id,
   u.platform,
@@ -185,8 +186,8 @@ SELECT
   u.hau,
   u.utm_source,
   u.network_attribution,
-  u.hau_timestamp,
-  u.utm_timestamp,
+  u.hau_timestamp as hau_timestamp_micros,
+  u.utm_timestamp as utm_timestamp_micros,
   CURRENT_TIMESTAMP() as load_timestamp
 FROM
   users_network_attribution u

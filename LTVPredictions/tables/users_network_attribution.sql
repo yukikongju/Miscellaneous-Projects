@@ -1,4 +1,5 @@
 create or replace table `relax-melodies-android.late_conversions.users_network_attribution` (
+    hau_date DATE,
     user_id STRING,
     user_pseudo_id STRING,
     platform STRING,
@@ -16,6 +17,7 @@ create or replace table `relax-melodies-android.late_conversions.users_network_a
     utm_timestamp INT64,
     load_timestamp TIMESTAMP
 )
+partition by hau_date
 cluster by user_id, user_pseudo_id, country_code, hau_timestamp;
 
 --- no need to cluster on "platform" because it has low cardinality

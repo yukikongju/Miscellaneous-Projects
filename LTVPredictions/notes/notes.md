@@ -5,6 +5,10 @@
 - rolling average to smooth out
 - take the latest available
 - forecast unmature data
+- tatari_linear should be mapped to tatari_streaming
+- default rate for missing network-platform-country
+- compare variance on weekly moving average vs monthly moving average
+- compare query renewal rate for year 1 vs mixpanel
 
 
 **TODOs**

@@ -1,10 +1,10 @@
--- cost: 624.27MB ; 741.63MB => approx. 1GB per day ie 500GB ie 50 cents per year
+-- cost: 24GB with @; 63GB without
 DECLARE
-  conversion_window INT64 DEFAULT 20;
+  conversion_window INT64 DEFAULT 30;
 
--- DECLARE start_date string DEFAULT '2023-01-01';
--- DECLARE end_date string DEFAULT  '2025-07-22';
-  -- insert into `relax-melodies-android.late_conversions.users_network_attribution`
+DECLARE start_date timestamp DEFAULT '2023-01-01';
+DECLARE end_date timestamp DEFAULT '2025-07-28';
+  insert into `relax-melodies-android.late_conversions.users_network_attribution`
 WITH
   hau AS (
   SELECT
@@ -24,7 +24,7 @@ WITH
   WHERE
     -- TIMESTAMP_TRUNC(event_date_partition, DAY) >= timestamp(start_date) and
     -- TIMESTAMP_TRUNC(event_date_partition, DAY) <= timestamp(end_date)
-    event_date_partition >= '2023-01-01' and event_date_partition <= '2025-07-22'
+    event_date_partition >= @start_date and event_date_partition <= @end_date --- using @ enable bigquery to use query caching, improve execution plan reuse and helps partition pruning
     AND event_name = 'answer_question'
     AND ep1.key IN ('question_id')
     AND LOWER(ep1.value.string_value) = 'hearaboutus'
@@ -58,8 +58,8 @@ WITH
     `relax-melodies-android.sandbox.analytics_events_pc`,
     UNNEST(event_params) AS ep
   WHERE
-    event_date_partition >= timestamp_sub('2023-01-01', interval conversion_window day)
-    AND event_date_partition <= '2025-07-22'
+    event_date_partition >= timestamp_sub(start_date, interval conversion_window day)
+    AND event_date_partition <= end_date
     AND event_name = 'UTM_Visited'
     AND ep.key IN ('campaign_id',
       'utm_source',
@@ -175,6 +175,7 @@ WITH
 
 
 SELECT
+  date(timestamp_micros(u.hau_timestamp)) as hau_date,
   u.user_id,
   u.user_pseudo_id,
   u.platform,
@@ -188,8 +189,8 @@ SELECT
   u.hau,
   u.utm_source,
   u.network_attribution,
-  u.hau_timestamp,
-  u.utm_timestamp,
+  u.hau_timestamp as hau_timestamp_micros,
+  u.utm_timestamp as hau_timestamp_micros,
   CURRENT_TIMESTAMP() as load_timestamp
 FROM
   users_network_attribution u
