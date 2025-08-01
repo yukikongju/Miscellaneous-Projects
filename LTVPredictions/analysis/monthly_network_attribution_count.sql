@@ -9,7 +9,7 @@ select
 from `relax-melodies-android.late_conversions.users_network_attribution`
 where
   hau_date between start_date and end_date
-  and network_attribution in ('Apple Search Ads', 'tiktokglobal_int', 'googleadwords_int', 'snapchat_int', 'Facebook Ads')
+  and network_attribution in ('Apple Search Ads', 'tiktokglobal_int', 'googleadwords_int', 'snapchat_int', 'Facebook Ads', 'tatari_streaming')
 group by
   network_attribution, extract(year from hau_date), extract(month from hau_date)
 order by
