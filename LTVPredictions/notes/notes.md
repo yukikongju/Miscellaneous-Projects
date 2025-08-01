@@ -5,13 +5,18 @@
 - rolling average to smooth out
 - take the latest available
 - forecast unmature data
-- tatari_linear should be mapped to tatari_streaming
 - default rate for missing network-platform-country
 - compare variance on weekly moving average vs monthly moving average
 - compare query renewal rate for year 1 vs mixpanel
 
+**Edge cases**
+- tatari_linear should be mapped to tatari_streaming
+- Facebook Ads has no attribution?
+
+
 **Blockers**
-- `Too many nested views/persistent user-defined functions or possible circular reference of views/persistent user-defined functions referenced in query. Only 16 levels of nested views/persistent user-defined functions are allowed.`
+- `Too many nested views/persistent user-defined functions or possible circular reference of views/persistent user-defined functions referenced in query. Only 16 levels of nested views/persistent user-defined functions are allowed.` => how to materialize
+  tables that are unmature yet
 
 **TODOs**
 
