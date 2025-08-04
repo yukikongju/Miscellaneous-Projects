@@ -86,6 +86,7 @@ A collection of random projects
 - [ ] Streamlit Goodreads, Github Commit
 - [ ] Remove PDF Pages + reorder PDF
 - [ ] Social Network Analysis for social media [maxim piessen](https://medium.com/@maximpiessen/how-i-visualised-my-instagram-network-and-what-i-learned-from-it-d7cc125ef297)
+- [ ] Network Analysis in soccer => [video](https://www.youtube.com/watch?v=zf8XzyBnqXk) [glossary](https://dataglossary.wyscout.com/) [dataset](https://figshare.com/collections/Soccer_match_event_dataset/4415000/2) [article](https://www.nature.com/articles/s41597-019-0247-7)
 - [ ] Matrix Multiplication Optimization with FP [MIT](https://ocw.mit.edu/ans7870/6/6.005/s16/classes/16-recursive-data-types/matexpr/)
 - [ ] Parser Generator
 - [ ] JIT for python for-loop. see [Andrease Kling]
@@ -101,6 +102,7 @@ A collection of random projects
 - [ ] BFS Web Crawler in Go w/ NER + search RSS => find links from one web page and BFS through them concurrently
 - [ ] Http server in C
 - [ ] xv6 Operating System
+- [ ]
 - [ ] Dominion Reinforcement Learning Bots
     * [kaggle](https://www.kaggle.com/datasets/adamstacey/dominion-cards)
     * [mdfisher](https://graphics.stanford.edu/~mdfisher/DominionAI.html)
