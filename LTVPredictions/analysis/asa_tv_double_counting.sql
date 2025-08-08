@@ -16,6 +16,7 @@ with counts as (
   select
     extract(year from hau_date) as year,
     extract(month from hau_date) as month,
+    extract(week from hau_date) as week,
     platform,
     COUNTIF((utm_source = 'tvstreaming' AND traffic_source = 'apple search ads') OR (hau = 'tvstreaming' AND traffic_source = 'apple search ads')) AS tv_asa_count,
     countif(network_attribution = 'Apple Search Ads') as asa_attribution_count,
@@ -23,14 +24,17 @@ with counts as (
   from `relax-melodies-android.late_conversions.users_network_attribution`
   where
     platform = 'ios'
+    and hau_date >= start_date and hau_date <= end_date
   group by
-    extract(year from hau_date), extract(month from hau_date), platform
+    extract(year from hau_date), extract(month from hau_date),
+    extract(week from hau_date), platform
 )
 
 select
   platform,
   year,
   month,
+  week,
   tv_asa_count,
   asa_attribution_count,
   case when asa_attribution_count > 0
