@@ -105,7 +105,7 @@ with final_table as (
     refund,
     refunded_amount
   FROM
-    `relax-melodies-android.ua_dashboard_prod.final_table_mobile_FB`
+    `relax-melodies-android.ua_dashboard_prod.final_table_mobile`
   WHERE
     platform <> "web"
 ), final_table_with_late_renewals as (
@@ -133,7 +133,7 @@ with final_table as (
       then f.revenue / f.cost_usd
       else null
     end as roas
-  from `relax-melodies-android.ua_dashboard_prod.final_table` f
+  from final_table f
   left join relax-melodies-android.late_conversions.renewal_rates_ma_imputed r
   on
     f.network = r.network
