@@ -8,7 +8,8 @@ create or replace table `relax-melodies-android.late_conversions.latest_renewal_
     num_renewals INT,
     paid_proceeds FLOAT64,
     renewal_proceeds FLOAT64,
-    renewal_percentage FLOAT64
+    renewal_percentage FLOAT64,
+    loaded_timestamp timestamp
 )
 partition by
     year_month
