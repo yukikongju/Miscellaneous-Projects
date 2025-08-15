@@ -1,19 +1,43 @@
--- cost: 92KB
+-- cost: 255.45 KB
 DECLARE renewal_threshold FLOAT64 DEFAULT 0.8;
 DECLARE renewal_rate_depreciation_rate float64 default 0.6;
-DECLARE default_renewal_rate float64 default 0.3;
+DECLARE default_renewal_rate float64 default 0.15;
 
--- `monthly_renewal_rates_cohorted` => compute available renewal rates monthly
--- `monthly_renewal_rates_imputed` => view that impute renewal rates for missing with average and default
---
-
--- TODO: use network renewal rate to impute instead of defaulting to default rate
--- TODO: impute missing values with network-platform average
 
 declare today default current_date();
 
 insert into `relax-melodies-android.late_conversions.monthly_renewal_rates`
-WITH cohorts_ranked as (
+WITH defaults_network_platform_country as (
+  select
+    network,
+    platform,
+    country_code,
+    avg(`1-Year`) as avg_1y,
+    avg(`2-Years`) as avg_2y,
+    avg(`3-Years`) as avg_3y,
+  from  `relax-melodies-android.late_conversions.monthly_renewal_rates`
+  group by
+    network, platform, country_code
+), defaults_platform_country as (
+  select
+    platform,
+    country_code,
+    avg(`1-Year`) as avg_1y,
+    avg(`2-Years`) as avg_2y,
+    avg(`3-Years`) as avg_3y,
+  from  `relax-melodies-android.late_conversions.monthly_renewal_rates`
+  group by
+    platform, country_code
+), defaults_country as (
+  select
+    country_code,
+    avg(`1-Year`) as avg_1y,
+    avg(`2-Years`) as avg_2y,
+    avg(`3-Years`) as avg_3y,
+  from  `relax-melodies-android.late_conversions.monthly_renewal_rates`
+  group by
+    country_code
+), cohorts_ranked as (
   select
     format_date('%Y-%m', today) as year_month,
     *,
@@ -84,9 +108,59 @@ pivot_table_imputed AS (
       WHEN `3-Years` IS NULL OR `3-Years` > renewal_threshold
         THEN AVG(`3-Years`) OVER (PARTITION BY platform, country_code)
       ELSE `3-Years`
-    END AS `3-Years`
+    END AS `3-Years`,
   FROM pivot_table
+), pivot_table_complete as (
+  select
+	  *
+  from pivot_table_imputed
+  union all ( -- copy tatari_streaming rates as tatari_linear
+	select
+	    year_month, platform,
+      'tatari_linear' as network,
+      country_code, `1-Year`, `2-Years`, `3-Years`
+	from pivot_table_imputed
+	where
+	    network = 'tatari_streaming'
+    )
+), keys as (
+  select
+    month_start,
+    platform,
+    network,
+    c.country_code
+  from UNNEST(GENERATE_DATE_ARRAY(today, today, INTERVAL 1 MONTH)) AS month_start
+  cross join unnest(['ios', 'android']) as platform
+  cross join unnest(['Facebook Ads', 'tiktokglobal_int', 'snapchat_int', 'googleadwords_int',
+    'tatari_streaming', 'tatari_linear', 'Apple Search Ads', 'Organic']) as network
+  cross join (select country_code from `relax-melodies-android.mappings.country_maps`) as c
+), complete_table as (
+  select
+    -- format_date('%Y-%m', k.month_start) as year_month,
+    k.month_start,
+    k.platform,
+    k.network,
+    k.country_code,
+    coalesce(ptc.`1-Year`, npc.avg_1y, pc.avg_1y, c.avg_1y, default_renewal_rate) as `1-Year`,
+    coalesce(ptc.`2-Years`, npc.avg_2y, pc.avg_2y, c.avg_2y, default_renewal_rate) as `2-Years`,
+    coalesce(ptc.`3-Years`, npc.avg_3y, pc.avg_3y, c.avg_3y, default_renewal_rate) as `3-Years`,
+    current_timestamp() as loaded_timestamp,
+  from keys k
+  left join pivot_table_complete ptc
+    -- on k.month_start = ptc.year_month
+    on k.network = ptc.network
+      and k.platform = ptc.platform
+      and k.country_code = ptc.country_code
+  left join defaults_network_platform_country npc
+    on k.network = npc.network
+      and k.platform = npc.platform
+      and k.country_code = npc.country_code
+  left join defaults_platform_country pc
+    on k.platform = pc.platform
+    and k.country_code = pc.country_code
+  left join defaults_country c
+    on k.country_code = c.country_code
 )
 
 -- Use this to select either raw or imputed version
-SELECT * FROM pivot_table_imputed
+SELECT * FROM complete_table
