@@ -1,0 +1,26 @@
+--- BigQuery Audit Logs
+-- resource.type=("bigquery_dataset" OR "bigquery_project")
+-- logName:"cloudaudit.googleapis.com"
+
+--- BigQuery Dataset Audit Logs
+-- resource.type="bigquery_dataset" AND
+-- logName:"cloudaudit.googleapis.com"
+
+--- BigQuery Dataset Updates
+-- resource.type="bigquery_dataset" AND
+-- log_id("cloudaudit.googleapis.com/activity") AND
+-- protoPayload.methodName="google.cloud.bigquery.v2.DatasetService.UpdateDataset"
+
+--- BigQuery Jobs Completed
+-- resource.type="bigquery_project" AND
+-- log_id("cloudaudit.googleapis.com/data_access") AND
+-- protoPayload.methodName=("google.cloud.bigquery.v2.JobService.InsertJob"
+-- OR "google.cloud.bigquery.v2.JobService.Query")
+
+---
+-- resource.type="bigquery_project" AND
+-- protoPayload.metadata.jobInsertion.reason:*
+
+
+-- resource.type="gcs_bucket" AND
+-- logName:"cloudaudit.googleapis.com"
