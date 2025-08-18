@@ -143,20 +143,16 @@ with final_table as (
   from final_table f
   left join `relax-melodies-android.late_conversions.monthly_renewal_rates` r
   on
-    f.date = datetime(r.year_month)
+    date_trunc(f.date, MONTH) = datetime(r.year_month)
     and f.network = r.network
     and f.platform = r.platform
     and f.country = r.country_code
   left join `relax-melodies-android.late_conversions.monthly_renewal_proceeds` p
   on
-    f.date = datetime(p.year_month)
+    date_trunc(f.date, MONTH) = datetime(r.year_month)
     and f.network = p.network
     and f.platform = p.platform
     and f.country = p.country_code
 )
 
 select * from final_table_with_late_renewals
--- where
---   date = '2025-08-01'
---   and country = 'US'
---   and network in ('Apple Search Ads', 'Facebook Ads', 'tatari_linear', 'tatari_streaming', 'tiktokglobal_int', 'snapchat_int', 'googleadwords_int')
