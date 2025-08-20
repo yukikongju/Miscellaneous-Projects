@@ -149,7 +149,7 @@ with final_table as (
     and f.country = r.country_code
   left join `relax-melodies-android.late_conversions.monthly_renewal_proceeds` p
   on
-    date_trunc(f.date, MONTH) = datetime(r.year_month)
+    date_trunc(f.date, MONTH) = datetime(p.year_month)
     and f.network = p.network
     and f.platform = p.platform
     and f.country = p.country_code
