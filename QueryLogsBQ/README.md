@@ -20,3 +20,5 @@ Tech:
 - [Log Explorer Overview](https://cloud.google.com/logging/docs/view/logs-explorer-interface)
 - [stack overflow] [GCP - How to search for wildcards](https://stackoverflow.com/questions/71922754/google-cloud-platform-logging-how-to-search-wildcard-strings-in-all-logs)
 - [Roles and permissions reference](https://cloud.google.com/iam/docs/roles-permissions/pubsub)
+- [Pub/Sub](https://cloud.google.com/pubsub/docs)
+- [GCP Cloud SDK](https://cloud.google.com/sdk/gcloud/reference/pubsub/topics/create)

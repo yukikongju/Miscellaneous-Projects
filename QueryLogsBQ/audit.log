@@ -25,9 +25,18 @@
 -- resource.type="gcs_bucket" AND
 -- logName:"cloudaudit.googleapis.com"
 
+--- Updates
 resource.type=("bigquery_dataset" OR "bigquery_project") AND
-logName:"cloudaudit.googleapis.com"
-protoPayload.resourceName: ("projects/relax-melodies-android/datasets/ua_dashboard_prod" OR "projects/relax-melodies-android/datasets/ua_extract_prod" OR "projects/relax-melodies-android/datasets/ua_transform_prod")
+logName:"cloudaudit.googleapis.com" AND
+protoPayload.resourceName: ("projects/relax-melodies-android/datasets/ua_dashboard_prod" OR "projects/relax-melodies-android/datasets/ua_extract_prod" OR "projects/relax-melodies-android/datasets/ua_transform_prod") AND
+protoPayload.methodName = "google.cloud.bigquery.v2.TableService.UpdateTable"
+
+--- Test relax server
+logName: "projects/relax-server/logs/cloudfunctions.googleapis.com" AND
+resource.labels.function_name = "recommendation" AND
+resource.labels.project_id = "relax-server" AND
+resource.type = "cloud_function" AND
+severity = "INFO"
 
 /* protoPayload.authenticationInfo.principalEmail = ("example@gmail.com" OR "example2@gmail.com") */
 
