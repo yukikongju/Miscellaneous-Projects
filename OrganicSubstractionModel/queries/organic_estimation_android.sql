@@ -10,7 +10,7 @@ with android_double_counts as (
     -- extract(year from hau_date) as year,
     -- extract(month from hau_date) as month,
     -- extract(week from hau_date) as week,
-    date_trunc(hau_date, week) as week_start,
+    date_trunc(hau_date, isoweek) as week_start,
     platform,
     country_code,
     COUNTIF(utm_source = 'google' AND old_hau = 'tvstreaming') as double_count,
@@ -23,7 +23,7 @@ with android_double_counts as (
     and utm_source is not null
   group by
     -- extract(year from hau_date), extract(month from hau_date), extract(week from hau_date),
-    date_trunc(hau_date, week)
+    date_trunc(hau_date, isoweek)
     , platform, country_code
 ), android_double_counting as (
   select
@@ -49,12 +49,23 @@ with android_double_counts as (
     and platform = 'android'
 ), android_google as (
   select
-    *
+    date, platform, country,
+    sum(cost_cad) as cost_cad,
+    sum(cost_usd) as cost_usd,
+    sum(clicks) as clicks,
+    sum(impressions) as impressions,
+    sum(installs) as installs,
+    sum(mobile_trials) as mobile_trials,
+    sum(web_trials) as web_trials,
+    sum(trials) as trials,
+    sum(paid) as paid,
+    sum(revenues) as revenues
   from `relax-melodies-android.ua_dashboard_prod.pre_final_view`
   where
     date >= start_date and date <= end_date
     and network = 'googleadwords_int'
     and platform = 'android'
+  group by date, platform, country
 ), android_organic_estimation as (
   select
     af.date,
@@ -85,15 +96,17 @@ with android_double_counts as (
     on
       -- extract(year from af.date) = dc.year
       -- and extract(month from af.date) = dc.month
-      date_trunc(af.date, week) = dc.week_start
+      date_trunc(af.date, isoweek) = dc.week_start
       and af.platform = dc.platform
       and af.country = dc.country_code
-), android_organic_estimation_unique as (
-  select
-    *,
-    row_number() over (partition by date, platform, country order by date desc) as rn
-  from android_organic_estimation
 )
+
+-- , android_organic_estimation_unique as (
+--   select
+--     *,
+--     row_number() over (partition by date, platform, country order by date desc) as rn
+--   from android_organic_estimation
+-- )
 
 
 -- select
@@ -106,11 +119,18 @@ with android_double_counts as (
 --   count(*) as count
 -- from android_af_organic
 
-select * from android_organic_estimation_unique
-where
-  rn = 1
-  and installs > 0
+select *
+from android_organic_estimation
+where country in ('US', 'CA', 'AU', 'UK', 'HK')
+order by country, date
 
+-- select * from android_organic_estimation_unique
+-- where
+--   rn = 1
+--   and installs > 0
+
+-- select * from android_google
+-- where country in ('US', 'CA', 'AU', 'UK', 'HK')
 
 -- select * from android_double_counting
 -- where
