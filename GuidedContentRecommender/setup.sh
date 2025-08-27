@@ -7,3 +7,5 @@ jupyter labextension install jupyterlab-plotly
 
 echo "init pre-commit hooks"
 pre-commit install
+
+echo "Setting up Virtual Environment"
