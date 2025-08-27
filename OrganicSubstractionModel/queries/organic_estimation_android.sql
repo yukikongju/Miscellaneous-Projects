@@ -1,8 +1,8 @@
 --- cost: 910.9 MB
 declare start_date default date '2025-08-01';
-declare end_date default date '2025-08-01';
+declare end_date default date '2025-08-10';
 
---- FIXME: query generate negative conversions for some days ex: '2025-08-03' => are there some days were there are no double counting?
+--- DONE: query generate negative conversions for some days ex: '2025-08-03' => are there some days were there are no double counting?
 
 
 with android_double_counts as (
@@ -78,12 +78,32 @@ with android_double_counts as (
     -- af.clicks - dc.double_counting_perc * google.clicks as clicks,
     0 as impressions,
     0 as clicks,
-    af.installs - dc.double_counting_perc * google.installs as installs,
-    af.mobile_trials - dc.double_counting_perc * google.mobile_trials as mobile_trials,
-    af.web_trials - dc.double_counting_perc * google.web_trials as web_trials,
-    af.trials - dc.double_counting_perc * google.trials as trials,
-    af.paid - dc.double_counting_perc * google.paid as paid,
-    af.revenues - dc.double_counting_perc * google.revenues as revenues,
+    case when af.installs - dc.double_counting_perc * google.installs < 0
+	then avg(case when af.installs - dc.double_counting_perc * google.installs > 0 then af.installs - dc.double_counting_perc * google.installs end) over (partition by af.country, af.platform order by af.date rows between 7 preceding and current row)
+    else af.installs - dc.double_counting_perc * google.installs end as installs,
+    0 as web_trials,
+    case when af.mobile_trials - dc.double_counting_perc * google.mobile_trials < 0
+	then avg(case when af.mobile_trials - dc.double_counting_perc * google.mobile_trials > 0 then af.mobile_trials - dc.double_counting_perc * google.mobile_trials end) over (partition by af.country, af.platform order by af.date rows between 7 preceding and current row)
+    else af.mobile_trials - dc.double_counting_perc * google.mobile_trials end as mobile_trials,
+    case when af.trials - dc.double_counting_perc * google.trials < 0
+	then avg(case when af.trials - dc.double_counting_perc * google.trials > 0 then af.trials - dc.double_counting_perc * google.trials end) over (partition by af.country, af.platform order by af.date rows between 7 preceding and current row)
+    else af.trials - dc.double_counting_perc * google.trials end as trials,
+    case when af.paid - dc.double_counting_perc * google.paid < 0
+	then avg(case when af.paid - dc.double_counting_perc * google.paid > 0 then af.paid - dc.double_counting_perc * google.paid end) over (partition by af.country, af.platform order by af.date rows between 7 preceding and current row)
+    else af.paid - dc.double_counting_perc * google.paid end as paid,
+    case when af.revenues - dc.double_counting_perc * google.revenues < 0
+	then avg(case when af.revenues - dc.double_counting_perc * google.revenues > 0 then af.revenues - dc.double_counting_perc * google.revenues end) over (partition by af.country, af.platform order by af.date rows between 7 preceding and current row)
+    else af.revenues - dc.double_counting_perc * google.revenues end as revenues,
+    --  af.paid - dc.double_counting_perc * google.paid as paid,
+    --  af.revenues - dc.double_counting_perc * google.revenues as revenues,
+    --------
+
+    --  af.installs - dc.double_counting_perc * google.installs as installs,
+    --  af.mobile_trials - dc.double_counting_perc * google.mobile_trials as mobile_trials,
+    --  af.web_trials - dc.double_counting_perc * google.web_trials as web_trials,
+    --  af.trials - dc.double_counting_perc * google.trials as trials,
+    --  af.paid - dc.double_counting_perc * google.paid as paid,
+    --  af.revenues - dc.double_counting_perc * google.revenues as revenues,
     af.agency,
     af.need_modeling,
     dc.double_counting_perc as double_counting_perc,
