@@ -5,7 +5,7 @@ declare end_date default date '2025-08-03';
 -- DONE: substract with all known ios networks (ASA, tiktokglobal_int,
 -- snapchat_int, Facebook Ads, googleadwords_int, )
 --- DONE: remove duplicate by fixing daily with monthly joins
---- FIXME/DEPRECATED: impute negative metrics with rolling average of valid days
+--- DONE: impute negative metrics with rolling average of valid days
 
 
 with ios_double_counts as (
@@ -99,12 +99,48 @@ with ios_double_counts as (
     0 as clicks,
     --  af.impressions + dc.double_counting_perc * asa.impressions - n.impressions as impressions,
     --  af.clicks + dc.double_counting_perc * asa.clicks - n.clicks as clicks,
-    af.installs + dc.double_counting_perc * asa.installs - n.installs as installs,
-    af.mobile_trials + dc.double_counting_perc * asa.mobile_trials - n.mobile_trials as mobile_trials,
-    af.web_trials + dc.double_counting_perc * asa.web_trials - n.web_trials as web_trials,
-    af.trials + dc.double_counting_perc * asa.trials - n.trials as trials,
-    af.paid + dc.double_counting_perc * asa.paid - n.paid as paid,
-    af.revenues + dc.double_counting_perc * asa.revenues - n.revenues as revenues,
+    case
+	when af.installs + dc.double_counting_perc * asa.installs - n.installs < 0
+	then avg(case when af.installs + dc.double_counting_perc * asa.installs - n.installs > 0
+	then af.installs + dc.double_counting_perc * asa.installs - n.installs end)
+	over (partition by af.country, af.platform order by af.date rows between 7 preceding and current row)
+	else af.installs + dc.double_counting_perc * asa.installs - n.installs
+    end as installs,
+    case
+	when af.mobile_trials + dc.double_counting_perc * asa.mobile_trials - n.mobile_trials < 0
+	then avg(case when af.mobile_trials + dc.double_counting_perc * asa.mobile_trials - n.mobile_trials > 0
+	then af.mobile_trials + dc.double_counting_perc * asa.mobile_trials - n.mobile_trials end)
+	over (partition by af.country, af.platform order by af.date rows between 7 preceding and current row)
+	else af.mobile_trials + dc.double_counting_perc * asa.mobile_trials - n.mobile_trials
+    end as mobile_trials,
+    0 as web_trials,
+    case
+	when af.trials + dc.double_counting_perc * asa.trials - n.trials < 0
+	then avg(case when af.trials + dc.double_counting_perc * asa.trials - n.trials > 0
+	then af.trials + dc.double_counting_perc * asa.trials - n.trials end)
+	over (partition by af.country, af.platform order by af.date rows between 7 preceding and current row)
+	else af.trials + dc.double_counting_perc * asa.trials - n.trials
+    end as trials,
+    case
+	when af.paid + dc.double_counting_perc * asa.paid - n.paid < 0
+	then avg(case when af.paid + dc.double_counting_perc * asa.paid - n.paid > 0
+	then af.paid + dc.double_counting_perc * asa.paid - n.paid end)
+	over (partition by af.country, af.platform order by af.date rows between 7 preceding and current row)
+	else af.paid + dc.double_counting_perc * asa.paid - n.paid
+    end as paid,
+    case
+	when af.revenues + dc.double_counting_perc * asa.revenues - n.revenues < 0
+	then avg(case when af.revenues + dc.double_counting_perc * asa.revenues - n.revenues > 0
+	then af.revenues + dc.double_counting_perc * asa.revenues - n.revenues end)
+	over (partition by af.country, af.platform order by af.date rows between 7 preceding and current row)
+	else af.revenues + dc.double_counting_perc * asa.revenues - n.revenues
+    end as revenues,
+    --  af.installs + dc.double_counting_perc * asa.installs - n.installs as installs,
+    --  af.mobile_trials + dc.double_counting_perc * asa.mobile_trials - n.mobile_trials as mobile_trials,
+    --  af.web_trials + dc.double_counting_perc * asa.web_trials - n.web_trials as web_trials,
+    --  af.trials + dc.double_counting_perc * asa.trials - n.trials as trials,
+    --  af.paid + dc.double_counting_perc * asa.paid - n.paid as paid,
+    --  af.revenues + dc.double_counting_perc * asa.revenues - n.revenues as revenues,
     af.agency,
     af.need_modeling,
     dc.double_counting_perc as double_counting_perc,
@@ -152,8 +188,9 @@ with ios_double_counts as (
 --- 173
 -- select count(*) from ios_asa
 
- select
-  *
- from ios_organic_estimation
-  where
+select
+    *
+from ios_organic_estimation
+where
     country in ('US', 'CA', 'AU', 'UK')
+order by country, date asc
