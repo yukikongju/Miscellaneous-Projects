@@ -5,7 +5,7 @@ declare end_date default date '2025-08-03';
 -- DONE: substract with all known ios networks (ASA, tiktokglobal_int,
 -- snapchat_int, Facebook Ads, googleadwords_int, )
 --- DONE: remove duplicate by fixing daily with monthly joins
---- FIXME: impute negative metrics with rolling average of valid days
+--- FIXME/DEPRECATED: impute negative metrics with rolling average of valid days
 
 
 with ios_double_counts as (
