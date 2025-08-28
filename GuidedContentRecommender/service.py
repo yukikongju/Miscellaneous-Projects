@@ -5,6 +5,10 @@ from typing import List, Tuple
 
 #  from pydantic import BaseModel
 
+#  embedding_runner = bentoml.mlflow.get("embedding:latest").to_runner()
+#  svc = bentoml.Service("guided_content_embedding", runners=[embedding_runner])
+
+
 bento_image = bentoml.images.Image(python_version="3.12").python_packages(
     "mlflow", "gensim"
 )
