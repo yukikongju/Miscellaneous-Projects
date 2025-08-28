@@ -1,10 +1,11 @@
 import bentoml
 import numpy as np
 
-target_names = ['setosa', 'versicolor', 'virginica']
+target_names = ["setosa", "versicolor", "virginica"]
 
-my_image = bentoml.images.Image(python_version="3.12") \
-            .python_packages("mlflow", "scikit-learn")
+my_image = bentoml.images.Image(python_version="3.12").python_packages(
+    "mlflow", "scikit-learn"
+)
 
 
 @bentoml.service(
@@ -23,5 +24,3 @@ class IrisClassifier:
     def predict(self, input_data: np.ndarray) -> list[str]:
         preds = self.model.predict(input_data)
         return [target_names[i] for i in preds]
-
-
