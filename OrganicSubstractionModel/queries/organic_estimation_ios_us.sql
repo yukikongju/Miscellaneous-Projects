@@ -1,6 +1,6 @@
 --- cost: 910.9 MB
-declare start_date default date '2025-08-02';
-declare end_date default date '2025-08-03';
+declare start_date default date '2025-07-01';
+declare end_date default date '2025-08-15';
 
 -- DONE: substract with all known ios networks (ASA, tiktokglobal_int,
 -- snapchat_int, Facebook Ads, googleadwords_int, )
@@ -99,43 +99,44 @@ with ios_double_counts as (
     0 as cost_usd,
     0 as impressions,
     0 as clicks,
+    --- don't add back double counting
     --  af.impressions + dc.double_counting_perc * asa.impressions - n.impressions as impressions,
     --  af.clicks + dc.double_counting_perc * asa.clicks - n.clicks as clicks,
     case
-	when af.installs + dc.double_counting_perc * asa.installs - n.installs < 0
-	then avg(case when af.installs + dc.double_counting_perc * asa.installs - n.installs > 0
-	then af.installs + dc.double_counting_perc * asa.installs - n.installs end)
+	when af.installs - n.installs < 0
+	then avg(case when af.installs - n.installs > 0
+	then af.installs - n.installs end)
 	over (partition by af.country, af.platform order by af.date rows between 7 preceding and current row)
-	else af.installs + dc.double_counting_perc * asa.installs - n.installs
+	else af.installs - n.installs
     end as installs,
     case
-	when af.mobile_trials + dc.double_counting_perc * asa.mobile_trials - n.mobile_trials < 0
-	then avg(case when af.mobile_trials + dc.double_counting_perc * asa.mobile_trials - n.mobile_trials > 0
-	then af.mobile_trials + dc.double_counting_perc * asa.mobile_trials - n.mobile_trials end)
+	when af.mobile_trials - n.mobile_trials < 0
+	then avg(case when af.mobile_trials - n.mobile_trials > 0
+	then af.mobile_trials - n.mobile_trials end)
 	over (partition by af.country, af.platform order by af.date rows between 7 preceding and current row)
-	else af.mobile_trials + dc.double_counting_perc * asa.mobile_trials - n.mobile_trials
+	else af.mobile_trials - n.mobile_trials
     end as mobile_trials,
     0 as web_trials,
     case
-	when af.trials + dc.double_counting_perc * asa.trials - n.trials < 0
-	then avg(case when af.trials + dc.double_counting_perc * asa.trials - n.trials > 0
-	then af.trials + dc.double_counting_perc * asa.trials - n.trials end)
+	when af.trials - n.trials < 0
+	then avg(case when af.trials - n.trials > 0
+	then af.trials - n.trials end)
 	over (partition by af.country, af.platform order by af.date rows between 7 preceding and current row)
-	else af.trials + dc.double_counting_perc * asa.trials - n.trials
+	else af.trials - n.trials
     end as trials,
     case
-	when af.paid + dc.double_counting_perc * asa.paid - n.paid < 0
-	then avg(case when af.paid + dc.double_counting_perc * asa.paid - n.paid > 0
-	then af.paid + dc.double_counting_perc * asa.paid - n.paid end)
+	when af.paid - n.paid < 0
+	then avg(case when af.paid - n.paid > 0
+	then af.paid - n.paid end)
 	over (partition by af.country, af.platform order by af.date rows between 7 preceding and current row)
-	else af.paid + dc.double_counting_perc * asa.paid - n.paid
+	else af.paid - n.paid
     end as paid,
     case
-	when af.revenues + dc.double_counting_perc * asa.revenues - n.revenues < 0
-	then avg(case when af.revenues + dc.double_counting_perc * asa.revenues - n.revenues > 0
-	then af.revenues + dc.double_counting_perc * asa.revenues - n.revenues end)
+	when af.revenues - n.revenues < 0
+	then avg(case when af.revenues - n.revenues > 0
+	then af.revenues - n.revenues end)
 	over (partition by af.country, af.platform order by af.date rows between 7 preceding and current row)
-	else af.revenues + dc.double_counting_perc * asa.revenues - n.revenues
+	else af.revenues - n.revenues
     end as revenues,
     --  af.installs + dc.double_counting_perc * asa.installs - n.installs as installs,
     --  af.mobile_trials + dc.double_counting_perc * asa.mobile_trials - n.mobile_trials as mobile_trials,
@@ -194,5 +195,5 @@ select
     *
 from ios_organic_estimation
 where
-    country in ('US', 'CA', 'AU', 'UK')
+    country = 'US'
 order by country, date asc
