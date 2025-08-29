@@ -1,14 +1,17 @@
+--- QUERY: Compare Organic Estimation + Attributed Networks vs Appsflyer Aggregate
 declare start_date default date '2025-08-02';
 declare end_date default date '2025-08-03';
 
+-- TODO: compare with appsflyer organic
+
 with appsflyer_aggregate as (
-  select
-    *
-  from `relax-melodies-android.ua_dashboard_prod.pre_final_view`
-  where
-    date >= start_date and date <= end_date
-    and network = 'Appsflyer Aggregate'
-    and platform in ('ios', 'android')
+    select
+	*
+    from `relax-melodies-android.ua_dashboard_prod.pre_final_view`
+    where
+	date >= start_date and date <= end_date
+	and network = 'Appsflyer Aggregate'
+	and platform in ('ios', 'android')
 ), attributed_networks as (
     select
 	date, platform, country,
@@ -28,64 +31,64 @@ with appsflyer_aggregate as (
 	and network in ('Apple Search Ads', 'Facebook Ads', 'snapchat_int', 'tiktokglobal_int', 'googleadwords_int', 'tatari_linear', 'tatari_streaming')
 	and platform in ('ios', 'android')
     group by date, platform, country
-), organics as (
+), organic_estimation as (
     select
 	*
     from `relax-melodies-android.ua_dashboard_prod.organic_estimation`
     where
 	date >= start_date and date <= end_date
 ), attributed_networks_and_organics as (
-	select
-		n.date, n.platform, n.country,
-		n.cost_cad + o.cost_cad as cost_cad,
-		n.cost_usd + o.cost_usd as cost_usd,
-		n.clicks + o.clicks as clicks,
-		n.impressions + o.impressions as impressions,
-		n.installs + o.installs as installs,
-		n.mobile_trials + o.mobile_trials as mobile_trials,
-		n.web_trials + o.web_trials as web_trials,
-		n.trials + o.trials as trials,
-		n.paid + o.paid as paid,
-		n.revenues + o.revenues as revenues,
-		o.installs / (n.installs + o.installs) as organic_perc,
-	from attributed_networks n
-	left join organics o
-		on n.date = o.date
-				and n.platform = o.platform
-				and n.country = o.country
+    select
+	n.date, n.platform, n.country,
+	n.cost_cad + o.cost_cad as cost_cad,
+	n.cost_usd + o.cost_usd as cost_usd,
+	n.clicks + o.clicks as clicks,
+	n.impressions + o.impressions as impressions,
+	n.installs + o.installs as installs,
+	n.mobile_trials + o.mobile_trials as mobile_trials,
+	n.web_trials + o.web_trials as web_trials,
+	n.trials + o.trials as trials,
+	n.paid + o.paid as paid,
+	n.revenues + o.revenues as revenues,
+	o.installs / (n.installs + o.installs) as organic_perc,
+    from attributed_networks n
+    left join organic_estimation o
+    on n.date = o.date
+	and n.platform = o.platform
+	and n.country = o.country
 ), comparison as (
-	select
-		t.date, t.platform, t.country,
-		t.organic_perc,
-		aa.installs as aggregate_installs,
-		t.installs as total_installs,
-		case when aa.installs > 0
-				then (aa.installs - t.installs) / aa.installs
-				else null
-		end as perc_diff_installs,
-		aa.trials as aggregate_trials,
-		t.trials as total_trials,
-		case when aa.trials > 0
-				then (aa.trials - t.trials) / aa.trials
-				else null
-		end as perc_diff_trials,
-		aa.paid as aggregate_paid,
-		t.paid as total_paid,
-		case when aa.paid > 0
-				then (aa.paid - t.paid) / aa.paid
-				else null
-		end as perc_diff_paid,
-		aa.revenues as aggregate_revenues,
-		t.revenues as total_revenues,
-		case when aa.revenues > 0
-				then (aa.revenues - t.revenues) / aa.revenues
-				else null
-		end as perc_diff_revenues,
-	from attributed_networks_and_organics as t
-	left join appsflyer_aggregate as aa
-		on t.date = aa.date
-				and t.platform = aa.platform
-				and t.country = aa.country
+    select
+	t.date, t.platform, t.country,
+	t.organic_perc,
+	aa.installs as aggregate_installs,
+	t.installs as total_installs,
+	case when aa.installs > 0
+	    then (aa.installs - t.installs) / aa.installs
+	    else null
+	end as perc_diff_installs,
+	aa.trials as aggregate_trials,
+	t.trials as total_trials,
+	case when aa.trials > 0
+	    then (aa.trials - t.trials) / aa.trials
+	    else null
+	end as perc_diff_trials,
+	aa.paid as aggregate_paid,
+	t.paid as total_paid,
+	case when aa.paid > 0
+	    then (aa.paid - t.paid) / aa.paid
+	    else null
+	end as perc_diff_paid,
+	aa.revenues as aggregate_revenues,
+	t.revenues as total_revenues,
+	case when aa.revenues > 0
+	    then (aa.revenues - t.revenues) / aa.revenues
+	    else null
+	end as perc_diff_revenues,
+    from attributed_networks_and_organics as t
+    left join appsflyer_aggregate as aa
+	on t.date = aa.date
+	and t.platform = aa.platform
+	and t.country = aa.country
 )
 
 select
