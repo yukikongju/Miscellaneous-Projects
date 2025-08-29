@@ -1,3 +1,4 @@
+create or replace view `relax-melodies-android.organics.organic_estimation_ios` as (
 with ios_double_counts as (
   select
     date_trunc(hau_date, isoweek) as isoweek,
@@ -135,3 +136,4 @@ with ios_double_counts as (
 select
     *
 from ios_organic_estimation
+);

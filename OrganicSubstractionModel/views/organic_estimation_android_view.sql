@@ -1,3 +1,4 @@
+create or replace view `relax-melodies-android.organics.organic_estimation_android` as (
 with android_double_counts as (
   select
     date_trunc(hau_date, isoweek) as week_start,
@@ -93,3 +94,4 @@ with android_double_counts as (
 
 select *
 from android_organic_estimation
+);
