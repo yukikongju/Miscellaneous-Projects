@@ -1,0 +1,17 @@
+version: 2
+
+sources:
+  - name: raw
+    schema: test_incremental
+    config:
+      enabled: true
+    tables:
+      - name: fake_data
+        config:
+          enabled: true
+  # - name: staging
+  #   schema: test_incremental_stg
+  #   config:
+  #     enabled: true
+  #   tables:
+  #     - name: mart_fake_data_unique
