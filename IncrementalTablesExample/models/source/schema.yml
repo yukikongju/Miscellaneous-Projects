@@ -1,18 +1,18 @@
 version: 2
 
-models:
-  - name: googleads
-    description: Fake Data for Google Ads
-    columns:
-      - name: date
-      - name: network
-      - name: platform
-        description: "{{ doc('platform') }}"
-      - name: impressions
-      - name: clicks
-      - name: installs
-      - name: trials
-      - name: paid
+# models:
+#   - name: googleads
+#     description: Fake Data for Google Ads
+#     columns:
+#       - name: day
+#       - name: network
+#       - name: platform
+#         description: "{{ doc('platform') }}"
+#       - name: impressions
+#       - name: clicks
+#       - name: installs
+#       - name: trials
+#       - name: paid
   # - name: facebookads
   #   description:
   # - name: appsflyer
