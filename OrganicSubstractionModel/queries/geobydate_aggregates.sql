@@ -13,9 +13,17 @@ with geobydate as (
     sum(subscription_refund_sales_in_usd) as refunded_amount,
   from `relax-melodies-android.ua_extract_prod.appsflyer_geo_by_date_report`
   group by date, media_source_pid, platform, country
+), final as (
+  select
+    g.*,
+    c.continent as continent,
+    c.subcontinent as subcontinent,
+  from geobydate g
+  left join `relax-melodies-android.mappings.country_maps` c
+    on g.country = c.country_code
 )
 
-select * from geobydate
+select * from final
 where
   country = 'US'
   and network in ('Facebook Ads', 'Apple Search Ads', 'tiktokglobal_int')
