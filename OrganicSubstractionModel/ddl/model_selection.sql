@@ -17,6 +17,7 @@ values
     ('ios', 'Apple Search Ads', 'Geobydate', '2000-01-01', '2999-12-31', current_timestamp()),
     ('ios', 'Facebook Ads', 'Internal', '2000-01-01', '2999-12-31', current_timestamp()),
     ('android', 'Facebook Ads', 'Geobydate', '2000-01-01', '2999-12-31', current_timestamp()),
+    ('android', 'Facebook Ads', 'Geobydate', '2000-01-01', '2999-12-31', current_timestamp()),
     ('android', 'googleadwords_int', 'Internal', '2000-01-01', '2999-12-31', current_timestamp()),
     ('ios', 'googleadwords_int', 'Internal', '2000-01-01', '2999-12-31', current_timestamp()),
     ('ios', 'tiktokglobal_int', 'Geobydate', '2000-01-01', '2999-12-31', current_timestamp()),
