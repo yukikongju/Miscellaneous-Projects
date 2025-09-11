@@ -3,7 +3,7 @@
 with geobydate_t2p as (
     select
 	g.*
-    from `relax-melodies-android.ua_transform_prod.trial2paid_geobydate_unique` g
+    from `relax-melodies-android.ua_transform_prod.trial2paid_geobydate_model_unique` g
     left join `relax-melodies-android.ua_transform_prod.model_selection` m
     on g.platform = m.platform
 	and g.network = m.network
