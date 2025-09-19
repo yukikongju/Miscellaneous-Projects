@@ -1,3 +1,4 @@
+--- cost: 246.47 MB
 with geo_t2p as (
   select
     install_date, network, platform, country, trial, paid, modeled_trial2paid
@@ -36,7 +37,7 @@ select
   *
 from comparison
 where
-  install_date >= '2025-07-01' and install_date <= '2025-09-01'
-  and country = 'Canada'
+  install_date >= '2025-08-01' and install_date <= '2025-09-01'
+  and country = 'US'
   and network = 'Facebook Ads'
 order by network, platform, install_date
