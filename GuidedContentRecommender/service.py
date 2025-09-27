@@ -18,12 +18,21 @@ bento_image = bentoml.images.Image(python_version="3.12").python_packages(
 #      top_n: int
 
 
-@bentoml.service(image=bento_image, resources={"cpu": "2"}, traffic={"timeout": 10})
+@bentoml.service(
+    #  image=bento_image,
+    resources={"cpu": "2"},
+    traffic={"timeout": 10},
+)
 class GuidedContentEmbedding:
-    bento_model = bentoml.models.BentoModel("embedding:latest")
+    #  bento_model = bentoml.models.BentoModel("embedding:latest")
+    #  bento_model = bentoml.models.BentoModel("guided_content_embedding:latest")
+    #  bento_model = "guided_content_embedding:latest"
+    bento_model = "embedding:latest"
 
     def __init__(self):
+        #  self.model = bentoml.mlflow.load_model(self.bento_model)
         self.model = bentoml.mlflow.load_model(self.bento_model)
+        #  self.model = bento_model
 
     @bentoml.api(route="/v1/vectorize")
     def vectorize(self, input_data: List[str]) -> List[float]:

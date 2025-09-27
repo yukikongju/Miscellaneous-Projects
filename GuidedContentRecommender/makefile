@@ -6,7 +6,9 @@ list_bento_build:
 
 containerize_bento:
 	# docs: https://docs.bentoml.com/en/latest/get-started/packaging-for-deployment.html
+	bentoml list
 	bentoml build
+	# bentoml serve <bento-name>:<version>
 	# bentoml containerize $(BENTO_BUILD_NAME):latest
 	bentoml containerize --platform=linux/amd64 $(BENTO_BUILD_NAME):latest
 	docker images
@@ -15,7 +17,7 @@ containerize_bento:
 	# docker run -it --rm -p 3000:3000 guided_content_embedding:s4fgt5edvcsehzv2 serve
 
 bento_inference:
-	bentoml serve
+	bentoml serve # reading models from /Users/<username>/bentoml/models or bentoml models list
 	python3 inference.py
 
 
@@ -29,6 +31,7 @@ bento_api:
 
 bentoml_model:
 	bentoml models list
+	bento list
 
 bento_serve:
 	# when service.py is defined
