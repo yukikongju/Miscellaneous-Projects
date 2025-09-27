@@ -10,3 +10,7 @@ Containerizing model with BentoML on Iris Dataset
 4. Containerize: `bentoml containerize guided_content_service:latest`
 5. Push to GCP: `docker push gcr.io/PROJECT/IMAGE`
 6. Deploy: `gcloud run deploy `
+
+## Resources
+
+- [Building ML Pipelines with MLflow and BentoML](https://www.bentoml.com/blog/building-ml-pipelines-with-mlflow-and-bentoml)

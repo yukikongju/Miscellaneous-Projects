@@ -1,5 +1,6 @@
 dockerize:
 	# --- containerize image
+	bentoml list
 	bentoml build
 	bentoml containerize --platform linux/amd64 iris_classifier:latest
 	docker run --rm -p 3000:3000 iris_classifier:cb3l6duee2nq3zv2
@@ -15,3 +16,15 @@ dockerize:
 		--platform managed \
 		--region us-central1 \
 		--allow-unauthenticated
+
+inference:
+	bentoml serve
+	curl -X 'POST' \
+	  'http://localhost:3000/predict' \
+	  -H 'accept: application/json' \
+	  -H 'Content-Type: application/json' \
+	  -d '{
+	  "input_data": [[
+	    0.1, 0.2, 0.1, 0.1
+	  ]]
+	}'

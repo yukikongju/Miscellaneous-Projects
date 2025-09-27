@@ -1,5 +1,8 @@
 import bentoml
 import numpy as np
+import numpy.typing as npt
+from typing import Annotated, List
+from bentoml.validators import Shape, DType
 
 target_names = ["setosa", "versicolor", "virginica"]
 
@@ -21,6 +24,11 @@ class IrisClassifier:
         self.model = bentoml.mlflow.load_model(self.bento_model)
 
     @bentoml.api
-    def predict(self, input_data: np.ndarray) -> list[str]:
+    def predict(
+        self,
+        input_data: Annotated[
+            npt.NDArray[np.float64], Shape((-1, 4)), DType("float64")
+        ] = bentoml.Field(default=[[0.1, 0.4, 0.2, 1.0]]),
+    ) -> List[str]:
         preds = self.model.predict(input_data)
         return [target_names[i] for i in preds]
