@@ -1,14 +1,12 @@
---  This query compare the t2p rates in dev (which use the model selection method) and prod (which only use the trial2paid table using internal data)
+--  This query compare the t2p mobile on dev and prod
 
--- cost: 503.24 MB
 with t2p_dev as (
   select
     install_date, network, platform, country, trial, paid, modeled_trial2paid
-  from `relax-melodies-android.ua_transform_dev.trial2paid_selected_model`
+  from `relax-melodies-android.ua_transform_dev.trial2paid_model_unique`
 ), t2p_prod as (
   select
     install_date, network, platform, country, trial, paid, modeled_trial2paid
-  --  from `relax-melodies-android.ua_transform_prod.trial2paid_model_unique`
   from `relax-melodies-android.ua_transform_prod.trial2paid_unique`
 ), comparison as (
   select
