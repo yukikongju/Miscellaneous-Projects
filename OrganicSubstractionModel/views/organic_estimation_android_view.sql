@@ -1,3 +1,11 @@
+-- This view estimate the android organics using the substraction method
+-- Estimated Organics = Appsflyer geobydate Organic - google double counting
+-- google double counting is estimated by computing the weekly ratio of TV and android; and then substracting it to the
+-- Notes:
+-- a. Appsflyer Geobydate Organic = Oranic + Tatari not tagged with google
+-- b. True Organic = Appsflyer Geobydate Organic - (1-tatari_google double counting) * tatari
+
+
 create or replace view `relax-melodies-android.organics.organic_estimation_android` as (
 with android_double_counts as (
   select
