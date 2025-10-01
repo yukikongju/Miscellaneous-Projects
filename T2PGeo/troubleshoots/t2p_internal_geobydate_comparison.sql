@@ -1,8 +1,10 @@
+--  This query compare the t2p rates computed with geobydate and with internal data vs the rate used by the model selection
+
 --- cost: 246.47 MB
 with geo_t2p as (
   select
     install_date, network, platform, country, trial, paid, modeled_trial2paid
-  from `relax-melodies-android.ua_transform_dev.trial2paid_geobydate_model`
+  from `relax-melodies-android.ua_transform_dev.trial2paid_geobydate_model_unique`
 ), internal_t2p as (
   select
     install_date, network, platform, country, trial, paid, modeled_trial2paid
