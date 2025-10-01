@@ -3,7 +3,7 @@
 -- a. Geobydate: uses the geobydate t2p coming from the table `relax-melodies-android.ua_transform_prod.trial2paid_geobydate_model_unique`
 -- b. Internal: uses the t2p coming from our internal data, found in table `relax-melodies-android.ua_transform_prod.trial2paid_model`
 
-create or replace table `relax-melodies-android.ua_transform_prod.model_selection` (
+create or replace table `relax-melodies-android.ua_transform_dev.model_selection_mobile` (
     platform string,
     network string,
     model_source string,
@@ -15,7 +15,7 @@ cluster by platform, network;
 
 --- model selection for main network
 -- network includes: Apple Search Ads, Facebook Ads, googleadwords_int, tiktokglobal_int, snapchat_int, tatari_linear, tatari_streaming, tatari_programmatic
-insert into `relax-melodies-android.ua_transform_prod.model_selection` (
+insert into `relax-melodies-android.ua_transform_dev.model_selection_mobile` (
     platform, network, model_source, start_date, end_date, updated_at
 )
 values
@@ -37,7 +37,7 @@ values
 
 -- model selection for alternative table
 -- network includes:
-insert into `relax-melodies-android.ua_transform_dev.model_selection` (
+insert into `relax-melodies-android.ua_transform_dev.model_selection_mobile` (
     platform, network, model_source, start_date, end_date, updated_at
 )
 values

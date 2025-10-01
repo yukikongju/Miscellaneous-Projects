@@ -1,5 +1,6 @@
---  `relax-melodies-android.ua_transform_prod.trial2paid_selected_model`
---- TODO: select default t2p for misc network from Appsflyer
+-- This view select the t2p model based on the one defined in "model selection"
+--  `relax-melodies-android.ua_transform_prod.trial2paid_selected_mobile_model`
+--- TODO: select default t2p for misc network from Appsflyer (?)
 with geobydate_t2p as (
     select
 	g.*
@@ -14,7 +15,7 @@ with geobydate_t2p as (
     select
 	g.*
     from `relax-melodies-android.ua_transform_dev.trial2paid_model_unique` g -- note: dev not found, so using prod for the time being
-    left join `relax-melodies-android.ua_transform_dev.model_selection` m
+    left join `relax-melodies-android.ua_transform_dev.model_selection_mobile` m
     on g.platform = m.platform
 	and g.network = m.network
 	and g.install_date between m.start_date and m.end_date
