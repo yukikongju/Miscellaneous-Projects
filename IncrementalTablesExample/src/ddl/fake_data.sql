@@ -12,5 +12,5 @@ create or replace table `relax-melodies-android.test_incremental.fake_data` (
     revenue FLOAT64,
     loaded_timestamp TIMESTAMP
 )
-partition by date
+partition by day
 cluster by network, platform, country;
