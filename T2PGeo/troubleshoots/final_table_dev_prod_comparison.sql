@@ -1,6 +1,11 @@
 --  This query compare the rates impacted by t2p in dev (which use the model selection method) and prod (which only use the trial2paid table using internal data), mainly: t2p, i2p, roas
 
 -- cost: 3.26GB
+declare network_list default array<string> ['Apple Search Ads', 'Facebook Ads', 'googleadwords_int', 'snapchat_int', 'tiktokglobal_int'];
+declare country_list default array<string> ['US', 'CA', 'UK', 'AU', 'MX'];
+declare start_date date default "2025-09-01";
+declare end_date date default "2025-10-05";
+
 with final_dev as (
   select
     date, network, platform, country
@@ -67,7 +72,7 @@ select
   *
 from comparison
 where
-  install_date >= '2025-09-01' and install_date <= '2025-10-01'
-  and country = 'US'
-  and network = 'Facebook Ads'
+  install_date >= start_date and install_date <= end_date
+  and country in unnest(country_list)
+  and network in unnest(network_list)
 order by network, platform, install_date
