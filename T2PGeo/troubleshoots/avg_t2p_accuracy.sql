@@ -1,8 +1,10 @@
-declare start_date date default '2025-08-01';
+declare start_date date default '2025-06-01';
 declare end_date date default '2025-10-01';
 declare networks default array<string> ['Apple Search Ads', 'Facebook Ads'];
 declare platforms default array<string> ['ios', 'android'];
-declare countries default array<string> ['US', 'CA', 'FR'];
+declare countries default array<string> ['US', 'CA', 'FR', 'MX', 'AU', 'UK', 'GB'];
+declare MIN_TRIALS default 5;
+declare MIN_PAID default 2;
 
 with final_table as (
   select
@@ -53,8 +55,13 @@ with final_table as (
   from joined_table
   where
     date >= start_date and date <= end_date
+    and trials > MIN_TRIALS
+    and paid > MIN_PAID
   group by network, platform, country
 )
+
+-- ==== TODO: CORRELATION ====
+
 
 -- ==== ACCURACY TABLE ====
 select
