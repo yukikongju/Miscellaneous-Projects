@@ -20,6 +20,6 @@ while True:
     i += 1
     word = random.choice(directions)
     #  word = directions[i % len(directions)]
-    print(word)
+    print(f"{i} => {word}")
     os.system(f"say '{word}'")
     time.sleep(interval)
