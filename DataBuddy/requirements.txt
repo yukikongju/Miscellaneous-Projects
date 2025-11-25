@@ -1,0 +1,4 @@
+duckdb
+pandasai<3.0.0
+pandasai-litellm
+pandasai-local
