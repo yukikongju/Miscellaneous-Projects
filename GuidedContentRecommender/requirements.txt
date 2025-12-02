@@ -1,3 +1,4 @@
+# airtable==0.4.8
 bentoml
 black
 flake8
@@ -9,4 +10,9 @@ nltk
 pandas
 plotly
 pre-commit
+pyairtable==3.2.0
 spacy
+light_embed
+optimum
+# onnxruntime
+optimum-onnx[onnxruntime]
