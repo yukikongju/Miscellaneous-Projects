@@ -1,4 +1,5 @@
 config.ini
 playground/mlruns/*
+playground/.ipynb_checkpoints/*
 mlruns/*
 .env
