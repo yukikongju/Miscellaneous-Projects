@@ -1,8 +1,9 @@
 """
-Implementing registry pattern using dictionary
+Implementing registry pattern using decorators
 """
 
-from typing import List, Callable, Dict
+from functools import wraps
+from typing import List, Callable, Dict, Any
 from pydantic import BaseModel
 
 
@@ -12,24 +13,35 @@ class Document(BaseModel):
     content: str
 
 
+FormatFn = Callable[[Document], str]
+formatters: Dict[str, FormatFn] = {}
+
+
+def register_formatter(name: str):
+    def decorator(func: FormatFn):
+        @wraps(func)
+        def wrapper(*args: Any, **kwargs: Any) -> Any:
+            return func(*args, **kwargs)
+
+        formatters[name] = wrapper
+        return wrapper
+
+    return decorator
+
+
+@register_formatter("csv")
 def format_csv(doc: Document) -> str:
     return f"{doc.title}.csv"
 
 
+@register_formatter("pdf")
 def format_pdf(doc: Document) -> str:
     return f"{doc.title}.pdf"
 
 
+@register_formatter("txt")
 def format_txt(doc: Document) -> str:
     return f"{doc.title}.txt"
-
-
-FormatFn = Callable[[Document], str]
-formatters: Dict[str, FormatFn] = {
-    "csv": format_csv,
-    "pdf": format_pdf,
-    "txt": format_txt,
-}
 
 
 def get_file_name(doc: Document, format_type: str) -> str:
