@@ -1,0 +1,18 @@
+[project]
+name = "models"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "certifi>=2025.11.12",
+    "ipykernel>=7.1.0",
+    "jupyter>=1.1.1",
+    "optimum[exporters,onnxruntime]>=2.0.0",
+    "torch>=2.2.2",
+    # "onnxruntime>=1.23.2",
+    # "transformers>=4.55.4",
+    # "optimum-onnx[onnxruntime]>=0.0.3",
+    # "optimum-onnx>=1.0.0",
+    "transformers>=4.55.4",
+]
