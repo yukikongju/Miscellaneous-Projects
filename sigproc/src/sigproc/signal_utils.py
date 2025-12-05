@@ -11,10 +11,10 @@ def flatten_image_array(arr: np.ndarray) -> np.ndarray:
     RGB: [R values], [G values], [B values]
 
     """
-    if len(arr) == 1:
+    if arr.ndim == 1:
         logging.info("Image array already flat. Skipping...")
         return arr
-    if len(arr) >= 4:
+    if arr.ndim >= 4:
         raise ValueError("Array doesn't represent image. Too many channels")
     return arr.reshape(-1)
 
@@ -25,7 +25,7 @@ def array_to_wav(
     """
     Convert flattened numpy array to .wav file
     """
-    if len(arr) != 1:
+    if arr.ndim != 1:
         arr = flatten_image_array(arr)
 
     amplitude = np.iinfo(np.int16).max
