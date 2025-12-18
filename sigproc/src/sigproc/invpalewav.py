@@ -1,14 +1,14 @@
 import argparse
+import logging
+
 import matplotlib.pyplot as plt
 import numpy as np
-import logging
-from . import image_utils, signal_utils
+
+from . import signal_utils
 
 
 def run():
-    parser = argparse.ArgumentParser(
-        prog="invpalewav", description="converting .wav file to image"
-    )
+    parser = argparse.ArgumentParser(prog="invpalewav", description="converting .wav file to image")
     parser.add_argument("-w", "--wav_path")
     #  parser.add_argument("-i", "--img_path")
     args = parser.parse_args()

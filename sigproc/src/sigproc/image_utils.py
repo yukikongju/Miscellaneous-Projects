@@ -1,4 +1,5 @@
 import logging
+
 import matplotlib.pyplot as plt
 import numpy as np
 from PIL import Image
@@ -41,6 +42,7 @@ def flatten_image_array(arr: np.ndarray) -> np.ndarray:
     if arr.ndim >= 4:
         raise ValueError("Array doesn't represent image. Too many channels")
     return arr.reshape(-1)
+
 
 def show_image_array(arr: np.ndarray) -> None:
     """

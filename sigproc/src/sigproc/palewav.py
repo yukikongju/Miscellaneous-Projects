@@ -1,12 +1,11 @@
 import argparse
 import logging
+
 from . import image_utils, signal_utils
 
 
 def run():
-    parser = argparse.ArgumentParser(
-        prog="palewav", description="converting image to .wav file"
-    )
+    parser = argparse.ArgumentParser(prog="palewav", description="converting image to .wav file")
     parser.add_argument("-i", "--img_path")
     parser.add_argument("-w", "--wav_path")
     args = parser.parse_args()

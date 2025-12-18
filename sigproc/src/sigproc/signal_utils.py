@@ -1,11 +1,12 @@
 import logging
+
 import numpy as np
 from scipy.io import wavfile
+
 from . import image_utils
-from typing import Tuple
 
 
-def read_signal(wav_path: str) -> Tuple[int, np.ndarray]:
+def read_signal(wav_path: str) -> tuple[int, np.ndarray]:
     """
     Reading signal from .wav file
     """
