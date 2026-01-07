@@ -2,11 +2,13 @@
 Script which saves sounds snippets of mic in real-time
 """
 
+import audioop
+import math
 import matplotlib.pyplot as plt
 import numpy as np
 import pyaudio
 from scipy.ndimage import gaussian_filter1d
-from typing import Generator
+from typing import Generator, List
 
 
 def configure_mic(
@@ -149,6 +151,47 @@ def get_chunk_generator(
         yield data
 
 
+def get_chunk_decibel(data: np.ndarray, width: int) -> float:
+    """
+    Get decibel from audio chunk
+
+    Parameters
+    ----------
+    data: np.ndarray
+        Audio data
+    width: int
+        Bytes per sample
+
+    Returns
+    -------
+    decibel: float
+    """
+    rms = audioop.rms(data, width)
+
+    # Normalize and convert to decibels
+    # 32767 is the maximum value for 16-bit audio
+    normalized_rms = rms / 32767.0
+    decibel = (
+        20.0 * math.log10(normalized_rms) if normalized_rms > 0 else -999
+    )  # -999 indicates silence
+    return decibel
+
+
+def plot_decibel_levels(ax: plt.Axes, decibels: List[float]):
+    """
+    Plot the Decibel levels
+
+    Parameters
+    ----------
+    decibels: List[float]
+        Array of previous decibel levels
+    """
+    n = len(decibels)
+    ax.plot(range(n), decibels)
+    ax.set_yticks([])
+    ax.set_ylabel("Decibel (dB)")
+
+
 def run():
     CHUNK_LENGTH = 1024
     FORMAT = pyaudio.paInt16  # Note: pyaudio.paInt32 yields lots of variance, why?
@@ -157,6 +200,10 @@ def run():
     TEMPORAL_VLIM = 35000.0
     WAVEFORM_VLIM = 1e6
     WAIT_DURATION = 1e-10
+    BYTE_PER_SAMPLE = 2  # Bytes per sample for paInt16
+    PREV_DECIBEL_CACHE_SIZE = 100
+    NUM_SUBPLOTS = 3
+    prev_decibel_levels = []
 
     stream = configure_mic(FORMAT, N_CHANNELS, RATE, CHUNK_LENGTH)
     chunk_generator = get_chunk_generator(stream, CHUNK_LENGTH)
@@ -166,11 +213,18 @@ def run():
 
         data = next(chunk_generator)
         fft_data = fourier_transform(data, 4)
+        decibel = get_chunk_decibel(data, BYTE_PER_SAMPLE)
+        print(decibel)
 
-        ax1 = plt.subplot(2, 1, 1)
+        ax1 = plt.subplot(NUM_SUBPLOTS, 1, 1)
         plot_temporal_domain(ax1, data, TEMPORAL_VLIM)
 
-        ax2 = plt.subplot(2, 1, 2)
+        ax2 = plt.subplot(NUM_SUBPLOTS, 1, 2)
         plot_frequency_domain(ax2, fft_data, WAVEFORM_VLIM, RATE, CHUNK_LENGTH, 20)
+
+        ax3 = plt.subplot(NUM_SUBPLOTS, 1, 3)
+        prev_decibel_levels.insert(0, decibel)
+        prev_decibel_levels = prev_decibel_levels[:PREV_DECIBEL_CACHE_SIZE]
+        plot_decibel_levels(ax3, prev_decibel_levels)
 
         plt.pause(WAIT_DURATION)
