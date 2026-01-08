@@ -42,7 +42,7 @@ def configure_mic(
     )
 
 
-def fourier_transform(data: np.ndarray, smoothing_coefficient: int = 3) -> np.ndarray:
+def smooth_gaussian_filter(data: np.ndarray, smoothing_coefficient: int = 3) -> np.ndarray:
     """
     Call FFT on data and add smoothing for visualization.
 
@@ -61,6 +61,20 @@ def fourier_transform(data: np.ndarray, smoothing_coefficient: int = 3) -> np.nd
     return gaussian_filter1d(
         np.abs(np.fft.fft(np.frombuffer(data, np.int16))), smoothing_coefficient
     )
+
+
+def fast_fourier_transform_magnitude(data: np.ndarray) -> np.ndarray:
+    """
+    Compute FFT magnitude of 1D audio signal
+
+    Parameters
+    ----------
+    data: np.ndarray
+        Data to run FFT on.
+    """
+    x = np.abs(np.fft.fft(data))
+    return x[: len(data) // 2]
+    #  return x[: len(data)]
 
 
 def plot_temporal_domain(ax: plt.Axes, temporal_data: np.ndarray, temporal_vlim: float) -> None:
@@ -192,6 +206,12 @@ def plot_decibel_levels(ax: plt.Axes, decibels: List[float]):
     ax.set_ylabel("Decibel (dB)")
 
 
+def plot_fft_magnitude(ax: plt.Axes, data: np.ndarray) -> None:
+    """ """
+    ax.plot(data)
+    ax.set_ylabel("FFT")
+
+
 def run():
     CHUNK_LENGTH = 1024
     FORMAT = pyaudio.paInt16  # Note: pyaudio.paInt32 yields lots of variance, why?
@@ -202,7 +222,7 @@ def run():
     WAIT_DURATION = 1e-10
     BYTE_PER_SAMPLE = 2  # Bytes per sample for paInt16
     PREV_DECIBEL_CACHE_SIZE = 100
-    NUM_SUBPLOTS = 3
+    NUM_SUBPLOTS = 4
     prev_decibel_levels = []
 
     stream = configure_mic(FORMAT, N_CHANNELS, RATE, CHUNK_LENGTH)
@@ -212,19 +232,22 @@ def run():
         plt.clf()
 
         data = next(chunk_generator)
-        fft_data = fourier_transform(data, 4)
+        smooth_data = smooth_gaussian_filter(data, 4)
+        fft_data = fast_fourier_transform_magnitude(data)
         decibel = get_chunk_decibel(data, BYTE_PER_SAMPLE)
-        print(decibel)
 
         ax1 = plt.subplot(NUM_SUBPLOTS, 1, 1)
         plot_temporal_domain(ax1, data, TEMPORAL_VLIM)
 
         ax2 = plt.subplot(NUM_SUBPLOTS, 1, 2)
-        plot_frequency_domain(ax2, fft_data, WAVEFORM_VLIM, RATE, CHUNK_LENGTH, 20)
+        plot_frequency_domain(ax2, smooth_data, WAVEFORM_VLIM, RATE, CHUNK_LENGTH, 20)
 
         ax3 = plt.subplot(NUM_SUBPLOTS, 1, 3)
         prev_decibel_levels.insert(0, decibel)
         prev_decibel_levels = prev_decibel_levels[:PREV_DECIBEL_CACHE_SIZE]
         plot_decibel_levels(ax3, prev_decibel_levels)
+
+        ax4 = plt.subplot(NUM_SUBPLOTS, 1, 4)
+        plot_fft_magnitude(ax4, fft_data)
 
         plt.pause(WAIT_DURATION)
