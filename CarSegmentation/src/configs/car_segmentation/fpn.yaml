@@ -2,7 +2,7 @@ defaults:
   - model: smp
   - dataloader: car_segmentation
   - optimizer: adam
-  - loss: dice
+  - loss: dice_binary
   - trainer: lightning
 
 model:
@@ -36,7 +36,8 @@ dataloader:
     num_workers: 0
 
 optimizer:
-  lr: 2e-4
+  lr: 0.0002
+  # lr: 2e-4
 
 trainer:
   max_epochs: 10
