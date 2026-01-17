@@ -9,7 +9,7 @@ import os
 from torch.utils.data import Dataset
 
 
-class CarDataset(Dataset):
+class CarSegmentationDataset(Dataset):
 
     CLASSES = [
         "sky",

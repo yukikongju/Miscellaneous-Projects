@@ -1,6 +1,6 @@
 defaults:
   - model: smp
-  - dataset: car_segmentation
+  - dataloader: car_segmentation
   - optimizer: adam
   - loss: dice
   - trainer: lightning
@@ -12,11 +12,28 @@ model:
   in_channels: 3
   out_classes: 1
 
-dataset:
-  classes: ["car"]
-  data_dir: ./data/CamVid
-  batch_size: 32
-  num_workers: 0
+dataloader:
+  train:
+    classes: ["car"]
+    images_dir: ./data/CamVid/train
+    annotations_dir: ./data/CamVid/trainannot
+    augmentation: training
+    batch_size: 32
+    num_workers: 0
+  val:
+    classes: ["car"]
+    images_dir: ./data/CamVid/val
+    annotations_dir: ./data/CamVid/valnannot
+    augmentation: validation
+    batch_size: 32
+    num_workers: 0
+  test:
+    classes: ["car"]
+    images_dir: ./data/CamVid/test
+    annotations_dir: ./data/CamVid/testnannot
+    augmentation: validation
+    batch_size: 32
+    num_workers: 0
 
 optimizer:
   lr: 2e-4
