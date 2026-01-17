@@ -1,3 +1,7 @@
+"""
+This file contains the training and validation augmentations for the Car Segmentation Dataset
+"""
+
 import albumentations as A
 
 

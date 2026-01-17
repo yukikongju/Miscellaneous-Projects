@@ -16,6 +16,8 @@ def load_config(config_path: str):
     cfg = {}
     for entry in base["defaults"]:
         for key, value in entry.items():
-            cfg[key] = {"name": value, "args": base.get(key, {})}
+            cfg[key] = {"name": value}
+            for k in base.get(key, {}):
+                cfg[key].update({k: base[key][k]})
 
     return cfg

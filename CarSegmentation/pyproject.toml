@@ -9,6 +9,7 @@ dependencies = [
     "albumentations>=1.4.2",
     "google-cloud-secret-manager>=2.26.0",
     "google-cloud-storage>=3.8.0",
+    "lightning>=2.6.0",
     "matplotlib>=3.10.8",
     "mlflow>=3.8.1",
     "notebook>=7.5.1",
