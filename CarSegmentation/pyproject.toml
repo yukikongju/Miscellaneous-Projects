@@ -19,6 +19,7 @@ dependencies = [
     "opencv-python>=4.11.0.86", # cv2
     "pillow>=12.1.0",
     "pyarrow>=22.0.0",
+    "pydantic>=2.12.5",
     "python-dotenv>=1.2.1",
     "segmentation-models-pytorch>=0.5.0",
     "torch==2.2.2", # torch version for macos
