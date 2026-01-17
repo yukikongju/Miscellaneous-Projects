@@ -1,0 +1,22 @@
+defaults:
+  - model: smp
+  - dataset: car_segmentation
+  - optimizer: adam
+  - trainer: lightning
+
+model:
+  arch: FPN
+  encoder_name: resnext50_32x4d
+  encoder_weights: imagenet
+  in_channels: 3
+  out_channels: 1
+
+dataset:
+  batch_size: 32
+  data_dir: ./data
+
+optimizer:
+  lr: 2e-4
+
+trainer:
+  max_epochs: 10
