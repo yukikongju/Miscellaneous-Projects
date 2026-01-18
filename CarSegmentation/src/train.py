@@ -5,6 +5,7 @@ in the yaml file passed as a parameter.
 
 import argparse
 import lightning as L
+from lightning.pytorch.callbacks.early_stopping import EarlyStopping
 
 from configs.load import load_config
 
@@ -52,6 +53,11 @@ def run():
     lightning_module = BaseLightningModule(model, loss_fn, optimizer_fn)
 
     # train and test the model
-    trainer = L.Trainer()
+    trainer = L.Trainer(
+        min_epochs=cfg["trainer"]["min_epochs"],
+        max_epochs=cfg["trainer"]["max_epochs"],
+        log_every_n_steps=cfg["trainer"]["log_every_n_steps"],
+        callbacks=[EarlyStopping(monitor="val_loss", mode="min")],
+    )
     trainer.fit(model=lightning_module, train_dataloaders=train_loader, val_dataloaders=val_loader)
     trainer.test(model=lightning_module, dataloaders=test_loader)
