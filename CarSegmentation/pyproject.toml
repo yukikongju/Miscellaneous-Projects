@@ -27,3 +27,13 @@ dependencies = [
     "torchvision>=0.17.2",
     "tqdm>=4.67.1",
 ]
+
+[project.scripts]
+trainer = "scripts.train:run"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/scripts"]
