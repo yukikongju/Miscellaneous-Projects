@@ -8,20 +8,6 @@ import lightning as L
 from lightning.pytorch.callbacks.early_stopping import EarlyStopping
 
 from configs.load import load_config
-
-# FIXME: import this is __init__ file because registry only gets instanciated when imported
-from data.datasets.car import (
-    CarSegmentationDataset,
-)  # note: keep unused import for decorator to be materialized
-from metrics.segmentation import (
-    LOSSES_REGISTRY,
-)  # note: keep unused import for decorator to be materialized
-from models.segmentation.smp import (
-    SegmentationModelNetwork,
-)  # note: keep unused import for decorator to be materialized
-from optimizers.adam import (
-    AdamOptimizerConfig,
-)  # note: keep unused import for decorator to be materialized
 from training.runners.lightning import BaseLightningModule
 from utils.registry import DATALOADER_REGISTRY, MODEL_REGISTRY, OPTIMIZER_REGISTRY, LOSSES_REGISTRY
 
