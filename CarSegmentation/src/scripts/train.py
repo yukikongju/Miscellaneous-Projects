@@ -43,7 +43,7 @@ def run():
 
     optimizer_fn = OPTIMIZER_REGISTRY[cfg["optimizer"]["name"]](cfg["optimizer"])
 
-    loss_fn = LOSSES_REGISTRY[cfg["loss"]["name"]]
+    loss_fn = LOSSES_REGISTRY[cfg["loss"]["name"]](cfg["loss"])
 
     # initialize lightning module
     lightning_module = BaseLightningModule(model, loss_fn, optimizer_fn)
