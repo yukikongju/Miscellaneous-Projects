@@ -43,6 +43,7 @@ optimizer:
 logger:
   experiment_name: CarSegmentation
   tracking_uri: ${env:MLFLOW_TRACKING_URI}
+  log_model: True
   # tracking_uri: file:./ml-runs
 
 trainer:

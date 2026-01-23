@@ -2,5 +2,5 @@
 
 What to put in `.env` file:
 ```
-MLFLOW_URI=<>
+MLFLOW_TRACKING_URI=<mlflow/uri/path>
 ```

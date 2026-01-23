@@ -45,7 +45,7 @@ def run():
     logging.info(f"Reading model config from {args.yaml_path}")
     cfg = load_config(args.yaml_path)
 
-    # load model, dataloader, optimizer, loss function
+    # load model, dataloader, optimizer, loss function, logger
     model_cls = MODEL_REGISTRY[cfg["model"]["name"]]
     model = model_cls(cfg["model"])
 
@@ -58,11 +58,18 @@ def run():
 
     loss_fn = LOSSES_REGISTRY[cfg["loss"]["name"]](cfg["loss"])
 
+    logger = (
+        LOGGER_REGISTRY[cfg["logger"]["name"]](cfg["logger"])
+        if cfg["logger"]["name"] in LOGGER_REGISTRY.keys()
+        else None
+    )
+
     # initialize lightning module
     lightning_module = BaseLightningModule(model, loss_fn, optimizer_fn)
 
     # train and test the model
     trainer = L.Trainer(
+        logger=logger,
         min_epochs=cfg["trainer"]["min_epochs"],
         max_epochs=cfg["trainer"]["max_epochs"],
         log_every_n_steps=cfg["trainer"]["log_every_n_steps"],
