@@ -82,6 +82,7 @@ A collection of random projects
 	* [Using Bayesian decision making to optimize supply chain](https://twiecki.io/blog/2019/01/14/supply_chain/)
 	* [Random Walk Bayesian Deep Networks: dealing with non-stationary data](https://twiecki.io/blog/2017/03/14/random-walk-deep-net/)
 	* [mcmc sampling for dummies](https://twiecki.io/blog/2015/11/10/mcmc-sampling/)
+- [ ] Random Walk in C => [link](https://www.youtube.com/watch?v=ErA4U9WqNCE)
 - [ ] EDA Application
 - [ ] Streamlit Goodreads, Github Commit
 - [ ] Remove PDF Pages + reorder PDF
@@ -95,6 +96,7 @@ A collection of random projects
 - [ ] [Eldiro Programming Language](https://lunacookies.github.io/lang/) in rust
 - [ ] [Toralizer](https://www.youtube.com/watch?v=Pebul1c9JKE)
 - [ ] UA Retention
+- [ ] Syntax Tree Generator
 - [ ] Web Browser Engine
 - [ ] DB from scratch
 - [ ] Git from scratch

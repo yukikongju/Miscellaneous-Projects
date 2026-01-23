@@ -4,6 +4,7 @@ defaults:
   - optimizer: adam
   - loss: dice_binary
   - trainer: lightning
+  - logger: mlflow
 
 model:
   arch: FPN
@@ -38,6 +39,11 @@ dataloader:
 optimizer:
   lr: 0.0002
   # lr: 2e-4
+
+logger:
+  experiment_name: CarSegmentation
+  tracking_uri: ${env:MLFLOW_TRACKING_URI}
+  # tracking_uri: file:./ml-runs
 
 trainer:
   min_epochs: 5

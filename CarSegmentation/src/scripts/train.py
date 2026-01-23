@@ -6,19 +6,32 @@ in the yaml file passed as a parameter.
 import argparse
 import lightning as L
 import logging
+from dotenv import load_dotenv
 from lightning.pytorch.callbacks.early_stopping import EarlyStopping
 
 from configs.load import load_config
 from training.runners.lightning import BaseLightningModule
-from utils.registry import DATALOADER_REGISTRY, MODEL_REGISTRY, OPTIMIZER_REGISTRY, LOSSES_REGISTRY
+from utils.registry import (
+    DATALOADER_REGISTRY,
+    MODEL_REGISTRY,
+    OPTIMIZER_REGISTRY,
+    LOSSES_REGISTRY,
+    LOGGER_REGISTRY,
+)
 
 
 def run():
     parser = argparse.ArgumentParser(description="Script to train model from a yaml config file")
-    parser.add_argument("yaml_path", help="Path to yaml. Should be inside 'src/configs'")
-    parser.add_argument("--log_path", help="Path to log output file")
+    parser.add_argument("yaml_path", help="Path to yaml. Should be inside 'src/configs'", type=str)
+    parser.add_argument("--log_path", help="Path to log output file", type=str)
+    parser.add_argument("--from_dotenv", help="Boolean to override yaml value", type=bool)
 
     args = parser.parse_args()
+
+    # loading dotenv file
+    if args.from_dotenv:
+        logging.info("Loading .env file")
+        load_dotenv()
 
     # initializing logger
     logging.basicConfig(
