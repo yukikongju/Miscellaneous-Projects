@@ -25,5 +25,23 @@ class BaseLightningModule(L.LightningModule):
         self.log("train_loss", loss, prog_bar=True)
         return loss
 
+    def validation_step(self, batch, batch_idx):
+        X, y = batch
+        X, y = X.to(torch.float32), y.to(torch.float32)
+
+        outputs = self.model(X)
+        loss = self.loss_fn(outputs, y)
+        self.log("val_loss", loss, prog_bar=True)
+        return loss
+
+    def testing_step(self, batch, batch_idx):
+        X, y = batch
+        X, y = X.to(torch.float32), y.to(torch.float32)
+
+        outputs = self.model(X)
+        loss = self.loss_fn(outputs, y)
+        self.log("val_loss", loss, prog_bar=True)
+        return loss
+
     def configure_optimizers(self):
         return self.optimizer(self.model.parameters())

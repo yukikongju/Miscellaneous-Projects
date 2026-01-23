@@ -24,14 +24,14 @@ dataloader:
   val:
     classes: ["car"]
     images_dir: ./data/CamVid/val
-    annotations_dir: ./data/CamVid/valnannot
+    annotations_dir: ./data/CamVid/valannot
     augmentation: validation
     batch_size: 32
     num_workers: 0
   test:
     classes: ["car"]
     images_dir: ./data/CamVid/test
-    annotations_dir: ./data/CamVid/testnannot
+    annotations_dir: ./data/CamVid/testannot
     augmentation: validation
     batch_size: 32
     num_workers: 0

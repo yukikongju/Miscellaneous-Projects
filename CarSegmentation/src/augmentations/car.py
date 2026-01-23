@@ -9,8 +9,8 @@ def get_training_augmentation():
     train_transform = [
         A.HorizontalFlip(p=0.5),
         A.ShiftScaleRotate(scale_limit=0.5, rotate_limit=0, shift_limit=0.1, p=1, border_mode=0),
-        A.PadIfNeeded(min_height=320, min_width=320, always_apply=True),
-        A.RandomCrop(height=320, width=320, always_apply=True),
+        A.PadIfNeeded(min_height=320, min_width=320),
+        A.RandomCrop(height=320, width=320),
         A.GaussNoise(p=0.2),
         A.Perspective(p=0.5),
         A.OneOf(
