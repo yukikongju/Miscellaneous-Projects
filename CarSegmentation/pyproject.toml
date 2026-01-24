@@ -22,14 +22,17 @@ dependencies = [
     "pydantic>=2.12.5",
     "python-dotenv>=1.2.1",
     "segmentation-models-pytorch>=0.5.0",
+    "timm>=1.0.24",
     "torch==2.2.2", # torch version for macos
     "torchaudio>=2.2.2",
+    "torchinfo>=1.8.0",
     "torchvision>=0.17.2",
     "tqdm>=4.67.1",
 ]
 
 [project.scripts]
 trainer = "scripts.train:run"
+upload = "scripts.upload:run"
 
 [build-system]
 requires = ["hatchling"]
