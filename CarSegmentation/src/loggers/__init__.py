@@ -1,1 +1,1 @@
-from .mlflow_loggers import *
+from .mlflow_lightning_loggers import *
