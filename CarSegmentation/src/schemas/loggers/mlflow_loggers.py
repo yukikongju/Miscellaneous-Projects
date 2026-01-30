@@ -1,7 +1,8 @@
 from pydantic import BaseModel
 
 
-class MLFlowLoggerConfig(BaseModel):
-    experiment_name: str
+class MLFlowLoggersConfig(BaseModel):
     tracking_uri: str
-    log_model: bool
+    experiment_name: str
+    run_name: str
+    num_epochs: str
