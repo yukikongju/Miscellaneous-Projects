@@ -121,3 +121,6 @@ A collection of random projects
 ## Resources
 
 - [10 Advanced Projects to Build in 2021](https://dev.to/hb/10-advanced-projects-to-build-in-2021-425o)
+- [Manware - 11 CRAZY Backend Project Ideas](https://youtu.be/NULWyn8Hqs8?si=KZ1dKs23yARH57k3)
+- [Thomas Havlik](https://thavlik.dev/#beebles-laboratorium)
+- [Daniel Hirsch]
