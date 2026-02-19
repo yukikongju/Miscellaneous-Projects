@@ -1,0 +1,15 @@
+[project]
+name = "saturationcurves"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "db-dtypes>=1.4.4",
+    "google-cloud-bigquery>=3.40.1",
+    "marimo>=0.19.11",
+    "matplotlib>=3.10.8",
+    "pandas>=3.0.1",
+    "protobuf>=6.33.5",
+    "scikit-learn>=1.8.0",
+]
