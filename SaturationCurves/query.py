@@ -22,7 +22,7 @@ with base_conversions as (
   from `relax-melodies-android.ua_dashboard_prod.final_table`
   where
     date >= '2023-01-01' and date <= date_sub(current_date(), interval 8 day)
-    and network in ('Apple Search Ads', 'Facebook Ads', 'tiktokglobal_int', 'googleadwords_int', 'tatari_linear', 'tatari_streaming')
+    and network in ('Apple Search Ads', 'Facebook Ads', 'tiktokglobal_int', 'googleadwords_int', 'tatari_linear', 'tatari_streaming', 'snapchat_int')
   group by
     network, platform, country, year, month, isoweek
 )
