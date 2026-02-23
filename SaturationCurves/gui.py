@@ -338,7 +338,8 @@ def _(get_date_from_year_isoweek, pd, plt):
         network_mask = df["network"] == network
         country_mask = df["country"] == country
         platform_mask = df["platform"] == platform
-        dff = df[network_mask & country_mask & platform_mask].dropna().copy()
+        spend_mask = df["spend"] > 0
+        dff = df[network_mask & country_mask & platform_mask & spend_mask].dropna().copy()
 
         # year format
         dff["date"] = dff.apply(
@@ -404,7 +405,7 @@ def _(side_by_side):
     return
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _(
     MAX_PERC_ASYMPTOTE,
     MIN_PERC_ASYMPTOTE,
@@ -481,7 +482,7 @@ def _(curve_fit, logistic_curve, logistic_marginal_return, np):
 
         return data
 
-    return (get_logistic_marginal_returns,)
+    return List, MarginalReturn, get_logistic_marginal_returns
 
 
 @app.cell
@@ -527,11 +528,13 @@ def _():
 
 @app.cell
 def _(
+    List,
     countries,
     df,
     filter_segment,
     get_logistic_marginal_returns,
     networks,
+    pd,
     platforms,
     product,
 ):
@@ -542,25 +545,43 @@ def _(
     MARGINAL_STEP = 100
     MAX_SPEND = 250000
 
-    dct_marginal_returns = defaultdict()
-    for network, platform, country in list(product(networks, platforms, countries)):
-        dff = filter_segment(
-            df=df,
-            country_name=country,
-            platform_name=platform,
-            network_name=network,
-            x_col=spend_col,
-            y_col=metric_col,
-        )
-        if dff.empty:
-            continue
-        dct_marginal_returns[(network, platform, country)] = get_logistic_marginal_returns(
-            x=dff["spend"].to_numpy(dtype=float),
-            y=dff[metric_col].to_numpy(dtype=float),
-            jump=MARGINAL_STEP,
-            max_spend=MAX_SPEND,
-        )
-    return MARGINAL_STEP, metric_col
+    def get_marginal_returns_dct(
+        df: pd.DataFrame,
+        networks: List[str],
+        platforms: List[str],
+        countries: List[str],
+        marginal_step: int,
+        max_spend: float,
+    ):
+        dct = defaultdict()
+        for network, platform, country in list(product(networks, platforms, countries)):
+            dff = filter_segment(
+                df=df,
+                country_name=country,
+                platform_name=platform,
+                network_name=network,
+                x_col=spend_col,
+                y_col=metric_col,
+            )
+            if dff.empty:
+                continue
+            dct[(network, platform, country)] = get_logistic_marginal_returns(
+                x=dff[spend_col].to_numpy(dtype=float),
+                y=dff[metric_col].to_numpy(dtype=float),
+                jump=marginal_step,
+                max_spend=max_spend,
+            )
+        return dct
+
+    dct_marginal_returns = get_marginal_returns_dct(
+        df=df,
+        networks=networks,
+        platforms=platforms,
+        countries=countries,
+        marginal_step=MARGINAL_STEP,
+        max_spend=MAX_SPEND,
+    )
+    return MARGINAL_STEP, dct_marginal_returns, defaultdict, metric_col
 
 
 @app.cell
@@ -581,10 +602,11 @@ def _(
     df_budget["budget"] = 0
 
     BUDGET = 150_000  # note: need to match aggregation (currrent: weekly)
+    MAX_INIT_SPEND = 10_000
 
     key_cols = ["network", "platform", "country"]
     # initialization - set minimum for all segments and floor to marginal step
-    # NOTE: very bad when one network minimal spend is too high or weekly spend is too low
+    # NOTE: very bad when one network minimal spend is too high or weekly spend is too low; ASA is exponential :o
     df_budget = (
         pd.merge(df_budget, df_min_spend, on=key_cols, how="left")[key_cols + [metric_col]]
         .fillna(0)
@@ -592,18 +614,109 @@ def _(
     )
     df_budget["budget"] = np.ceil(df_budget["budget"] / MARGINAL_STEP) * MARGINAL_STEP
 
-    #
-    return
+    # fallback
+    negative_mask = df_budget["budget"] < 0
+    max_init_spend_mask = df_budget["budget"] > MAX_INIT_SPEND
+    df_budget.loc[negative_mask, "budget"] = 0.0
+    df_budget.loc[max_init_spend_mask, "budget"] = MAX_INIT_SPEND
+
+    return BUDGET, df_budget
 
 
 @app.cell
-def _(df_min_spend):
-    df_min_spend
+def _(
+    BUDGET,
+    List,
+    MARGINAL_STEP,
+    MarginalReturn,
+    dct_marginal_returns,
+    defaultdict,
+    df_budget,
+    pd,
+):
+    # initialize marginal return from budget init
+    import bisect
+    import heapq
+    from typing import Dict, Tuple
+
+    def _init_marginal_budget_returns(
+        df_budget: pd.DataFrame,
+        dct_marginal_returns: Dict[Tuple[str, str, str], List[MarginalReturn]],
+    ):
+        margins = dct_marginal_returns.copy()
+        for k in margins.keys():
+            network, platform, country = k
+            network_mask = df_budget["network"] == network
+            platform_mask = df_budget["platform"] == platform
+            country_mask = df_budget["country"] == country
+            threshold = df_budget.loc[network_mask & platform_mask & country_mask, "budget"].item()
+            idx = bisect.bisect_left([m.increment for m in margins[k]], threshold)
+            margins[k] = margins[k][idx:]
+        return margins
+
+    def get_budget_allocation(budget: float, jump: int):
+        margins = _init_marginal_budget_returns(df_budget, dct_marginal_returns)
+
+        # print(margins)
+
+        dct_budget_allocations = defaultdict(float)
+        for k in margins.keys():
+            dct_budget_allocations[k] = margins[k][0].increment
+
+        # init max heap
+        heap = [(-margins[k].pop(0).marginal_return, k) for k in margins.keys()]
+        # heap = [(-m.marginal_return, k) for k in margins.keys() for m in margins[k]]
+        heapq.heapify(heap)
+        # print(heap)
+
+        # greedy allocation -
+        budget -= df_budget["budget"].sum()
+        expected_total = 0
+        while heap and budget > MARGINAL_STEP:
+            v, k = heapq.heappop(heap)
+            # expected_total += -v * jump
+            expected_total += -v
+            budget -= jump
+            dct_budget_allocations[k] += jump
+
+            if margins[k]:
+                next_margin = margins[k].pop(0)
+                heapq.heappush(heap, (-next_margin.marginal_return, k))
+
+        df_allocations = pd.DataFrame(
+            [
+                {"network": k[0], "platform": k[1], "country": k[2], "allocated_budget": v}
+                for k, v in dct_budget_allocations.items()
+            ]
+        )
+
+        print(df_allocations)
+
+        # print(dct_budget_allocations)
+        print(expected_total)
+
+    get_budget_allocation(budget=BUDGET, jump=MARGINAL_STEP)
     return
 
 
 @app.cell
 def _():
+    return
+
+
+@app.cell
+def _():
+    return
+
+
+@app.cell
+def _():
+    return
+
+
+@app.cell
+def _(df_max_spend):
+    df_max_spend
     return
 
 
