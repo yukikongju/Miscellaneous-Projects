@@ -55,10 +55,11 @@ def _(df):
 
 
 @app.cell
-def _(pd, plt):
+def _(pd):
     from sklearn.linear_model import LogisticRegression
     import numpy as np
     from scipy.optimize import curve_fit
+    import plotly.graph_objects as go
 
     def logistic_curve(x, L, k, x0):
         return L / (1 + np.exp(-k * (x - x0)))
@@ -110,10 +111,14 @@ def _(pd, plt):
         marginal_returns = logistic_marginal_return(x, L, k, x0)
 
         # compute asymptote
-        max_spend_asymptote = round(x0 + (1.0 / k) * np.log(max_perc_asymptote / 0.05), 2)
-        min_spend_asymptote = round(x0 + (1.0 / k) * np.log(min_perc_asymptote / 0.05), 2)
-        # max_spend_asymptote = round(x0 + (1.0 / k) * np.log(max_perc_asymptote / (1.0 - max_perc_asymptote)), 2)
-        # min_spend_asymptote = round(x0 + (1.0 / k) * np.log(min_perc_asymptote / (1.0 - min_perc_asymptote)), 2)
+        # max_spend_asymptote = round(x0 + (1.0 / k) * np.log(max_perc_asymptote / 0.05), 2)
+        # min_spend_asymptote = round(x0 + (1.0 / k) * np.log(min_perc_asymptote / 0.05), 2)
+        max_spend_asymptote = round(
+            x0 + (1.0 / k) * np.log(max_perc_asymptote / (1.0 - max_perc_asymptote)), 2
+        )
+        min_spend_asymptote = round(
+            x0 + (1.0 / k) * np.log(min_perc_asymptote / (1.0 - min_perc_asymptote)), 2
+        )
 
         # TODO: compute marginal
         mCPI = 1 / marginal_returns
@@ -131,25 +136,71 @@ def _(pd, plt):
         # print(flattened_asymptote)
 
         # scatterplot
-        plt.style.use("seaborn-v0_8-whitegrid")
-        plt.scatter(dff[x_col], dff[y_col], color="blue", alpha=0.2)
-        # plt.plot([], [], ' ', label=f"Incremental {y_col} per 1K {x_col}: {incremental_per_1K}")
-        plt.plot(x_grid, y_pred, color="green")
-        plt.axvline(
+        # plt.style.use("seaborn-v0_8-whitegrid")
+        # plt.scatter(dff[x_col], dff[y_col], color="blue", alpha=0.2)
+        # # plt.plot([], [], ' ', label=f"Incremental {y_col} per 1K {x_col}: {incremental_per_1K}")
+        # plt.plot(x_grid, y_pred, color="green")
+        # plt.axvline(
+        #     x=min_spend_asymptote,
+        #     color="m",
+        #     linestyle="--",
+        #     label=f"Asymptote {min_perc_asymptote * 100}%: {min_spend_asymptote}",
+        # )
+        # plt.axvline(
+        #     x=max_spend_asymptote,
+        #     color="r",
+        #     linestyle="--",
+        #     label=f"Asymptote {max_perc_asymptote * 100}%: {max_spend_asymptote}",
+        # )
+        # plt.title(f"{network} {country_code} {platform} - {y_col} vs {x_col}")
+        # plt.ylabel(y_col)
+        # plt.xlabel(x_col)
+        # plt.legend(loc="upper right")
+        # plt.show()
+
+        # using plotly
+        fig = go.Figure()
+        # Scatter points
+        fig.add_trace(
+            go.Scatter(
+                x=dff[x_col],
+                y=dff[y_col],
+                mode="markers",
+                marker=dict(color="blue", opacity=0.2),
+                name="Data",
+            )
+        )
+
+        # Fitted curve
+        fig.add_trace(
+            go.Scatter(x=x_grid, y=y_pred, mode="lines", line=dict(color="green"), name="Fit")
+        )
+
+        # Min asymptote vertical line
+        fig.add_vline(
             x=min_spend_asymptote,
-            color="m",
-            linestyle="--",
-            label=f"Asymptote {min_perc_asymptote * 100}%: {min_spend_asymptote}",
+            line=dict(color="magenta", dash="dash"),
+            annotation_text=f"Asymptote {min_perc_asymptote * 100}%: {min_spend_asymptote}",
+            annotation_position="top right",
         )
-        plt.axvline(
+
+        # Max asymptote vertical line
+        fig.add_vline(
             x=max_spend_asymptote,
-            color="r",
-            linestyle="--",
-            label=f"Asymptote {max_perc_asymptote * 100}%: {max_spend_asymptote}",
+            line=dict(color="red", dash="dash"),
+            annotation_text=f"Asymptote {max_perc_asymptote * 100}%: {max_spend_asymptote}",
+            annotation_position="top right",
         )
-        plt.title(f"{network} {country_code} {platform} - {y_col} vs {x_col}")
-        plt.legend(loc="upper right")
-        plt.show()
+
+        fig.update_layout(
+            title=f"{network} {country_code} {platform} - {y_col} vs {x_col}",
+            xaxis_title=x_col,
+            yaxis_title=y_col,
+            legend=dict(x=1, xanchor="right"),
+            template="plotly_white",
+        )
+
+        fig.show()
 
     return curve_fit, logistic_curve, logistic_marginal_return, np, scatterplot
 
@@ -189,8 +240,8 @@ def _(curve_fit, logistic_curve, np, pd, y_col):
             raise Exception()
 
         # Spend cutoff at chosen asymptote level (e.g., 95%)
-        # cutoff = x0 + (1.0 / k) * np.log(p_asymptote / (1.0 - p_asymptote))
-        cutoff = round(x0 + (1.0 / k) * np.log(p_asymptote / 0.05), 2)
+        cutoff = x0 + (1.0 / k) * np.log(p_asymptote / (1.0 - p_asymptote))
+        # cutoff = round(x0 + (1.0 / k) * np.log(p_asymptote / 0.05), 2)
 
         return float(cutoff)
 
@@ -263,9 +314,11 @@ def _(df, get_spend_metric_cutoff, pd):
     rows = list(product(networks, platforms, countries))
     df_max_spend = pd.DataFrame(rows, columns=["network", "platform", "country"])
     df_min_spend = pd.DataFrame(rows, columns=["network", "platform", "country"])
+    df_median_spend = pd.DataFrame(rows, columns=["network", "platform", "country"])
 
     MAX_PERC_ASYMPTOTE = 0.95
-    MIN_PERC_ASYMPTOTE = 0.00325
+    # MIN_PERC_ASYMPTOTE = 0.00325
+    MIN_PERC_ASYMPTOTE = 0.07
 
     for metric in metrics:
         df_max_spend[metric] = df_max_spend.apply(
@@ -290,6 +343,18 @@ def _(df, get_spend_metric_cutoff, pd):
                 platform=row["platform"],
                 network=row["network"],
                 p_asymptote=MIN_PERC_ASYMPTOTE,
+            ),
+            axis=1,
+        )
+        df_median_spend[metric] = df_median_spend.apply(
+            lambda row: get_spend_metric_cutoff(
+                df=df,
+                spend_col="spend",
+                metric_col=metric,
+                country_code=row["country"],
+                platform=row["platform"],
+                network=row["network"],
+                p_asymptote=0.5,
             ),
             axis=1,
         )
@@ -359,9 +424,11 @@ def _(get_date_from_year_isoweek, pd, plt):
         for metric, color in metric_colors.items():
             max_val = df_max_spend.loc[segment_mask, metric].squeeze()
             min_val = df_min_spend.loc[segment_mask, metric].squeeze()
+            # med_val = df_median_spend.loc[segment_mask, metric].squeeze()
 
             plt.axhline(max_val, color=color, linestyle="--", alpha=0.9, label="_nolegend_")
             plt.axhline(min_val, color=color, linestyle=":", alpha=0.9, label="_nolegend_")
+            # plt.axhline(med_val, color=color, linestyle=":", alpha=0.9, label="_nolegend_")
 
         # legend shows only metric colors
         metric_legend = [
@@ -405,6 +472,11 @@ def _(side_by_side):
     return
 
 
+@app.cell
+def _():
+    return
+
+
 @app.cell(hide_code=True)
 def _(
     MAX_PERC_ASYMPTOTE,
@@ -444,7 +516,7 @@ def _(
 
 @app.cell
 def _():
-    # --- TODO: greedy budget allocator
+    # --- greedy budget allocator
     return
 
 
@@ -540,7 +612,7 @@ def _(
 ):
     from collections import defaultdict
 
-    metric_col = "revenue"
+    metric_col = "paid"
     spend_col = "spend"
     MARGINAL_STEP = 100
     MAX_SPEND = 250000
