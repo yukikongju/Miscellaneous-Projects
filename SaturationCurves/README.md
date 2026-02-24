@@ -12,8 +12,8 @@ Notes:
 Build and run:
 
   docker build -t saturation-utils .
-  %% docker run --rm -e GOOGLE_APPLICATION_CREDENTIALS=/path/in/container/key.json saturation-utils
-  docker run --rm -e GOOGLE_APPLICATION_CREDENTIALS=~/keys/relax-server-06b2a61c0080.json saturation-utils
+  docker run -p 8501:8501 saturation-utils
+  docker run -p 8501:8501 -v /Users/emulie/keys/relax-server-06b2a61c0080.json:/tmp/keys/keyfile.json:ro -e GOOGLE_APPLICATION_CREDENTIALS=/tmp/keys/keyfile.json saturation-utils
 
   If you want BigQuery auth via mounted key file, use:
 
