@@ -61,8 +61,8 @@ threshold.
 #  st.sidebar.header("Saturation Curves")
 
 METRIC_THRESHOLD_CONFIG = {
-    "installs": {"value": 15.0, "min": 5.0, "max": 100.0, "step": 1.0},
-    "trials": {"value": 40.0, "min": 5.0, "max": 100.0, "step": 1.0},
+    "installs": {"value": 5.0, "min": 0.1, "max": 50.0, "step": 0.2},
+    "trials": {"value": 30.0, "min": 5.0, "max": 100.0, "step": 0.5},
     "paid": {"value": 70.0, "min": 5.0, "max": 100.0, "step": 1.0},
     "revenue": {"value": 0.4, "min": 0.0, "max": 2.0, "step": 0.01},
 }

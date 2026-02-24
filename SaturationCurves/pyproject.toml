@@ -3,19 +3,23 @@ name = "saturationcurves"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.12"
 dependencies = [
+    "altair<5",
     "db-dtypes>=1.4.4",
     "duckdb>=1.4.4",
+    # "google-cloud-bigquery>=3.18.0",
+    # "google-cloud-secret-manager>=2.12.4",
     "google-cloud-bigquery>=3.40.1",
     "google-cloud-secret-manager>=2.26.0",
-    "google-cloud-storage>=3.9.0",
     "marimo>=0.19.11",
     "matplotlib>=3.10.8",
-    "pandas>=3.0.1",
+    "pandas>=2.3.3",
     "plotly>=6.5.2",
-    "protobuf>=6.33.5",
     "pydantic>=2.12.5",
     "scikit-learn>=1.8.0",
+    "setuptools>=82.0.0",
     "sqlglot>=28.10.1",
+    # "streamlit>=1.41,<1.45",
+    "streamlit==1.41.1",
 ]

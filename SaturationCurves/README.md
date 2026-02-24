@@ -5,10 +5,15 @@
 > uv run streamlit run src/Pages.py
 ```
 
+Notes:
+- running streamlit from uv doesn't work because Pages.py and pages/ need
+  to be in root (from chat) => not true, need to upgrade streamlit version
+
 Build and run:
 
   docker build -t saturation-utils .
-  docker run --rm -e GOOGLE_APPLICATION_CREDENTIALS=/path/in/container/key.json saturation-utils
+  %% docker run --rm -e GOOGLE_APPLICATION_CREDENTIALS=/path/in/container/key.json saturation-utils
+  docker run --rm -e GOOGLE_APPLICATION_CREDENTIALS=~/keys/relax-server-06b2a61c0080.json saturation-utils
 
   If you want BigQuery auth via mounted key file, use:
 

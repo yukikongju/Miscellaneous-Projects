@@ -2,7 +2,7 @@ import json
 import pandas as pd
 from google.cloud import secretmanager
 from google.oauth2 import service_account
-from google.cloud import bigquery, storage
+from google.cloud import bigquery
 
 
 def get_secret(secret_name):
