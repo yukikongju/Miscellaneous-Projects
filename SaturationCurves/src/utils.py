@@ -16,24 +16,26 @@ def get_secret(secret_name):
 
 def get_bigquery_client():
     #  Note: need to define $GOOGLE_APPLICATION_CREDENTIALS josn path in environment variable
-    credentials = get_secret("GOOGLE_APPLICATION_CREDENTIALS_MAIN_BIGQUERY")
-    project_id = get_secret("GOOGLE_APPLICATION_PROJECT_ID_MAIN_BIGQUERY")
+    #  credentials = get_secret("GOOGLE_APPLICATION_CREDENTIALS_MAIN_BIGQUERY")
+    #  project_id = get_secret("GOOGLE_APPLICATION_PROJECT_ID_MAIN_BIGQUERY")
 
-    info = json.loads(credentials)
-    credentials = service_account.Credentials.from_service_account_info(info)
-    client = bigquery.Client(credentials=credentials, project=project_id)
-    #  client = bigquery.Client()
+    #  info = json.loads(credentials)
+    #  credentials = service_account.Credentials.from_service_account_info(info)
+    #  client = bigquery.Client(credentials=credentials, project=project_id)
+    client = bigquery.Client()
     return client
 
 
 def run_query(client: bigquery.Client, query: str) -> pd.DataFrame:
+    if client == None:
+        raise ValueError("client is null")
     try:
         df = client.query(query).to_dataframe()
-    except:
-        raise ValueError(f"Error when running query \n{query}")
+    except Exception as e:
+        raise ValueError(f"Error when running query \n{query}: {e}")
 
     return df
 
 
-client = get_bigquery_client()
-print(client)
+#  client = get_bigquery_client()
+#  print(client)

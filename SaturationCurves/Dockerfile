@@ -20,5 +20,9 @@ COPY ./src .
 
 EXPOSE 8501
 
-ENTRYPOINT ["uv", "run", "streamlit", "run", "Pages.py", "--server.port=8501", "--server.address=0.0.0.0"]
+CMD ["sh", "-c", "uv run streamlit run Pages.py --server.address=0.0.0.0 --server.port=${PORT:-8501} --server.headless=true"]
+
+# ENTRYPOINT ["uv", "run", "streamlit", "run", "Pages.py", "--server.port=${PORT:-8501}", "--server.address=0.0.0.0"]
 # ENTRYPOINT ["streamlit", "run", "Pages.py", "--server.port=8501", "--server.address=0.0.0.0"]
+
+# CMD ["sh", "-c", "uv run streamlit run gui.py --server.address=0.0.0.0 --server.port=${PORT:-8501} --server.headless=true"]

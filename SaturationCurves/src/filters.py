@@ -1,6 +1,6 @@
-from numpy import nanmax
 import pandas as pd
 from itertools import product
+from typing import List
 from curves import get_spend_metric_cutoff
 
 
@@ -31,6 +31,10 @@ def filter_segment(
         dff = dff[(dff[y_col] >= lower) & (dff[y_col] <= upper)]
 
     return dff
+
+
+def get_ratio_percentile(df: pd.DataFrame, x_col: str, y_col: str, percentiles: List[float]):
+    pass
 
 
 def get_marginal_spend_metric_table(
