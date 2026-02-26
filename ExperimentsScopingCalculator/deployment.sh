@@ -1,13 +1,17 @@
 #!/bin/bash
 
+# https://console.cloud.google.com/run/detail/northamerica-northeast1/scoping-calculator-app/networking?project=relax-server
+
 set -e
 
 # Configuration
 GCP_PROJECT="relax-server"
-GCP_REGION="us-central1"
-AR_REPO="scoping-calculator"
+# GCP_REGION="us-central1"
+GCP_REGION="northamerica-northeast1"
+# AR_REPO="scoping-calculator"
+AR_REPO="gcf-artifacts"
 SERVICE_NAME="scoping-calculator-app"
-APP_PORT="8051"
+APP_PORT="8501"
 
 # Create Artifact Registry repository (check if not exists!)
 if ! gcloud artifacts repositories describe "$AR_REPO" \
@@ -27,22 +31,41 @@ gcloud builds submit \
   --tag "$GCP_REGION-docker.pkg.dev/$GCP_PROJECT/$AR_REPO/$SERVICE_NAME"
 
 # Deploy to Cloud Run
-gcloud run deploy "$SERVICE_NAME" \
-  --port="$APP_PORT" \
+gcloud beta run deploy "$SERVICE_NAME" \
   --image="$GCP_REGION-docker.pkg.dev/$GCP_PROJECT/$AR_REPO/$SERVICE_NAME" \
-  --allow-unauthenticated \
   --region="$GCP_REGION" \
-  --platform=managed \
   --project="$GCP_PROJECT" \
-  --set-env-vars="GCP_PROJECT=$GCP_PROJECT,GCP_REGION=$GCP_REGION"
+  --platform=managed \
+  --allow-unauthenticated \
+  --port="$APP_PORT" \
+  # --no-allow-unauthenticated \
+  # --iap
+  # --set-env-vars="GCP_PROJECT=$GCP_PROJECT,GCP_REGION=$GCP_REGION" \
+
+  # Note: After deployment, you must grant the Cloud Run Invoker role to the IAP service account (service-[PROJECT-NUMBER]@gcp-sa-iap.iam.gserviceaccount.com) and assign the IAP-secured Web App User role to the principals (users/groups) who should have access
+
 
 # fix Error: Forbidden - Your client does not have permission to get URL
 gcloud run services add-iam-policy-binding scoping-calculator-app \
   --project=relax-server \
-  --region=us-central1 \
+  --region=northamerica-northeast1 \
   --member="allUsers" \
   --role="roles/run.invoker"
 
-gcloud run services get-iam-policy scoping-calculator-app \
-  --project=relax-server \
-  --region=us-central1
+# gcloud run services get-iam-policy scoping-calculator-app \
+#   --project=relax-server \
+#   --region=northamerica-northeast1
+
+# # Error: Page not found The requested URL was not found on this server.
+# gcloud run services describe scoping-calculator-app \
+#     --project=relax-server \
+#     --region=northamerica-northeast1 \
+#     --format="value(status.url)"
+
+# gcloud run services describe scoping-calculator-app \
+#     --project=relax-server \
+#     --region=northamerica-northeast1 \
+#     --format="yaml(status.url,status.traffic,status.latestReadyRevisionName)"
+
+# --- works!
+# gloud run deploy --source .

@@ -9,6 +9,10 @@ This calculator computes the timeline for basic A/B tests
 
 ```
 ERROR: (gcloud.run.services.add-iam-policy-binding) PERMISSION_DENIED: Permission 'run.services.setIamPolicy' denied on resource 'projects/relax-server/locations/us-central1/services/scoping-calculator-app' (or resource may not exist). This command is authenticated as emulie@ipnos.com which is the active account specified by the [core/account] property.
+> docker run --rm -p 8501:8501 experiments-scoping-gui
+> docker run -p 8501:8501 experiments-scoping-gui
+
+
 ```
 
 
