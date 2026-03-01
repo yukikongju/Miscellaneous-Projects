@@ -114,13 +114,15 @@ A collection of random projects
     * [tactician](https://github.com/tygill/tactician)
     * [paper - game balancing in dominion](https://cdn.aaai.org/ojs/21552/21552-13-25565-1-2-20220628.pdf)
     * [recommended sets](https://kieranmillar.github.io/extra-recommended-sets/)
-
-
-
+    * [Build your own sql lite](https://cstack.github.io/db_tutorial/)
 
 ## Resources
 
 - [10 Advanced Projects to Build in 2021](https://dev.to/hb/10-advanced-projects-to-build-in-2021-425o)
+- [stoney codes - cs 10 real projects](https://youtu.be/fq0txiTIiFM?si=YLTKn6WWC1WP1hJz)
 - [Manware - 11 CRAZY Backend Project Ideas](https://youtu.be/NULWyn8Hqs8?si=KZ1dKs23yARH57k3)
+- [nan.fyi](https://www.nan.fyi/)
 - [Thomas Havlik](https://thavlik.dev/#beebles-laboratorium)
+- [github - project based learning](https://github.com/practical-tutorials/project-based-learning)
+- [build-your-own](https://build-your-own.org/)
 - [Daniel Hirsch]
