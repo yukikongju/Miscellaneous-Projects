@@ -114,6 +114,9 @@ def get_marginal_spend_metric_table(
             ),
             axis=1,
         )
+
+    # TODO: compute ratio (cac/roas)
+
     # filter out nan rows
     dff = dff.dropna()
 

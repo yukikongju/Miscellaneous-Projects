@@ -7,7 +7,8 @@ import streamlit as st
 
 from filters import filter_segment
 from plots import plot_saturation_curve
-from queries import weekly_conversions_query, monthly_spend_conversions_query
+from queries import weekly_conversions_query  # , monthly_spend_conversions_query
+from constants import THRESHOLD_SLIDER_NAME_MAPPING
 from utils import get_bigquery_client, run_query
 
 
@@ -19,8 +20,8 @@ def load_data() -> pd.DataFrame:
         Weekly conversions data.
     """
     client = get_bigquery_client()
-    # df = run_query(client=client, query=weekly_conversions_query)
-    df = run_query(client=client, query=monthly_spend_conversions_query)
+    df = run_query(client=client, query=weekly_conversions_query)
+    # df = run_query(client=client, query=monthly_spend_conversions_query)
     return df
 
 
@@ -98,7 +99,7 @@ segment = build_segment_control(df)
 metric = st.selectbox("Metric", options=METRIC_THRESHOLD_CONFIG.keys(), index=0)
 threshold = st.slider(
     #  f"{metric.title()} Threshold",
-    f"{'ROAS' if metric == 'revenue' else 'CAC'} Threshold",
+    f"{THRESHOLD_SLIDER_NAME_MAPPING[metric]} Threshold",
     min_value=METRIC_THRESHOLD_CONFIG[metric]["min"],
     max_value=METRIC_THRESHOLD_CONFIG[metric]["max"],
     value=METRIC_THRESHOLD_CONFIG[metric]["value"],
@@ -114,6 +115,5 @@ dff = filter_segment(
     x_col="spend",
     y_col=metric,
 )
-
 
 plot_saturation_curve(df=dff, x_col="spend", y_col=metric, threshold=threshold)

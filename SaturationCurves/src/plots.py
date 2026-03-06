@@ -6,6 +6,7 @@ import plotly.graph_objects as go
 import streamlit as st
 
 from curves import get_logistic_params, logistic_curve
+from constants import THRESHOLD_SLIDER_NAME_MAPPING
 
 
 def get_intervals(data, jump: int = 1):
@@ -75,11 +76,11 @@ def plot_saturation_curve(df: pd.DataFrame, x_col: str, y_col: str, threshold: f
     x_grid = np.arange(0, max(x.max(), max_spend_asymptote), 100)
     y_pred = logistic_curve(x_grid, L, k, x0)
 
-    # TODO: compute range where roas between x and y
+    # compute range where roas between x and y
     if y_col == "revenue":
         #  threshold = 0.45
         ratios = y_pred / x_grid
-        ratio_col_name = "ROAS"
+        # ratio_col_name = "ROAS"
         best_ratio_mask = np.isfinite(ratios) & (ratios != 0.0)
         best_ratio = ratios[np.where(best_ratio_mask)][10:].max()
 
@@ -87,7 +88,8 @@ def plot_saturation_curve(df: pd.DataFrame, x_col: str, y_col: str, threshold: f
     else:
         #  threshold = 70
         ratios = x_grid / y_pred
-        ratio_col_name = "CAC"
+        # TODO: FIXME fix name and use
+        # ratio_col_name = "CAC"
         best_ratio_mask = np.isfinite(ratios) & (ratios != 0.0)
         best_ratio = ratios[np.where(best_ratio_mask)][10:].min()
         threshold_mask = np.isfinite(ratios) & (ratios < threshold)
@@ -120,6 +122,7 @@ def plot_saturation_curve(df: pd.DataFrame, x_col: str, y_col: str, threshold: f
     )
 
     # Fitted curve - TODO: add template
+    ratio_col_name = THRESHOLD_SLIDER_NAME_MAPPING[y_col]
     fig.add_trace(
         go.Scatter(
             x=x_grid,
