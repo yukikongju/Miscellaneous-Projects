@@ -60,7 +60,7 @@ def plot_saturation_curve(df: pd.DataFrame, x_col: str, y_col: str, threshold: f
 
     # estimate logistic
     x, y = df[x_col].to_numpy(dtype=float), df[y_col].to_numpy(dtype=float)
-    L, k, x0 = get_logistic_params(logistic_curve, x, y)
+    L, k, x0 = get_logistic_params(func=logistic_curve, x=x, y=y)
 
     # compute asymptotes
     asymptote_percentiles = [0.50, 0.75, 0.95]
@@ -80,7 +80,6 @@ def plot_saturation_curve(df: pd.DataFrame, x_col: str, y_col: str, threshold: f
     if y_col == "revenue":
         #  threshold = 0.45
         ratios = y_pred / x_grid
-        # ratio_col_name = "ROAS"
         best_ratio_mask = np.isfinite(ratios) & (ratios != 0.0)
         best_ratio = ratios[np.where(best_ratio_mask)][10:].max()
 
@@ -88,8 +87,6 @@ def plot_saturation_curve(df: pd.DataFrame, x_col: str, y_col: str, threshold: f
     else:
         #  threshold = 70
         ratios = x_grid / y_pred
-        # TODO: FIXME fix name and use
-        # ratio_col_name = "CAC"
         best_ratio_mask = np.isfinite(ratios) & (ratios != 0.0)
         best_ratio = ratios[np.where(best_ratio_mask)][10:].min()
         threshold_mask = np.isfinite(ratios) & (ratios < threshold)
@@ -101,7 +98,7 @@ def plot_saturation_curve(df: pd.DataFrame, x_col: str, y_col: str, threshold: f
     intervals_string = ";".join([f"{s:,.0f}-{e:,.0f}" for s, e in threshold_intervals])
     st.write(f"Valid Intervals: {intervals_string}")
 
-    # TODO: compute marginal
+    # compute marginal
     #  current_marginal_return = logistic_marginal_return(np.mean(x), L, k, x0)
     #  incremental_per_1K = 1000 * current_marginal_return
     #  print(f"Incremental {y_col} per 1K {x_col}: {incremental_per_1K}")
@@ -121,7 +118,7 @@ def plot_saturation_curve(df: pd.DataFrame, x_col: str, y_col: str, threshold: f
         )
     )
 
-    # Fitted curve - TODO: add template
+    # Fitted curve
     ratio_col_name = THRESHOLD_SLIDER_NAME_MAPPING[y_col]
     fig.add_trace(
         go.Scatter(
