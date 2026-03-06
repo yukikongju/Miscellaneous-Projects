@@ -2,13 +2,12 @@
 
 from collections import defaultdict
 from itertools import product
-from typing import List
+from typing import List, Tuple
 
 import pandas as pd
 import numpy as np
 from streamlit import metric
 
-# from curves import get_spend_metric_cutoff
 from curves import get_logistic_params, get_logistic_asymptote_bound, logistic_curve
 
 
@@ -55,29 +54,12 @@ def filter_segment(
     return dff
 
 
-# def get_ratio_percentile(
-# df: pd.DataFrame, x_col: str, y_col: str, percentiles: List[float]
-# ):
-# """Compute ratio percentiles for a spend-to-metric relationship.
-
-# Args:
-# df: Input DataFrame.
-# x_col: Numerator column for ratio construction.
-# y_col: Denominator column for ratio construction.
-# percentiles: Percentiles to compute.
-
-# Returns:
-# Placeholder return until implemented.
-# """
-# pass
-
-
 def get_marginal_spend_metric_table(
     df: pd.DataFrame,
     spend_col: str,
     metric_col: str,
     percentiles: List[float] = [0.5, 0.75, 0.95],
-) -> pd.DataFrame:
+) -> Tuple[pd.DataFrame, pd.DataFrame]:
     """Build a table of spend cutoffs at multiple asymptote percentiles.
 
     Args:
@@ -86,31 +68,11 @@ def get_marginal_spend_metric_table(
         metric_col: Metric column name used for curve fitting.
 
     Returns:
-        DataFrame containing segment keys and cutoff columns (`p50`, `p75`,
-        `p95`), excluding rows with missing cutoffs.
+        DataFrames containing segment keys and percentile columns (`p50`, `p75`,
+        `p95`), excluding rows with missing cutoffs for percentile spend
+        and ratio (cac/roas)
     """
-    # networks = list(df["network"].unique())
-    # platforms = list(df["platform"].unique())
-    # countries = list(df["country"].unique())
     rows = df[["network", "platform", "country"]].drop_duplicates()
-
-    # rows = list(product(networks, platforms, countries))
-    # dff = pd.DataFrame(rows, columns=["network", "platform", "country"])
-
-    # def _get_spend_metric_cutoff(
-    # df, network: str, platform: str, country: str, percentile: float
-    # ) -> float:
-    # dff = filter_segment(
-    # df=df,
-    # network=network,
-    # platform=platform,
-    # country=country,
-    # x_col="spend",
-    # y_col=metric_col,
-    # )
-    # return get_spend_metric_cutoff(
-    # df=dff, spend_col=spend_col, metric_col=metric_col, p_asymptote=percentile
-    # )
 
     # TODO: compute logistic regression param for each (network-platform-country) pair
     dct_logistic_param = defaultdict()
@@ -127,6 +89,7 @@ def get_marginal_spend_metric_table(
             country=country,
             x_col=spend_col,
             y_col=metric_col,
+            remove_outliers=True,
         )
         if dff.empty:
             continue
@@ -143,45 +106,44 @@ def get_marginal_spend_metric_table(
         )
 
     # --- compute marginal spend
-    data = []
+    marginal_data, predictions_data = [], []
     for _, row in rows.iterrows():
         network, platform, country = row["network"], row["platform"], row["country"]
         values = [network, platform, country]
+        predictions = [network, platform, country]
         if (network, platform, country) not in dct_logistic_param:
             values += len(percentiles) * [np.nan]
             continue
 
-        _, k, x0 = dct_logistic_param[(network, platform, country)]
+        L, k, x0 = dct_logistic_param[(network, platform, country)]
         for percentile in percentiles:
             spend = get_logistic_asymptote_bound(x0, k, percentile)
+            pred = logistic_curve(x=spend, L=L, k=k, x0=x0)
             values.append(spend)
-        data.append(values)
+            predictions.append(pred)
+        marginal_data.append(values)
+        predictions_data.append(predictions)
     percentile_col_names = [f"p{int(round(p * 100))}" for p in percentiles]
+
+    # Dataset for spend cutoff
     df_spend_cutoff = pd.DataFrame(
-        data, columns=["network", "platform", "country"] + percentile_col_names
+        marginal_data, columns=["network", "platform", "country"] + percentile_col_names
     )
     df_spend_cutoff = df_spend_cutoff.dropna()
 
-    # TODO: compute ratio
+    # FIXME: Dataset for percentile ratio
+    df_predictions = pd.DataFrame(
+        predictions_data,
+        columns=["network", "platform", "country"] + percentile_col_names,
+    )
+    df_predictions = df_predictions.dropna()
+    if metric_col == "revenue":
+        df_ratio = df_predictions.copy()
+        for c in percentile_col_names:
+            df_ratio[c] = df_ratio[c] / df_spend_cutoff[c]
+    else:
+        df_ratio = df_spend_cutoff.copy()
+        for c in percentile_col_names:
+            df_ratio[c] = df_ratio[c] / df_predictions[c]
 
-    # for percentile in [0.5, 0.75, 0.95]:
-    # col_name = f"p{int(round(percentile * 100))}"
-    # dff[col_name] = dff.apply(
-    # lambda row: _get_spend_metric_cutoff(
-    # df=df,
-    # network=row["network"],
-    # platform=row["platform"],
-    # country=row["country"],
-    # percentile=percentile,
-    # ),
-    # axis=1,
-    # )
-
-    # TODO: compute ratio (cac/roas)
-    # 1. compute logistic regression params for each (network-platform) pair
-    # 2. compute spend cutoff for
-
-    # filter out nan rows
-    # dff = dff.dropna()
-
-    return df_spend_cutoff
+    return df_spend_cutoff, df_ratio

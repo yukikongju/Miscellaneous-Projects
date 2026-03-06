@@ -81,6 +81,9 @@ Where
 
 The valid intervals correspond to the spend ranges that satisfies the CAC/ROAS
 threshold.
+
+Notes:
+- Currently the number are aggregated *weekly*
 """
 )
 

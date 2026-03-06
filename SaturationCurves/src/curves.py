@@ -61,7 +61,8 @@ def get_logistic_params(
     ]  # note: [L, k, x0] are the initial guess (ceiling, slope, midpoint)
     # FIXME: add bounds
     bounds = ([0.0, 1e-9, x.min() * 0.5], [np.inf, np.inf, x.max() * 1.5])
-    params, _ = curve_fit(func, x, y, p0=p0, maxfev=20000)  # 40000
+    # params, _ = curve_fit(func, x, y, p0=p0, maxfev=20000)  # 40000
+    params, _ = curve_fit(func, x, y, p0=p0, bounds=bounds, maxfev=20000)  # 40000
     L, k, x0 = params
     return (L, k, x0)
 
@@ -78,47 +79,3 @@ def get_logistic_asymptote_bound(x0, k, perc: float) -> float:
         Spend value at the requested percentile.
     """
     return round(x0 + (1.0 / k) * np.log(perc / (1.0 - perc)), 2)
-
-
-# def get_spend_metric_cutoff(
-# df: pd.DataFrame,
-# spend_col: str,
-# metric_col: str,
-# p_asymptote: float = 0.95,
-# min_points: int = 12,
-# ):
-# """Estimate spend at which a metric reaches a saturation percentile.
-
-# Args:
-# df: Segment-level data containing spend and metric columns.
-# spend_col: Name of the spend column.
-# metric_col: Name of the outcome metric column.
-# p_asymptote: Target saturation percentile on the fitted logistic curve.
-# min_points: Minimum required row count before fitting.
-
-# Returns:
-# Estimated spend cutoff, or `np.nan` when fitting is not possible.
-# """
-# if len(df) < min_points or df[spend_col].nunique() < 5:
-# return np.nan
-
-# x = df[spend_col].to_numpy(dtype=float)
-# y = df[metric_col].to_numpy(dtype=float)
-
-# # Reasonable init + bounds for stability
-# # p0 = [max(y.max(), 1.0), 0.001, np.median(x)]
-# p0 = [max(y.max(), 1.0), 0.1, np.median(x)]
-# bounds = ([0.0, 1e-9, x.min() * 0.5], [np.inf, np.inf, x.max() * 1.5])
-
-# try:
-# params, _ = curve_fit(logistic_curve, x, y, p0=p0, bounds=bounds, maxfev=40000)
-# _, k, x0 = params
-# if k <= 0:
-# return np.nan
-# except:
-# return np.nan
-# # Spend cutoff at chosen asymptote level (e.g., 95%)
-
-# cutoff = get_logistic_asymptote_bound(x0, k, p_asymptote)
-
-# return float(cutoff)

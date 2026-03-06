@@ -33,10 +33,21 @@ Marginal increments show what you get from the next dollar of spend, not the ave
 
 st.markdown("### Marginal CAC Increments")
 
-df_marginal_cac = get_marginal_spend_metric_table(df=df, spend_col="spend", metric_col="paid")
+df_marginal_cac, df_ratio_cac = get_marginal_spend_metric_table(
+    df=df, spend_col="spend", metric_col="paid"
+)
+st.markdown("**Spend**")
 st.dataframe(df_marginal_cac)
+st.markdown("**CAC**")
+st.dataframe(df_ratio_cac)
+
 
 st.markdown("### Marginal ROAS Increments")
 
-df_marginal_roas = get_marginal_spend_metric_table(df=df, spend_col="spend", metric_col="revenue")
+df_marginal_roas, df_ratio_roas = get_marginal_spend_metric_table(
+    df=df, spend_col="spend", metric_col="revenue"
+)
+st.markdown("**Spend**")
 st.dataframe(df_marginal_roas)
+st.markdown("**ROAS**")
+st.dataframe(df_ratio_roas)
