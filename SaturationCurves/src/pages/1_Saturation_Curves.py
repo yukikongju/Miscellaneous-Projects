@@ -1,22 +1,33 @@
+"""Streamlit page for interactive segment-level saturation analysis."""
+
+from dataclasses import dataclass
+
 import pandas as pd
 import streamlit as st
 
-from queries import weekly_conversions_query
-from utils import get_bigquery_client, run_query
-from dataclasses import dataclass
 from filters import filter_segment
 from plots import plot_saturation_curve
+from queries import weekly_conversions_query, monthly_spend_conversions_query
+from utils import get_bigquery_client, run_query
 
 
 @st.cache_data(ttl=3600)
 def load_data() -> pd.DataFrame:
+    """Load weekly conversions data from BigQuery with caching.
+
+    Returns:
+        Weekly conversions data.
+    """
     client = get_bigquery_client()
-    df = run_query(client=client, query=weekly_conversions_query)
+    # df = run_query(client=client, query=weekly_conversions_query)
+    df = run_query(client=client, query=monthly_spend_conversions_query)
     return df
 
 
 @dataclass()
 class SegmentationSelection:
+    """Container for selected segment dimensions and filter options."""
+
     network: str
     platform: str
     country: str
@@ -24,14 +35,28 @@ class SegmentationSelection:
 
 
 def build_segment_control(df: pd.DataFrame) -> SegmentationSelection:
+    """Render Streamlit controls for segment selection.
+
+    Args:
+        df: Source DataFrame containing segment dimension columns.
+
+    Returns:
+        Selected segment configuration.
+    """
     network = st.selectbox("Network", options=list(df["network"].unique()), index=0)
     platform = st.selectbox("Platform", options=list(df["platform"].unique()), index=0)
     country = st.selectbox("Country", options=list(df["country"].unique()), index=0)
     remove_outliers = st.selectbox(
-        "Outliers", options=[False, True], format_func=lambda x: "Yes" if x else "No", index=0
+        "Remove Outliers",
+        options=[False, True],
+        format_func=lambda x: "Yes" if x else "No",
+        index=0,
     )
     return SegmentationSelection(
-        network=network, platform=platform, country=country, remove_outliers=remove_outliers
+        network=network,
+        platform=platform,
+        country=country,
+        remove_outliers=remove_outliers,
     )
 
 

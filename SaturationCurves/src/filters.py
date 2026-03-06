@@ -1,6 +1,10 @@
-import pandas as pd
+"""Utilities for segment filtering and marginal cutoff tabulation."""
+
 from itertools import product
 from typing import List
+
+import pandas as pd
+
 from curves import get_spend_metric_cutoff
 
 
@@ -13,6 +17,20 @@ def filter_segment(
     y_col: str = "paid",
     remove_outliers: bool = False,
 ) -> pd.DataFrame:
+    """Filter a DataFrame to one segment and optionally remove outcome outliers.
+
+    Args:
+        df: Source data containing segmentation and metric columns.
+        network: Network selector.
+        platform: Platform selector.
+        country: Country selector.
+        x_col: Spend column name.
+        y_col: Metric column name.
+        remove_outliers: Whether to remove `y_col` outliers by IQR bounds.
+
+    Returns:
+        Filtered DataFrame with only `x_col` and `y_col`.
+    """
     mask = (
         (df["network"] == network)
         & (df["platform"] == platform)
@@ -34,12 +52,34 @@ def filter_segment(
 
 
 def get_ratio_percentile(df: pd.DataFrame, x_col: str, y_col: str, percentiles: List[float]):
+    """Compute ratio percentiles for a spend-to-metric relationship.
+
+    Args:
+        df: Input DataFrame.
+        x_col: Numerator column for ratio construction.
+        y_col: Denominator column for ratio construction.
+        percentiles: Percentiles to compute.
+
+    Returns:
+        Placeholder return until implemented.
+    """
     pass
 
 
 def get_marginal_spend_metric_table(
     df: pd.DataFrame, spend_col: str, metric_col: str
 ) -> pd.DataFrame:
+    """Build a table of spend cutoffs at multiple asymptote percentiles.
+
+    Args:
+        df: Input weekly dataset with segment identifiers.
+        spend_col: Spend column name used for curve fitting.
+        metric_col: Metric column name used for curve fitting.
+
+    Returns:
+        DataFrame containing segment keys and cutoff columns (`p50`, `p75`,
+        `p95`), excluding rows with missing cutoffs.
+    """
     networks = list(df["network"].unique())
     platforms = list(df["platform"].unique())
     countries = list(df["country"].unique())

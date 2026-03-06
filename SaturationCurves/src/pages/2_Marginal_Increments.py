@@ -1,3 +1,5 @@
+"""Streamlit page for marginal spend cutoffs across segments."""
+
 import pandas as pd
 import streamlit as st
 
@@ -8,6 +10,11 @@ from utils import get_bigquery_client, run_query
 
 @st.cache_data(ttl=3600)
 def load_data() -> pd.DataFrame:
+    """Load weekly conversions data from BigQuery with caching.
+
+    Returns:
+        Weekly conversions data.
+    """
     client = get_bigquery_client()
     df = run_query(client=client, query=weekly_conversions_query)
     return df

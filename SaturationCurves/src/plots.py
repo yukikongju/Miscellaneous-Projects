@@ -1,13 +1,23 @@
+"""Utilities for plotting saturation curves and spend validity intervals."""
+
 import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
-from streamlit.dataframe_util import _XARRAY_DATASET_TYPE_STR
+
 from curves import get_logistic_params, logistic_curve
 
 
 def get_intervals(data, jump: int = 1):
-    """Groups a sorted list of numbers into continuous intervals."""
+    """Group sorted values into contiguous half-open intervals.
+
+    Args:
+        data: Sorted numeric values.
+        jump: Step size that determines contiguity.
+
+    Returns:
+        Contiguous interval bounds as `[start, end)` pairs.
+    """
     if not data:
         return []
 
@@ -30,6 +40,17 @@ def get_intervals(data, jump: int = 1):
 
 
 def plot_saturation_curve(df: pd.DataFrame, x_col: str, y_col: str, threshold: float):
+    """Render a fitted saturation curve and highlight valid spend intervals.
+
+    Args:
+        df: Filtered segment data.
+        x_col: Spend column name.
+        y_col: Outcome metric column name.
+        threshold: CAC/ROAS threshold used to derive valid intervals.
+
+    Returns:
+        None. Renders a Plotly chart and summary text in Streamlit.
+    """
     # TODO: check if x, y in df
 
     if df.empty:
@@ -141,11 +162,17 @@ def plot_saturation_curve(df: pd.DataFrame, x_col: str, y_col: str, threshold: f
         template="plotly_white",
     )
 
-    st.write(f"Best {ratio_col_name}: {best_ratio}")
+    # Removing "Best CAC" per Kevin's request on March 6th 2026
+    # st.write(f"Best {ratio_col_name}: {best_ratio}")
 
     #  fig.show()
     st.plotly_chart(fig, use_container_width=True)
 
 
 def plot_spend_marginal_timeline():
+    """Placeholder for a spend marginal timeline chart.
+
+    Returns:
+        None.
+    """
     pass
