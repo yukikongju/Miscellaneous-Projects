@@ -16,7 +16,9 @@ dependencies = [
     "notebook>=7.5.3",
     "odc-stac[botocore]>=0.5.2",
     "pandas>=3.0.0",
+    "pystac>=1.14.3",
     "pystac-client>=0.9.0",
     "rioxarray>=0.21.0",
+    "rustac>=0.9.6",
     "xarray>=2025.11.0",
 ]

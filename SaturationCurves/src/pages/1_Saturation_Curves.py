@@ -83,7 +83,10 @@ The valid intervals correspond to the spend ranges that satisfies the CAC/ROAS
 threshold.
 
 Notes:
-- Currently the number are aggregated *weekly*
+- Currently the number are aggregated *weekly* because we don't have enough
+  data points on a monthly basis: monthly data becomes too sparse for
+  stable non-linear fitting to find k and x0
+- To get the monthly spend, just multiply weekly spend by 4.33
 """
 )
 

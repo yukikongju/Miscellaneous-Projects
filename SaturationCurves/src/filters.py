@@ -1,12 +1,11 @@
 """Utilities for segment filtering and marginal cutoff tabulation."""
 
+from marimo import defs
 from collections import defaultdict
-from itertools import product
 from typing import List, Tuple
 
 import pandas as pd
 import numpy as np
-from streamlit import metric
 
 from curves import get_logistic_params, get_logistic_asymptote_bound, logistic_curve
 
@@ -60,7 +59,8 @@ def get_marginal_spend_metric_table(
     metric_col: str,
     percentiles: List[float] = [0.5, 0.75, 0.95],
 ) -> Tuple[pd.DataFrame, pd.DataFrame]:
-    """Build a table of spend cutoffs at multiple asymptote percentiles.
+    """Build a table of spend cutoffs at multiple asymptote percentiles with
+       associated ratios
 
     Args:
         df: Input weekly dataset with segment identifiers.
@@ -98,7 +98,7 @@ def get_marginal_spend_metric_table(
         y = dff[metric_col].to_numpy(dtype=float)
 
         min_points = 12
-        if len(x) < min_points:
+        if len(x) < min_points and len(np.unique(x)) < 5:
             continue
 
         dct_logistic_param[(network, platform, country)] = get_logistic_params(
@@ -107,6 +107,7 @@ def get_marginal_spend_metric_table(
 
     # --- compute marginal spend
     marginal_data, predictions_data = [], []
+    # FIXME : IMPROVEMENT for keys, g in df.groupby(["network","platform","country"])
     for _, row in rows.iterrows():
         network, platform, country = row["network"], row["platform"], row["country"]
         values = [network, platform, country]

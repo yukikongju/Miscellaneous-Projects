@@ -2480,6 +2480,24 @@ wheels = [
 ]
 
 [[package]]
+name = "rustac"
+version = "0.9.6"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/45/a1/9d3de05e6811af2ecfb3d8c5897ee44b7fcf8cc38fb50654ccc4e6015feb/rustac-0.9.6.tar.gz", hash = "sha256:dca3a6ec066a3881c52211d5074a1bdfde4f40c4a987bc5241ed7540cab5b443", size = 739459, upload-time = "2026-02-12T18:57:56.973Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/59/c7/30a76de60a3aa677bc9d76510abd5c7c27c867113c4127e202c9fc504c91/rustac-0.9.6-cp311-abi3-macosx_10_12_x86_64.whl", hash = "sha256:2e1df6e2fbf98e6c77a4f4d106ba83cf66fa878d85ecd99aed29f16d16ae911f", size = 26010689, upload-time = "2026-02-12T18:57:40.606Z" },
+    { url = "https://files.pythonhosted.org/packages/c6/dc/60c00db99a21cea9f606bad47ac66c1f8e41f185b7edcc18cf3b9f68cd60/rustac-0.9.6-cp311-abi3-macosx_11_0_arm64.whl", hash = "sha256:85b7a7a37826d0c924e52bf49db78057c4cef4b53b4f78a91b355584309d6ba1", size = 24184730, upload-time = "2026-02-12T18:57:37.965Z" },
+    { url = "https://files.pythonhosted.org/packages/14/d5/7b7d9b7be067d8d90ffd52901d173bc2cf6ef3def81abc77bbeab5994212/rustac-0.9.6-cp311-abi3-manylinux_2_28_aarch64.whl", hash = "sha256:389d278d7d410e3579b63c2a1748b3da35b63a040bfbdd55db3fd0456b8ae6a6", size = 26044105, upload-time = "2026-02-12T18:57:25.77Z" },
+    { url = "https://files.pythonhosted.org/packages/76/49/88c1994114d7e45d7198b9929269d0b4768cf5b88f2e7fd3677b25cfe2c6/rustac-0.9.6-cp311-abi3-manylinux_2_28_armv7l.whl", hash = "sha256:2b00621e0d4b1ed4f07c4c86617e5a2737c09873b8fb706c7d83a0c019abfcf2", size = 24953119, upload-time = "2026-02-12T18:57:28.639Z" },
+    { url = "https://files.pythonhosted.org/packages/d4/d1/fb158c7bd652eebae5ae4e73a724154d2dd00b941c543b6c17159533f28e/rustac-0.9.6-cp311-abi3-manylinux_2_28_ppc64le.whl", hash = "sha256:b61b8bc6882279479fd6cf76a0e3fb01c64c55e513af09abebadfe08651367f4", size = 32648247, upload-time = "2026-02-12T18:57:31.456Z" },
+    { url = "https://files.pythonhosted.org/packages/96/a4/f3949d90dcefd84df1ad11dfdcdc722e4fe18a49aa1ceac603eca8773c36/rustac-0.9.6-cp311-abi3-manylinux_2_28_x86_64.whl", hash = "sha256:743d2f3ffa01c5c4c7dab7693ea5d0bb7ebd565df7767e595d2789e21b20a85f", size = 29313613, upload-time = "2026-02-12T18:57:35.22Z" },
+    { url = "https://files.pythonhosted.org/packages/e3/37/fc94dcd49f6eec17b3f77782ae3b96fcd38386155439bab913da7dafcec8/rustac-0.9.6-cp311-abi3-musllinux_1_2_aarch64.whl", hash = "sha256:b936bfb486f977b4c3bd20841e398469c2175fff6179f55e4adb43a87a2f2667", size = 32577453, upload-time = "2026-02-12T18:57:43.639Z" },
+    { url = "https://files.pythonhosted.org/packages/a3/90/907562309ae45205f19b802ef9b44b900730c27219760957e227c5776ae2/rustac-0.9.6-cp311-abi3-musllinux_1_2_armv7l.whl", hash = "sha256:f476c326a8ba72c859a47e4da6ad7cdb1be0860f534ce0c32b7679808f31f28d", size = 32527083, upload-time = "2026-02-12T18:57:46.768Z" },
+    { url = "https://files.pythonhosted.org/packages/a6/fc/8881f65b266cf0a0d8174c694663fead869cd7f237502bfc74d27db850db/rustac-0.9.6-cp311-abi3-musllinux_1_2_i686.whl", hash = "sha256:fe40e14fa586b3e01c577fcb371128c76ff3e58cd875d2825083c263f26ff4b2", size = 37194019, upload-time = "2026-02-12T18:57:49.922Z" },
+    { url = "https://files.pythonhosted.org/packages/f8/9c/132a5f5faddf0137fc2ae104eccd35fc9ed075bedca5b4ee2a643abfaa2e/rustac-0.9.6-cp311-abi3-musllinux_1_2_x86_64.whl", hash = "sha256:131825cd08535b35ce8013540dc9b3e1df77c591ffe047ffd3e18efe6260057c", size = 35144078, upload-time = "2026-02-12T18:57:54.724Z" },
+]
+
+[[package]]
 name = "scikit-learn"
 version = "1.8.0"
 source = { registry = "https://pypi.org/simple" }
@@ -2681,8 +2699,10 @@ dependencies = [
     { name = "notebook" },
     { name = "odc-stac", extra = ["botocore"] },
     { name = "pandas" },
+    { name = "pystac" },
     { name = "pystac-client" },
     { name = "rioxarray" },
+    { name = "rustac" },
     { name = "xarray" },
 ]
 
@@ -2699,8 +2719,10 @@ requires-dist = [
     { name = "notebook", specifier = ">=7.5.3" },
     { name = "odc-stac", extras = ["botocore"], specifier = ">=0.5.2" },
     { name = "pandas", specifier = ">=3.0.0" },
+    { name = "pystac", specifier = ">=1.14.3" },
     { name = "pystac-client", specifier = ">=0.9.0" },
     { name = "rioxarray", specifier = ">=0.21.0" },
+    { name = "rustac", specifier = ">=0.9.6" },
     { name = "xarray", specifier = ">=2025.11.0" },
 ]
 
