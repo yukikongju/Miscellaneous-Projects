@@ -1,0 +1,9 @@
+duckdb==0.8.0
+folium
+fused
+geopandas
+geoparquet
+mapclassify
+matplotlib
+rasterio
+s3fs
