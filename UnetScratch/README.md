@@ -2,8 +2,8 @@
 
 This project has 3 main purposes:
 - learn how to implement a neural network architecture from a paper from scratch
-- modify a neural network architecture that learns representation for a specific 
-  task. 
+- modify a neural network architecture that learns representation for a specific
+  task.
 - Hyperparameter tuning with MLFlow
 
 We will first implement a SRUnet and then use it for the following tasks:
@@ -12,7 +12,7 @@ We will first implement a SRUnet and then use it for the following tasks:
 - style transfer
 - image generation with GANs Pix2Pix => [neptune.ai - tut](https://neptune.ai/blog/pix2pix-key-model-architecture-decisions)
 
-We will also learn how to adapt an existing architecture for a different image 
+We will also learn how to adapt an existing architecture for a different image
 size
 
 
@@ -31,3 +31,8 @@ size
 - [Aladdin Persson - PyTorch Image Segmentaion Tutorial](https://www.youtube.com/watch?v=IHq1t7NxS8k&t=457s&ab_channel=AladdinPersson)
 
 
+**Datasets**
+
+Cloud:
+- [Mask Creation](https://www.kaggle.com/code/volkanastasia/understanding-clouds-creating-the-mask)
+- [Intro to Cloud Segmentation](https://www.kaggle.com/code/utkuefeakdoan/intro-to-cloud-segmentation-full-notebook)
