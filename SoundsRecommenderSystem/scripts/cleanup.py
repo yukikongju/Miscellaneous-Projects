@@ -229,7 +229,8 @@ def build_mix_sound_pipeline(listening_file_path: str, sound_id_file_path: str):
 
 if __name__ == "__main__":
     LISTENING_EVENT_FILE_PATH = (
-        "/Users/emulie/Downloads/script_job_67b7f56b753852fd2a3f35baed75edbc_0.csv"
+        # "/Users/emulie/Downloads/script_job_67b7f56b753852fd2a3f35baed75edbc_0.csv"
+        "/Users/emulie/Downloads/bq-results-20260325-195823-1774468728937.csv"
     )
     SOUNDS_LISTENING_IDS_PATH = "data/sounds_ids.json"
     X, sound_to_idx, idx_to_sound = build_mix_sound_pipeline(

@@ -472,8 +472,8 @@ def main(cfg: Dict) -> Tuple[nn.Module, Dict[str, list]]:
 if __name__ == "__main__":
     load_dotenv()
     cfg = {
-        # "LISTENING_EVENT_FILE_PATH": "/Users/emulie/Downloads/script_job_67b7f56b753852fd2a3f35baed75edbc_0.csv",
-        "LISTENING_EVENT_FILE_PATH": "/Users/emulie/Downloads/bq-results-20260325-195823-1774468728937.csv",  # for Feb 1st to March 1st
+        "LISTENING_EVENT_FILE_PATH": "/Users/emulie/Downloads/script_job_67b7f56b753852fd2a3f35baed75edbc_0.csv",  # for 1 day (about 70K)
+        # "LISTENING_EVENT_FILE_PATH": "/Users/emulie/Downloads/bq-results-20260325-195823-1774468728937.csv",  # for Feb 1st to March 1st - 7M data
         "SOUNDS_LISTENING_IDS_PATH": "data/sounds_ids.json",
         "TRAIN_SPLIT": 0.8,
         "BATCH_SIZE": 256,

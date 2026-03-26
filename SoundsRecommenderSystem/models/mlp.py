@@ -34,6 +34,7 @@ class MLP(nn.Module):
                 layers.append(self.activation_fn())
                 if self.dropout > 0:
                     layers.append(nn.Dropout(self.dropout))
+        layers.append(nn.Sigmoid())
 
         model = nn.Sequential(*layers)
         return model
