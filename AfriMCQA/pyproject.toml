@@ -14,4 +14,10 @@ dependencies = [
     "transformers>=5.3.0",
     "pillow>=12.1.1",
     "torchvision>=0.25.0",
+    "openai>=2.30.0",
+    "pydantic>=2.12.5",
+    "dotenv>=0.9.9",
+    "datasets>=4.8.4",
+    "torchcodec>=0.11.0",
+    "google-cloud-storage>=2.0",
 ]
