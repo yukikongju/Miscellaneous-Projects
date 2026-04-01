@@ -43,7 +43,7 @@ _PROMPTS_DIR = os.path.join(os.path.dirname(__file__), "..", "prompts")
 with open(os.path.join(_PROMPTS_DIR, "prompt_vqa_EN_only.txt"), encoding="utf-8") as _f:
     SYSTEM_PROMPT = _f.read().strip()
 
-QUESTION = "What animal is on the candy? Answer + Explanation:"
+QUESTION = "What animal is on the candy? Give your answer and the explanation in 50 words"
 
 messages = [
     {"role": "system", "content": SYSTEM_PROMPT},
