@@ -23,26 +23,38 @@ class MixDataset(Dataset):
     """
     Denoising autoencoder dataset.
 
-    Training  (eval_mode=False): randomly masks a fraction of observed sounds each call.
-    Validation (eval_mode=True) : masks are fixed at construction time so metrics are
-                                  comparable across epochs.
+    Training  (eval_mode=False): randomly masks a fraction of observed sounds each call,
+                                  with mask rate sampled uniformly in [mask_rate_min, mask_rate_max].
+    Validation (eval_mode=True) : masks are fixed at construction time with a fixed mid-range rate
+                                  so metrics are comparable across epochs.
     Target is always the full (unmasked) confidence vector.
     """
 
-    def __init__(self, X: np.ndarray, mask_ratio: float = 0.3, eval_mode: bool = False):
+    def __init__(
+        self,
+        X: np.ndarray,
+        mask_rate_min: float = 0.2,
+        mask_rate_max: float = 0.5,
+        eval_mode: bool = False,
+    ):
         self.X = torch.tensor(X, dtype=torch.float32)
-        self.mask_ratio = mask_ratio
+        self.mask_rate_min = mask_rate_min
+        self.mask_rate_max = mask_rate_max
         self.eval_mode = eval_mode
 
         if eval_mode:
             self._masks = self._precompute_masks(X)
 
     def _precompute_masks(self, X: np.ndarray) -> List[torch.Tensor]:
+        fixed_rate = (self.mask_rate_min + self.mask_rate_max) / 2
         rng = np.random.default_rng(seed=42)
         masks = []
         for row in X:
             nonzero = np.where(row > 0)[0]
-            n_mask = max(1, int(len(nonzero) * self.mask_ratio))
+            if len(nonzero) == 0:
+                masks.append(torch.tensor([], dtype=torch.long))
+                continue
+            n_mask = max(1, int(len(nonzero) * fixed_rate))
             mask_idx = rng.choice(nonzero, size=n_mask, replace=False)
             masks.append(torch.tensor(mask_idx, dtype=torch.long))
         return masks
@@ -57,12 +69,40 @@ class MixDataset(Dataset):
         if self.eval_mode:
             x[self._masks[idx]] = 0.0
         else:
+            mask_rate = torch.empty(1).uniform_(self.mask_rate_min, self.mask_rate_max).item()
             nonzero = x.nonzero(as_tuple=True)[0]
-            n_mask = max(1, int(len(nonzero) * self.mask_ratio))
-            mask_idx = nonzero[torch.randperm(len(nonzero))[:n_mask]]
-            x[mask_idx] = 0.0
+            if len(nonzero) > 0:
+                n_mask = max(1, int(len(nonzero) * mask_rate))
+                mask_idx = nonzero[torch.randperm(len(nonzero))[:n_mask]]
+                x[mask_idx] = 0.0
 
         return x, target
+
+
+# ---------------------------------------------------------------------------
+# Loss
+# ---------------------------------------------------------------------------
+
+
+class BalancedMSELoss(nn.Module):
+    """
+    Normalizes the MSE separately for zero and non-zero entries then averages both.
+    Prevents the model from ignoring non-zero entries because zeros dominate plain MSE
+    in a sparse matrix.
+    """
+
+    def forward(self, pred: torch.Tensor, target: torch.Tensor) -> torch.Tensor:
+        is_nonzero = (target > 0).float()
+        is_zero = 1.0 - is_nonzero
+        se = (target - pred) ** 2
+
+        n_nonzero = is_nonzero.sum(dim=1, keepdim=True).clamp(min=1)
+        n_zero = is_zero.sum(dim=1, keepdim=True).clamp(min=1)
+
+        loss_nonzero = (se * is_nonzero).sum(dim=1, keepdim=True) / n_nonzero
+        loss_zero = (se * is_zero).sum(dim=1, keepdim=True) / n_zero
+
+        return (loss_nonzero + loss_zero).mean()
 
 
 # ---------------------------------------------------------------------------
@@ -73,7 +113,7 @@ class MixDataset(Dataset):
 class EarlyStopping:
     """Stops training when val_loss has not improved by min_delta for patience epochs."""
 
-    def __init__(self, patience: int = 5, min_delta: float = 1e-4):
+    def __init__(self, patience: int = 4, min_delta: float = 1e-5):
         self.patience = patience
         self.min_delta = min_delta
         self._best = float("inf")
@@ -324,7 +364,8 @@ def train(
     device: torch.device,
     sound_ids: List[str],
     sound_popularity: np.ndarray,
-    n_epochs: int = 50,
+    scheduler: Optional[torch.optim.lr_scheduler.LRScheduler] = None,
+    n_epochs: int = 100,
     early_stopping: Optional[EarlyStopping] = None,
     checkpoint: Optional[ModelCheckpoint] = None,
 ) -> Dict[str, list]:
@@ -343,6 +384,9 @@ def train(
             model, val_loader, criterion, device, sound_ids, sound_popularity
         )
 
+        if scheduler is not None:
+            scheduler.step(val_loss)
+
         history["train_loss"].append(train_loss)
         history["val_loss"].append(val_loss)
         history["train_metrics"].append(train_metrics)
@@ -355,13 +399,14 @@ def train(
             step=epoch,
         )
 
+        current_lr = optimizer.param_groups[0]["lr"]
         val_str = " | ".join(f"{k}: {v:.4f}" for k, v in val_metrics.items())
         tqdm.write(
-            f"Epoch {epoch:03d} | train_loss: {train_loss:.4f} | val_loss: {val_loss:.4f} | {val_str}"
+            f"Epoch {epoch:03d} | lr: {current_lr:.2e} | train_loss: {train_loss:.6f} | val_loss: {val_loss:.6f} | {val_str}"
         )
 
         if checkpoint and checkpoint.step(model, val_loss):
-            tqdm.write(f"           -> checkpoint saved (val_loss={val_loss:.4f})")
+            tqdm.write(f"           -> checkpoint saved (val_loss={val_loss:.6f})")
 
         if early_stopping and early_stopping.step(val_loss):
             tqdm.write(f"           -> early stopping at epoch {epoch}")
@@ -387,28 +432,43 @@ def main(cfg: Dict) -> Tuple[nn.Module, Dict[str, list]]:
     n_mixes, n_sounds = X.shape
     print(f"Matrix shape : {n_mixes} mixes x {n_sounds} sounds")
 
+    # drop all-zero rows (sounds not in vocabulary after matrix build)
+    X = X[X.sum(axis=1) > 0]
+    n_mixes = len(X)
+
+    # np.random.shuffle(X)
     split = int(cfg["TRAIN_SPLIT"] * n_mixes)
     X_train, X_val = X[:split], X[split:]
 
     # sound popularity from training set only (fraction of mixes each sound appears in)
     sound_popularity = (X_train > 0).mean(axis=0)
 
-    mask_ratio = cfg.get("MASK_RATIO", 0.3)
-    train_ds = MixDataset(X_train, mask_ratio=mask_ratio, eval_mode=False)
-    val_ds = MixDataset(X_val, mask_ratio=mask_ratio, eval_mode=True)
+    mask_rate_min = cfg.get("MASK_RATE_MIN", 0.2)
+    mask_rate_max = cfg.get("MASK_RATE_MAX", 0.5)
+    train_ds = MixDataset(
+        X_train, mask_rate_min=mask_rate_min, mask_rate_max=mask_rate_max, eval_mode=False
+    )
+    val_ds = MixDataset(
+        X_val, mask_rate_min=mask_rate_min, mask_rate_max=mask_rate_max, eval_mode=True
+    )
     train_loader = DataLoader(train_ds, batch_size=cfg["BATCH_SIZE"], shuffle=True, num_workers=2)
     val_loader = DataLoader(val_ds, batch_size=cfg["BATCH_SIZE"], shuffle=False, num_workers=2)
 
-    model = MLP(
-        input_size=n_sounds,
-        output_size=n_sounds,
-        hidden_layers=cfg.get("HIDDEN_LAYERS", [512, 256, 512]),
-        activation_fn=nn.ReLU,
-        dropout=cfg.get("DROPOUT", 0.3),
+    # MLP + sigmoid output to constrain predictions to [0, 1]
+    model = nn.Sequential(
+        MLP(
+            input_size=n_sounds,
+            output_size=n_sounds,
+            hidden_layers=cfg.get("HIDDEN_LAYERS", [512, 128, 512]),
+            activation_fn=nn.ReLU,
+            dropout=cfg.get("DROPOUT", 0.0),
+        ),
+        nn.Sigmoid(),
     ).to(device)
 
-    optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
+    # criterion = BalancedMSELoss()
     criterion = nn.MSELoss()
+    optimizer = torch.optim.Adam(model.parameters(), lr=cfg.get("LR_INITIAL", 1e-4))
 
     # find optimal LR before training
     lr_finder = LRFinder(model, optimizer, criterion, device, num_iter=100)
@@ -416,7 +476,14 @@ def main(cfg: Dict) -> Tuple[nn.Module, Dict[str, list]]:
     for pg in optimizer.param_groups:
         pg["lr"] = suggested_lr
 
-    early_stopping = EarlyStopping(patience=cfg.get("PATIENCE", 5))
+    scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
+        optimizer,
+        factor=cfg.get("LR_REDUCE_FACTOR", 0.5),
+        patience=cfg.get("LR_PATIENCE", 3),
+        min_lr=cfg.get("LR_MIN", 1e-6),
+    )
+
+    early_stopping = EarlyStopping(patience=cfg.get("PATIENCE", 4), min_delta=1e-5)
     checkpoint_path = cfg.get("CHECKPOINT_PATH", "checkpoints/best_model.pt")
     checkpoint = ModelCheckpoint(path=checkpoint_path)
 
@@ -454,7 +521,8 @@ def main(cfg: Dict) -> Tuple[nn.Module, Dict[str, list]]:
             device=device,
             sound_ids=sound_ids,
             sound_popularity=sound_popularity,
-            n_epochs=cfg.get("N_EPOCHS", 50),
+            scheduler=scheduler,
+            n_epochs=cfg.get("N_EPOCHS", 100),
             early_stopping=early_stopping,
             checkpoint=checkpoint,
         )
@@ -464,7 +532,15 @@ def main(cfg: Dict) -> Tuple[nn.Module, Dict[str, list]]:
             model.load_state_dict(torch.load(checkpoint_path, map_location=device))
             mlflow.log_artifact(checkpoint_path, artifact_path="checkpoints")
 
-        mlflow.pytorch.log_model(model, artifact_path="model")
+        mlflow.pytorch.log_model(
+            model,
+            artifact_path="model",
+            pip_requirements=[
+                f"torch=={torch.__version__}",
+                "numpy",
+                "cloudpickle",
+            ],
+        )
 
     return model, history
 
@@ -472,15 +548,21 @@ def main(cfg: Dict) -> Tuple[nn.Module, Dict[str, list]]:
 if __name__ == "__main__":
     load_dotenv()
     cfg = {
-        "LISTENING_EVENT_FILE_PATH": "/Users/emulie/Downloads/script_job_67b7f56b753852fd2a3f35baed75edbc_0.csv",  # for 1 day (about 70K)
-        # "LISTENING_EVENT_FILE_PATH": "/Users/emulie/Downloads/bq-results-20260325-195823-1774468728937.csv",  # for Feb 1st to March 1st - 7M data
+        "LISTENING_EVENT_FILE_PATH": "/Users/emulie/Downloads/script_job_67b7f56b753852fd2a3f35baed75edbc_0.csv",
+        # "LISTENING_EVENT_FILE_PATH": "/Users/emulie/Downloads/bq-results-20260325-195823-1774468728937.csv",
         "SOUNDS_LISTENING_IDS_PATH": "data/sounds_ids.json",
         "TRAIN_SPLIT": 0.8,
-        "BATCH_SIZE": 256,
-        "MASK_RATIO": 0.3,
+        # "BATCH_SIZE":        4096, # for millions
+        "BATCH_SIZE": 256,  # 70K
+        "MASK_RATE_MIN": 0.2,
+        "MASK_RATE_MAX": 0.5,
         "HIDDEN_LAYERS": [512, 128, 512],
-        "DROPOUT": 0.3,
-        "PATIENCE": 5,
+        "DROPOUT": 0.0,
+        "LR_INITIAL": 1e-4,
+        "LR_REDUCE_FACTOR": 0.5,
+        "LR_PATIENCE": 3,
+        "LR_MIN": 1e-6,
+        "PATIENCE": 4,
         "N_EPOCHS": 100,
         "CHECKPOINT_PATH": "checkpoints/best_model.pt",
         "MLFLOW_URI": os.environ.get("MLFLOW_URI"),
