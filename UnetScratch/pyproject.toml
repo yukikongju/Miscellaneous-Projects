@@ -1,0 +1,30 @@
+[project]
+name = "unetscratch"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "accelerate>=1.13.0",
+    "datasets>=4.8.4",
+    "dotenv>=0.9.9",
+    "google-cloud-aiplatform>=1.144.0",
+    "huggingface-hub>=1.7.2",
+    "matplotlib>=3.10.8",
+    "mlflow>=1.27.0",
+    "notebook>=7.5.5",
+    "pandas>=3.0.1",
+    "pillow>=12.1.1",
+    "protobuf<4.0.0",
+    "seaborn>=0.13.2",
+    "segmentation-models-pytorch>=0.5.0",
+    "tensorboard>=2.20.0",
+    "torch>=2.10.0",
+    "torchvision>=0.25.0",
+    "tqdm>=4.67.3",
+    "transformers>=5.3.0",
+    "trl>=1.0.0",
+]
+
+# [tool.uv]
+# required-environments = ["sys_platform == 'darwin' and platform_machine == 'arm64'"]
