@@ -24,4 +24,5 @@ dependencies = [
     "peft>=0.18.1",
     "requests>=2.32.5",
     "accelerate>=1.13.0",
+    "albumentations>=2.0.8",
 ]
