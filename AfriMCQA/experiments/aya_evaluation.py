@@ -1,5 +1,5 @@
 """
-Script to evaluate GPT on AfriMCQA.
+Script to evaluate Aya Vision on AfriMCQA.
 
 How the script works:
 1. For each language, load the dataset based on EXPERIMENT_SETUP:
@@ -15,12 +15,12 @@ How the script works:
        => output/<MODEL_NAME>/<EXPERIMENT_SETUP>/QUES_<lang>_ANS_NATIVE/<ID>.json
 
 Image behaviour per experiment setup:
-  TextOnly  => text question only (no image sent to API)
+  TextOnly  => text question only (no image sent to model)
   ImageOnly => image only (no text question)
   ImageText => image + text question
 
 Example output tree:
-output/gpt-5.2/
+output/aya-vision-8b/
 └── TextOnly/
     ├── QUES_EN_ANS_EN/
     │   ├── 1.json
@@ -31,35 +31,33 @@ output/gpt-5.2/
     └── ...
 
 Usage:
-    uv run python experiments/gpt_evaluation.py --dry-run
-    uv run python experiments/gpt_evaluation.py --languages english --no-augment
-    uv run python experiments/gpt_evaluation.py --languages all
+    uv run python experiments/aya_evaluation.py --dry-run
+    uv run python experiments/aya_evaluation.py --languages english --no-augment
+    uv run python experiments/aya_evaluation.py --languages all
 """
 
 import argparse
-import base64
 import json
-import os
 import re
 import sys
-from io import BytesIO
 from pathlib import Path
 
 import albumentations as A
 import numpy as np
 import pandas as pd
-from dotenv import load_dotenv
-from openai import OpenAI
+import torch
 from PIL import Image
 from torch.utils.data import Dataset
 from tqdm import tqdm
+from transformers import AutoModelForImageTextToText, AutoProcessor
 
 # ---------------------------------------------------------------------------
 # Constants
 # ---------------------------------------------------------------------------
 
-EXPERIMENT_SETUP = "ImageOnly"  # TextOnly, ImageText
-MODEL_NAME = "gpt-5.2"  # "gpt-4o"
+EXPERIMENT_SETUP = "ImageText"  # TextOnly, ImageOnly
+MODEL_NAME = "aya-vision-8b"
+MODEL_ID = "CohereLabs/aya-vision-8b"
 
 LANGUAGES = ["english", "haussa", "lingala", "twi", "yoruba"]
 
@@ -120,7 +118,7 @@ AUGMENT_TRANSFORM = A.Compose(
 
 
 class AfriMCQADataset(Dataset):
-    """Torch Dataset over a TextOnly CSV file with optional image augmentation."""
+    """Torch Dataset over a CSV file with optional image augmentation."""
 
     def __init__(self, df: pd.DataFrame, images_dir: Path, augment: bool = False):
         self.df = df.reset_index(drop=True)
@@ -208,41 +206,48 @@ def build_user_prompt(question: str) -> str:
 # ---------------------------------------------------------------------------
 
 
-def pil_to_base64(img: Image.Image) -> str:
-    buffer = BytesIO()
-    img.convert("RGB").save(buffer, format="JPEG")
-    return base64.b64encode(buffer.getvalue()).decode("utf-8")
-
-
 def should_include_image(experiment_setup: str) -> bool:
     return experiment_setup.lower() in ("imageonly", "imagetext")
 
 
 # ---------------------------------------------------------------------------
-# OpenAI inference
+# Aya Vision inference
 # ---------------------------------------------------------------------------
 
 
-def ask_gpt(
-    client: OpenAI,
-    model: str,
+def ask_aya(
+    processor: AutoProcessor,
+    model: AutoModelForImageTextToText,
+    device: str,
     system_prompt: str,
     user_prompt: str,
-    image_b64: str | None = None,
+    image: Image.Image | None = None,
 ) -> str:
     user_content: list[dict] = []
-    if image_b64:
-        user_content.append(
-            {"type": "input_image", "image_url": f"data:image/jpeg;base64,{image_b64}"}
-        )
-    user_content.append({"type": "input_text", "text": user_prompt})
+    if image is not None:
+        user_content.append({"type": "image", "image": image})
+    user_content.append({"type": "text", "text": user_prompt})
 
     messages = [
-        {"role": "system", "content": system_prompt},
+        {"role": "system", "content": [{"type": "text", "text": system_prompt}]},
         {"role": "user", "content": user_content},
     ]
-    response = client.responses.create(model=model, input=messages)
-    return response.output_text.strip()
+
+    inputs = processor.apply_chat_template(
+        messages,
+        add_generation_prompt=True,
+        tokenize=True,
+        return_tensors="pt",
+        return_dict=True,
+    )
+    inputs = {k: v.to(device) if isinstance(v, torch.Tensor) else v for k, v in inputs.items()}
+
+    with torch.no_grad():
+        output = model.generate(**inputs, max_new_tokens=300)
+
+    # Slice off the prompt tokens to get only the generated text
+    generated = output[0][inputs["input_ids"].shape[-1] :]
+    return processor.decode(generated, skip_special_tokens=True).strip()
 
 
 # ---------------------------------------------------------------------------
@@ -291,7 +296,7 @@ def save_result(path: Path, record: dict) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="GPT evaluation on AfriMCQA — saves per-sample JSON locally"
+        description="Aya Vision evaluation on AfriMCQA — saves per-sample JSON locally"
     )
     parser.add_argument(
         "--languages",
@@ -301,20 +306,18 @@ def main() -> None:
         help="Languages to evaluate (default: all)",
     )
     parser.add_argument(
-        "--dry-run", action="store_true", help="Print output paths without calling the API"
+        "--dry-run", action="store_true", help="Print output paths without running inference"
     )
     parser.add_argument("--no-augment", action="store_true", help="Skip augmented dataset")
+    parser.add_argument(
+        "--device",
+        default="mps",
+        choices=["mps", "cuda", "cpu"],
+        help="Device to run the model on (default: mps)",
+    )
     args = parser.parse_args()
 
     languages = LANGUAGES if "all" in args.languages else args.languages
-
-    load_dotenv()
-    api_key = os.environ.get("OPENAI_API_KEY")
-    if not api_key:
-        print("ERROR: OPENAI_API_KEY env var is not set.", file=sys.stderr)
-        sys.exit(1)
-
-    client = OpenAI(api_key=api_key)
     use_image = should_include_image(EXPERIMENT_SETUP)
 
     print(f"{'=' * 65}")
@@ -323,7 +326,19 @@ def main() -> None:
     print(f"Include image  : {use_image}")
     print(f"Languages      : {languages}")
     print(f"Augment        : {not args.no_augment}")
+    print(f"Device         : {args.device}")
     print(f"{'=' * 65}\n")
+
+    if not args.dry_run:
+        print(f"Loading model {MODEL_ID} on {args.device}...")
+        processor = AutoProcessor.from_pretrained(MODEL_ID)
+        model = AutoModelForImageTextToText.from_pretrained(MODEL_ID, torch_dtype=torch.float16).to(
+            args.device
+        )
+        model.eval()
+        print("Model loaded.\n")
+    else:
+        processor = model = None
 
     for lang in languages:
         print(f"\n{'=' * 65}")
@@ -367,7 +382,7 @@ def main() -> None:
                     continue
 
                 try:
-                    image_b64 = pil_to_base64(sample["image"]) if use_image else None
+                    image = sample["image"] if use_image else None
                     question = sample[question_col]
                     user_prompt = build_user_prompt(question)
 
@@ -375,13 +390,13 @@ def main() -> None:
 
                     if not path_en.exists():
                         r_en = parse_response(
-                            ask_gpt(client, MODEL_NAME, sys_en, user_prompt, image_b64)
+                            ask_aya(processor, model, args.device, sys_en, user_prompt, image)
                         )
                         save_result(path_en, {"id": sample_id, **meta, "response": r_en})
 
                     if not path_native.exists():
                         r_native = parse_response(
-                            ask_gpt(client, MODEL_NAME, sys_native, user_prompt, image_b64)
+                            ask_aya(processor, model, args.device, sys_native, user_prompt, image)
                         )
                         save_result(path_native, {"id": sample_id, **meta, "response": r_native})
 
