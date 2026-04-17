@@ -7,19 +7,28 @@ requires-python = ">=3.12"
 dependencies = [
     "altair<5",
     "db-dtypes>=1.4.4",
+    "dotenv>=0.9.9",
     "duckdb>=1.4.4",
     # "google-cloud-bigquery>=3.18.0",
     # "google-cloud-secret-manager>=2.12.4",
+    "gcsfs>=2025.12.0",
     "google-cloud-bigquery>=3.40.1",
     "google-cloud-secret-manager>=2.26.0",
+    "ipykernel>=7.2.0",
     "marimo>=0.19.11",
     "matplotlib>=3.10.8",
+    "notebook>=7.5.5",
     "pandas>=2.3.3",
     "plotly>=6.5.2",
     "pydantic>=2.12.5",
+    "pytest>=9.0.3",
     "scikit-learn>=1.8.0",
     "setuptools>=82.0.0",
     "sqlglot>=28.10.1",
     # "streamlit>=1.41,<1.45",
     "streamlit==1.41.1",
 ]
+
+[tool.pytest.ini_options]
+pythonpath=["src"]
+# pythonpath=["."]
