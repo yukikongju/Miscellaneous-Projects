@@ -252,3 +252,85 @@ order by
 network, platform, country, date, source
 
 """
+
+yearly_final_table_data = """
+--- query cost: 221.87 MB
+select
+  date,
+  network,
+  platform,
+  country,
+  campaign_name,
+  cost_cad,
+  cost_usd,
+  impressions,
+  clicks,
+  installs,
+  mobile_trials,
+  web_trials,
+  trials,
+  metrics_paid,
+  backend_trials,
+  backend_paid,
+  backend_revenue,
+  backend_refund,
+  backend_refunded_amount,
+  agency,
+  initial_revenue,
+  need_modeling,
+  modeled_trial2paid,
+  t2p_web,
+  t2p_mobile,
+  rpp_mobile,
+  modeled_revenue_per_trial,
+  modeled_revenue_per_paid,
+  modeled_paid,
+  modeled_revenue,
+  modeled_refund,
+  modeled_refunded_amount,
+  recent_date,
+  paid,
+  page_landing,
+  revenue,
+  diff_revenues,
+  refund,
+  refunded_amount,
+  renewal_rate_year1,
+  renewal_rate_year2,
+  renewal_rate_year3,
+  renewal_proceeds_year1,
+  renewal_proceeds_year2,
+  renewal_proceeds_year3,
+from `relax-melodies-android.ua_dashboard_prod.final_table`
+where
+  date >= date_sub(current_date("America/Los_Angeles"), interval 12 MONTH)
+  and network in ('Apple Search Ads', 'Facebook Ads', 'googleadwords_int', 'tiktokglobal_int', 'snapchat_int', 'tatari_streaming', 'tatari_linear')
+"""
+
+yearly_final_table_data_aggregated = """
+SELECT
+  date,
+  CASE
+    WHEN network IN ('tatari_streaming', 'tatari_linear') THEN 'tatari'
+    ELSE network
+  END AS network,
+  platform,
+  CASE WHEN country = 'US' THEN 'US' ELSE 'ROW' END AS country,
+  campaign_name,
+  SUM(cost_usd)                                                          AS cost_usd,
+  SUM(impressions)                                                        AS impressions,
+  SUM(clicks)                                                             AS clicks,
+  SUM(installs)                                                           AS installs,
+  SUM(trials)                                                             AS trials,
+  SUM(CASE WHEN need_modeling THEN modeled_paid    ELSE paid    END)      AS paid,
+  SUM(CASE WHEN need_modeling THEN modeled_revenue ELSE revenue END)      AS revenue
+FROM `relax-melodies-android.ua_dashboard_prod.final_table`
+WHERE
+  date >= DATE_SUB(CURRENT_DATE('America/Los_Angeles'), INTERVAL 12 MONTH)
+  AND network IN (
+    'Apple Search Ads', 'Facebook Ads', 'tiktokglobal_int',
+    'googleadwords_int', 'tatari_linear', 'tatari_streaming', 'snapchat_int'
+  )
+GROUP BY
+  date, network, platform, country, campaign_name
+"""
