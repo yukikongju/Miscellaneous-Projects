@@ -62,7 +62,7 @@ from dotenv import load_dotenv
 from appsflyers import fetch_appsflyer_master_api
 
 load_dotenv()
-APPSFLYER_TOKEN_API = os.getenv("APPSFLYER_TOKEN_API")
+APPSFLYER_TOKEN_API = os.getenv("APPSFLYER_API_TOKEN")
 
 logging.basicConfig(format="%(asctime)s - %(levelname)s - %(message)s", level=logging.INFO)
 
@@ -81,7 +81,18 @@ BASE_METRIC_COLS = [
     "af_refund_sales_in_usd",
 ]
 
-RATE_COLS = ["T2P", "ROAS", "RPP", "RPP_net", "CAC", "CPI", "CPT", "CPM", "CTR", "refund_rate"]
+RATE_COLS = [
+    "T2P",
+    "ROAS",
+    "RPP",
+    "RPP_net",
+    "CAC",
+    "CPI",
+    "CPT",
+    "CPM",
+    "CTR",
+    "refund_rate",
+]
 
 ALL_DISPLAY_COLS = RATE_COLS + [
     "cost",
@@ -322,7 +333,11 @@ def _metric_cells(
 
 
 def _build_breakdown_html(
-    agg: pd.DataFrame, agg_adset: pd.DataFrame, center, campaign_order: list, breakdown_mode: str
+    agg: pd.DataFrame,
+    agg_adset: pd.DataFrame,
+    center,
+    campaign_order: list,
+    breakdown_mode: str,
 ) -> str:
     center_str = str(center)
 
