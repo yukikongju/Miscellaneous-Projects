@@ -15,12 +15,13 @@ What the script does:
         - CPI — Cost per install → cost / installs
         - CPT — Cost per trial → cost / subscription_process_succeed
         - CAC — Cost to acquire a paying user → cost / af_subscribe_unique_users
+        - I2T - Install-to-trial, the share of installs starters who converted to trials: subscription_process_succeed / installs
+        - I2P - Install-to-paid, the share of installs startes who converted to trials: af_subscribe_unique_users / installs
         - T2P — Trial-to-paid rate, the share of trial starters who converted to a paid sub → af_subscribe_unique_users / subscription_process_succeed
         - RPP — Revenue per paying user → af_subscribe_sales_in_usd / af_subscribe_unique_users
         - RPP Net - Revenue Net per paying user → (af_subscribe_sales_in_usd - af_refund_sales_in_usd) / af_subscribe_unique_users
         - ROAS — Return on ad spend, net of refunds → (af_subscribe_sales_in_usd - af_refund_sales_in_usd) / cost
         - Refund rate — Share of subscribers who refunded → af_refund_unique_users / af_subscribe_unique_users
-
 2. Create the streamlit UI
     a. Create dropdown for the following fields: network, platform, country
         - networks filters should have only: "Apple Search Ads", "Facebook Ads", "googleadwords_int", "tiktokglobal_int", "snapchat_int"
@@ -50,19 +51,15 @@ Notes:
 """
 
 import logging
-import os
 from datetime import datetime, timedelta
 
 import numpy as np
 import pandas as pd
 import plotly.express as px
 import streamlit as st
-from dotenv import load_dotenv
 
-from appsflyers import fetch_appsflyer_master_api
-
-load_dotenv()
-APPSFLYER_TOKEN_API = os.getenv("APPSFLYER_API_TOKEN")
+from queries import adset_master_api_query
+from utils import get_bigquery_client, run_query
 
 logging.basicConfig(format="%(asctime)s - %(levelname)s - %(message)s", level=logging.INFO)
 
@@ -83,6 +80,8 @@ BASE_METRIC_COLS = [
 
 RATE_COLS = [
     "T2P",
+    "I2T",
+    "I2P",
     "ROAS",
     "RPP",
     "RPP_net",
@@ -112,60 +111,25 @@ ALL_DISPLAY_COLS = RATE_COLS + [
 # ---------------------------------------------------------------------------
 
 
-def _get_platform(campaign_name: str) -> str:
-    lower = campaign_name.lower()
-    for p in ["ios", "and", "web"]:
-        if p in lower:
-            return p
-    return "unknown"
-
-
 @st.cache_data(ttl=7200)
 def load_data(start_date: str, end_date: str) -> pd.DataFrame:
-    logging.info("Fetching from Appsflyer Master API (%s → %s)", start_date, end_date)
-    data = fetch_appsflyer_master_api(
-        token=APPSFLYER_TOKEN_API,
-        start_date=start_date,
-        end_date=end_date,
-        groupings=["install_time", "geo", "pid", "c", "af_adset"],
-        kpis=[
-            "cost",
-            "impressions",
-            "clicks",
-            "installs",
-            "unique_users_subscription_process_succeed",
-            "unique_users_af_subscribe",
-            "sales_in_usd_af_subscribe",
-            "unique_users_af_refund",
-            "sales_in_usd_af_refund",
-        ],
+    logging.info("Fetching from BigQuery adset_master_api_query (%s → %s)", start_date, end_date)
+    query = adset_master_api_query.replace(
+        "declare start_date date default date_sub(current_date('UTC'), interval 90 day);",
+        f"declare start_date date default date '{start_date}';",
+    ).replace(
+        "declare end_date date default current_date('UTC');",
+        f"declare end_date date default date '{end_date}';",
     )
-    df = pd.DataFrame(data)
+    client = get_bigquery_client()
+    df = run_query(client, query)
     if df.empty:
         return df
 
-    columns_map = {
-        "Install Time": "install_date",
-        "GEO": "country",
-        "Media Source": "media_source",
-        "Campaign": "campaign_name",
-        "Adset": "adset",
-        "Cost": "cost",
-        "Impressions": "impressions",
-        "Clicks": "clicks",
-        "Installs": "installs",
-        "Unique Users - subscription_process_succeed": "subscription_process_succeed",
-        "Unique Users - af_subscribe": "af_subscribe_unique_users",
-        "Sales in USD - af_subscribe": "af_subscribe_sales_in_usd",
-        "Unique Users - af_refund": "af_refund_unique_users",
-        "Sales in USD - af_refund": "af_refund_sales_in_usd",
-    }
-    df = df.rename(columns=columns_map)[list(columns_map.values())]
     df["install_date"] = pd.to_datetime(df["install_date"])
     for col in BASE_METRIC_COLS:
         df[col] = pd.to_numeric(df[col], errors="coerce").fillna(0.0)
 
-    df["platform"] = df["campaign_name"].apply(_get_platform)
     df_iso = df["install_date"].dt.isocalendar()
     df["iso_week"] = df_iso["week"]
     df["iso_week_start"] = df["install_date"] - pd.to_timedelta(
@@ -192,6 +156,8 @@ def compute_rates(df: pd.DataFrame) -> pd.DataFrame:
     df["CPI"] = np.where(installs > 0, cost / installs, np.nan)
     df["CPT"] = np.where(trials > 0, cost / trials, np.nan)
     df["CAC"] = np.where(subs > 0, cost / subs, np.nan)
+    df["I2T"] = np.where(installs > 0, trials / installs, np.nan)
+    df["I2P"] = np.where(installs > 0, subs / installs, np.nan)
     df["T2P"] = np.where(trials > 0, subs / trials, np.nan)
     df["RPP"] = np.where(subs > 0, rev / subs, np.nan)
     df["RPP_net"] = np.where(subs > 0, (rev - refunds) / subs, np.nan)
@@ -223,7 +189,7 @@ def apply_filters(
 ) -> pd.DataFrame:
     mask = pd.Series(True, index=df.index)
     if networks:
-        mask &= df["media_source"].isin(networks)
+        mask &= df["network"].isin(networks)
     if platforms:
         mask &= df["platform"].isin(platforms)
     if countries:
@@ -289,27 +255,42 @@ def _mini_chart(df_view: pd.DataFrame, x_col: str, metric: str, label: str, char
     return ev
 
 
-_BREAKDOWN_STYLE = """<style>
-.bkd details { margin: 0; }
-.bkd details summary { list-style: none; display: block; cursor: pointer; padding: 0; margin: 0; }
-.bkd details summary::-webkit-details-marker { display: none; }
-.bkd .arrow::before { content: "▶"; font-size: 0.7em; color: #555; margin-right: 6px; }
-.bkd details[open] .arrow::before { content: "▼"; }
-.bkd .brow { display: grid; grid-template-columns: 3fr 1fr 1fr 1fr 1fr 1fr 1fr; }
-.bkd .bc   { padding: 10px 8px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.bkd .bcr  { padding: 10px 8px; text-align: right; white-space: nowrap; }
-.bkd .bcs  { padding: 8px 8px 8px 28px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.bkd .bcsr { padding: 8px 8px; text-align: right; white-space: nowrap; }
-</style>"""
-
 _TABLE_COLS = [
+    ("cost", "${:,.0f}", "SPEND"),
+    ("impressions", "{:,.0f}", "IMP"),
+    ("clicks", "{:,.0f}", "CLICKS"),
+    ("installs", "{:,.0f}", "INSTALLS"),
+    ("subscription_process_succeed", "{:,.0f}", "TRIALS"),
+    ("af_subscribe_unique_users", "{:,.0f}", "SUBS"),
+    ("af_subscribe_sales_in_usd", "${:,.2f}", "REV"),
+    #  ("af_refund_unique_users", "{:,.0f}", "RFND U"),
+    #  ("af_refund_sales_in_usd", "${:,.2f}", "RFND $"),
+    ("CTR", "{:.2%}", "CTR"),
+    ("CPM", "${:,.2f}", "CPM"),
+    ("CPI", "${:.2f}", "CPI"),
+    ("CPT", "${:.2f}", "CPT"),
+    ("I2T", "{:.1%}", "I2T"),
+    ("I2P", "{:.1%}", "I2P"),
     ("T2P", "{:.1%}", "T2P"),
     ("ROAS", "{:.1f}%", "ROAS"),
     ("RPP", "${:.2f}", "RPP"),
-    ("CPI", "${:.2f}", "CPI"),
     ("CAC", "${:.2f}", "CAC"),
-    ("cost", "${:,.0f}", "SPEND"),
 ]
+
+_BREAKDOWN_STYLE = """<style>
+.bkd details {{ margin: 0; }}
+.bkd details summary {{ list-style: none; display: block; cursor: pointer; padding: 0; margin: 0; }}
+.bkd details summary::-webkit-details-marker {{ display: none; }}
+.bkd .arrow::before {{ content: "▶"; font-size: 0.7em; color: #555; margin-right: 6px; }}
+.bkd details[open] .arrow::before {{ content: "▼"; }}
+.bkd .brow {{ display: grid; grid-template-columns: 3fr {cols}; }}
+.bkd .bc   {{ padding: 10px 8px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }}
+.bkd .bcr  {{ padding: 10px 8px; text-align: right; white-space: nowrap; }}
+.bkd .bcs  {{ padding: 8px 8px 8px 28px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }}
+.bkd .bcsr {{ padding: 8px 8px; text-align: right; white-space: nowrap; }}
+</style>""".format(
+    cols=" ".join(["1fr"] * len(_TABLE_COLS))
+)
 
 
 def _fv(val, fmt: str) -> str:
@@ -361,7 +342,7 @@ def _build_breakdown_html(
 
     if breakdown_mode == "Campaign → Adset":
         for i, campaign in enumerate(campaign_order):
-            grp = agg_adset[agg_adset["campaign_name"] == campaign]
+            grp = agg_adset[agg_adset["campaign"] == campaign]
             if grp.empty:
                 continue
             totals = compute_rates(grp[BASE_METRIC_COLS].sum().to_frame().T).iloc[0]
@@ -377,9 +358,7 @@ def _build_breakdown_html(
             for _, row in grp.sort_values("cost", ascending=False).iterrows():
                 adsets_html += (
                     '<div class="brow" style="border-bottom:1px solid #f0f0f0;">'
-                    f'<div class="bcs">{row["adset"]}</div>'
-                    + _metric_cells(row, sub=True)
-                    + "</div>"
+                    f'<div class="bcs">{row["ad"]}</div>' + _metric_cells(row, sub=True) + "</div>"
                 )
 
             open_attr = "open" if i == 0 else ""
@@ -387,7 +366,7 @@ def _build_breakdown_html(
 
     elif breakdown_mode == "Campaign → Date":
         for i, campaign in enumerate(campaign_order):
-            grp = agg[agg["campaign_name"] == campaign]
+            grp = agg[agg["campaign"] == campaign]
             totals = compute_rates(grp[BASE_METRIC_COLS].sum().to_frame().T).iloc[0]
 
             summary = (
@@ -431,12 +410,12 @@ def _build_breakdown_html(
             campaigns_html = ""
             rank = {c: i for i, c in enumerate(campaign_order)}
             grp = grp.copy()
-            grp["_rank"] = grp["campaign_name"].map(rank).fillna(len(rank))
+            grp["_rank"] = grp["campaign"].map(rank).fillna(len(rank))
             grp = grp.sort_values("_rank").drop(columns="_rank")
             for _, row in grp.iterrows():
                 campaigns_html += (
                     '<div class="brow" style="border-bottom:1px solid #f0f0f0;">'
-                    f'<div class="bcs">{row["campaign_name"]}</div>'
+                    f'<div class="bcs">{row["campaign"]}</div>'
                     + _metric_cells(row, sub=True)
                     + "</div>"
                 )
@@ -475,19 +454,15 @@ def _show_campaign_breakdown(
         st.info("No campaign data in this window.")
         return
 
-    agg = window_df.groupby(["campaign_name", "install_date"], as_index=False)[
-        BASE_METRIC_COLS
-    ].sum()
+    agg = window_df.groupby(["campaign", "install_date"], as_index=False)[BASE_METRIC_COLS].sum()
     agg = compute_rates(agg)
     agg["install_date"] = agg["install_date"].dt.date
 
-    agg_adset = window_df.groupby(["campaign_name", "adset"], as_index=False)[
-        BASE_METRIC_COLS
-    ].sum()
+    agg_adset = window_df.groupby(["campaign", "ad"], as_index=False)[BASE_METRIC_COLS].sum()
     agg_adset = compute_rates(agg_adset)
 
     campaign_order = (
-        agg.groupby("campaign_name")["cost"].sum().sort_values(ascending=False).index.tolist()
+        agg.groupby("campaign")["cost"].sum().sort_values(ascending=False).index.tolist()
     )
 
     hdr_col, toggle_col = st.columns([3, 2])
@@ -549,7 +524,7 @@ if df_raw.empty:
     st.stop()
 
 # --- Horizontal filter bar ---
-all_networks = sorted(df_raw["media_source"].dropna().unique().tolist())
+all_networks = sorted(df_raw["network"].dropna().unique().tolist())
 all_platforms = sorted(df_raw["platform"].dropna().unique().tolist())
 all_countries = sorted(df_raw["country"].dropna().unique().tolist())
 

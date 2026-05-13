@@ -161,6 +161,13 @@ gcloud secrets versions access latest \
 
 ## 2. Copy secret key from `relax-server` to `relax-melodies-android` (In GCP: Security > Secret Manager)
 
+## 2.1. Give access to service account
+gcloud secrets add-iam-policy-binding APPSFLYER_API_TOKEN \
+  --project="relax-server" \
+  --member="serviceAccount:2531232713-compute@developer.gserviceaccount.com" \
+  --role="roles/secretmanager.secretAccessor"
+
+
 ## 3. Deploy with secret manager
 gcloud run deploy --source . \
   --set-secrets="APPSFLYER_API_TOKEN=APPSFLYER_API_TOKEN:latest"
@@ -181,3 +188,6 @@ gcloud run deploy --source . \
  # ERROR: (gcloud.run.deploy) 'projects/relax-server/secrets/APPSFLYER_API_TOKEN' is not a valid secret name.
 
  # ERROR: (gcloud.run.deploy) 'projects/relax-server/secrets/APPSFLYER_API_TOKEN' is not a valid secret name.
+
+
+ # ERROR: (gcloud.run.deploy) spec.template.spec.containers[0].env[0].value_from.secret_key_ref.name: Permission denied on secret: projects/2531232713/secrets/APPSFLYER_API_TOKEN/versions/latest for Revision service account 2531232713-compute@developer.gserviceaccount.com. The service account used must be granted the 'Secret Manager Secret Accessor' role (roles/secretmanager.secre

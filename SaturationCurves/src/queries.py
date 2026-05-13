@@ -334,3 +334,88 @@ WHERE
 GROUP BY
   date, network, platform, country, campaign_name
 """
+
+adset_master_api_query = """
+--- cost: 411.72 MB
+declare start_date date default date_sub(current_date('UTC'), interval 90 day);
+declare end_date date default current_date('UTC');
+
+with networks_adset_aggregation as (
+    select
+        install_date, app_id, pid, geo, c, af_adset as ad, extracted_timestamp,
+        sum(cost) as cost,
+        sum(impressions) as impressions,
+        sum(clicks) as clicks,
+        sum(installs) as installs,
+        sum(unique_users_subscription_process_succeed) as subscription_process_succeed,
+        sum(unique_users_af_subscribe) as af_subscribe_unique_users,
+        sum(sales_in_usd_af_subscribe) as af_subscribe_sales_in_usd,
+        sum(unique_users_af_refund) as af_refund_unique_users,
+        sum(sales_in_usd_af_refund) as af_refund_sales_in_usd,
+    FROM `relax-melodies-android.ua_extract_prod.appsflyer_master_complete`
+    WHERE
+        install_date between start_date and end_date
+        and pid in ('Apple Search Ads', 'googleadwords_int')
+    GROUP BY
+        install_date, app_id, pid, geo, c, af_adset, extracted_timestamp
+), networks_ad_aggregation as (
+    select
+        install_date, app_id, pid, geo, c, af_ad as ad, extracted_timestamp,
+        sum(cost) as cost,
+        sum(impressions) as impressions,
+        sum(clicks) as clicks,
+        sum(installs) as installs,
+        sum(unique_users_subscription_process_succeed) as subscription_process_succeed,
+        sum(unique_users_af_subscribe) as af_subscribe_unique_users,
+        sum(sales_in_usd_af_subscribe) as af_subscribe_sales_in_usd,
+        sum(unique_users_af_refund) as af_refund_unique_users,
+        sum(sales_in_usd_af_refund) as af_refund_sales_in_usd,
+    FROM `relax-melodies-android.ua_extract_prod.appsflyer_master_complete`
+    WHERE
+        install_date between start_date and end_date
+        and pid in ('Facebook Ads', 'tiktokglobal_int')
+    GROUP BY
+        install_date, app_id, pid, geo, c, af_ad, extracted_timestamp
+), grouped as (
+    SELECT
+      *
+    from networks_adset_aggregation
+    UNION ALL (
+        SELECT * from networks_ad_aggregation
+    )
+), renamed as (
+    SELECT
+        install_date,
+        pid as network,
+        case
+            when app_id = 'ipnossoft.rma.free' then 'android'
+            when app_id = 'id314498713' then 'ios'
+            else 'unknown'
+        end as platform,
+        geo as country,
+        c as campaign,
+        ad,
+        extracted_timestamp,
+        cost, impressions, clicks, installs,
+        subscription_process_succeed,
+        af_subscribe_unique_users, af_subscribe_sales_in_usd,
+        af_refund_unique_users, af_refund_sales_in_usd
+    FROM grouped
+), deduped as (
+    SELECT
+        * except(extracted_timestamp)
+        , ROW_NUMBER() OVER (
+            PARTITION BY install_date, network, platform, country, campaign, ad
+            ORDER BY extracted_timestamp DESC
+        ) AS row_num
+    FROM renamed
+    WHERE
+        cost > 0
+    QUALIFY row_num = 1
+    ORDER BY
+    install_date, network, platform, country, campaign, ad
+)
+
+select * from deduped
+
+"""
