@@ -434,19 +434,13 @@ def _build_breakdown_html(
 
 def _show_campaign_breakdown(
     df_raw: pd.DataFrame,
-    clicked_date: str,
+    lo: pd.Timestamp,
+    hi: pd.Timestamp,
     networks: list,
     platforms: list,
     countries: list,
+    center=None,  # set when triggered by a chart click (used for label + highlight)
 ) -> None:
-    try:
-        center = pd.to_datetime(clicked_date).date()
-    except Exception:
-        st.warning(f"Could not parse clicked date: {clicked_date}")
-        return
-
-    lo = pd.Timestamp(center - timedelta(days=N_PREVIOUS_DAYS))
-    hi = pd.Timestamp(center + timedelta(days=N_PREVIOUS_DAYS))
     window_df = apply_filters(df_raw, networks, platforms, countries)
     window_df = window_df[(window_df["install_date"] >= lo) & (window_df["install_date"] <= hi)]
 
@@ -465,12 +459,19 @@ def _show_campaign_breakdown(
         agg.groupby("campaign")["cost"].sum().sort_values(ascending=False).index.tolist()
     )
 
+    if center is not None:
+        date_badge = f"📅 {center} ± {N_PREVIOUS_DAYS} days"
+        caption_suffix = f"±{N_PREVIOUS_DAYS} days around clicked point"
+    else:
+        date_badge = f"📅 {lo.date()} → {hi.date()}"
+        caption_suffix = "display date range"
+
     hdr_col, toggle_col = st.columns([3, 2])
     with hdr_col:
         st.markdown(
             f'<span style="font-size:1.05em;font-weight:700">Campaign breakdown</span> &nbsp;'
             f'<span style="background:#dbeafe;color:#1d4ed8;padding:3px 10px;'
-            f'border-radius:12px;font-size:0.85em">📅 {center} ± {N_PREVIOUS_DAYS} days</span>',
+            f'border-radius:12px;font-size:0.85em">{date_badge}</span>',
             unsafe_allow_html=True,
         )
     with toggle_col:
@@ -491,8 +492,8 @@ def _show_campaign_breakdown(
     plat_str = " · ".join(platforms) if platforms else "all platforms"
     ctry_str = " · ".join(countries) if countries else "all countries"
     st.caption(
-        f"● selected day | N_PREVIOUS_DAYS = {N_PREVIOUS_DAYS} "
-        f"(±{N_PREVIOUS_DAYS} around click) | filters applied: {net_str} · {plat_str} · {ctry_str}"
+        f"● selected day | window: {caption_suffix} | "
+        f"filters: {net_str} · {plat_str} · {ctry_str}"
     )
 
 
@@ -504,24 +505,45 @@ st.set_page_config(page_title="Appsflyer Adset", page_icon="📊", layout="wide"
 st.markdown("# Appsflyer Adset Performance")
 
 today = datetime.today().date()
-default_start = today - timedelta(days=60)
-default_end = today - timedelta(days=1)
+fetch_start = today - timedelta(days=90)
+fetch_end = today - timedelta(days=1)
 
-with st.expander("⚙️ Date range", expanded=False):
-    date_range = st.date_input("", value=(default_start, default_end), key="date_range")
+# Always fetch the full 90-day window; date range below only controls what is displayed.
+df_raw = load_data(fetch_start.strftime("%Y-%m-%d"), fetch_end.strftime("%Y-%m-%d"))
+
+if df_raw.empty:
+    st.error("No data returned from BigQuery. Check your credentials and date range.")
+    st.stop()
+
+st.info(
+    f"Data loaded for the last 90 days ({fetch_start} → {fetch_end}). "
+    "Use the date range below to narrow what is shown in the charts and table."
+)
+
+# --- Date range (display filter, not fetch) ---
+col_dates, col_dl = st.columns([3, 1], vertical_alignment="bottom")
+with col_dates:
+    date_range = st.date_input(
+        "Display date range",
+        value=(fetch_start, fetch_end),
+        min_value=fetch_start,
+        max_value=fetch_end,
+        key="date_range",
+    )
+with col_dl:
+    st.download_button(
+        label="⬇ Download raw data",
+        data=df_raw.to_csv(index=False),
+        file_name=f"adset_{fetch_start}_{fetch_end}.csv",
+        mime="text/csv",
+    )
 
 if not (isinstance(date_range, (list, tuple)) and len(date_range) == 2):
     st.warning("Please select a complete date range.")
     st.stop()
 
-start_date_str = date_range[0].strftime("%Y-%m-%d")
-end_date_str = date_range[1].strftime("%Y-%m-%d")
-
-df_raw = load_data(start_date_str, end_date_str)
-
-if df_raw.empty:
-    st.error("No data returned from Appsflyer. Check your API token and date range.")
-    st.stop()
+display_start = pd.Timestamp(date_range[0])
+display_end = pd.Timestamp(date_range[1])
 
 # --- Horizontal filter bar ---
 all_networks = sorted(df_raw["network"].dropna().unique().tolist())
@@ -544,17 +566,18 @@ st.divider()
 
 # --- Filter & aggregate ---
 df_filtered = apply_filters(df_raw, sel_networks, sel_platforms, sel_countries)
+df_filtered = df_filtered[
+    (df_filtered["install_date"] >= display_start) & (df_filtered["install_date"] <= display_end)
+]
 if data_mode == "Mature":
     maturity_end = pd.Timestamp(today - timedelta(days=DATA_MATURITY_LAG))
     df_filtered = df_filtered[df_filtered["install_date"] <= maturity_end]
 
 if view.startswith("DoD"):
-    cutoff = pd.Timestamp(today - timedelta(days=14))
-    df_view = make_dod(df_filtered[df_filtered["install_date"] >= cutoff])
+    df_view = make_dod(df_filtered)
     x_col = "install_date"
 else:
-    cutoff = pd.Timestamp(today - timedelta(days=60))
-    df_view = make_wow(df_filtered[df_filtered["install_date"] >= cutoff])
+    df_view = make_wow(df_filtered)
     x_col = "iso_week_start"
 
 if df_view.empty:
@@ -573,19 +596,53 @@ with col3:
 st.divider()
 
 # --- Click → campaign breakdown ---
-clicked_date = None
+# Detect a fresh chart click this rerun (from live events, not session state).
+fresh_click = None
 for ev in [ev_t2p, ev_roas, ev_rpp]:
     if ev and hasattr(ev, "selection") and ev.selection and ev.selection.points:
         raw_x = ev.selection.points[0].get("x", "")
         if raw_x:
-            clicked_date = str(raw_x)
-            st.session_state["selected_date"] = clicked_date
+            fresh_click = str(raw_x)
             break
 
-if clicked_date is None:
-    clicked_date = st.session_state.get("selected_date")
+# Detect a date range change this rerun.
+prev_date_range = st.session_state.get("prev_date_range")
+date_range_changed = prev_date_range != date_range
+st.session_state["prev_date_range"] = date_range
 
-if clicked_date:
-    _show_campaign_breakdown(df_raw, clicked_date, sel_networks, sel_platforms, sel_countries)
+# Update last_trigger based on what changed this rerun.
+if fresh_click:
+    st.session_state["selected_date"] = fresh_click
+    st.session_state["last_trigger"] = "chart_click"
+elif date_range_changed:
+    st.session_state["last_trigger"] = "date_range"
+
+last_trigger = st.session_state.get("last_trigger")
+selected_date = st.session_state.get("selected_date")
+
+if last_trigger == "chart_click" and selected_date:
+    try:
+        center = pd.to_datetime(selected_date).date()
+    except Exception:
+        center = None
+    if center:
+        _show_campaign_breakdown(
+            df_raw,
+            lo=pd.Timestamp(center - timedelta(days=N_PREVIOUS_DAYS)),
+            hi=pd.Timestamp(center + timedelta(days=N_PREVIOUS_DAYS)),
+            networks=sel_networks,
+            platforms=sel_platforms,
+            countries=sel_countries,
+            center=center,
+        )
+elif last_trigger == "date_range":
+    _show_campaign_breakdown(
+        df_raw,
+        lo=display_start,
+        hi=display_end,
+        networks=sel_networks,
+        platforms=sel_platforms,
+        countries=sel_countries,
+    )
 else:
     st.info("Click a point on any chart above to see the campaign breakdown.")
