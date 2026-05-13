@@ -50,6 +50,7 @@ Notes:
 - Add red color for days with bad ROAS
 """
 
+import json
 import logging
 from datetime import datetime, timedelta
 
@@ -277,159 +278,125 @@ _TABLE_COLS = [
     ("CAC", "${:.2f}", "CAC"),
 ]
 
-_BREAKDOWN_STYLE = """<style>
-.bkd details {{ margin: 0; }}
-.bkd details summary {{ list-style: none; display: block; cursor: pointer; padding: 0; margin: 0; }}
-.bkd details summary::-webkit-details-marker {{ display: none; }}
-.bkd .arrow::before {{ content: "▶"; font-size: 0.7em; color: #555; margin-right: 6px; }}
-.bkd details[open] .arrow::before {{ content: "▼"; }}
-.bkd .brow {{ display: grid; grid-template-columns: 3fr {cols}; }}
-.bkd .bc   {{ padding: 10px 8px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }}
-.bkd .bcr  {{ padding: 10px 8px; text-align: right; white-space: nowrap; }}
-.bkd .bcs  {{ padding: 8px 8px 8px 28px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }}
-.bkd .bcsr {{ padding: 8px 8px; text-align: right; white-space: nowrap; }}
-</style>""".format(
-    cols=" ".join(["1fr"] * len(_TABLE_COLS))
-)
+_GRID_COLS = "3fr " + " ".join(["1fr"] * len(_TABLE_COLS))
+
+# HTML template for the interactive JS-powered breakdown table.
+# __DATA__ is replaced with serialised JSON; __GRID__ with the CSS grid string.
+_TABLE_HTML_TMPL = """<!DOCTYPE html>
+<html><head><meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700&display=swap">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Source Sans Pro",sans-serif;font-size:14px}
+.bkd{border:1px solid #e0e0e0;border-radius:8px;overflow:hidden}
+.row{display:grid;grid-template-columns:__GRID__}
+.lc {padding:10px 8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rc {padding:10px 8px;text-align:right;white-space:nowrap}
+.lcs{padding:8px 8px 8px 28px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rcs{padding:8px 8px;text-align:right;white-space:nowrap}
+.hdr{border-bottom:2px solid #ddd;background:#fafafa}
+.hdr .rc{cursor:pointer;user-select:none;color:#888;font-size:.78em;font-weight:700;text-transform:uppercase}
+.hdr .lc{color:#888;font-size:.78em;font-weight:700;text-transform:uppercase}
+.hdr .rc:hover{background:#f0f0f0}
+details{margin:0}
+details>summary{list-style:none;display:block;cursor:pointer}
+details>summary::-webkit-details-marker{display:none}
+.arr::before{content:"▶";font-size:.7em;color:#555;margin-right:6px}
+details[open]>summary .arr::before{content:"▼"}
+.camp{background:#f5f5f5;border-bottom:1px solid #ddd}
+.sub{border-bottom:1px solid #f0f0f0}
+</style></head><body>
+<div class="bkd" id="root"></div>
+<script>
+(function(){
+const D=__DATA__;
+let sc=null,sa=false;
+const FMT={
+  "{:.1%}": v=>v==null?"—":(v*100).toFixed(1)+"%",
+  "{:.2%}": v=>v==null?"—":(v*100).toFixed(2)+"%",
+  "{:.1f}%":v=>v==null?"—":v.toFixed(1)+"%",
+  "${:.2f}":v=>v==null?"—":"$"+v.toFixed(2),
+  "${:,.2f}":v=>v==null?"—":"$"+v.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2}),
+  "${:,.0f}":v=>v==null?"—":"$"+Math.round(v).toLocaleString("en-US"),
+  "{:,.0f}": v=>v==null?"—":Math.round(v).toLocaleString("en-US"),
+};
+function fv(v,f){const fn=FMT[f];return fn?fn(v):(v==null?"—":String(v));}
+const BASE=["cost","impressions","clicks","installs","subscription_process_succeed",
+            "af_subscribe_unique_users","af_subscribe_sales_in_usd",
+            "af_refund_unique_users","af_refund_sales_in_usd"];
+function tot(rows){
+  const s={};BASE.forEach(k=>s[k]=rows.reduce((a,r)=>a+(r[k]||0),0));
+  const{cost:c,impressions:imp,clicks:cl,installs:ins,
+        subscription_process_succeed:tr,af_subscribe_unique_users:sb,
+        af_subscribe_sales_in_usd:rev,af_refund_sales_in_usd:ref,af_refund_unique_users:ru}=s;
+  s.CPM=imp>0?c/imp*1000:null; s.CTR=imp>0?cl/imp:null;
+  s.CPI=ins>0?c/ins:null;      s.CPT=tr>0?c/tr:null;   s.CAC=sb>0?c/sb:null;
+  s.I2T=ins>0?tr/ins:null;     s.I2P=ins>0?sb/ins:null;s.T2P=tr>0?sb/tr:null;
+  s.RPP=sb>0?rev/sb:null;      s.RPP_net=sb>0?(rev-ref)/sb:null;
+  s.ROAS=c>0?(rev-ref)/c*100:null; s.refund_rate=sb>0?ru/sb:null;
+  return s;
+}
+function sv(r,k){const v=r[k];return(v==null||isNaN(v))?(sa?Infinity:-Infinity):v;}
+function srt(rows){return sc?[...rows].sort((a,b)=>sa?sv(a,sc)-sv(b,sc):sv(b,sc)-sv(a,sc)):rows;}
+function cells(row,cls,sty){
+  return D.table_cols.map(c=>`<div class="${cls}"${sty?` style="${sty}"`:""}>${fv(row[c.key],c.fmt)}</div>`).join("");
+}
+function hdrCell(c){
+  const act=c.key===sc,arrow=act?(sa?"▲":"▼"):"▼",col=act?"#2563eb":"#ccc";
+  return`<div class="rc" onclick="hs('${c.key}')">${c.lbl}&nbsp;<span style="color:${col}">${arrow}</span></div>`;
+}
+function openKeys(){
+  const s=new Set();
+  document.querySelectorAll("details[data-k]").forEach(d=>{if(d.open)s.add(d.dataset.k);});
+  return s;
+}
+function render(){
+  const ok=openKeys(),mode=D.breakdown_mode,ctr=D.center;
+  const fl={"Campaign → Adset":"CAMPAIGN / ADSET","Campaign → Date":"CAMPAIGN / DATE","Date → Campaign":"DATE / CAMPAIGN"}[mode]||"CAMPAIGN";
+  const hdr=`<div class="row hdr"><div class="lc">${fl}</div>${D.table_cols.map(hdrCell).join("")}</div>`;
+  let groups;
+  if(mode==="Date → Campaign"){
+    const dates=[...new Set(D.agg.map(r=>r.install_date))].sort();
+    groups=dates.map(d=>({k:d,lbl:d,rows:D.agg.filter(r=>r.install_date===d),sub:"campaign",dg:true}));
+  }else{
+    const src=mode==="Campaign → Adset"?D.agg_adset:D.agg;
+    const by={};D.campaign_order.forEach(c=>by[c]=[]);
+    src.forEach(r=>{if(by[r.campaign])by[r.campaign].push(r);});
+    groups=D.campaign_order.map(c=>({k:c,lbl:c,rows:by[c]||[],sub:mode==="Campaign → Adset"?"ad":"install_date"}));
+    if(sc){
+      groups=[...groups].sort((a,b)=>{
+        const ta=tot(a.rows)[sc],tb=tot(b.rows)[sc];
+        const va=(ta==null||isNaN(ta))?(sa?Infinity:-Infinity):ta;
+        const vb=(tb==null||isNaN(tb))?(sa?Infinity:-Infinity):tb;
+        return sa?va-vb:vb-va;
+      });
+    }
+  }
+  const body=groups.map((g,i)=>{
+    const open=ok.has(g.k)||(ok.size===0&&i===0),sel=g.k===ctr;
+    const t=tot(g.rows),lbl=sel?g.lbl+" ●":g.lbl;
+    const ls=sel?"font-weight:700;color:#2563eb":"font-weight:700";
+    const sum=`<div class="row camp"><div class="lc" style="${ls}"><span class="arr"></span>${lbl}</div>${cells(t,"rc",ls)}</div>`;
+    let sr;
+    if(g.dg)           sr=srt(g.rows);
+    else if(g.sub==="install_date") sr=sc?srt(g.rows):[...g.rows].sort((a,b)=>a.install_date<b.install_date?-1:1);
+    else               sr=sc?srt(g.rows):[...g.rows].sort((a,b)=>(b.cost||0)-(a.cost||0));
+    const subs=sr.map(r=>{
+      const sk=r[g.sub],isl=sk===ctr,ss=isl?"color:#2563eb;font-weight:600":"";
+      return`<div class="row sub"><div class="lcs" style="${ss}">${isl?sk+" ●":sk}</div>${cells(r,"rcs",isl?"color:#2563eb":"")}</div>`;
+    }).join("");
+    return`<details data-k="${g.k}"${open?" open":""}><summary>${sum}</summary>${subs}</details>`;
+  }).join("");
+  document.getElementById("root").innerHTML=hdr+body;
+}
+window.hs=function(col){if(col===sc){sa=!sa;}else{sc=col;sa=false;}render();};
+render();
+})();
+</script></body></html>"""
 
 
-def _fv(val, fmt: str) -> str:
-    try:
-        return "—" if pd.isna(val) else fmt.format(float(val))
-    except Exception:
-        return "—"
-
-
-def _metric_cells(
-    series: pd.Series, bold: bool = False, blue: bool = False, sub: bool = False
-) -> str:
-    cls = "bcsr" if sub else "bcr"
-    extra = ("font-weight:700;" if bold else "") + ("color:#2563eb;" if blue else "")
-    style = f' style="{extra}"' if extra else ""
-    out = ""
-    for key, fmt, _ in _TABLE_COLS:
-        v = series.get(key, np.nan)
-        out += f'<div class="{cls}"{style}>{_fv(v, fmt)}</div>'
-    return out
-
-
-def _build_breakdown_html(
-    agg: pd.DataFrame,
-    agg_adset: pd.DataFrame,
-    center,
-    campaign_order: list,
-    breakdown_mode: str,
-) -> str:
-    center_str = str(center)
-
-    first_col_label = {
-        "Campaign → Adset": "CAMPAIGN / ADSET",
-        "Campaign → Date": "CAMPAIGN / DATE",
-        "Date → Campaign": "DATE / CAMPAIGN",
-    }.get(breakdown_mode, "CAMPAIGN / DATE")
-
-    hdr = (
-        '<div class="brow" style="border-bottom:2px solid #ddd;background:#fafafa;">'
-        f'<div class="bc" style="color:#888;font-size:0.78em;font-weight:700;text-transform:uppercase">{first_col_label}</div>'
-        + "".join(
-            f'<div class="bcr" style="color:#888;font-size:0.78em;font-weight:700;text-transform:uppercase">{lbl}</div>'
-            for _, _, lbl in _TABLE_COLS
-        )
-        + "</div>"
-    )
-
-    body = ""
-
-    if breakdown_mode == "Campaign → Adset":
-        for i, campaign in enumerate(campaign_order):
-            grp = agg_adset[agg_adset["campaign"] == campaign]
-            if grp.empty:
-                continue
-            totals = compute_rates(grp[BASE_METRIC_COLS].sum().to_frame().T).iloc[0]
-
-            summary = (
-                '<div class="brow" style="background:#f5f5f5;border-bottom:1px solid #ddd;">'
-                f'<div class="bc" style="font-weight:700"><span class="arrow"></span>{campaign}</div>'
-                + _metric_cells(totals, bold=True)
-                + "</div>"
-            )
-
-            adsets_html = ""
-            for _, row in grp.sort_values("cost", ascending=False).iterrows():
-                adsets_html += (
-                    '<div class="brow" style="border-bottom:1px solid #f0f0f0;">'
-                    f'<div class="bcs">{row["ad"]}</div>' + _metric_cells(row, sub=True) + "</div>"
-                )
-
-            open_attr = "open" if i == 0 else ""
-            body += f"<details {open_attr}><summary>{summary}</summary>{adsets_html}</details>"
-
-    elif breakdown_mode == "Campaign → Date":
-        for i, campaign in enumerate(campaign_order):
-            grp = agg[agg["campaign"] == campaign]
-            totals = compute_rates(grp[BASE_METRIC_COLS].sum().to_frame().T).iloc[0]
-
-            summary = (
-                '<div class="brow" style="background:#f5f5f5;border-bottom:1px solid #ddd;">'
-                f'<div class="bc" style="font-weight:700"><span class="arrow"></span>{campaign}</div>'
-                + _metric_cells(totals, bold=True)
-                + "</div>"
-            )
-
-            dates_html = ""
-            for _, row in grp.sort_values("install_date").iterrows():
-                ds = str(row["install_date"])
-                sel = ds == center_str
-                label = f"{ds} ●" if sel else ds
-                extra = 'style="color:#2563eb;font-weight:600;"' if sel else ""
-                dates_html += (
-                    '<div class="brow" style="border-bottom:1px solid #f0f0f0;">'
-                    f'<div class="bcs" {extra}>{label}</div>'
-                    + _metric_cells(row, blue=sel, sub=True)
-                    + "</div>"
-                )
-
-            open_attr = "open" if i == 0 else ""
-            body += f"<details {open_attr}><summary>{summary}</summary>{dates_html}</details>"
-
-    else:  # Date → Campaign
-        for date, grp in agg.groupby("install_date"):
-            ds = str(date)
-            sel = ds == center_str
-            totals = compute_rates(grp[BASE_METRIC_COLS].sum().to_frame().T).iloc[0]
-            label = f"{ds} ●" if sel else ds
-            extra = 'style="color:#2563eb;"' if sel else ""
-
-            summary = (
-                '<div class="brow" style="background:#f5f5f5;border-bottom:1px solid #ddd;">'
-                f'<div class="bc" style="font-weight:700;" {extra}><span class="arrow"></span>{label}</div>'
-                + _metric_cells(totals, bold=True, blue=sel)
-                + "</div>"
-            )
-
-            campaigns_html = ""
-            rank = {c: i for i, c in enumerate(campaign_order)}
-            grp = grp.copy()
-            grp["_rank"] = grp["campaign"].map(rank).fillna(len(rank))
-            grp = grp.sort_values("_rank").drop(columns="_rank")
-            for _, row in grp.iterrows():
-                campaigns_html += (
-                    '<div class="brow" style="border-bottom:1px solid #f0f0f0;">'
-                    f'<div class="bcs">{row["campaign"]}</div>'
-                    + _metric_cells(row, sub=True)
-                    + "</div>"
-                )
-
-            open_attr = "open" if sel else ""
-            body += f"<details {open_attr}><summary>{summary}</summary>{campaigns_html}</details>"
-
-    return (
-        _BREAKDOWN_STYLE
-        + '<div class="bkd" style="border:1px solid #e0e0e0;border-radius:8px;overflow:hidden;margin-top:4px;">'
-        + hdr
-        + body
-        + "</div>"
-    )
+def _build_interactive_table_html(data_json: str) -> str:
+    return _TABLE_HTML_TMPL.replace("__DATA__", data_json).replace("__GRID__", _GRID_COLS)
 
 
 def _show_campaign_breakdown(
@@ -439,7 +406,7 @@ def _show_campaign_breakdown(
     networks: list,
     platforms: list,
     countries: list,
-    center=None,  # set when triggered by a chart click (used for label + highlight)
+    center=None,
 ) -> None:
     window_df = apply_filters(df_raw, networks, platforms, countries)
     window_df = window_df[(window_df["install_date"] >= lo) & (window_df["install_date"] <= hi)]
@@ -450,7 +417,7 @@ def _show_campaign_breakdown(
 
     agg = window_df.groupby(["campaign", "install_date"], as_index=False)[BASE_METRIC_COLS].sum()
     agg = compute_rates(agg)
-    agg["install_date"] = agg["install_date"].dt.date
+    agg["install_date"] = agg["install_date"].dt.date.astype(str)
 
     agg_adset = window_df.groupby(["campaign", "ad"], as_index=False)[BASE_METRIC_COLS].sum()
     agg_adset = compute_rates(agg_adset)
@@ -483,10 +450,32 @@ def _show_campaign_breakdown(
             label_visibility="collapsed",
         )
 
-    st.markdown(
-        _build_breakdown_html(agg, agg_adset, center, campaign_order, breakdown_mode),
-        unsafe_allow_html=True,
+    data = {
+        "agg": agg.where(pd.notnull(agg), None).to_dict(orient="records"),
+        "agg_adset": agg_adset.where(pd.notnull(agg_adset), None).to_dict(orient="records"),
+        "campaign_order": campaign_order,
+        "breakdown_mode": breakdown_mode,
+        "center": str(center) if center else None,
+        "table_cols": [{"key": k, "fmt": f, "lbl": l} for k, f, l in _TABLE_COLS],
+    }
+    data_json = json.dumps(data).replace("</script>", r"<\/script>")
+
+    if breakdown_mode == "Campaign → Adset":
+        n_first = (
+            len(agg_adset[agg_adset["campaign"] == campaign_order[0]]) if campaign_order else 0
+        )
+    elif breakdown_mode == "Campaign → Date":
+        n_first = len(agg[agg["campaign"] == campaign_order[0]]) if campaign_order else 0
+    else:
+        n_first = len(campaign_order)
+    n_groups = (
+        agg["install_date"].nunique()
+        if breakdown_mode == "Date → Campaign"
+        else len(campaign_order)
     )
+    height = max(60 + n_groups * 46 + n_first * 36 + 60, 300)
+
+    st.components.v1.html(_build_interactive_table_html(data_json), height=height)
 
     net_str = " · ".join(networks) if networks else "all networks"
     plat_str = " · ".join(platforms) if platforms else "all platforms"
