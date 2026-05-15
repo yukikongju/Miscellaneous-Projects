@@ -1,0 +1,27 @@
+[project]
+name = "plusgradeassignment"
+version = "0.1.0"
+description = "Plusgrade Data Scientist Assignment for Emulie Chhor"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "ipython<9.0",
+    "jupyter>=1.1.1",
+    "lightgbm>=4.0",
+    "matplotlib>=3.10.9",
+    "mlflow==2.22.0",
+    "notebook>=7.5.6",
+    "numpy>=1.26",
+    "optuna>=4.8.0",
+    "pandas>=2.3.3",
+    "scikit-learn>=1.8.0",
+    "scikit-optimize>=0.9",
+    "scipy>=1.14",
+    "seaborn>=0.13",
+    "setuptools<82",
+    "shap>=0.51.0",
+    "statsmodels>=0.14.6",
+    "xgboost>=3.2.0",
+    "ydata-profiling>=4.12.2",
+    "yellowbrick>=1.5",
+]
