@@ -1,0 +1,14 @@
+[project]
+name = "frisbeesemanticsegmentation"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "inference[gaze,sam,yolo-world]>=1.2.3",
+    "pytesseract>=0.3.13",
+    "rfdetr>=1.6.4",
+    "supervision>=0.27.0.post2",
+    "torch>=2.11.0",
+    "torchvision>=0.26.0",
+]
