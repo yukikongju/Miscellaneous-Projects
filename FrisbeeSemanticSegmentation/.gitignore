@@ -1,0 +1,3 @@
+*.pth
+*/*.pth
+src/__pycache__/*

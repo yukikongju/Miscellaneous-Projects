@@ -1,6 +1,7 @@
 """
 Notes:
 - RF-DETR outputs 1-indexed class IDs, where as COCO is 0-indexed
+- Type of fields: (1) soccer field (2) turf with yard marks (3)
 """
 
 import argparse
@@ -74,6 +75,74 @@ def draw_right_pane(frame, detections):
 
     ## TODO: draw field on canvas
 
+    ## ---- Find polygon around grass
+    hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+    lower_green = np.array([35, 40, 40])
+    upper_green = np.array([90, 255, 255])
+
+    field_mask = cv2.inRange(hsv, lower_green, upper_green)
+
+    # Clean mask
+    kernel = np.ones((15, 15), np.uint8)
+    field_mask = cv2.morphologyEx(field_mask, cv2.MORPH_CLOSE, kernel)
+    field_mask = cv2.morphologyEx(field_mask, cv2.MORPH_OPEN, kernel)
+
+    # Find biggest green region
+    contours, _ = cv2.findContours(field_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+    field_contour = max(contours, key=cv2.contourArea)
+
+    # Approximate boundary polygon
+    epsilon = 0.02 * cv2.arcLength(field_contour, True)
+    field_poly = cv2.approxPolyDP(field_contour, epsilon, True)
+    cv2.drawContours(canvas, [field_poly], -1, (0, 0, 255), 3)
+
+    ## ---- Find white lines on the field
+    grass_poly_mask = np.zeros((h, w), dtype=np.uint8)
+    cv2.fillPoly(grass_poly_mask, [field_poly.astype(np.int32)], 255)
+
+    masked = cv2.bitwise_and(frame, frame, mask=field_mask)
+
+    hsv = cv2.cvtColor(masked, cv2.COLOR_BGR2HSV)
+
+    # white field markings
+    lower_white = np.array([0, 0, 160])
+    upper_white = np.array([180, 80, 255])
+
+    white_mask = cv2.inRange(hsv, lower_white, upper_white)
+    white_mask = cv2.bitwise_and(white_mask, white_mask, mask=grass_poly_mask)
+
+    # 3. Remove noise
+    small_kernel = np.ones((3, 3), np.uint8)
+    white_mask = cv2.morphologyEx(white_mask, cv2.MORPH_OPEN, small_kernel)
+
+    # 4. Interpolate/connect broken white lines
+    horizontal_kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (35, 3))
+    vertical_kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 35))
+
+    connected_h = cv2.morphologyEx(white_mask, cv2.MORPH_CLOSE, horizontal_kernel)
+    connected_v = cv2.morphologyEx(white_mask, cv2.MORPH_CLOSE, vertical_kernel)
+
+    connected_lines = cv2.bitwise_or(connected_h, connected_v)
+
+    # 5. Keep result inside field only
+    connected_lines = cv2.bitwise_and(connected_lines, connected_lines, mask=grass_poly_mask)
+
+    edges = cv2.Canny(white_mask, 50, 150)
+
+    lines = cv2.HoughLinesP(
+        edges,
+        1,
+        np.pi / 180,
+        threshold=80,
+        minLineLength=80,
+        maxLineGap=30,
+    )
+    for points in lines:
+        x1, y1, x2, y2 = points[0]
+        cv2.line(canvas, (x1, y1), (x2, y2), (255, 0, 0), 2)
+        #  lines_list.append([(x1, y1), (x2, y2)])
+
     ## TODO: field homography -> https://www.geeksforgeeks.org/python/line-detection-python-opencv-houghline-method/
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     edges = cv2.Canny(gray, 50, 150, apertureSize=3)
@@ -88,11 +157,15 @@ def draw_right_pane(frame, detections):
         maxLineGap=10,  # Max allowed gap between line for joining them
     )
 
+    ## TODO: filtering out points to only get border
+
     # Iterate over points
-    for points in lines:
-        x1, y1, x2, y2 = points[0]
-        cv2.line(canvas, (x1, y1), (x2, y2), (0, 255, 0), 2)
-        lines_list.append([(x1, y1), (x2, y2)])
+    show_hough = True
+    if show_hough:
+        for points in lines:
+            x1, y1, x2, y2 = points[0]
+            cv2.line(canvas, (x1, y1), (x2, y2), (0, 255, 0), 2)
+            lines_list.append([(x1, y1), (x2, y2)])
 
     return canvas
 
