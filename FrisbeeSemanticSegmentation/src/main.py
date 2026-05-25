@@ -70,21 +70,19 @@ def draw_left_pane(frame, detections):
     return annotated_frame
 
 
-def draw_right_pane(frame, detections):
+def draw_right_pane(h: int, w: int, frame_edges, field_polygon, field_white_lines):
     """
     Bird's eye view of the field via homography.
     Falls back to the last known good frame when detection fails.
     """
-    h, w = frame.shape[:2]
     canvas = np.zeros((h, w, 3), dtype=np.uint8)
 
-    for x1, y1, x2, y2 in _get_frame_edges(frame):
+    for x1, y1, x2, y2 in frame_edges:
         cv2.line(canvas, (x1, y1), (x2, y2), (0, 255, 0), 2)
 
-    box = _get_field_polygon(frame)
-    cv2.drawContours(canvas, [box], -1, (0, 0, 255), 3)
+    cv2.drawContours(canvas, [field_polygon], -1, (0, 0, 255), 3)
 
-    for x1, y1, x2, y2 in _get_field_white_lines(frame, box):
+    for x1, y1, x2, y2 in field_white_lines:
         cv2.line(canvas, (x1, y1), (x2, y2), (255, 0, 0), 2)
 
     return canvas
@@ -112,9 +110,17 @@ def main():
         img = Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
         detections = model.predict(img, threshold=args.detection_threshold)
 
+        # ------------------------- FIELD DETECTION ---------------------------
+        frame_edges = _get_frame_edges(frame)
+        field_polygon = _get_field_polygon(frame)
+        field_white_lines = _get_field_white_lines(frame, field_polygon)
+
+        # ------------------------ PLAYER DETECTION ---------------------------
+
         # ------------------------- VISUALIZATION ---------------------------
+        h, w = frame.shape[:2]
         left = draw_left_pane(frame, detections)
-        right = draw_right_pane(frame, detections)
+        right = draw_right_pane(h, w, frame_edges, field_polygon, field_white_lines)
         combined = np.hstack([left, right])
         cv2.imshow("FR-DETR Real-Time |  Left: clip   Right: positions", combined)
 
