@@ -5,10 +5,17 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "av>=14.2.0",
     "inference[gaze,sam,yolo-world]>=1.2.3",
+    "jupyter>=1.1.1",
+    "matplotlib>=3.10.8",
+    "notebook>=7.5.6",
     "pytesseract>=0.3.13",
     "rfdetr>=1.6.4",
+    "scikit-learn>=1.8.0",
     "supervision>=0.27.0.post2",
     "torch>=2.11.0",
     "torchvision>=0.26.0",
+    "transformers>=5.2.0",
+    "umap-learn>=0.5.12",
 ]
