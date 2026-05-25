@@ -18,6 +18,7 @@ from field_homography import (
     _get_field_white_lines,
     _get_frame_edges,
 )
+from player_detection import _get_player_bounding_boxes
 
 COCO_PERSON_CLASS_ID = 1
 COCO_FRISBEE_CLASS_ID = 34
@@ -115,11 +116,12 @@ def main():
         field_polygon = _get_field_polygon(frame)
         field_white_lines = _get_field_white_lines(frame, field_polygon)
 
-        # ------------------------ PLAYER DETECTION ---------------------------
+        # ------------------------ PLAYER IN-FIELD DETECTION ---------------------------
+        player_detections = _get_player_bounding_boxes(detections, field_polygon)
 
         # ------------------------- VISUALIZATION ---------------------------
         h, w = frame.shape[:2]
-        left = draw_left_pane(frame, detections)
+        left = draw_left_pane(frame, player_detections)
         right = draw_right_pane(h, w, frame_edges, field_polygon, field_white_lines)
         combined = np.hstack([left, right])
         cv2.imshow("FR-DETR Real-Time |  Left: clip   Right: positions", combined)

@@ -4,6 +4,7 @@ from typing import Optional
 
 
 def _get_field_polygon(frame: np.ndarray) -> np.ndarray:
+    ## FIXME: rectangle shouldn't be changing a lot between frames
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
     lower_green = np.array([35, 40, 40])
     upper_green = np.array([90, 255, 255])
