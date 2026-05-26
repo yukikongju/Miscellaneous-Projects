@@ -2,6 +2,8 @@ import cv2
 import numpy as np
 from typing import Optional
 
+from constants import UFA_BOTTOM_STREAM_OVERLAY_HEIGHT
+
 
 def _get_field_polygon(frame: np.ndarray) -> np.ndarray:
     ## FIXME: rectangle shouldn't be changing a lot between frames
@@ -9,6 +11,10 @@ def _get_field_polygon(frame: np.ndarray) -> np.ndarray:
     lower_green = np.array([35, 40, 40])
     upper_green = np.array([90, 255, 255])
     field_mask = cv2.inRange(hsv, lower_green, upper_green)
+    #  print(field_mask.shape)
+
+    # remove ufa bottom overlay from frame
+    field_mask[-UFA_BOTTOM_STREAM_OVERLAY_HEIGHT:, :] = 0
 
     # clean mask
     kernel = np.ones((15, 15), np.uint8)
@@ -39,8 +45,8 @@ def _angle_diff(a1: float, a2: float) -> float:
 def _get_field_white_lines(
     frame: np.ndarray,
     field_poly: np.ndarray,
-    angle_tol_deg: float = 15.0,
-    min_length: float = 140.0,
+    angle_tol_deg: float = 85.0,
+    min_length: float = 80.0,
 ) -> list[tuple]:
     h, w = frame.shape[:2]
 
