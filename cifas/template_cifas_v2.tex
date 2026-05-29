@@ -1,0 +1,154 @@
+% ============================================================
+%  template_cifas_v2.tex  —  Style CIFAS 2017 (sobre, académique)
+%  Jour + Bloc dans la marge gauche (texte rotatif + boîte)
+%  Corps : serif justifié avec alinéa, titres non gras
+% ============================================================
+\documentclass[11pt,a4paper,oneside]{article}
+
+% ── Langue & police ─────────────────────────────────────────
+\usepackage{fontspec}
+\usepackage{polyglossia}
+\setmainlanguage{$if(lang)$$lang$$else$french$endif$}
+$if(mainfont)$\setmainfont[AutoFakeBold=2, AutoFakeSlant=0.2]{$mainfont$}$endif$
+$if(sansfont)$\setsansfont[AutoFakeBold=2]{$sansfont$}$endif$
+
+% ── Mise en page ────────────────────────────────────────────
+\usepackage{geometry}
+\geometry{
+  a4paper,
+  top=22mm, bottom=22mm,
+  inner=20mm, outer=20mm,
+  left=36mm,            % marge gauche pour la sidebar
+  marginparwidth=20mm,
+  marginparsep=4mm,
+  headsep=7mm
+}
+\reversemarginpar         % marginnotes à gauche (oneside)
+
+% ── Couleurs ────────────────────────────────────────────────
+\usepackage{xcolor}
+\definecolor{cifasBleu}{RGB}{0,82,155}
+\definecolor{cifasGris}{RGB}{90,90,90}
+
+% ── Marge : jour rotatif + bloc encadré ─────────────────────
+\usepackage{marginnote}
+\usepackage{rotating}
+
+% Jour → texte rotatif dans la marge
+\newcommand{\cifasDayNote}[1]{%
+  \marginnote{%
+    \rotatebox{90}{%
+      \hspace{0pt}\footnotesize\sffamily\bfseries\MakeUppercase{#1}\hspace{0pt}%
+    }%
+  }[2pt]%
+}
+
+% Bloc → boîte dans la marge
+\newcommand{\cifasBlocNote}[1]{%
+  \marginnote{%
+    {\setlength{\fboxsep}{4pt}\fbox{\footnotesize\sffamily\bfseries\MakeUppercase{#1}}}%
+  }[2pt]%
+}
+
+% ── En-tête / pied de page ──────────────────────────────────
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\fancyhead[L]{%
+  \footnotesize\thepage\quad
+  \textsc{\footnotesize Congrès International Francophone sur l'Agression Sexuelle 2026}%
+}
+\fancyfoot[C]{\footnotesize\thepage}
+
+% ── Styles de titres ────────────────────────────────────────
+\usepackage{titlesec}
+
+% # Section = Titre du document  →  supprimé (ne pas afficher)
+\newcommand{\cifasSuppressTitle}[1]{}
+\titleformat{\section}[block]
+  {}{}
+  {0pt}{\cifasSuppressTitle}
+\titlespacing*{\section}{0pt}{0pt}{0pt}
+
+% ## Subsection = Jour / Bloc  →  boîte dans la marge + séparateur
+\newcommand{\cifasSubsecBloc}[1]{%
+  \cifasBlocNote{#1}%
+  \vspace{6pt}%
+  {\color{cifasGris}\hrule height 0.4pt}%
+  \vspace{6pt}%
+}
+\titleformat{\subsection}[block]
+  {}{}
+  {0pt}{\cifasSubsecBloc}[\vspace{0pt}]
+\titlespacing{\subsection}{0pt}{22pt}{10pt}
+
+% #### Subsubsection = COMMUNICATIONS LIBRES / SYMPOSIUMS  →  caps gras taille normale
+\newcommand{\cifasSubsubHead}[1]{%
+  {\sffamily\large\bfseries\MakeUppercase{#1}}%
+}
+\titleformat{\subsubsection}[block]
+  {}{}
+  {0pt}{\cifasSubsubHead}
+\titlespacing{\subsubsection}{0pt}{10pt}{4pt}
+
+% ##### Paragraph = Bloc 2.A | Salle...  →  grand serif gras
+\titleformat{\paragraph}[block]
+  {\rmfamily\Large\bfseries}{}
+  {0pt}{}[\vspace{2pt}]
+\titlespacing{\paragraph}{0pt}{8pt}{3pt}
+
+% ###### Subparagraph = sous-titre discret
+\titleformat{\subparagraph}[block]
+  {\rmfamily\small\itshape}{}
+  {0pt}{}
+\titlespacing{\subparagraph}{0pt}{2pt}{2pt}
+
+% ── Corps ───────────────────────────────────────────────────
+\usepackage{indentfirst}
+\setlength{\parindent}{1.5em}
+\setlength{\parskip}{2pt}
+\usepackage{microtype}
+
+% ── Auteurs : nom en gras, institution en romain léger ──────
+% Géré directement dans le Markdown : **Nom**, Institution
+
+% ── Blockquote = description  →  corps indenté, pas de boîte ─
+\renewenvironment{quote}{%
+  \list{}{\leftmargin=1.5em\rightmargin=0em\topsep=2pt\parsep=0pt}%
+  \item\relax\rmfamily\normalsize
+}{%
+  \endlist
+}
+
+% ── Listes ──────────────────────────────────────────────────
+\usepackage{enumitem}
+\setlist{noitemsep, topsep=2pt}
+\providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+% ── Liens ───────────────────────────────────────────────────
+\usepackage{hyperref}
+$if(colorlinks)$
+\hypersetup{colorlinks=true, linkcolor=cifasBleu, urlcolor=cifasBleu}
+$endif$
+
+% ── Divers pandoc ───────────────────────────────────────────
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{array}
+
+% ════════════════════════════════════════════════════════════
+\begin{document}
+\pagestyle{fancy}
+
+$if(toc)$
+{\hypersetup{linkcolor=black}
+\setcounter{tocdepth}{$if(toc-depth)$$toc-depth$$else$2$endif$}
+\tableofcontents
+\clearpage}
+$endif$
+
+$body$
+
+\end{document}

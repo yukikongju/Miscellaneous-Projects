@@ -1,0 +1,177 @@
+% ============================================================
+%  cifas2026_pandoc_template.tex
+%  Template Pandoc — CIFAS 2026
+%  Inspiré de la brochure édition 2017
+%  Utilisé automatiquement par convert_cifas2026.sh
+% ============================================================
+\documentclass[$if(fontsize)$$fontsize$,$endif$$if(papersize)$$papersize$paper,$endif$twoside]{article}
+
+% ── Encodage & langue ────────────────────────────────────────
+\usepackage{fontspec}
+\usepackage{polyglossia}
+\setmainlanguage{$if(lang)$$lang$$else$french$endif$}
+\usepackage{microtype}
+
+% ── Mise en page ─────────────────────────────────────────────
+\usepackage{geometry}
+\geometry{$if(geometry)$$geometry$$else$top=18mm,bottom=18mm,inner=18mm,outer=14mm,headsep=8mm$endif$}
+\setlength{\columnsep}{6mm}
+
+% ── Couleurs ─────────────────────────────────────────────────
+\usepackage{xcolor}
+\definecolor{cifasBleu}{RGB}{0,82,155}
+\definecolor{cifasGris}{RGB}{90,90,90}
+\definecolor{cifasLightBleu}{RGB}{210,228,248}
+\definecolor{cifasOrange}{RGB}{220,100,30}
+
+% ── Polices ──────────────────────────────────────────────────
+$if(mainfont)$\setmainfont{$mainfont$}$endif$
+$if(sansfont)$\setsansfont{$sansfont$}$endif$
+
+% ── Graphiques & boîtes ──────────────────────────────────────
+\usepackage{tikz}
+\usepackage{graphicx}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins, breakable}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{hyperref}
+$if(colorlinks)$
+\hypersetup{colorlinks=true, linkcolor={cifasBleu}, urlcolor={cifasBleu}}
+$endif$
+
+% ── En-tête / pied de page ───────────────────────────────────
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\fancyhead[LE]{%
+  \begin{tikzpicture}[remember picture, overlay]
+    \fill[cifasBleu] (current page.north west) rectangle ++(5mm,-\paperheight);
+  \end{tikzpicture}%
+  \hspace{6mm}\footnotesize\sffamily\color{cifasGris}%
+  \textbf{CONGRÈS INTERNATIONAL FRANCOPHONE SUR L'AGRESSION SEXUELLE 2026}}
+\fancyhead[RO]{%
+  \begin{tikzpicture}[remember picture, overlay]
+    \fill[cifasBleu] (current page.north east) rectangle ++(-5mm,-\paperheight);
+  \end{tikzpicture}%
+  \footnotesize\sffamily\color{cifasGris}%
+  \textbf{CONGRÈS INTERNATIONAL FRANCOPHONE SUR L'AGRESSION SEXUELLE 2026}\hspace{6mm}}
+\fancyfoot[LE,RO]{\sffamily\small\thepage}
+
+% ── Styles de titres ─────────────────────────────────────────
+\usepackage{titlesec}
+
+% Helpers pour éviter #1 dans \titleformat (conflit titlesec + xcolor)
+\newcommand{\cifasSectionBox}[1]{%
+  \colorbox{cifasBleu}{\parbox{\dimexpr\linewidth-2\fboxsep\relax}{\strut\color{white}\sffamily\LARGE\bfseries#1\strut}}%
+}
+\newcommand{\cifasSubsectionHead}[1]{%
+  {\color{cifasBleu}\rule{\linewidth}{0.5pt}}\\[2pt]%
+  {\sffamily\large\bfseries\color{cifasOrange}#1}%
+}
+\newcommand{\cifasSubsubsectionHead}[1]{%
+  {\sffamily\normalsize\bfseries\color{cifasBleu}#1}%
+}
+
+% Section = Jour (## LUNDI…)
+\titleformat{\section}[block]
+  {}{}
+  {0pt}{\cifasSectionBox}[\vspace{2pt}]
+\titlespacing{\section}{0pt}{14pt}{6pt}
+
+% Subsection = bloc horaire (### 9 h 00…)
+\titleformat{\subsection}[block]
+  {}{}
+  {0pt}{\cifasSubsectionHead}[\vspace{1pt}]
+\titlespacing{\subsection}{0pt}{10pt}{4pt}
+
+% Subsubsection = salle/type (#### Bloc 1.A…)
+\titleformat{\subsubsection}[block]
+  {}{}
+  {0pt}{\cifasSubsubsectionHead}
+\titlespacing{\subsubsection}{0pt}{6pt}{2pt}
+
+% ── Boîtes ───────────────────────────────────────────────────
+\tcbset{
+  cifasBox/.style={
+    enhanced, breakable,
+    colback=white, colframe=cifasGris!40,
+    arc=1pt, boxrule=0.5pt,
+    left=6pt, right=6pt, top=4pt, bottom=4pt,
+    borderline west={2pt}{0pt}{cifasBleu},
+  },
+  cifasPlenary/.style={
+    enhanced, breakable,
+    colback=cifasLightBleu, colframe=cifasBleu,
+    arc=2pt, boxrule=0.8pt,
+    left=6pt, right=6pt, top=4pt, bottom=4pt,
+    fonttitle=\sffamily\bfseries\color{white},
+    attach boxed title to top left={yshift=-2mm,xshift=4mm},
+    boxed title style={colback=cifasBleu,arc=1pt},
+  },
+  cifasPause/.style={
+    enhanced, colback=cifasGris!15, colframe=cifasGris!30,
+    arc=1pt, boxrule=0.4pt,
+    left=5pt, right=5pt, top=2pt, bottom=2pt,
+  }
+}
+
+% ── blockquote → boîte citation ──────────────────────────────
+\renewenvironment{quote}{%
+  \begin{tcolorbox}[cifasBox]
+  \footnotesize\itshape
+}{%
+  \end{tcolorbox}
+}
+
+% ── Paramètres para ──────────────────────────────────────────
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{4pt}
+\providecommand{\tightlist}{\setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+% ── Table des matières ───────────────────────────────────────
+\usepackage{tocloft}
+\renewcommand{\cftsecfont}{\sffamily\bfseries\color{cifasBleu}}
+\renewcommand{\cftsecpagefont}{\sffamily\color{cifasBleu}}
+
+% ════════════════════════════════════════════════════════════
+\begin{document}
+
+% ── Page de couverture ───────────────────────────────────────
+\thispagestyle{empty}
+\begin{tikzpicture}[remember picture, overlay]
+  \fill[cifasBleu] (current page.south west) rectangle (current page.north east);
+  \fill[white] (current page.south west) rectangle ([yshift=60mm]current page.south east);
+  \node[text=white, font=\sffamily\fontsize{30}{34}\selectfont\bfseries,
+        text width=150mm, align=center]
+    at ([yshift=28mm]current page.center)
+    {$if(title)$$title$$else$X\textsuperscript{e} Congrès International Francophone sur l'Agression Sexuelle$endif$};
+  \node[text=white, font=\sffamily\Large]
+    at ([yshift=5mm]current page.center) {CIFAS 2026};
+  \node[text=white, font=\sffamily\large]
+    at ([yshift=-12mm]current page.center)
+    {15 – 18 juin 2026 \,$$\cdot$$\, Montréal, Québec};
+  \draw[white, line width=1.5pt]
+    ([yshift=-22mm,xshift=-55mm]current page.center)
+    -- ([yshift=-22mm,xshift=55mm]current page.center);
+  \node[text=cifasBleu, font=\sffamily\bfseries\large]
+    at ([yshift=35mm]current page.south) {Programme scientifique};
+\end{tikzpicture}
+\clearpage
+
+% ── Table des matières ───────────────────────────────────────
+$if(toc)$
+{\hypersetup{linkcolor=cifasBleu}
+\setcounter{tocdepth}{$toc-depth$}
+\tableofcontents
+\clearpage}
+$endif$
+
+% ── Corps du document (généré par Pandoc) ────────────────────
+$body$
+
+\end{document}
