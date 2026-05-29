@@ -1,1 +1,3 @@
 playground/ipynb_checkpoints/*
+.env
+src/__pycache__/*

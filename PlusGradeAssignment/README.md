@@ -1,4 +1,4 @@
-# PlusGrade Data Scientist Technical Assignment - by Emulie Chhor
+# PlusGrade Data Scientist Technical Assignment
 
 ## Usage
 
