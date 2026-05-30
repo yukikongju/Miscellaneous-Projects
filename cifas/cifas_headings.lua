@@ -9,6 +9,7 @@
 local PREAMBLE = [[
 \usepackage{xcolor}
 \providecolor{cifasGris}{RGB}{90,90,90}
+\usepackage[normalem]{ulem}
 \usepackage[framemethod=default]{mdframed}
 \ifx\cifasquote\undefined
 \newmdenv[
@@ -78,7 +79,7 @@ function Header(el)
             "\\addcontentsline{toc}{subsubsection}{" .. plain .. "}",
             "\\vspace{10pt}",
             "\\noindent{\\fontsize{14}{15}\\selectfont\\bfseries\\sffamily",
-            "  \\underline{" .. text .. "}}",
+            "  \\uline{" .. text .. "}}",
             "\\par\\vspace{5pt}",
         }, "\n"))
 

@@ -165,13 +165,48 @@ def fill(target_path: str, output_path: str, presentations: dict[str, dict]) -> 
             i += 1
             continue
 
+        # ── Ligne de salle en gras (sections étudiantes) → ##### heading
+        salle_m = re.match(r"^\*\*([^*]+)\*\*\s*\n?$", line)
+        if salle_m and not re.match(r"^\*\*#\d+", line):
+            result.append(f"##### {salle_m.group(1).strip()}\n")
+            i += 1
+            continue
+
+        # ── Format affiches : **#N** Titre — *auteurs* (tout sur une ligne) → ######
+        affiche_m = re.match(r"^\*\*#(\d+)\*\*\s+(.+)\s*\n?$", line)
+        if affiche_m:
+            numero = affiche_m.group(1)
+            full = affiche_m.group(2)
+            # Séparer titre et auteurs sur " — *"
+            parts = re.split(r"\s+—\s+\*", full, maxsplit=1)
+            titre = parts[0].strip()
+            inline_authors = parts[1].rstrip("*").strip() if len(parts) > 1 else ""
+
+            #  result.append(f"\n###### {titre} (#{numero})\n")
+            result.append(f"\n###### # {numero} {titre}\n")
+
+            p = presentations.get(numero, {})
+            auteurs = p.get("auteurs", [])
+            auteurs_str = format_authors(auteurs) if auteurs else inline_authors
+            #  result.append(f"\n\n*Auteurs*\n\n> {auteurs_str}\n")
+            result.append(f"\n\n---\n\n{auteurs_str}\n\n")
+            filled_authors += 1
+
+            desc = p.get("description", "")
+            if desc:
+                #  result.append(f"\n*Description*\n\n{as_blockquote(desc)}\n")
+                result.append(f"\n\nRÉSUMÉ\n\n{as_blockquote(desc)}\n\n")
+                filled_desc += 1
+
+            i += 1
+            continue
+
         # ── Ligne de titre : **#N Titre de la présentation** → ######
         title_m = re.match(r"\*\*#(\d+)\s+(.+?)\*\*\s*\n?", line)
         if title_m:
             numero = title_m.group(1)
             titre = title_m.group(2).strip()
 
-            # Heading ###### avec le numéro entre parenthèses
             #  result.append(f"\n###### {titre} (#{numero})\n")
             result.append(f"\n###### # {numero} {titre}\n")
             i += 1

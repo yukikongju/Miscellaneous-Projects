@@ -16,6 +16,21 @@
     --pdf-engine=lualatex --toc \
     outputs/outline.md -o tests/demo.pdf
 
+> pandoc --variable "geometry=margin=1.2in" \
+    --variable mainfont="Palatino" \
+    --variable sansfont="Palatino" \
+    --variable monofont="Palatino" \
+    --lua-filter cifas_headings.lua \
+    --pdf-engine=lualatex --toc \
+    outputs/outline.md -o tests/demo.pdf
+
+> pandoc --variable "geometry=margin=1.2in" \
+    --variable mainfont="Palatino" \
+    --variable sansfont="Palatino" \
+    --variable monofont="Palatino" \
+    --lua-filter cifas_headings.lua \
+    --pdf-engine=lualatex --toc \
+    outputs/outline_test5.md -o tests/demo.pdf
 
 ----
 
