@@ -6,6 +6,20 @@
 
 > pandoc old_outline.md -o outline.pdf --pdf-engine=xelatex -V geometry:margin=2cm -V fontsize=11pt -V lang=fr -V mainfont="Arial Unicode MS"
 > pandoc outputs/outline.md -o outline.pdf --pdf-engine=xelatex -V geometry:margin=2cm -V fontsize=11pt -V lang=fr -V mainfont="Arial Unicode MS"
+> pandoc tests/demo.md --include-in-header fancyheaders.tex --pdf-engine=lualatex --toc -o tests/demo.pdf
+> pandoc -N --variable "geometry=margin=1.2in" --variable mainfont="Palatino" --variable sansfont="Helvetica" --variable monofont="Menlo" --variable fontsize=12pt tests/demo.md --pdf-engine=lualatex --toc -o tests/demo.pdf
+> pandoc --variable "geometry=margin=1.2in" --variable mainfont="Palatino" --variable sansfont="Palatino" --variable monofont="Palatino" --variable fontsize=12pt tests/demo.md --pdf-engine=lualatex --toc -o tests/demo.pdf
+
+>   pandoc --variable "geometry=margin=1.2in" \
+    --variable mainfont="Palatino" \
+    --lua-filter cifas_headings.lua \
+    --pdf-engine=lualatex --toc \
+    outputs/outline.md -o tests/demo.pdf
+
+
+----
+
+> pandoc --variable "geometry=margin=1.2in" --variable mainfont="Palatino" --variable sansfont="Palatino" --variable monofont="Palatino" --variable fontsize=12pt tests/demo.md --pdf-engine=lualatex --lua-filter filter.lua --toc -o tests/demo.pdf
 
 1. Script qui genere la programmation en bref a partir de l'horaire https://event.fourwaves.com/fr/cifas2026/horaire?date=2026-06-16
 2. Script qui obtient la description de tous les evenements https://event.fourwaves.com/fr/cifas2026/resumes  => `uv run python main.py`

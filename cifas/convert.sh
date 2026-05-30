@@ -24,6 +24,7 @@ pandoc \
   --output "$OUTPUT" \
   --pdf-engine=xelatex \
   --template="$TEMPLATE" \
+  --lua-filter=cifas_headings.lua \
   --toc \
   --toc-depth=2 \
   --number-sections \

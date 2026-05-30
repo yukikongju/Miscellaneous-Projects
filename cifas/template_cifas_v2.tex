@@ -92,11 +92,12 @@ $if(sansfont)$\setsansfont[AutoFakeBold=2]{$sansfont$}$endif$
   {0pt}{\cifasSubsubHead}
 \titlespacing{\subsubsection}{0pt}{10pt}{4pt}
 
-% ##### Paragraph = Bloc 2.A | Salle...  →  grand serif gras
+% ##### Paragraph = Titre de présentation  →  grand serif gras, toujours en bloc
+\newcommand{\cifasPresTitle}[1]{{\normalfont\Large\bfseries #1}\par\nobreak\vspace{3pt}}
 \titleformat{\paragraph}[block]
-  {\rmfamily\Large\bfseries}{}
-  {0pt}{}[\vspace{2pt}]
-\titlespacing{\paragraph}{0pt}{8pt}{3pt}
+  {}{}
+  {0pt}{\cifasPresTitle}
+\titlespacing*{\paragraph}{0pt}{10pt}{0pt}
 
 % ###### Subparagraph = sous-titre discret
 \titleformat{\subparagraph}[block]
@@ -113,13 +114,15 @@ $if(sansfont)$\setsansfont[AutoFakeBold=2]{$sansfont$}$endif$
 % ── Auteurs : nom en gras, institution en romain léger ──────
 % Géré directement dans le Markdown : **Nom**, Institution
 
-% ── Blockquote = description  →  corps indenté, pas de boîte ─
-\renewenvironment{quote}{%
-  \list{}{\leftmargin=1.5em\rightmargin=0em\topsep=2pt\parsep=0pt}%
-  \item\relax\rmfamily\normalsize
-}{%
-  \endlist
-}
+% ── Blockquote = description  →  filet gauche gris (via filtre Lua) ──────
+\usepackage[framemethod=default]{mdframed}
+\newmdenv[
+  topline=false, bottomline=false, rightline=false,
+  linecolor=cifasGris, linewidth=2pt,
+  skipabove=4pt, skipbelow=4pt,
+  innerleftmargin=10pt, innerrightmargin=0pt,
+  innertopmargin=2pt, innerbottommargin=2pt,
+]{cifasquote}
 
 % ── Listes ──────────────────────────────────────────────────
 \usepackage{enumitem}
