@@ -32,4 +32,14 @@ COUNTRY_CODE_MAP = {
     "India": "IN",
     "New Zealand": "NZ",
     "South Africa": "ZA",
+    "Greece": "GR",
+    "Hong Kong": "HK",
+    "Kenya": "KE",
+    "Puerto Rico": "PR",
+    "Albania": "AL",
+    "Aruba": "AW",
+    "Cabo Verde": "CV",
+    "Costa Rica": "CR",
 }
+
+MAX_DUA_PER_MONTH = 5

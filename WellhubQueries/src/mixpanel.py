@@ -1,3 +1,4 @@
+import ast
 import base64
 import json
 import os
@@ -49,6 +50,29 @@ def _parse_funnel_json(raw: dict) -> pd.DataFrame:
 
     df = pd.DataFrame(records, columns=["date", "country_code", "user_id", "create_record_wellhub"])
     return df.drop_duplicates(subset=["date", "user_id"]).reset_index(drop=True)
+
+
+def get_mixpanel_funnel_dataframe_from_json(data):
+    ## get breakdown columns name
+    levels_types_map = {}
+    for meta in data["meta"]["group_by_metadata"]:
+        unpack = list(meta["bookmark"].values())[0]
+        property_name = unpack["propertyName"]
+        property_type = unpack["propertyType"]
+        levels_types_map[property_name] = property_type
+    # num_levels = len(levels_types_map)
+    column_names = list(levels_types_map.keys())
+
+    ## flatten json
+    df = pd.json_normalize(data["data"])
+    df = df.drop(columns=[c for c in df.columns if "$overall" in c])
+    df = df.melt(var_name="key", value_name="value")
+    df[column_names] = df["key"].str.split(".", expand=True).iloc[:, 1:]
+    df["count"] = df["value"].apply(
+        lambda x: ast.literal_eval(x)[0]["count"] if isinstance(x, str) else x[0]["count"]
+    )
+    df = df.drop(columns=["key", "value"])
+    return df
 
 
 def load_funnel_data_from_path(filepath: str) -> pd.DataFrame:
@@ -116,7 +140,9 @@ class MixpanelAPI:
             return response.text
         return json.loads(response.text)
 
-    def query_funnel(self, funnel_id: int, from_date: str, to_date: str):
+    def query_funnel(
+        self, funnel_id: int, from_date: str, to_date: str, response_format: str = "csv"
+    ):
         """
         Fetch funnel data broken down by date, country, and user.
         Date format: YYYY-MM-DD (both inclusive).
@@ -128,8 +154,8 @@ class MixpanelAPI:
             f"&from_date={from_date}"
             f"&to_date={to_date}"
             f"&unit=day"
-            f"&on=properties%5B%22%24country_code%22%5D"
-            f"&group_by_user_id=true"
+            # f"&on=properties%5B%22%24country_code%22%5D"
+            # f"&group_by_user_id=true"
         )
         response = requests.get(url, headers=self.headers)
 
