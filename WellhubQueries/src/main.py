@@ -31,6 +31,7 @@ Usage
 """
 
 import argparse
+import logging
 import sys
 import os
 from pathlib import Path
@@ -39,15 +40,15 @@ from dotenv import load_dotenv
 sys.path.insert(0, str(Path(__file__).parent))
 
 from mixpanel import (
-    load_funnel_data_from_path,
-    load_funnel_data_from_mixpanel,
     MixpanelAPI,
     get_mixpanel_funnel_dataframe_from_json,
 )
-from wellhub_dua import build_df_users, build_df_monthly_audit, compute_revenue
+from wellhub_dua import build_df_monthly_audit, compute_revenue
 from constants import COUNTRY_CODE_MAP, MAX_DUA_PER_MONTH
 
 DATA_PATH = Path.home() / "Data/Wellhub/wellhub_funnel_data_20260401_20260430.json"
+
+log = logging.getLogger(__name__)
 
 
 def parse_args():
@@ -57,37 +58,58 @@ def parse_args():
     return parser.parse_args()
 
 
+def load_config() -> dict:
+    """Load and validate required environment variables."""
+    load_dotenv()
+    required = ("MIXPANEL_PROJECT_ID", "MIXPANEL_USERNAME", "MIXPANEL_PASSWORD")
+    config = {key: os.getenv(key) for key in required}
+    missing = [k for k, v in config.items() if not v]
+    if missing:
+        raise EnvironmentError(f"Missing required env vars: {', '.join(missing)}")
+    return config
+
+
 def main():
+    logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
     args = parse_args()
 
     ## Loading system environment from dotenv files
-    load_dotenv()
-    MIXPANEL_PROJECT_ID = os.getenv("MIXPANEL_PROJECT_ID")
-    MIXPANEL_USERNAME = os.getenv("MIXPANEL_USERNAME")
-    MIXPANEL_PASSWORD = os.getenv("MIXPANEL_PASSWORD")
-    FUNNEL_ID = 90364672
+    config = load_config()
+
+    FUNNEL_ID = 90364672  # TODO: add mixpanel link
 
     ## Data Extraction from Mixpanel
     print("=== Loading Mixpanel funnel data ===")
     mixpanel_api = MixpanelAPI(
-        project_id=MIXPANEL_PROJECT_ID, username=MIXPANEL_USERNAME, password=MIXPANEL_PASSWORD
+        project_id=config["MIXPANEL_PROJECT_ID"],
+        username=config["MIXPANEL_USERNAME"],
+        password=config["MIXPANEL_PASSWORD"],
     )
     response = mixpanel_api.query_funnel(
         funnel_id=FUNNEL_ID, from_date=args.from_date, to_date=args.to_date
     )
+    if not response:
+        log.error("No wellhub data from mixpanel, please check!")
+        raise ValueError(
+            "Empty response from Mixpanel funnel API — check funnel ID and date range."
+        )
+
     df = get_mixpanel_funnel_dataframe_from_json(data=response)
 
+    ## Cleanup -> (1) remove users without any user_id; (2) remove duplicates ; (3) remap country
     columns_mappings = {
         "Date YYYY-MM-DD": "date",
         "$country_code": "country_code",
         "$user_id": "user_id",
         "count": "count",
     }
-    df = df.rename(columns=columns_mappings)
+    if not all(col in df.columns for col in columns_mappings.keys()):
+        log.error("One or more expected columns are missing from the dataframe.")
+        raise ValueError("Missing expected columns in Mixpanel data.")
 
-    ## Cleanup -> (1) remove users without any user_id; (2) remove duplicates ; (3) remap country
-    undefined_user_id_mask = df["user_id"] == "undefined"
-    df_clean = df[~undefined_user_id_mask]
+    df_clean = df.rename(columns=columns_mappings)
+    undefined_user_id_mask = df_clean["user_id"] == "undefined"
+    df_clean = df_clean[~undefined_user_id_mask]
     df_clean = df_clean.drop_duplicates(subset=["date", "country_code", "user_id"])
     df_clean["country_code"] = df_clean["country_code"].replace(COUNTRY_CODE_MAP)
 
@@ -97,19 +119,6 @@ def main():
         df_clean.groupby(["user_id", "country_code"]).agg(DUA=("date", "count")).reset_index()
     )
     df_users["DUA"] = df_users["DUA"].clip(lower=0, upper=MAX_DUA_PER_MONTH)
-
-    # print("=== Loading Mixpanel funnel data ===")
-    # #  df_raw = load_funnel_data_from_path(str(DATA_PATH))
-    # df_raw = load_funnel_data_from_mixpanel(from_date=args.from_date, to_date=args.to_date)
-    # print(f"Raw records: {len(df_raw):,}")
-    # print(df_raw.head(10).to_string(index=False))
-    # print()
-
-    # print("=== df_users (user_id, country_code, DUA) ===")
-    # df_users = build_df_users(df_raw)
-    # print(f"Total users with at least 1 DUA: {len(df_users):,}")
-    # print(df_users.head(10).to_string(index=False))
-    # print()
 
     print("=== df_monthly_audit (country_code, DUA, num_users) ===")
     df_monthly_audit = build_df_monthly_audit(df_users)

@@ -1,58 +1,17 @@
 import ast
 import base64
 import json
-import os
 import sys
 from typing import List
 
 import pandas as pd
 import requests
-from dotenv import load_dotenv
-
-from constants import COUNTRY_CODE_MAP
-
-load_dotenv()
-
-FUNNEL_ID = 90364672
-PROJECT_ID = int(os.getenv("MIXPANEL_PROJECT_ID", "0"))
 
 
-def _parse_funnel_json(raw: dict) -> pd.DataFrame:
-    """Parse Mixpanel funnel JSON into a flat DataFrame.
+def get_mixpanel_funnel_dataframe_from_json(data: dict):
+    if not data:
+        raise ValueError("No data provided to parse into DataFrame.")
 
-    JSON structure: data[date][date][country_name][user_id] -> [step0, step1]
-      - step0: screen_home
-      - step1: create_record_wellhub (count > 0 means user triggered it)
-
-    Returns columns: date, country_code, user_id, create_record_wellhub
-    """
-    records = []
-    for date, date_data in raw["data"].items():
-        inner = date_data.get(date, {})
-        for country_name, country_data in inner.items():
-            if country_name == "$overall":
-                continue
-            country_code = COUNTRY_CODE_MAP.get(country_name, country_name[:2].upper())
-            for user_id, funnel_steps in country_data.items():
-                if user_id in ("$overall", "undefined"):
-                    continue
-                if not isinstance(funnel_steps, list) or len(funnel_steps) < 2:
-                    continue
-                create_record = 1 if funnel_steps[1].get("count", 0) > 0 else 0
-                records.append(
-                    {
-                        "date": date,
-                        "country_code": country_code,
-                        "user_id": user_id,
-                        "create_record_wellhub": create_record,
-                    }
-                )
-
-    df = pd.DataFrame(records, columns=["date", "country_code", "user_id", "create_record_wellhub"])
-    return df.drop_duplicates(subset=["date", "user_id"]).reset_index(drop=True)
-
-
-def get_mixpanel_funnel_dataframe_from_json(data):
     ## get breakdown columns name
     levels_types_map = {}
     for meta in data["meta"]["group_by_metadata"]:
@@ -75,28 +34,6 @@ def get_mixpanel_funnel_dataframe_from_json(data):
     return df
 
 
-def load_funnel_data_from_path(filepath: str) -> pd.DataFrame:
-    """Load and parse a locally saved Mixpanel funnel JSON file."""
-    with open(filepath) as f:
-        raw = json.load(f)
-    return _parse_funnel_json(raw)
-
-
-def load_funnel_data_from_mixpanel(from_date: str, to_date: str) -> pd.DataFrame:
-    """Fetch funnel data from the Mixpanel API and parse it.
-
-    Reads MIXPANEL_USERNAME and MIXPANEL_PASSWORD from .env.
-    Date format: YYYY-MM-DD
-    """
-    mp = MixpanelAPI(
-        project_id=PROJECT_ID,
-        username=os.getenv("MIXPANEL_USERNAME"),
-        password=os.getenv("MIXPANEL_PASSWORD"),
-    )
-    raw = mp.query_funnel(FUNNEL_ID, from_date=from_date, to_date=to_date)
-    return _parse_funnel_json(raw)
-
-
 class MixpanelAPI:
     """
     EXAMPLE:
@@ -117,54 +54,135 @@ class MixpanelAPI:
             "Content-Type": "application/json",
         }
 
-    def query_insights(self, insights_id: int, response_format: str):
+    def query_insights(
+        self,
+        insights_id: int,
+        response_format: str = "json",
+        limit: int = 50000,
+        timeout: int = 30,
+    ) -> dict | str:
         """
-        The ID of your Insights report can be found from the url:
-        https://mixpanel.com/project/<YOUR_PROJECT_ID>/view/<YOUR_WORKSPACE_ID>/app/boards#id=12345&editor-card-id=%22report-<YOUR_INSIGHTS_ID>%22
+        Fetch an Insights report by ID.
 
-        Choose between "json" or "csv" as the return type from the query
+        The report ID can be found in the Mixpanel URL:
+        https://mixpanel.com/project/<PROJECT_ID>/view/<WORKSPACE_ID>/app/boards
+            #id=12345&editor-card-id=%22report-<INSIGHTS_ID>%22
+
+        Args:
+            insights_id: Mixpanel Insights report ID.
+            response_format: "json" (default) or "csv".
+            limit: Maximum number of rows to return (default: 50_000).
+            timeout: Request timeout in seconds (default: 30).
+
+        Returns:
+            Parsed dict if response_format="json", raw CSV string if "csv".
+
+        Raises:
+            ValueError: If response_format is invalid or JSON parsing fails.
+            requests.Timeout: If the request exceeds `timeout` seconds.
+            requests.RequestException: On any network-level failure.
+            RuntimeError: If Mixpanel returns a non-200 status code.
         """
         if response_format not in {"json", "csv"}:
-            raise ValueError("response_format must be 'json' or 'csv'")
+            raise ValueError(f"response_format must be 'json' or 'csv', got {response_format!r}")
 
-        url = f"https://mixpanel.com/api/query/insights?project_id={self.project_id}&bookmark_id={insights_id}"
-        request_body = {"queryLimits": {"limit": 50000}, "format": response_format}
-        response = requests.post(url, headers=self.headers, data=json.dumps(request_body))
+        url = "https://mixpanel.com/api/query/insights"
+        params = {"project_id": self.project_id, "bookmark_id": insights_id}
+        body = {"queryLimits": {"limit": limit}, "format": response_format}
 
-        print(f"query_insights status: {response.status_code}")
+        try:
+            response = requests.post(
+                url,
+                headers=self.headers,
+                params=params,
+                json=body,  # sets Content-Type and serialises automatically
+                timeout=timeout,
+            )
+        except requests.Timeout:
+            raise requests.Timeout(
+                f"query_insights timed out after {timeout}s (insights_id={insights_id})"
+            )
+        except requests.RequestException as e:
+            raise requests.RequestException(f"query_insights network error: {e}") from e
+
         if response.status_code != 200:
-            print(f"Response code: {response.status_code}. Terminating Process")
-            sys.exit()
+            raise RuntimeError(
+                f"query_insights failed: HTTP {response.status_code} "
+                f"(insights_id={insights_id})\n"
+                f"Response body: {response.text[:500]}"
+            )
 
         if response_format == "csv":
             return response.text
-        return json.loads(response.text)
+
+        try:
+            return response.json()
+        except ValueError as e:
+            raise ValueError(
+                f"query_insights: could not parse response as JSON "
+                f"(insights_id={insights_id}). Body preview: {response.text[:200]}"
+            ) from e
 
     def query_funnel(
-        self, funnel_id: int, from_date: str, to_date: str, response_format: str = "csv"
-    ):
+        self,
+        funnel_id: int,
+        from_date: str,
+        to_date: str,
+        timeout: int = 30,
+    ) -> dict:
         """
         Fetch funnel data broken down by date, country, and user.
         Date format: YYYY-MM-DD (both inclusive).
+
+        Args:
+            funnel_id: Mixpanel funnel ID.
+            from_date: Start date in YYYY-MM-DD format (inclusive).
+            to_date: End date in YYYY-MM-DD format (inclusive).
+            response_format: Response format (default: "csv").
+            timeout: Request timeout in seconds (default: 30).
+
+        Returns:
+            Parsed JSON response as a dict.
+
+        Raises:
+            requests.Timeout: If the request exceeds `timeout` seconds.
+            requests.RequestException: On any network-level failure.
+            ValueError: If the response body cannot be parsed as JSON.
+            RuntimeError: If Mixpanel returns a non-200 status code.
         """
-        url = (
-            f"https://mixpanel.com/api/query/funnels"
-            f"?project_id={self.project_id}"
-            f"&funnel_id={funnel_id}"
-            f"&from_date={from_date}"
-            f"&to_date={to_date}"
-            f"&unit=day"
-            # f"&on=properties%5B%22%24country_code%22%5D"
-            # f"&group_by_user_id=true"
-        )
-        response = requests.get(url, headers=self.headers)
+        url = "https://mixpanel.com/api/query/funnels"
+        params = {
+            "project_id": self.project_id,
+            "funnel_id": funnel_id,
+            "from_date": from_date,
+            "to_date": to_date,
+            "unit": "day",
+        }
 
-        print(f"query_funnel status: {response.status_code}")
+        try:
+            response = requests.get(url, headers=self.headers, params=params, timeout=timeout)
+        except requests.Timeout:
+            raise requests.Timeout(
+                f"query_funnel timed out after {timeout}s "
+                f"(funnel_id={funnel_id}, {from_date} → {to_date})"
+            )
+        except requests.RequestException as e:
+            raise requests.RequestException(f"query_funnel network error: {e}") from e
+
         if response.status_code != 200:
-            print(f"Response code: {response.status_code}. Terminating Process")
-            sys.exit()
+            raise RuntimeError(
+                f"query_funnel failed: HTTP {response.status_code} "
+                f"(funnel_id={funnel_id}, {from_date} → {to_date})\n"
+                f"Response body: {response.text[:500]}"
+            )
 
-        return json.loads(response.text)
+        try:
+            return response.json()
+        except ValueError as e:
+            raise ValueError(
+                f"query_funnel: could not parse response as JSON "
+                f"(funnel_id={funnel_id}). Body preview: {response.text[:200]}"
+            ) from e
 
     def trigger_sync(self, put_url: str):
         response = requests.put(put_url, headers=self.headers)
