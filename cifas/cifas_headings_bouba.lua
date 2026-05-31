@@ -299,22 +299,42 @@ function HorizontalRule()
     return pandoc.RawBlock("latex", "\\vspace{10pt}")
 end
 
--- ── Paragraphes : auteurs (après ---) ou label RÉSUMÉ ───────────────────
+-- Détecte un paragraphe auteur : **Nom** — Institution (Strong partiel + tiret cadratin)
+local function is_author_para(el)
+    if not (el.content[1] and el.content[1].t == "Strong") then return false end
+    if #el.content <= 1 then return false end   -- ligne entièrement en gras → pas auteur
+    local em_dash = "\xe2\x80\x94"
+    local en_dash = "\xe2\x80\x93"
+    local rest = ""
+    for i = 2, #el.content do
+        rest = rest .. pandoc.utils.stringify(el.content[i])
+    end
+    return rest:sub(1, 1 + #em_dash - 1) == (" " .. em_dash)
+        or rest:sub(1, 1 + #en_dash - 1) == (" " .. en_dash)
+end
+
+-- ── Paragraphes ──────────────────────────────────────────────────────────
 function Para(el)
     if FORMAT ~= "latex" then return nil end
 
-    local was_after_rule = after_rule
-    local was_after_h6   = after_h6
-    after_rule           = false
-    after_h6             = false
+    after_rule = false
+    after_h6   = false
 
-    if (was_after_rule or was_after_h6) and el.content[1] and el.content[1].t == "Strong" then
-        return format_author_block(el)
-    end
-
+    -- Label RÉSUMÉ
     if pandoc.utils.stringify(el.content) == "RÉSUMÉ" then
         return pandoc.RawBlock("latex",
             "\\vspace{6pt}\\noindent{\\footnotesize\\sffamily\\color{cifasGris}\\textls[200]{RÉSUMÉ}}\\par\\vspace{2pt}")
+    end
+
+    -- Bloc auteurs : **Nom** — Institution (détection par contenu, sans dépendance de position)
+    if is_author_para(el) then
+        return format_author_block(el)
+    end
+
+    -- Tous les autres paragraphes : noindent pour aligner sur la marge du texte
+    local latex = to_latex(el.content)
+    if latex ~= "" then
+        return pandoc.RawBlock("latex", "\\noindent " .. latex .. "\n")
     end
 
     return nil

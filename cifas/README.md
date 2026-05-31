@@ -25,12 +25,13 @@
     outputs/outline.md -o tests/demo.pdf
 
 > pandoc --variable "geometry=margin=1.2in" \
-    --variable mainfont="Palatino" \
-    --variable sansfont="Palatino" \
-    --variable monofont="Palatino" \
+    --variable mainfont="Avenir Next" \
+    --variable sansfont="Avenir Next" \
+    --variable monofont="Courier New" \
+    --variable pagestyle=empty \
     --lua-filter cifas_headings.lua \
-    --pdf-engine=lualatex --toc \
-    outputs/outline_test5.md -o tests/demo.pdf
+    --pdf-engine=lualatex \
+    outputs/outline_final.md -o tests/demo1.pdf
 
 ----
 
@@ -40,6 +41,12 @@
 2. Script qui obtient la description de tous les evenements https://event.fourwaves.com/fr/cifas2026/resumes  => `uv run python main.py`
 3. Script qui ajoute la description a la programmation => `uv run python fill_outline.py` generated in `outputs/outline.md`
 4. Convertir le fichier markdown a un fichier pdf avec latex et pandoc
+
+
+```
+uv run python main.py
+uv run python fill_outline.py
+```
 
 
 ## Reference Docs
