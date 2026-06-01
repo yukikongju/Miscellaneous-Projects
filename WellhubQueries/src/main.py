@@ -32,9 +32,11 @@ Usage
 
 import argparse
 import logging
+import pandas as pd
 import sys
 import os
 from pathlib import Path
+from io import StringIO
 from dotenv import load_dotenv
 
 sys.path.insert(0, str(Path(__file__).parent))
@@ -45,8 +47,6 @@ from mixpanel import (
 )
 from wellhub_dua import build_df_monthly_audit, compute_revenue
 from constants import COUNTRY_CODE_MAP, MAX_DUA_PER_MONTH
-
-DATA_PATH = Path.home() / "Data/Wellhub/wellhub_funnel_data_20260401_20260430.json"
 
 log = logging.getLogger(__name__)
 
@@ -77,6 +77,8 @@ def main():
     config = load_config()
 
     FUNNEL_ID = 90364672  # TODO: add mixpanel link
+    # REPORT_ID = 90364594
+    REPORT_ID = 90040401
 
     ## Data Extraction from Mixpanel
     print("=== Loading Mixpanel funnel data ===")
@@ -95,6 +97,44 @@ def main():
         )
 
     df = get_mixpanel_funnel_dataframe_from_json(data=response)
+
+    temp = mixpanel_api.query_insights(insights_id=REPORT_ID, response_format="csv")
+    df_insights = pd.read_csv(StringIO(temp))
+
+    ## Cleanup df_insights
+    insights_columns_mappings = {
+        "Date YYYY-MM-DD": "date",
+        "User ID": "user_id",
+        "Country": "country_code",
+        "Uniques of create_record_wellhub": "count",
+    }
+    # insights_columns_mappings = {
+    #     "Date YYYY-MM-DD": "date",
+    #     "gpw_id": "user_id",
+    #     "Country Code": "country_code",
+    #     "Uniques of create_record": "count",
+    # }
+    df_insights_clean = df_insights.rename(columns=insights_columns_mappings)
+    undefined_user_id_mask = df_insights_clean["user_id"] == "undefined"
+    df_insights_clean = df_insights_clean[~undefined_user_id_mask]
+    df_insights_clean = df_insights_clean.drop_duplicates(
+        subset=["date", "country_code", "user_id"]
+    )
+    df_insights_clean["country_code"] = df_insights_clean["country_code"].replace(COUNTRY_CODE_MAP)
+
+    df_users2 = (
+        df_insights_clean.groupby(["user_id", "country_code"])
+        .agg(DUA=("date", "count"))
+        .reset_index()
+    )
+    df_users2["DUA"] = df_users2["DUA"].clip(lower=0, upper=MAX_DUA_PER_MONTH)
+    df_monthly_audit2 = build_df_monthly_audit(df_users2)
+    total_revenue2 = compute_revenue(df_users2, bill_unmapped=False)
+    total_revenue_with_default2 = compute_revenue(df_users2, bill_unmapped=True)
+    print(f"=== Total monthly revenue (unmapped excluded):       ${total_revenue2:,.2f} ===")
+    print(
+        f"=== Total monthly revenue (unmapped @ default rate): ${total_revenue_with_default2:,.2f} ==="
+    )
 
     ## Cleanup -> (1) remove users without any user_id; (2) remove duplicates ; (3) remap country
     columns_mappings = {

@@ -354,8 +354,8 @@ with networks_adset_aggregation as (
         sum(sales_in_usd_af_refund) as af_refund_sales_in_usd,
     FROM `relax-melodies-android.ua_extract_prod.appsflyer_master_complete`
     WHERE
-        install_date between start_date and end_date
         and pid in ('Apple Search Ads', 'googleadwords_int')
+        install_date between start_date and end_date
     GROUP BY
         install_date, app_id, pid, geo, c, af_adset, extracted_timestamp
 ), networks_ad_aggregation as (
@@ -418,4 +418,14 @@ with networks_adset_aggregation as (
 
 select * from deduped
 
+"""
+
+query_create_wellhub_record = """
+DECLARE start_date DATE DEFAULT DATE_SUB(CURRENT_DATE('UTC'), INTERVAL 120 DAY);
+
+SELECT
+  date, user_id, country_code, count
+FROM `relax-melodies-android.ua_mobile_staging_prod.stg_create_wellhub_record`
+WHERE date >= start_date
+ORDER BY date, user_id
 """

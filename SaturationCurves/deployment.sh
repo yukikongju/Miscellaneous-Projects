@@ -109,9 +109,9 @@ gcloud run services add-iam-policy-binding saturation-utils \
 
 # gcloud secrets versions list GOOGLE_APPLICATION_CREDENTIALS_MAIN_BIGQUERY
 
-# gcloud run deploy saturationcurves \
-#     --source . \
-#     --region northamerica-northeast1
+gcloud run deploy saturationcurves \
+    --source . \
+    --region northamerica-northeast1
 
 gcloud run deploy --source .
 
