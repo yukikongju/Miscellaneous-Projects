@@ -154,7 +154,6 @@ function Header(el)
     if lvl == 2 then
         current_day = sentence_case(plain)
         return pandoc.RawBlock("latex", table.concat({
-            "\\ifdim\\pagetotal>0pt\\newpage\\fi",
             -- "\\markright{" .. CONF_HEADER .. " | " .. current_day .. " | " .. event_label .."}",
             "\\markright{" .. CONF_HEADER .. " | " .. current_day .. "}",
             "\\phantomsection",
@@ -181,7 +180,7 @@ function Header(el)
             local sp = plain:find(sep, 1, true)
             event_label = sentence_case(sp and plain:sub(1, sp - 1) or plain)
         end
-        local mark_cmd = "\\ifdim\\pagetotal>0pt\\newpage\\fi\n\\markright{" .. CONF_HEADER .. " | " .. current_day .. "}"
+        local mark_cmd = "\\markright{" .. CONF_HEADER .. " | " .. current_day .. "}"
 
         -- Cas BLOC : "BLOC N — hh h mm à hh h mm"
         if plain:match("^BLOC%s") then

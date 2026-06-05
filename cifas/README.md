@@ -22,16 +22,26 @@
     --variable monofont="Palatino" \
     --lua-filter cifas_headings.lua \
     --pdf-engine=lualatex --toc \
-    outputs/outline.md -o tests/demo.pdf
+    outputs/outline_final.md -o tests/demo.pdf
 
 > pandoc --variable "geometry=margin=1.2in" \
     --variable mainfont="Avenir Next" \
     --variable sansfont="Avenir Next" \
     --variable monofont="Courier New" \
     --variable pagestyle=empty \
-    --lua-filter cifas_headings.lua \
+    --lua-filter cifas_headings_bouba.lua \
     --pdf-engine=lualatex \
-    outputs/outline_final.md -o tests/demo1.pdf
+    outputs/outline_final_presentation.md -o tests/demo.pdf
+
+> pandoc --variable "geometry=margin=1.2in" \
+    --variable mainfont="Avenir Next" \
+    --variable sansfont="Avenir Next" \
+    --variable monofont="Courier New" \
+    --variable pagestyle=empty \
+    --lua-filter cifas_headings_bouba.lua \
+    --pdf-engine=lualatex \
+    outputs/outline_final_presentation.md -o tests/demo.docx
+
 
 ----
 
