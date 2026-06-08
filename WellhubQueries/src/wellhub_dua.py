@@ -15,6 +15,13 @@ DUA_RATE = {
 DEFAULT_RATE = 1.25
 DUA_CAP = 5
 
+# 5$ for each user monthly, regardless of DUA; other country = 4.5$
+PROPOSED_DUA_RATE = {
+    "US": 5.00,
+    "GB": 5.00,
+    "BR": 5.00,
+}
+
 
 def build_df_users(df_raw: pd.DataFrame) -> pd.DataFrame:
     """Aggregate raw daily events into per-user monthly DUA count (uncapped).

@@ -45,7 +45,7 @@ from mixpanel import (
     MixpanelAPI,
     get_mixpanel_funnel_dataframe_from_json,
 )
-from wellhub_dua import build_df_monthly_audit, compute_revenue
+from wellhub_dua import build_df_monthly_audit, compute_revenue, DUA_RATE, PROPOSED_DUA_RATE
 from constants import COUNTRY_CODE_MAP, MAX_DUA_PER_MONTH
 
 log = logging.getLogger(__name__)
@@ -78,7 +78,7 @@ def main():
 
     FUNNEL_ID = 90364672  # TODO: add mixpanel link
     # REPORT_ID = 90364594
-    REPORT_ID = 90040401
+    REPORT_ID = 90040401  # https://mixpanel.com/s/4r2EQW
 
     ## Data Extraction from Mixpanel
     print("=== Loading Mixpanel funnel data ===")
@@ -104,7 +104,7 @@ def main():
     ## Cleanup df_insights
     insights_columns_mappings = {
         "Date YYYY-MM-DD": "date",
-        "User ID": "user_id",
+        "Distinct ID": "user_id",
         "Country": "country_code",
         "Uniques of create_record_wellhub": "count",
     }
@@ -136,6 +136,37 @@ def main():
         f"=== Total monthly revenue (unmapped @ default rate): ${total_revenue_with_default2:,.2f} ==="
     )
 
+    ##*
+    df_users2["rate"] = df_users2["country_code"].copy()
+    df_users2["rate"] = df_users2["rate"].map(DUA_RATE).fillna(0.0)
+    df_rev2 = (
+        df_users2.groupby(["country_code", "DUA", "rate"])
+        .agg(num_users=("DUA", "count"))
+        .reset_index()
+    )
+    df_rev2["total_revenue"] = df_rev2["num_users"] * df_rev2["DUA"] * df_rev2["rate"]
+    df_rev2.to_csv("revenue_breakdown_current_model.csv", index=False)
+    # df_rev2 = df_users2.merge(
+    #     pd.DataFrame.from_dict(DUA_RATE, orient="index", columns=["rate"]).reset_index().rename(
+    #         columns={"index": "country_code"}
+    #     ),
+    #     on="country_code",
+    #     how="left",
+    # )
+    # t = df_rev2.groupby(["country_code", "DUA", "rate"]).agg(num_users=("DUA", "count"), total_revenue=("rate", "sum")).reset_index()
+
+    ##* Under new proposed model
+    df_proposed = df_users2.copy().drop(columns=["rate"])
+    df_proposed["rate"] = df_proposed["country_code"].map(PROPOSED_DUA_RATE).fillna(4.5)
+    print(f"=== Revenue under proposed model: ${df_proposed['rate'].sum():,.2f} ===")
+    df_proposed = (
+        df_proposed.groupby(["country_code", "DUA", "rate"])
+        .agg(num_users=("DUA", "count"))
+        .reset_index()
+    )
+    df_proposed["total_revenue"] = df_proposed["num_users"] * df_proposed["rate"]
+    df_proposed.to_csv("revenue_breakdown_proposed_model.csv", index=False)
+
     ## Cleanup -> (1) remove users without any user_id; (2) remove duplicates ; (3) remap country
     columns_mappings = {
         "Date YYYY-MM-DD": "date",
@@ -165,8 +196,8 @@ def main():
     print(df_monthly_audit.to_string(index=False))
     print()
 
-    total_revenue = compute_revenue(df_users, bill_unmapped=False)
-    total_revenue_with_default = compute_revenue(df_users, bill_unmapped=True)
+    _, total_revenue = compute_revenue(df_users, bill_unmapped=False)
+    _, total_revenue_with_default = compute_revenue(df_users, bill_unmapped=True)
     print(f"=== Total monthly revenue (unmapped excluded):       ${total_revenue:,.2f} ===")
     print(
         f"=== Total monthly revenue (unmapped @ default rate): ${total_revenue_with_default:,.2f} ==="

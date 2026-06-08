@@ -14,10 +14,12 @@ from utils import get_bigquery_client, run_query
 DUA_RATE: dict[str, float] = {
     "US": 1.75,
     "GB": 1.75,
+    "UK": 1.75,
     "IE": 1.75,
     "DE": 1.75,
     "ES": 1.75,
     "IT": 1.75,
+    "RO": 1.75,
     "BR": 1.50,
     "MX": 1.25,
     "CL": 1.25,
@@ -68,6 +70,7 @@ COUNTRY_CODE_MAP: dict[str, str] = {
     "Aruba": "AW",
     "Cabo Verde": "CV",
     "Costa Rica": "CR",
+    "Romania": "RO",
 }
 
 
@@ -162,21 +165,51 @@ with st.spinner("Loading Wellhub data…"):
 months = get_previous_months(3)
 month_labels = [f"{calendar.month_abbr[m]} {y}" for y, m in months]
 
-selected_idx = st.radio(
-    "Period",
-    options=range(len(months)),
-    format_func=lambda i: month_labels[i],
-    index=0,
-    horizontal=True,
-)
+col_period, col_clear = st.columns([3, 1])
+
+with col_period:
+    selected_idx = st.radio(
+        "Period",
+        options=range(len(months)),
+        format_func=lambda i: month_labels[i],
+        index=0,
+        horizontal=True,
+    )
+
+with col_clear:
+    st.write("")
+    if st.button("🔄 Clear cache", key="clear_cache_btn"):
+        st.cache_data.clear()
+        st.rerun()
+
 selected_year, selected_month = months[selected_idx]
 selected_label = month_labels[selected_idx]
 #  print(selected_year, selected_month)
 
 # ── Compute selected month ────────────────────────────────────────────────────
 df_month = filter_month(df_raw, selected_year, selected_month)
-#  print("-" * 60)
-#  print(df_month)
+
+# Debug info
+with st.expander("🐛 Debug: Data integrity checks"):
+    st.write(f"**Raw month data rows:** {len(df_month)}")
+
+    undefined_count = (df_month["user_id"] == "undefined").sum()
+    st.write(f"**'undefined' user_id rows:** {undefined_count}")
+
+    df_after_undefined = df_month[df_month["user_id"] != "undefined"]
+    st.write(f"**Rows after filtering undefined:** {len(df_after_undefined)}")
+
+    df_after_dedup = df_after_undefined.drop_duplicates(subset=["date", "country_code", "user_id"])
+    st.write(f"**Rows after dedup (date, country, user):** {len(df_after_dedup)}")
+    st.write(f"**Unique users in month:** {df_after_dedup['user_id'].nunique()}")
+
+    unmapped_countries = df_month[~df_month["country_code"].isin(COUNTRY_CODE_MAP.keys())][
+        "country_code"
+    ].unique()
+    unmapped_countries = [c for c in unmapped_countries if c is not None]
+    if len(unmapped_countries) > 0:
+        st.warning(f"**Unmapped countries in data:** {sorted(unmapped_countries)}")
+
 df_users = build_df_users(df_month)
 df_audit = build_df_monthly_audit(df_users)
 
@@ -240,7 +273,9 @@ with col_disc:
         col_disc.metric("Discrepancy", "—", help="Enter the Wellhub invoice amount above.")
 
 # ── Data tables ───────────────────────────────────────────────────────────────
-tab_users, tab_audit = st.tabs(["Users table · df_users", "Audit table · df_monthly_audit"])
+tab_users, tab_audit, tab_by_country = st.tabs(
+    ["Users table · df_users", "Audit table · df_monthly_audit", "Revenue by country"]
+)
 
 with tab_users:
     search_users = st.text_input("Search user_id or country…", key="user_search")
@@ -261,6 +296,28 @@ with tab_audit:
         ]
     df_display_audit["est_revenue"] = df_display_audit["est_revenue"].apply(lambda x: f"${x:,.2f}")
     st.dataframe(df_display_audit, use_container_width=True, height=300)
+
+with tab_by_country:
+    df_by_country = (
+        df_audit.copy()
+        .assign(rate=lambda d: d["country_code"].map(DUA_RATE).fillna(DEFAULT_RATE))
+        .assign(revenue=lambda d: d["DUA"] * d["rate"] * d["num_users"])
+        .groupby("country_code")
+        .agg(
+            num_users=("num_users", "sum"),
+            total_dua_days=("DUA", lambda x: (x * df_audit.loc[x.index, "num_users"]).sum()),
+            revenue=("revenue", "sum"),
+        )
+        .reset_index()
+        .sort_values("revenue", ascending=False)
+    )
+    df_by_country["revenue"] = df_by_country["revenue"].apply(lambda x: f"${x:,.2f}")
+    st.dataframe(df_by_country, use_container_width=True)
+
+# ── Raw data inspection ───────────────────────────────────────────────────────
+with st.expander("📋 Raw data inspection"):
+    st.write(f"**Sample of raw month data ({len(df_month)} rows):**")
+    st.dataframe(df_month.head(50), use_container_width=True, height=400)
 
 # ── Downloads ─────────────────────────────────────────────────────────────────
 st.markdown("#### Downloads")
