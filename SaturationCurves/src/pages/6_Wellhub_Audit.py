@@ -116,6 +116,11 @@ def build_df_users(df_month: pd.DataFrame) -> pd.DataFrame:
     df = df.drop_duplicates(subset=["date", "country_code", "user_id"])
     df_users = df.groupby(["user_id", "country_code"]).agg(DUA=("date", "count")).reset_index()
     df_users["DUA"] = df_users["DUA"].clip(lower=0, upper=DUA_CAP)
+
+    ## TODO: remove users who are mapped to multiple countries
+    df_users = df_users.sort_values(by=["user_id", "DUA"], ascending=[True, False])
+    df_users = df_users.drop_duplicates(subset="user_id")
+
     return df_users
 
 
@@ -217,6 +222,8 @@ revenue_mapped = compute_revenue(df_users, bill_unmapped=False)
 revenue_combined = compute_revenue(df_users, bill_unmapped=True)
 revenue_unmapped = revenue_combined - revenue_mapped
 
+## TODO: some users mapped to multiple countries
+
 # Delta vs previous month
 delta_str: str | None = None
 if selected_idx + 1 < len(months):
@@ -305,7 +312,10 @@ with tab_by_country:
         .groupby("country_code")
         .agg(
             num_users=("num_users", "sum"),
-            total_dua_days=("DUA", lambda x: (x * df_audit.loc[x.index, "num_users"]).sum()),
+            total_dua_days=(
+                "DUA",
+                lambda x: (x * df_audit.loc[x.index, "num_users"]).sum(),
+            ),
             revenue=("revenue", "sum"),
         )
         .reset_index()
