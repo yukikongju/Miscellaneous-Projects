@@ -1,0 +1,50 @@
+defaults:
+  - model: smp # CHANGE
+  - dataloader: car_segmentation
+  - optimizer: adam
+  - loss: dice_binary
+  - trainer: torch
+  - logger: mlflow # TODO
+
+model:
+  arch: FPN
+  encoder_name: resnext50_32x4d
+  encoder_weights: imagenet
+  in_channels: 3
+  out_classes: 1
+
+dataloader:
+  train:
+    classes: ["car"]
+    images_dir: ./data/CamVid/train
+    annotations_dir: ./data/CamVid/trainannot
+    augmentation: training
+    batch_size: 32
+    num_workers: 0
+  val:
+    classes: ["car"]
+    images_dir: ./data/CamVid/val
+    annotations_dir: ./data/CamVid/valannot
+    augmentation: validation
+    batch_size: 32
+    num_workers: 0
+  test:
+    classes: ["car"]
+    images_dir: ./data/CamVid/test
+    annotations_dir: ./data/CamVid/testannot
+    augmentation: validation
+    batch_size: 32
+    num_workers: 0
+
+optimizer:
+  lr: 0.0002
+
+logger:
+  experiment_name: CarSegmentation
+  tracking_uri: ${env:MLFLOW_TRACKING_URI}
+  log_model: True
+
+trainer:
+  min_epochs: 1
+  max_epochs: 3
+  log_every_n_steps: 1

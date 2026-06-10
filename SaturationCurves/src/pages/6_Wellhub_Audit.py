@@ -117,9 +117,13 @@ def build_df_users(df_month: pd.DataFrame) -> pd.DataFrame:
     df_users = df.groupby(["user_id", "country_code"]).agg(DUA=("date", "count")).reset_index()
     df_users["DUA"] = df_users["DUA"].clip(lower=0, upper=DUA_CAP)
 
-    ## TODO: remove users who are mapped to multiple countries
-    df_users = df_users.sort_values(by=["user_id", "DUA"], ascending=[True, False])
-    df_users = df_users.drop_duplicates(subset="user_id")
+    ## FIXED: remove users who are mapped to multiple countries
+    #  df_users = df_users.sort_values(by=["user_id", "DUA"], ascending=[True, False])
+    #  df_users = df_users.drop_duplicates(subset="user_id")
+
+    ## FIX: only keep user whose user_id starts with '$device:'
+    #  device_mask = df_users["user_id"].str.startswith("$device:")
+    #  df_users = df_users[device_mask]
 
     return df_users
 
