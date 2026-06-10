@@ -1,0 +1,5 @@
+accelerate
+datasets
+seqeval
+torch
+transformers

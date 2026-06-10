@@ -1,0 +1,21 @@
+[project]
+name = "competingt2p"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "dask>=2026.3.0",
+    "db-dtypes>=1.4.4",
+    "duckdb>=1.5.2",
+    "google-cloud-bigquery>=3.41.0",
+    "jupyter>=1.1.1",
+    "lightgbm>=4.6.0",
+    "matplotlib>=3.10.9",
+    "notebook>=7.5.6",
+    "numpy>=2.4.4",
+    "pandas>=3.0.2",
+    "pyarrow>=24.0.0",
+    "scikit-learn>=1.8.0",
+    "statsmodels>=0.14.6",
+]
